@@ -1,0 +1,16 @@
+{
+  "name": "actoren_widget",
+  "description": "A dojo widget to search for and administrate actoren",
+  "version": "0.0.1",
+  "main": "ActorWidget.js",
+  "ignore": [
+    "test",
+    ".bowerrc",
+    ".gitignore",
+    "README.md"
+  ],
+  "dependencies": {
+    "dojo": "~1.10.4",
+    "dijit": "~1.10.4"
+  }
+}
