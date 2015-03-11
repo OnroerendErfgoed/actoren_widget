@@ -1,18 +1,33 @@
 define([
+  'dojo/text!./templates/ActorWidget.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
-  'dijit/_TemplatedMixin'
-], function (declare, WidgetBase, TemplatedMixin) {
-  return declare([WidgetBase, TemplatedMixin], {
+  'dijit/_TemplatedMixin',
+  'dijit/_WidgetsInTemplateMixin',
+  'dijit/layout/StackContainer'
+], function (
+    template,
+    declare,
+    _WidgetBase,
+    _TemplatedMixin,
+    _WidgetsInTemplateMixin
+) {
+  return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
-    templateString: '<div data-dojo-attach-point="actorNode">Actors</div>',
+    templateString: template,
+    baseClass: 'actor-widget',
+    widgetsInTemplate: true,
 
     postCreate: function () {
-        this.inherited(arguments);
+      this.inherited(arguments);
+      console.log('ActorWidget::postCreate', arguments);
+
     },
 
     startup: function () {
       this.inherited(arguments);
+      console.log('ActorWidget::startup', arguments);
     }
+
   });
 });
