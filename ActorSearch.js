@@ -4,7 +4,6 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  'dijit/layout/ContentPane',
   "dojo/store/Memory",
   'dgrid/OnDemandGrid',
   'dgrid/Keyboard',
@@ -15,7 +14,6 @@ define([
   _WidgetBase,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
-  ContentPane,
   Memory,
   OnDemandGrid,
   Keyboard,
@@ -38,6 +36,7 @@ define([
 		  {id:1, naam:'testNaam2', voornaam:'testVoornaam2', adres: 'testAdres2', emails: ['testEmail2@test.be']}
 		]
 	  });
+	  this._createGrid();
     },
 
     startup: function () {
@@ -78,6 +77,12 @@ define([
       var newValue = evt.target.actorenFilter.value;
 	  //this._grid.set("query", {query: "*" + newValue + "*"});
 	  this._grid.set("query", {naam: newValue });
+	  this._grid.refresh();
+    },
+
+    _sortGrid: function (evt) {
+      var newValue = evt.target.value;
+	  this._grid.set("sort", [{ attribute: newValue}]);
 	  this._grid.refresh();
     }
 

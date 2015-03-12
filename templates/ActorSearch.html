@@ -9,6 +9,14 @@
             Zoeken
         </button>
     </form>
+    <div>
+        <select class="right" data-dojo-attach-event="onChange: _sortGrid">
+            <option value="" disabled selected>sorteer op</option>
+            <option value="naam">Naam</option>
+            <option value="voornaam">Voornaam</option>
+            <option value="adres">Adres</option>
+        </select>
+    </div>
     <div class="gridContainer">
         <div data-dojo-attach-point="gridNode"></div>
     </div>
