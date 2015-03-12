@@ -6,6 +6,8 @@ define([
   'dijit/_WidgetsInTemplateMixin',
   'dijit/layout/ContentPane',
   "dojo/store/Memory",
+  "dojo/store/Observable",
+  "dojo/store/JsonRest",
   'dgrid/OnDemandGrid',
   'dgrid/Keyboard',
   'dgrid/extensions/DijitRegistry'
@@ -17,6 +19,8 @@ define([
   _WidgetsInTemplateMixin,
   ContentPane,
   Memory,
+  Observable,
+  JsonRest,
   OnDemandGrid,
   Keyboard,
   DijitRegistry
@@ -27,17 +31,23 @@ define([
     baseClass: 'actor-search',
     widgetsInTemplate: true,
 	actorStore: null,
+	baseUrl: null,
 
     postCreate: function() {
       console.log('..ActorSearch::postCreate', arguments);
       this.inherited(arguments);
 
-	  this.actorStore = new Memory({
-		data: [
-		  {id:1, naam:'testNaam', voornaam:'testVoornaam', adres: 'testAdres', emails: ['testEmail@test.be']},
-		  {id:1, naam:'testNaam2', voornaam:'testVoornaam2', adres: 'testAdres2', emails: ['testEmail2@test.be']}
-		]
-	  });
+	  //this.actorStore = new Memory({
+		//data: [
+		//  {id:1, naam:'testNaam', voornaam:'testVoornaam', adres: 'testAdres', emails: ['testEmail@test.be']},
+		//  {id:1, naam:'testNaam2', voornaam:'testVoornaam2', adres: 'testAdres2', emails: ['testEmail2@test.be']}
+		//]
+	  //});
+	  this.actorStore = new Observable(new JsonRest({
+		target: this.baseUrl + '/actoren/',
+		sortParam: 'sort',
+		idProperty:'id'
+	  }));
     },
 
     startup: function () {
@@ -50,14 +60,15 @@ define([
 	  var columns = [
 		{id:"id", label:"#", field:"id"},
 		{id:"voornaam", label:"Voornaam", field:"voornaam"},
-		{id:"naam", label:"Naam", field:"naam"},
-		{id:"adres", label:"Adres", field:"adres"},
-		{
-		  id: "mail", label: "Mail", field: "emails",
-		  formatter: function (emails) {
-			return emails.join('; ');
-		  }
-		}
+		{id:"naam", label:"Naam", field:"naam"}
+		// Actoren endpoint geven geen mail en adres terug
+		//{id:"adres", label:"Adres", field:"adres"},
+		//{
+		//  id: "mail", label: "Mail", field: "emails",
+		//  formatter: function (emails) {
+		//	return emails.join('; ');
+		//  }
+		//}
 	  ];
       this._grid = new (declare([OnDemandGrid, Keyboard, DijitRegistry]))({
         store: this.actorStore,
@@ -76,10 +87,10 @@ define([
 
     _filterGrid: function (evt) {
       var newValue = evt.target.actorenFilter.value;
-	  //this._grid.set("query", {query: "*" + newValue + "*"});
-	  this._grid.set("query", {naam: newValue });
+	  //this._grid.set("query", {naam: newValue });
+	  this._grid.setQuery("?naam=" + newValue);
 	  this._grid.refresh();
-    },
+	},
 
     _sortGrid: function (evt) {
       var newValue = evt.target.value;

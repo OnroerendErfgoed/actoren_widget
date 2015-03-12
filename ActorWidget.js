@@ -19,6 +19,7 @@ define([
     templateString: template,
     baseClass: 'actor-widget',
     widgetsInTemplate: true,
+	baseUrl: null,
 
     _actorSearch: null,
 
@@ -39,7 +40,7 @@ define([
     },
 
     _setupLayout: function() {
-      this._actorSearch = new ActorSearch();
+      this._actorSearch = new ActorSearch({baseUrl: this.baseUrl});
       this.actorStackContainer.addChild(this._actorSearch)
     }
 
