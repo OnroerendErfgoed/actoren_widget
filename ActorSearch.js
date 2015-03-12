@@ -44,7 +44,7 @@ define([
 		//]
 	  //});
 	  this.actorStore = new Observable(new JsonRest({
-		target: this.baseUrl + '/actoren',
+		target: this.baseUrl + '/actoren/',
 		sortParam: 'sort',
 		idProperty:'id'
 	  }));
@@ -87,10 +87,10 @@ define([
 
     _filterGrid: function (evt) {
       var newValue = evt.target.actorenFilter.value;
-	  this._grid.set("query", {query: newValue });
 	  //this._grid.set("query", {naam: newValue });
+	  this._grid.setQuery("?naam=" + newValue);
 	  this._grid.refresh();
-    },
+	},
 
     _sortGrid: function (evt) {
       var newValue = evt.target.value;
