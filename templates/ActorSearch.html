@@ -1,26 +1,41 @@
-<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane">
-    <form data-dojo-attach-event="onSubmit: _filterGrid" action="#" >
-        <input type="text"
-               name="actorenFilter"
-               title="Zoek een actor"
-               class="searchBox"
-               tabindex="1">
-        <button class="button small" title="Zoek een actor" type="submit" tabindex="2">
-            Zoeken
-        </button>
-    </form>
-    <div class="right">
-        <h4>Uitgebreid zoeken &gt;</h4>
+<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane" class="row">
+    <div class="large-12 columns">
+        <div class="panel fl-block-search">
+            <form data-dojo-attach-event="onSubmit: _filterGrid" action="#" class="clearfix">
+                <div class="searchBox clearfix">
+                    <div class="small-10 columns">
+                        <input type="text"
+                               name="actorenFilter"
+                               title="Zoek een actor"
+                               class="searchBox"
+                               tabindex="1">
+                    </div>
+                    <div class="small-2 columns">
+                        <button class="button expand" title="Zoek een actor" type="submit" tabindex="2">
+                            Zoeken
+                        </button>
+                    </div>
+                    <small><a href="uitgebreid-zoeken">Uitgebreid zoeken</a> &rsaquo;</small>
+                </div>
+                <div class="row">
+                    <div class="large-4 medium-4 columns right">
+                        <select class="right" data-dojo-attach-event="onChange: _sortGrid">
+                            <option value="" disabled selected>sorteer op</option>
+                            <option value="naam">Naam</option>
+                            <option value="voornaam">Voornaam</option>
+                            <option value="adres">Adres</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+        </div>
     </div>
-    <div>
-        <select class="right" data-dojo-attach-event="onChange: _sortGrid">
-            <option value="" disabled selected>sorteer op</option>
-            <option value="naam">Naam</option>
-            <option value="voornaam">Voornaam</option>
-            <option value="adres">Adres</option>
-        </select>
-    </div>
-    <div class="gridContainer">
-        <div data-dojo-attach-point="gridNode"></div>
+    <div class="large-12 columns">
+        <div class="panel">
+            <div class="gridContainer">
+                <div data-dojo-attach-point="gridNode"></div>
+            </div>
+        </div>
     </div>
 </div>
