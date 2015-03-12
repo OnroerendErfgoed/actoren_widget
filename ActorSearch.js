@@ -43,7 +43,7 @@ define([
     startup: function () {
 	  console.log('..ActorSearch::startup', arguments);
       this.inherited(arguments);
-      this._createGrid();
+	  this._createGrid();
     },
 
 	_createGrid: function () {
@@ -51,6 +51,7 @@ define([
 		{id:"id", label:"#", field:"id"},
 		{id:"voornaam", label:"Voornaam", field:"voornaam"},
 		{id:"naam", label:"Naam", field:"naam"},
+		{id:"adres", label:"Adres", field:"adres"},
 		{
 		  id: "mail", label: "Mail", field: "emails",
 		  formatter: function (emails) {
@@ -62,7 +63,7 @@ define([
         store: this.actorStore,
         columns: columns,
         sort: [
-          { attribute: 'id' }
+          { attribute: 'naam' }
         ],
         noDataMessage: 'geen resultaten beschikbaar'
       }, this.gridNode);
@@ -71,7 +72,14 @@ define([
       this._grid.resize();
 
 	  return this._grid;
+	},
 
-	}
+    _filterGrid: function (evt) {
+      var newValue = evt.target.actorenFilter.value;
+	  //this._grid.set("query", {query: "*" + newValue + "*"});
+	  this._grid.set("query", {naam: newValue });
+	  this._grid.refresh();
+    }
+
   });
 });
