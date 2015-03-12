@@ -79,6 +79,12 @@ define([
 	  //this._grid.set("query", {query: "*" + newValue + "*"});
 	  this._grid.set("query", {naam: newValue });
 	  this._grid.refresh();
+    },
+
+    _sortGrid: function (evt) {
+      var newValue = evt.target.value;
+	  this._grid.set("sort", [{ attribute: newValue}]);
+	  this._grid.refresh();
     }
 
   });
