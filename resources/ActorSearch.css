@@ -1,6 +1,6 @@
 // Restore dgrid css
-.dgrid table.dgrid-row-table {
-  margin: 0;
+.dgrid .dgrid-row-table {
+  margin: 0 !important;
   background: none;
 }
 
