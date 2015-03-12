@@ -3,7 +3,9 @@ require([
   'dojo/domReady!'
 ], function (ActorWidget) {
 
-  var actorWidget = new ActorWidget({}, 'widgetNode');
+  var actorWidget = new ActorWidget({
+	baseUrl: "http://localhost:6543"
+  }, 'widgetNode');
   actorWidget.showSearch();
 
 });
