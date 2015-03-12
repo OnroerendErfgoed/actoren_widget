@@ -38,14 +38,13 @@ define([
 		  {id:1, naam:'testNaam2', voornaam:'testVoornaam2', adres: 'testAdres2', emails: ['testEmail2@test.be']}
 		]
 	  });
-	  this._createGrid();
     },
 
-/*    startup: function () {
+    startup: function () {
 	  console.log('..ActorSearch::startup', arguments);
       this.inherited(arguments);
       this._createGrid();
-    },*/
+    },
 
 	_createGrid: function () {
 	  var columns = [
