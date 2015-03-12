@@ -1,13 +1,28 @@
-<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane">
-    <input type="text"
-           name="actorenFilter"
-           title="Zoek een actor"
-           class="searchBox"
-            tabindex="1">
-    <button class="button small" title="Zoek een actor" tabindex="2">
-        Zoeken
-    </button>
-    <div class="gridContainer">
-        <div data-dojo-attach-point="gridNode"></div>
+<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane" class="row">
+    <div class="large-12 columns">
+        <div class="panel fl-block-search">
+            <div class="searchBox clearfix">
+            <div class="small-10 columns">
+                <input type="text"
+                       name="actorenFilter"
+                       title="Zoek een actor"
+                       class="searchBox"
+                       tabindex="1"
+                       placeholder="Zoek een actor...">
+            </div>
+            <div class="small-2 columns">
+                <button class="button expand" title="Zoek een actor" tabindex="2">
+                    Zoeken
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="large-12 column">
+        <div class="panel">
+            <div class="gridContainer">
+                <div data-dojo-attach-point="gridNode"></div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,0 +1,17 @@
+// Restore dgrid css
+.dgrid table.dgrid-row-table {
+  margin: 0;
+  background: none;
+}
+
+.dgrid table th {
+  width: auto;
+}
+
+.dgrid [class*="column"] + [class*="column"]:last-child {
+  float: none;
+}
+
+.dgrid-sort-arrow {
+  margin: 0;
+}
