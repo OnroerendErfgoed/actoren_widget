@@ -1,12 +1,14 @@
 <div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane">
-    <input type="text"
-           name="actorenFilter"
-           title="Zoek een actor"
-           class="searchBox"
-            tabindex="1">
-    <button class="button small" title="Zoek een actor" tabindex="2">
-        Zoeken
-    </button>
+    <form data-dojo-attach-event="onSubmit: _filterGrid" action="#" >
+        <input type="text"
+               name="actorenFilter"
+               title="Zoek een actor"
+               class="searchBox"
+               tabindex="1">
+        <button class="button small" title="Zoek een actor" type="submit" tabindex="2">
+            Zoeken
+        </button>
+    </form>
     <div class="gridContainer">
         <div data-dojo-attach-point="gridNode"></div>
     </div>
