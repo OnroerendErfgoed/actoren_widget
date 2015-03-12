@@ -43,6 +43,7 @@ define([
     startup: function () {
 	  console.log('..ActorSearch::startup', arguments);
       this.inherited(arguments);
+	  this._createGrid();
     },
 
 	_createGrid: function () {
