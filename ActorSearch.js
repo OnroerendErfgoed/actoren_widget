@@ -36,7 +36,6 @@ define([
 		  {id:1, naam:'testNaam2', voornaam:'testVoornaam2', adres: 'testAdres2', emails: ['testEmail2@test.be']}
 		]
 	  });
-	  this._createGrid();
     },
 
     startup: function () {
