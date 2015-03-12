@@ -4,5 +4,6 @@ require([
 ], function (ActorWidget) {
 
   var actorWidget = new ActorWidget({}, 'widgetNode');
+  actorWidget.showSearch();
 
 });

@@ -4,24 +4,75 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  'dijit/layout/ContentPane'
+  'dijit/layout/ContentPane',
+  "dojo/store/Memory",
+  'dgrid/OnDemandGrid',
+  'dgrid/Keyboard',
+  'dgrid/extensions/DijitRegistry'
 ], function(
   template,
   declare,
   _WidgetBase,
   _TemplatedMixin,
-  _WidgetsInTemplateMixin
+  _WidgetsInTemplateMixin,
+  ContentPane,
+  Memory,
+  OnDemandGrid,
+  Keyboard,
+  DijitRegistry
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
     templateString: template,
     baseClass: 'actor-search',
     widgetsInTemplate: true,
+	actorStore: null,
 
     postCreate: function() {
       console.log('..ActorSearch::postCreate', arguments);
       this.inherited(arguments);
-    }
 
+	  this.actorStore = new Memory({
+		data: [
+		  {id:1, naam:'testNaam', voornaam:'testVoornaam', adres: 'testAdres', emails: ['testEmail@test.be']},
+		  {id:1, naam:'testNaam2', voornaam:'testVoornaam2', adres: 'testAdres2', emails: ['testEmail2@test.be']}
+		]
+	  });
+	  this._createGrid();
+    },
+
+/*    startup: function () {
+	  console.log('..ActorSearch::startup', arguments);
+      this.inherited(arguments);
+      this._createGrid();
+    },*/
+
+	_createGrid: function () {
+	  var columns = [
+		{id:"id", label:"#", field:"id"},
+		{id:"voornaam", label:"Voornaam", field:"voornaam"},
+		{id:"naam", label:"Naam", field:"naam"},
+		{
+		  id: "mail", label: "Mail", field: "emails",
+		  formatter: function (emails) {
+			return emails.join('; ');
+		  }
+		}
+	  ];
+      this._grid = new (declare([OnDemandGrid, Keyboard, DijitRegistry]))({
+        store: this.actorStore,
+        columns: columns,
+        sort: [
+          { attribute: 'id' }
+        ],
+        noDataMessage: 'geen resultaten beschikbaar'
+      }, this.gridNode);
+
+      this._grid.refresh();
+      this._grid.resize();
+
+	  return this._grid;
+
+	}
   });
 });
