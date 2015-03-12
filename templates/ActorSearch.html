@@ -1,4 +1,4 @@
-<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane" class="row">
+<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane" >
     <div class="large-12 columns">
         <div class="panel fl-block-search">
             <form data-dojo-attach-event="onSubmit: _filterGrid" action="#" class="clearfix">
@@ -31,11 +31,9 @@
 
         </div>
     </div>
-    <div class="large-12 columns">
-        <div class="panel">
-            <div class="gridContainer">
-                <div data-dojo-attach-point="gridNode"></div>
-            </div>
+
+        <div class="gridContainer">
+            <div data-dojo-attach-point="gridNode"></div>
         </div>
-    </div>
+
 </div>
