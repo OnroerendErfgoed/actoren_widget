@@ -1,3 +1,13 @@
-<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane" class="panel">
-   Zoek actoren:
+<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-attach-point="actorSearchPane">
+    <input type="text"
+           name="actorenFilter"
+           title="Zoek een actor"
+           class="searchBox"
+            tabindex="1">
+    <button class="button small" title="Zoek een actor" tabindex="2">
+        Zoeken
+    </button>
+    <div class="gridContainer">
+        <div data-dojo-attach-point="gridNode"></div>
+    </div>
 </div>
