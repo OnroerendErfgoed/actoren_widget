@@ -6,6 +6,7 @@ require([
   var actorWidget = new ActorWidget({
 	baseUrl: "http://localhost:6543"
   }, 'widgetNode');
+  actorWidget.startup();
   actorWidget.showSearch();
 
 });

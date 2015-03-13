@@ -1,29 +1,29 @@
 define([
   'dojo/text!./templates/ActorSearch.html',
   'dojo/_base/declare',
+  'dojo/_base/lang',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  'dijit/layout/ContentPane',
-  "dojo/store/Memory",
+  "dgrid/extensions/Pagination",
   "dojo/store/Observable",
   "dojo/store/JsonRest",
   'dgrid/OnDemandGrid',
-  'dgrid/Keyboard',
-  'dgrid/extensions/DijitRegistry'
+  'dgrid/Selection',
+  'dgrid/selector'
 ], function(
   template,
   declare,
+  lang,
   _WidgetBase,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
-  ContentPane,
-  Memory,
+  Pagination,
   Observable,
   JsonRest,
   OnDemandGrid,
-  Keyboard,
-  DijitRegistry
+  Selection,
+  selector
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -36,66 +36,74 @@ define([
     postCreate: function() {
       console.log('..ActorSearch::postCreate', arguments);
       this.inherited(arguments);
-
-	  //this.actorStore = new Memory({
-		//data: [
-		//  {id:1, naam:'testNaam', voornaam:'testVoornaam', adres: 'testAdres', emails: ['testEmail@test.be']},
-		//  {id:1, naam:'testNaam2', voornaam:'testVoornaam2', adres: 'testAdres2', emails: ['testEmail2@test.be']}
-		//]
-	  //});
 	  this.actorStore = new Observable(new JsonRest({
-		target: this.baseUrl + '/actoren/',
+		target: this.baseUrl + '/actoren/wij',
+		//target: this.baseUrl + '/actoren',
 		sortParam: 'sort',
 		idProperty:'id'
 	  }));
-    },
+	},
 
     startup: function () {
 	  console.log('..ActorSearch::startup', arguments);
       this.inherited(arguments);
 	  this._createGrid();
+	  this._grid.on( 'dgrid-refresh-complete' , function (event) {
+		console.log(event);
+	  });
+
     },
 
 	_createGrid: function () {
-	  var columns = [
-		{id:"id", label:"#", field:"id"},
-		{id:"voornaam", label:"Voornaam", field:"voornaam"},
-		{id:"naam", label:"Naam", field:"naam"}
-		// Actoren endpoint geven geen mail en adres terug
-		//{id:"adres", label:"Adres", field:"adres"},
-		//{
-		//  id: "mail", label: "Mail", field: "emails",
-		//  formatter: function (emails) {
-		//	return emails.join('; ');
-		//  }
-		//}
-	  ];
-      this._grid = new (declare([OnDemandGrid, Keyboard, DijitRegistry]))({
+	  var columns = {
+		check: selector({label: "", selectorType: "checkbox"}),
+		id: '#',
+		naam: 'Naam',
+		voornaam: {
+		  label: 'Voornaam',
+		  sortable: false
+		},
+		type: {
+		  label: 'Type',
+		  formatter: function (type) {
+			return type['naam'];
+		  }
+		}
+	  };
+
+      this._grid = new (declare([OnDemandGrid, Selection, Pagination]))({
         store: this.actorStore,
         columns: columns,
+		pagingLinks: 1,
+		pagingTextBox: true,
+		firstLastArrows: true,
         sort: [
-          { attribute: 'naam' }
+          { attribute: 'id' }
         ],
+		loadingMessage: 'laden...',
         noDataMessage: 'geen resultaten beschikbaar'
       }, this.gridNode);
 
-      this._grid.refresh();
-      this._grid.resize();
 
 	  return this._grid;
 	},
 
     _filterGrid: function (evt) {
-      var newValue = evt.target.actorenFilter.value;
-	  //this._grid.set("query", {naam: newValue });
-	  this._grid.setQuery("?naam=" + newValue);
-	  this._grid.refresh();
-	},
-
-    _sortGrid: function (evt) {
       var newValue = evt.target.value;
-	  this._grid.set("sort", [{ attribute: newValue}]);
-	  this._grid.refresh();
+      if (this._timeoutId) {
+        clearTimeout(this._timeoutId);
+        this._timeoutId = null;
+      }
+      this._timeoutId = setTimeout(lang.hitch(this, function() {
+		if (newValue === '') {
+		  this._grid.setQuery({});
+		  this._grid.refresh()
+		}
+		else {
+		  this._grid.set("query", {"query":newValue});
+		  this._grid.refresh();
+		}
+      }, 30));
     }
 
   });
