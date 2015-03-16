@@ -40,7 +40,6 @@ define([
 	baseUrl: null,
 	_previousSearchValue:'',
 	actorWidget: null,
-	selected_row_id: null,
 
 	postCreate: function() {
 	  console.log('..ActorSearch::postCreate', arguments);
@@ -61,7 +60,12 @@ define([
 	_createGrid: function () {
 	  var columns = {
 		check: selector({label: "", selectorType: "checkbox"}),
-		id: '#',
+		id: {
+		  label:'#',
+		  formatter: function (id) {
+			return '<a href="#" data-dojo-attach-event="onClick: _showDetail">' + id + '</a>'
+		  }
+		},
 		naam: 'Naam',
 		voornaam: {
 		  label: 'Voornaam',
@@ -86,12 +90,17 @@ define([
 		noDataMessage: 'geen resultaten beschikbaar'
 	  }, this.gridNode);
 
-	  this._grid.on(".dgrid-row:click", lang.hitch(this, function(evt){
-		var id = this._grid.row(evt).id;
-		this._getActor(id).
-		  then(lang.hitch(this, function(actor){
-			this._showDetail(actor);
-		  }));
+	  this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
+		var cell = this._grid.cell(evt);
+		if (cell.column.field == 'id') {
+		  var id = this._grid.row(evt).id;
+		  this._getActor(id).
+			then(lang.hitch(this, function(actor){
+			  this._showDetail(actor);
+			}));
+		}
+
+
 	  }));
 	  this._grid.on(".dgrid-row:dblclick", lang.hitch(this, function(evt){
 		var id = this._grid.row(evt).id;
