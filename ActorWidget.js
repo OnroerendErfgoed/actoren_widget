@@ -6,6 +6,7 @@ define([
   'dijit/_WidgetsInTemplateMixin',
   './ActorSearch',
   './ActorDetail',
+  './ActorEdit',
   'dijit/layout/StackContainer'
 ], function (
     template,
@@ -14,7 +15,8 @@ define([
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
     ActorSearch,
-	ActorDetail
+	ActorDetail,
+	ActorEdit
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -60,6 +62,7 @@ define([
 	  // probleem: Wanneer meerdere widgets aan de stackcontainer worden toegevoegd worden deze beide getoond
       this._actorSearch = new ActorSearch({baseUrl: this.baseUrl, actorWidget: this});
       this._actorDetail = new ActorDetail({actorWidget: this});
+      //this._actorDetail = new ActorEdit({actorWidget: this});
     },
 
 	emitActor: function(actor) {
