@@ -6,8 +6,6 @@ define([
   'dijit/_WidgetsInTemplateMixin',
   './ActorSearch',
   './ActorDetail',
-  "dijit/registry",
-  'dijit/layout/ContentPane',
   'dijit/layout/StackContainer'
 ], function (
     template,
@@ -16,9 +14,7 @@ define([
     _TemplatedMixin,
     _WidgetsInTemplateMixin,
     ActorSearch,
-	ActorDetail,
-	registry,
-	ContentPane
+	ActorDetail
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -34,6 +30,11 @@ define([
       console.log('ActorWidget::postCreate', arguments);
 
       this._setupLayout();
+
+	  this.on('send.actor', function(evt){
+		console.log('send.actor');
+		console.log(evt.actor);
+	  });
     },
 
     startup: function () {
@@ -56,10 +57,14 @@ define([
     },
 
     _setupLayout: function() {
+	  // probleem: Wanneer meerdere widgets aan de stackcontainer worden toegevoegd worden deze beide getoond
       this._actorSearch = new ActorSearch({baseUrl: this.baseUrl, actorWidget: this});
       this._actorDetail = new ActorDetail({actorWidget: this});
-    }
+    },
 
+	emitActor: function(actor) {
+	 this.emit('send.actor', {actor: actor})
+	}
 
   });
 });

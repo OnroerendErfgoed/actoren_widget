@@ -30,7 +30,6 @@ define([
 	},
 
 	setActor: function(actor) {
-	  console.log(actor);
 	  this.naam.value = actor.naam;
 	  this.voornaam.value = actor.voornaam;
 	  var email_adres = null;

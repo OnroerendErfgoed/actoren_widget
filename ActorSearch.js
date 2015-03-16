@@ -3,6 +3,7 @@ define([
   'dojo/_base/declare',
   'dojo/_base/lang',
   'dojo/request',
+  'dojo/Deferred',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
@@ -18,6 +19,7 @@ define([
   declare,
   lang,
   request,
+  Deferred,
   _WidgetBase,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
@@ -38,6 +40,7 @@ define([
 	baseUrl: null,
 	_previousSearchValue:'',
 	actorWidget: null,
+	selected_row_id: null,
 
 	postCreate: function() {
 	  console.log('..ActorSearch::postCreate', arguments);
@@ -73,6 +76,7 @@ define([
 	  };
 
 	  this._grid = new (declare([OnDemandGrid, Selection, Keyboard, DijitRegistry]))({
+		selectionMode: 'single',
 		store: this.actorStore,
 		columns: columns,
 		sort: [
@@ -83,19 +87,34 @@ define([
 	  }, this.gridNode);
 
 	  this._grid.on(".dgrid-row:click", lang.hitch(this, function(evt){
-		var id = this._grid.row(event).id;
-		request(this.baseUrl + '/actoren/' + id, {
-		  headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		  }
-		}).then(lang.hitch(this, function(actor){
-		  this._showDetail(JSON.parse(actor));
-		}));
-
+		var id = this._grid.row(evt).id;
+		this._getActor(id).
+		  then(lang.hitch(this, function(actor){
+			this._showDetail(actor);
+		  }));
+	  }));
+	  this._grid.on(".dgrid-row:dblclick", lang.hitch(this, function(evt){
+		var id = this._grid.row(evt).id;
+		this._getActor(id).
+		  then(lang.hitch(this, function(actor){
+			this._emitActor(actor);
+		  }));
 	  }));
 	  this._grid.refresh();
 
+	},
+
+	_getActor: function(id) {
+	  var deferred = new Deferred();
+	  request(this.baseUrl + '/actoren/' + id, {
+		headers: {
+		  'Accept': 'application/json',
+		  'Content-Type': 'application/json'
+		}
+	  }).then(lang.hitch(this, function(actor){
+		deferred.resolve(JSON.parse(actor));
+	  }));
+	  return deferred.promise;
 	},
 
 	_filterGrid: function (evt) {
@@ -120,8 +139,22 @@ define([
 	},
 
 	_showDetail: function(actor) {
-	  console.log(actor);
 	  this.actorWidget.showDetail(actor);
+	},
+
+	_emitSelectedActoren: function() {
+	  for(var id in this._grid.selection){
+		if(this._grid.selection[id]){
+		  this._getActor(id).
+		  then(lang.hitch(this, function(actor){
+			this._emitActor(actor);
+		  }));
+		}
+	  }
+	},
+
+	_emitActor: function(actor) {
+	  this.actorWidget.emitActor(actor);
 	}
 
   });
