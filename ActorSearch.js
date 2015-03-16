@@ -63,7 +63,7 @@ define([
 		id: {
 		  label:'#',
 		  formatter: function (id) {
-			return '<a href="#" data-dojo-attach-event="onClick: _showDetail">' + id + '</a>'
+			return '<a href="#" >' + id + '</a>'
 		  }
 		},
 		naam: 'Naam',
