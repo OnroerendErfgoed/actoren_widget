@@ -37,6 +37,7 @@ define([
 	actorStore: null,
 	baseUrl: null,
 	_previousSearchValue:'',
+	actorWidget: null,
 
 	postCreate: function() {
 	  console.log('..ActorSearch::postCreate', arguments);
@@ -52,7 +53,6 @@ define([
 	  console.log('..ActorSearch::startup', arguments);
 	  this.inherited(arguments);
 	  this._createGrid();
-
 	},
 
 	_createGrid: function () {
@@ -84,14 +84,14 @@ define([
 
 	  this._grid.on(".dgrid-row:click", lang.hitch(this, function(evt){
 		var id = this._grid.row(event).id;
-		var item = request(this.baseUrl + '/actoren/' + id, {
+		request(this.baseUrl + '/actoren/' + id, {
 		  headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		  }
-		}).then(function(actor){
-		  console.log(actor);
-		});
+		}).then(lang.hitch(this, function(actor){
+		  this._showDetail(JSON.parse(actor));
+		}));
 
 	  }));
 	  this._grid.refresh();
@@ -117,6 +117,12 @@ define([
 		  }
 		}
 	  }, 30));
+	},
+
+	_showDetail: function(actor) {
+	  console.log(actor);
+	  this.actorWidget.showDetail(actor);
 	}
+
   });
 });
