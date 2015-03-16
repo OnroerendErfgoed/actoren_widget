@@ -94,6 +94,7 @@ define([
 		});
 
 	  }));
+	  this._grid.refresh();
 
 	},
 
@@ -107,10 +108,12 @@ define([
 		if (newValue != this._previousSearchValue) {
 		  this._previousSearchValue = newValue;
 		  if (newValue === '') {
-			this._grid.setQuery({});
+			this._grid.set("query", {});
+			this._grid.refresh();
 		  }
 		  else {
 			this._grid.set("query", {"omschrijving": newValue});
+			this._grid.refresh();
 		  }
 		}
 	  }, 30));
