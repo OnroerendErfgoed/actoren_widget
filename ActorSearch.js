@@ -59,7 +59,7 @@ define([
 
 	_createGrid: function () {
 	  var columns = {
-		check: selector({label: "", selectorType: "checkbox"}),
+		check: selector({label: "", selectorType: "checkbox", style: "width: 50px;"}),
 		id: {
 		  label:'#',
 		  formatter: function (id) {

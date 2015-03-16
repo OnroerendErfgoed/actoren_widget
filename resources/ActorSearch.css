@@ -4,10 +4,6 @@
   background: none;
 }
 
-.dgrid table th {
-  width: auto;
-}
-
 .dgrid [class*="column"] + [class*="column"]:last-child {
   float: none;
 }
@@ -18,4 +14,8 @@
 
 .dgrid {
     height: 345px;
+}
+
+.dgrid-column-check, .dgrid-column-id {
+   width: 50px;
 }
