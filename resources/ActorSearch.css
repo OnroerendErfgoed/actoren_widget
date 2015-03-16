@@ -15,3 +15,7 @@
 .dgrid-sort-arrow {
   margin: 0;
 }
+
+.dgrid {
+    height: 345px;
+}
