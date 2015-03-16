@@ -1,33 +1,5 @@
 @charset "UTF-8";
 
-.dgrid .dgrid-row-table {
-  margin: 0 !important;
-  background: none;
-}
-
-.input-label-left {
-    display: inline-block;
-    margin: 0;
-    float: left !important;
-}
-
-.input-label-right {
-    display: inline-block;
-    margin: 0;
-    float: right !important;
-}
-
-.input-block {
-    margin-bottom: 10px !important;
-}
-
-.inline-inputs {
-    width: 100%;
-    display: inline-block;
-    margin: 0;
-}
-
-
 @media only screen and (max-width: 578px) {
   /* line 47, ../scss/pyoes/_oe-settings.scss */
   .bgimage, #service-navigation, .temp-embed {
