@@ -49,9 +49,9 @@ define([
 
     showSearch: function () {
 	  this.actorStackContainer.addChild(this._actorSearch);
-	  //this.actorStackContainer.removeChild(this._actorDetail);
-	  //this.actorStackContainer.removeChild(this._actorEdit);
-	  //this.actorStackContainer.removeChild(this._actorAdvancedSearch);
+	  this.actorStackContainer.removeChild(this._actorDetail);
+	  this.actorStackContainer.removeChild(this._actorEdit);
+	  this.actorStackContainer.removeChild(this._actorAdvancedSearch);
       this.actorStackContainer.selectChild(this._actorSearch);
     },
 
