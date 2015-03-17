@@ -17,9 +17,31 @@
 }
 
 .dgrid {
-    height: 345px;
+    height: 345px !important;
 }
 
 .dgrid-column-check, .dgrid-column-id {
     width: 50px !important;
+}
+
+.input-label-left {
+    display: inline-block;
+    margin: 0;
+    float: left !important;
+}
+
+.input-label-right {
+    display: inline-block;
+    margin: 0;
+    float: right !important;
+}
+
+.inline-inputs {
+    width: 100%;
+    display: inline-block;
+    margin: 0;
+}
+
+.tabs-content {
+    border: 1px solid rgba(117, 63, 127, 0.3) !important;
 }
