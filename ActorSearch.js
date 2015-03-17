@@ -47,7 +47,11 @@ define([
 	  this.actorStore = new Observable(new JsonRest({
 		target: this.baseUrl + '/actoren/wij',
 		sortParam: 'sort',
-		idProperty:'id'
+		idProperty:'id',
+		headers: {
+            "X-Requested-With": "",
+            "Content-Type": "application/json"
+        }
 	  }));
 	},
 
@@ -149,6 +153,10 @@ define([
 
 	_showDetail: function(actor) {
 	  this.actorWidget.showDetail(actor);
+	},
+
+	_showAdvancedSearch: function () {
+	  this.actorWidget.showAdvancedSearch();
 	},
 
 	_emitSelectedActoren: function() {
