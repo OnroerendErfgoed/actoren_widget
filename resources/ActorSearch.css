@@ -19,3 +19,7 @@
 .dgrid {
     height: 345px;
 }
+
+.dgrid-column-check, .dgrid-column-id {
+    width: 50px !important;
+}

@@ -58,11 +58,18 @@ define([
       this.actorStackContainer.selectChild(this._actorDetail);
     },
 
+    showEdit: function (actor) {
+	  this.actorStackContainer.addChild(this._actorEdit);
+	  this._actorEdit.setActor(actor);
+	  this.actorStackContainer.removeChild(this._actorSearch);
+      this.actorStackContainer.selectChild(this._actorEdit);
+    },
+
     _setupLayout: function() {
 	  // probleem: Wanneer meerdere widgets aan de stackcontainer worden toegevoegd worden deze beide getoond
       this._actorSearch = new ActorSearch({baseUrl: this.baseUrl, actorWidget: this});
       this._actorDetail = new ActorDetail({actorWidget: this});
-      //this._actorDetail = new ActorEdit({actorWidget: this});
+      this._actorEdit = new ActorEdit({actorWidget: this});
     },
 
 	emitActor: function(actor) {
