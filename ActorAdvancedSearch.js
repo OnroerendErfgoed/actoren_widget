@@ -4,6 +4,7 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
+  './ActorController',
   './ActorAdvSearchActor',
   './ActorAdvSearchVKBO',
   './ActorAdvSearchVKBP'
@@ -13,6 +14,7 @@ define([
   _WidgetBase,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
+  ActorController,
   ActorAdvSearchActor,
   ActorAdvSearchVKBO,
   ActorAdvSearchVKBP
@@ -23,10 +25,14 @@ define([
 	baseClass: 'actor-widget',
 	widgetsInTemplate: true,
 	actorWidget: null,
+	actorController: null,
+	baseUrl: null,
 
 	postCreate: function() {
 	  console.log('..ActorAdvancedSearch::postCreate', arguments);
 	  this.inherited(arguments);
+	  this.baseUrl = this.actorWidget.baseUrl;
+	  this.actorController = new ActorController({baseUrl: this.baseUrl});
 	  this._setupLayout();
 	},
 

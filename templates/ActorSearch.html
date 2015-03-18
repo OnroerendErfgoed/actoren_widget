@@ -2,12 +2,16 @@
     <div class="large-12 columns">
         <div class="panel fl-block-search">
             <div class="searchBox clearfix">
-                <input type="text"
-                       name="actorenFilter"
-                       title="Zoek een actor"
-                       class="searchBox"
-                       data-dojo-attach-event="onInput: _filterGrid"
-                       tabindex="1">
+                <label>
+                    <a href="#" >Zoeken in actoren van het agentschap:</a>
+                    <input type="text"
+                           name="actorenFilter"
+                           title="Zoek een actor"
+                           class="searchBox"
+                           data-dojo-attach-event="onInput: _filterGrid"
+                           data-dojo-attach-point="actorenFilter"
+                           tabindex="1">
+                </label>
             </div>
             <div class="row">
                 <div class="small-12 columns">

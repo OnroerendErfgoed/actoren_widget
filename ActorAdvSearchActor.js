@@ -17,6 +17,7 @@ define([
 	baseClass: 'actor-widget',
 	widgetsInTemplate: true,
 	searchWidget: null,
+	actorController: null,
 
 	postCreate: function() {
 	  console.log('...ActorAdvSearchActor::postCreate', arguments);
@@ -25,6 +26,25 @@ define([
 
 	startup: function () {
 	  console.log('...ActorAdvSearchActor::startup', arguments);
+	},
+
+	_findActoren: function() {
+	  var query = this._getSearchParams();
+	  this.searchWidget.actorWidget._actorSearch.AdvSearchFilterGrid(query);
+	  this._showSearch();
+	},
+
+	_getSearchParams: function() {
+	  var query = {};
+	  if (this.naam.value) {
+		query.naam = this.naam.value;
+	  }
+	  if (this.voornaam.value) {
+		query.voornaam = this.voornaam.value;
+	  }
+	  return query;
+
+
 	},
 
 	_showSearch: function() {

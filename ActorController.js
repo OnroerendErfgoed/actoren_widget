@@ -18,8 +18,8 @@ define([
 	postCreate: function() {
 	  console.log('..ActorController::postCreate', arguments);
 	  this.inherited(arguments);
-	  this.actorStore = this._getStore('/actoren');
-	  this.actorWijStore = this._getStore('/actoren/wij');
+	  this.actorStore = this._getStore('/actoren/');
+	  this.actorWijStore = this._getStore('/actoren/wij/');
 	},
 
 	startup: function () {
@@ -38,7 +38,12 @@ define([
 	},
 
 	getActor: function(id) {
-	  return this.actorStore.get(id)
+	  return this.actorStore.get(id);
+	},
+
+	queryActor: function(query) {
+	  return this.actorStore.query(query);
 	}
+
   });
 });

@@ -33,6 +33,7 @@ define([
 	_previousSearchValue:'',
 	actorWidget: null,
 	actorController: null,
+	_store: null,
 
 	postCreate: function() {
 	  console.log('..ActorSearch::postCreate', arguments);
@@ -42,8 +43,9 @@ define([
 	startup: function () {
 	  console.log('..ActorSearch::startup', arguments);
 	  this.inherited(arguments);
-	  this.actorController = this.actorWidget.actorController
+	  this.actorController = this.actorWidget.actorController;
 	  this._createGrid();
+	  this._store = 'wij';
 	},
 
 	_createGrid: function () {
@@ -103,6 +105,10 @@ define([
 	},
 
 	_filterGrid: function (evt) {
+	  if (this._store != 'wij') {
+		this._grid.set('store', this.actorController.actorWijStore);
+		this._store = 'wij';
+	  }
 	  var newValue = evt.target.value;
 	  if (this._timeoutId) {
 		clearTimeout(this._timeoutId);
@@ -121,6 +127,14 @@ define([
 		  }
 		}
 	  }, 30));
+	},
+
+	AdvSearchFilterGrid: function(query) {
+	  this.actorenFilter.value = "";
+	  this._grid.set("store", this.actorController.actorStore);
+	  this._store = 'all';
+	  this._grid.set("query", query);
+	  this._grid.refresh();
 	},
 
 	_showDetail: function(actor) {
