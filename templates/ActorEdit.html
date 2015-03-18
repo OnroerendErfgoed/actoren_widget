@@ -3,8 +3,8 @@
         <header class="clearfix">
             <h3 class="left " style="margin:6px 20px 0 0">Actoren</h3>
                 <dl class="tabs tiny" data-tab>
-                  <dd><a href="#panel1" class="tiny">PROFIEL</a></dd>
-                  <dd class="active" style="margin:0 1px"><a href="#panel2" class="tiny">BEWERKEN</a></dd>
+                  <dd><a href="#" data-dojo-attach-event="onClick: _openDetail" class="tiny">PROFIEL</a></dd>
+                  <dd class="active" style="margin:0 1px"><a href="#" class="tiny">BEWERKEN</a></dd>
                 </dl>
         </header>
     </div>
@@ -13,40 +13,42 @@
     </div>
     <div class="large-12 columns">
         <div class="tabs-content">
+            <div class="row">
+                <div class="content active">
+                    <form style="padding-top:10px">
 
-            <div class="content active">
-
-                <form style="padding-top:10px">
-
-                    <div class="large-4 columns">
-                        <label>Naam:<input data-dojo-attach-point='naam' type="text"/></label>
-                        <label>Voornaam:<input data-dojo-attach-point='voornaam' type="text"/></label>
-                        <label>Email:<input data-dojo-attach-point='email' type="text"/></label>
-                        <label>Telefoon:<input data-dojo-attach-point='telefoon' type="text"/></label>
-                    </div>
-
-                    <div class="large-4 columns">
-                        <label>Straat:<input data-dojo-attach-point='straat' type="text"/></label>
-                        <div class="inline-inputs clearfix">
-                            <label class="input-label-left" style="width:45%;">Nummer:<input class="input-block" data-dojo-attach-point='nummer' type="text"/></label>
-                            <label class="input-label-right" style="width:45%;">Postbus:<input class="input-block" data-dojo-attach-point='postbus' type="text"/></label>
-                        </div>
-                        <div class="inline-inputs clearfix">
-                            <label class="input-label-left" style="width:30%;">Postcode:<input class="input-block" data-dojo-attach-point='postcode' type="text"/></label>
-                            <label class="input-label-right" style="width:60%;">Gemeente:<input class="input-block" data-dojo-attach-point='gemeente' type="text"/></label>
+                        <div class="large-4 columns">
+                            <label>Naam:<input data-dojo-attach-point='naam' type="text"/></label>
+                            <label>Voornaam:<input data-dojo-attach-point='voornaam' type="text"/></label>
+                            <label>Email:<input data-dojo-attach-point='email' type="text"/></label>
+                            <label>Telefoon:<input data-dojo-attach-point='telefoon' type="text"/></label>
                         </div>
 
-                        <label>Land:<input data-dojo-attach-point='land' type="text"/></label>
+                        <div class="large-4 columns">
+                            <label>Straat:<input data-dojo-attach-point='straat' type="text"/></label>
+                            <div class="inline-inputs clearfix">
+                                <label class="input-label-left" style="width:45%;">Nummer:<input class="input-block" data-dojo-attach-point='nummer' type="text"/></label>
+                                <label class="input-label-right" style="width:45%;">Postbus:<input class="input-block" data-dojo-attach-point='postbus' type="text"/></label>
+                            </div>
+                            <div class="inline-inputs clearfix">
+                                <label class="input-label-left" style="width:30%;">Postcode:<input class="input-block" data-dojo-attach-point='postcode' type="text"/></label>
+                                <label class="input-label-right" style="width:60%;">Gemeente:<input class="input-block" data-dojo-attach-point='gemeente' type="text"/></label>
+                            </div>
 
-                    </div>
+                            <label>Land:<input data-dojo-attach-point='land' type="text"/></label>
 
-                    <div class="large-4 columns">
-                        <label>Actortype:<input data-dojo-attach-point='actortype' type="text"/></label>
-                        <label>Persoon ID:<input data-dojo-attach-point='pers_id' type="text"/></label>
-                        <label>Rijksregisternummer:<input data-dojo-attach-point='rijksregisternummer' type="text" /></label>
-                    </div>
-                </form>
+                        </div>
 
+                        <div class="large-4 columns">
+                            <label>Actortype:<input data-dojo-attach-point='actortype' type="text"/></label>
+                            <label>Persoon ID:<input data-dojo-attach-point='pers_id' type="text"/></label>
+                            <label>Rijksregisternummer:<input data-dojo-attach-point='rijksregisternummer' type="text" /></label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row text-center">
+                <a href="#" class="button small">BEWAAR</a>
             </div>
         </div>
     </div>

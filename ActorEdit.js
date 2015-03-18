@@ -59,12 +59,13 @@ define([
 	  this.land.value  = actor.adres ? actor.adres.land : null;
 	  this.actortype.value  = actor.type.naam;
 	  this.pers_id.value  = actor.id;
+	  this.actor = actor;
 	},
 	_openSearch: function() {
 	  this.actorWidget.showSearch();
 	},
-	_openEdit: function() {
-	  this.actorWidget.showEdit();
+	_openDetail: function() {
+	  this.actorWidget.showDetail(this.actor);
 	}
   });
 });
