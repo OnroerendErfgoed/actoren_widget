@@ -34,7 +34,7 @@ define([
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
 	templateString: template,
-	baseClass: 'actor-search',
+	baseClass: 'actor-widget',
 	widgetsInTemplate: true,
 	actorStore: null,
 	baseUrl: null,
