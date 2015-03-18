@@ -17,7 +17,6 @@ define([
 	baseClass: 'actor-widget',
 	widgetsInTemplate: true,
 	searchWidget: null,
-	actorController: null,
 
 	postCreate: function() {
 	  console.log('...ActorAdvSearchActor::postCreate', arguments);
@@ -35,7 +34,7 @@ define([
 	},
 
 	_getSearchParams: function() {
-	  var query = {};
+	  var query = {'organisatie': 501};
 	  if (this.naam.value) {
 		query.naam = this.naam.value;
 	  }
@@ -43,8 +42,6 @@ define([
 		query.voornaam = this.voornaam.value;
 	  }
 	  return query;
-
-
 	},
 
 	_showSearch: function() {
