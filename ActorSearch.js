@@ -7,8 +7,8 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  "dojo/store/Observable",
-  "dojo/store/JsonRest",
+  'dojo/store/Observable',
+  'dojo/store/JsonRest',
   'dgrid/Keyboard',
   'dgrid/extensions/DijitRegistry',
   'dgrid/OnDemandGrid',
@@ -48,10 +48,10 @@ define([
 		target: this.baseUrl + '/actoren/wij',
 		sortParam: 'sort',
 		idProperty:'id',
-		headers: {
-            "X-Requested-With": "",
-            "Content-Type": "application/json"
-        }
+		accepts: 'application/json',
+        headers: {
+		  'X-Requested-With': ''
+		}
 	  }));
 	},
 
