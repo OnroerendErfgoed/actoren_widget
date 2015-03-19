@@ -46,7 +46,8 @@ define([
 			autoComplete: false,
 			required: false,
 			placeholder: "gemeente",
-			style: "width: 175px;"
+			class: "input-label-right search-combobox",
+			style: "width: 60%;"
 		  }, this.gemeente);
 		}));
 
