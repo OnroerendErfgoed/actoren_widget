@@ -1,5 +1,5 @@
 define([
-  'dojo/text!./templates/ActorDetail.html',
+  'dojo/text!./templates/ActorEdit.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
@@ -21,12 +21,12 @@ define([
 
 
 	postCreate: function() {
-	  console.log('..ActorDetail::postCreate', arguments);
+	  console.log('..ActorEdit::postCreate', arguments);
 	  this.inherited(arguments);
 	},
 
 	startup: function () {
-	  console.log('..ActorDetail::startup', arguments);
+	  console.log('..ActorEdit::startup', arguments);
 	},
 
 	setActor: function(actor) {
@@ -58,13 +58,14 @@ define([
 	  this.gemeente.value  = actor.adres ? actor.adres.gemeente : null;
 	  this.land.value  = actor.adres ? actor.adres.land : null;
 	  this.actortype.value  = actor.type.naam;
+	  this.pers_id.value  = actor.id;
 	  this.actor = actor;
 	},
 	_openSearch: function() {
 	  this.actorWidget.showSearch();
 	},
-	_openEdit: function() {
-	  this.actorWidget.showEdit(this.actor);
+	_openDetail: function() {
+	  this.actorWidget.showDetail(this.actor);
 	}
   });
 });
