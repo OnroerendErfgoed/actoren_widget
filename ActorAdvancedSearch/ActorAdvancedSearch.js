@@ -1,10 +1,10 @@
 define([
-  'dojo/text!./templates/ActorAdvancedSearch.html',
+  'dojo/text!./../templates/ActorAdvancedSearch/ActorAdvancedSearch.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  './ActorController',
+  '../ActorController',
   './ActorAdvSearchActor',
   './ActorAdvSearchVKBO',
   './ActorAdvSearchVKBP'

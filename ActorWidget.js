@@ -8,7 +8,7 @@ define([
   './ActorSearch',
   './ActorDetail',
   './ActorEdit',
-  './ActorAdvancedSearch',
+  './ActorAdvancedSearch/ActorAdvancedSearch',
   'dijit/layout/StackContainer'
 ], function (
     template,
