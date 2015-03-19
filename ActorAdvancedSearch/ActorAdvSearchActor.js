@@ -25,8 +25,6 @@ define([
 	searchWidget: null,
 
 	_gemeenteCombobox: null,
-	_gemeenteStore:null,
-	_gemeenteId:null,
 
 	postCreate: function() {
 	  console.log('...ActorAdvSearchActor::postCreate', arguments);
@@ -42,9 +40,8 @@ define([
 	_getGemeenten: function() {
 	  this.searchWidget.crabController.getGeementen().
 		then(lang.hitch(this, function(gemeenten){
-		  this._gemeenteStore = new Memory({data: gemeenten});
 		  this._gemeenteCombobox = new ComboBox({
-			store: this._gemeenteStore,
+			store: new Memory({data: gemeenten}),
 			hasDownArrow: false,
 			searchAttr: "naam",
 			required: false,
@@ -66,7 +63,6 @@ define([
 		this.gemeenteCrabNode.style.display="block";
 		this.gemeente.value='';
 	  }
-
 	},
 
 	_findActoren: function() {
