@@ -2,13 +2,9 @@ define([
   'dojo/text!./templates/ActorSearch.html',
   'dojo/_base/declare',
   'dojo/_base/lang',
-  'dojo/request',
-  'dojo/Deferred',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  "dojo/store/Observable",
-  "dojo/store/JsonRest",
   'dgrid/Keyboard',
   'dgrid/extensions/DijitRegistry',
   'dgrid/OnDemandGrid',
@@ -18,13 +14,9 @@ define([
   template,
   declare,
   lang,
-  request,
-  Deferred,
   _WidgetBase,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
-  Observable,
-  JsonRest,
   Keyboard,
   DijitRegistry,
   OnDemandGrid,
@@ -34,32 +26,31 @@ define([
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
 	templateString: template,
-	baseClass: 'actor-search',
+	baseClass: 'actor-widget',
 	widgetsInTemplate: true,
 	actorStore: null,
 	baseUrl: null,
 	_previousSearchValue:'',
 	actorWidget: null,
+	actorController: null,
+	_store: null,
 
 	postCreate: function() {
 	  console.log('..ActorSearch::postCreate', arguments);
 	  this.inherited(arguments);
-	  this.actorStore = new Observable(new JsonRest({
-		target: this.baseUrl + '/actoren/wij',
-		sortParam: 'sort',
-		idProperty:'id'
-	  }));
 	},
 
 	startup: function () {
 	  console.log('..ActorSearch::startup', arguments);
 	  this.inherited(arguments);
+	  this.actorController = this.actorWidget.actorController;
 	  this._createGrid();
+	  this._store = 'wij';
 	},
 
 	_createGrid: function () {
 	  var columns = {
-		check: selector({label: "", selectorType: "checkbox"}),
+		check: selector({label: "", selectorType: "checkbox", style: "width: 50px;"}),
 		id: {
 		  label:'#',
 		  formatter: function (id) {
@@ -81,7 +72,7 @@ define([
 
 	  this._grid = new (declare([OnDemandGrid, Selection, Keyboard, DijitRegistry]))({
 		selectionMode: 'single',
-		store: this.actorStore,
+		store: this.actorController.actorWijStore,
 		columns: columns,
 		sort: [
 		  { attribute: 'naam' }
@@ -94,7 +85,7 @@ define([
 		var cell = this._grid.cell(evt);
 		if (cell.column.field == 'id') {
 		  var id = this._grid.row(evt).id;
-		  this._getActor(id).
+		  this.actorController.getActor(id).
 			then(lang.hitch(this, function(actor){
 			  this._showDetail(actor);
 			}));
@@ -104,7 +95,7 @@ define([
 	  }));
 	  this._grid.on(".dgrid-row:dblclick", lang.hitch(this, function(evt){
 		var id = this._grid.row(evt).id;
-		this._getActor(id).
+		this.actorController.getActor(id).
 		  then(lang.hitch(this, function(actor){
 			this._emitActor(actor);
 		  }));
@@ -113,20 +104,11 @@ define([
 
 	},
 
-	_getActor: function(id) {
-	  var deferred = new Deferred();
-	  request(this.baseUrl + '/actoren/' + id, {
-		headers: {
-		  'Accept': 'application/json',
-		  'Content-Type': 'application/json'
-		}
-	  }).then(lang.hitch(this, function(actor){
-		deferred.resolve(JSON.parse(actor));
-	  }));
-	  return deferred.promise;
-	},
-
 	_filterGrid: function (evt) {
+	  if (this._store != 'wij') {
+		this._grid.set('store', this.actorController.actorWijStore);
+		this._store = 'wij';
+	  }
 	  var newValue = evt.target.value;
 	  if (this._timeoutId) {
 		clearTimeout(this._timeoutId);
@@ -147,14 +129,30 @@ define([
 	  }, 30));
 	},
 
+	AdvSearchFilterGrid: function(query) {
+	  this.actorenFilter.value = "";
+	  this._grid.set("store", this.actorController.actorStore);
+	  this._store = 'all';
+	  this._grid.set("query", query);
+	  this._grid.refresh();
+	},
+
 	_showDetail: function(actor) {
 	  this.actorWidget.showDetail(actor);
+	},
+
+	_showCreate: function() {
+	  this.actorWidget.showCreate();
+	},
+
+	_showAdvancedSearch: function () {
+	  this.actorWidget.showAdvancedSearch();
 	},
 
 	_emitSelectedActoren: function() {
 	  for(var id in this._grid.selection){
 		if(this._grid.selection[id]){
-		  this._getActor(id).
+		  this.actorController.getActor(id).
 		  then(lang.hitch(this, function(actor){
 			this._emitActor(actor);
 		  }));

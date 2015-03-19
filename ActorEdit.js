@@ -1,5 +1,5 @@
 define([
-  'dojo/text!./templates/ActorDetail.html',
+  'dojo/text!./templates/ActorEdit.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
@@ -21,12 +21,12 @@ define([
 
 
 	postCreate: function() {
-	  console.log('..ActorDetail::postCreate', arguments);
+	  console.log('..ActorEdit::postCreate', arguments);
 	  this.inherited(arguments);
 	},
 
 	startup: function () {
-	  console.log('..ActorDetail::startup', arguments);
+	  console.log('..ActorEdit::startup', arguments);
 	},
 
 	setActor: function(actor) {
@@ -63,8 +63,8 @@ define([
 	_openSearch: function() {
 	  this.actorWidget.showSearch();
 	},
-	_openEdit: function() {
-	  this.actorWidget.showEdit(this.actor);
+	_openDetail: function() {
+	  this.actorWidget.showDetail(this.actor);
 	}
   });
 });
