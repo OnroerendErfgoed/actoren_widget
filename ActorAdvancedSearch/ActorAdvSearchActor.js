@@ -44,12 +44,14 @@ define([
 			store: new Memory({data: gemeenten}),
 			hasDownArrow: false,
 			searchAttr: "naam",
+			autoComplete: false,
 			required: false,
 			placeholder: "gemeente",
-			style: "width: 175px;"
+			class: "input-label-right search-combobox",
+			style: "width: 60%;"
 		  }, this.gemeenteCrab);
 		}));
-	  this.gemeente.style.display="none";
+	  //this.gemeente.style.display="none";
 	},
 
 	_changeGemeenten: function() {

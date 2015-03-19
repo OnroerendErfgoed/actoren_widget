@@ -45,3 +45,24 @@
 .tabs-content {
     border: 1px solid rgba(117, 63, 127, 0.3) !important;
 }
+
+.search-combobox {
+    height: 2.3125rem;
+    border: none;
+}
+
+.search-combobox input[type="text"] {
+    background-color: white !important;
+    border: 1px solid #cccccc !important;
+    margin: 0 0 1rem 0 !important;
+    padding: 0.5rem !important;
+}
+
+.dijitMenu {
+    border: 1px solid #cccccc !important;
+    color: #616161;
+}
+
+.dijitMenuItemHover {
+    background-color: #CBD6F5 !important;
+}
