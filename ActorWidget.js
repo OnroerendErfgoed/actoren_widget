@@ -9,6 +9,7 @@ define([
   './ActorDetail',
   './ActorEdit',
   './ActorAdvancedSearch/ActorAdvancedSearch',
+  './ActorCreate/ActorCreate',
   'dijit/layout/StackContainer'
 ], function (
     template,
@@ -20,7 +21,8 @@ define([
     ActorSearch,
 	ActorDetail,
 	ActorEdit,
-	ActorAdvancedSearch
+	ActorAdvancedSearch,
+	ActorCreate
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 

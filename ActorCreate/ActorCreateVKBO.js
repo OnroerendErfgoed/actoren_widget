@@ -1,5 +1,5 @@
 define([
-  'dojo/text!./templates/ActorCreateVKBO.html',
+  'dojo/text!./../templates/ActorCreate/ActorCreateVKBO.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
