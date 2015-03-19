@@ -36,8 +36,7 @@
                                 <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeente' type="text" placeholder="gemeente"/>
                             </div>
 
-                            <select data-dojo-attach-point='land'>
-                                <option value="" disabled selected>land</option>
+                            <select data-dojo-attach-point='land' data-dojo-attach-event="onChange: _changeGemeenten">
                                 <option value="BE">België</option>
                                 <option value="NL">Nederland</option>
                             </select>

@@ -32,6 +32,7 @@ define([
 	baseUrl: null,
 	actorController: null,
 	erfgoed_id: null,
+	crabHost: null,
 
     _actorSearch: null,
 

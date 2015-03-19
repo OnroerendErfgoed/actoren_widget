@@ -2,16 +2,20 @@ define([
   'dojo/text!./../templates/ActorAdvancedSearch/ActorAdvSearchActor.html',
   'dojo/_base/declare',
   'dojo/_base/lang',
+  'dojo/store/Memory',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
-  'dijit/_WidgetsInTemplateMixin'
+  'dijit/_WidgetsInTemplateMixin',
+  'dijit/form/ComboBox'
 ], function(
   template,
   declare,
   lang,
+  Memory,
   _WidgetBase,
   _TemplatedMixin,
-  _WidgetsInTemplateMixin
+  _WidgetsInTemplateMixin,
+  ComboBox
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -27,6 +31,34 @@ define([
 
 	startup: function () {
 	  console.log('...ActorAdvSearchActor::startup', arguments);
+	  this._getGemeenten();
+
+	},
+
+	_getGemeenten: function() {
+	  this.searchWidget.crabController.getGeementen().
+		then(lang.hitch(this, function(gemeenten){
+		  console.log(gemeenten);
+		  var gemeentenSelect = new ComboBox({
+			store: new Memory({data: gemeenten}),
+			hasDownArrow: false,
+			searchAttr: "naam",
+			autoComplete: false,
+			required: false,
+			placeholder: "gemeente",
+			style: "width: 175px;"
+		  }, this.gemeente);
+		}));
+
+	},
+
+	_changeGemeenten: function() {
+	  if (this.land.value == 'BE') {
+		console.log(this.lang.value);
+
+
+	  }
+
 	},
 
 	_findActoren: function() {
@@ -45,7 +77,7 @@ define([
 		'straat',
 		'nummer',
 		'postbus',
-	  	'gemeente',
+		'gemeente',
 		'land',
 		'type',
 		'persid',
@@ -65,15 +97,15 @@ define([
 	},
 
 	_showSearch: function() {
-	    this.searchWidget._showSearch();
+	  this.searchWidget._showSearch();
 	},
 
 	_showVKBOSearch: function() {
-	    this.searchWidget.showVKBOSearch();
+	  this.searchWidget.showVKBOSearch();
 	},
 
 	_showVKBPSearch: function() {
-	    this.searchWidget.showVKBPSearch();
+	  this.searchWidget.showVKBPSearch();
 	}
   });
 });

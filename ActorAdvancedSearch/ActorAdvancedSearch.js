@@ -5,6 +5,7 @@ define([
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
   '../ActorController',
+  '../CrabController',
   './ActorAdvSearchActor',
   './ActorAdvSearchVKBO',
   './ActorAdvSearchVKBP'
@@ -15,6 +16,7 @@ define([
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
   ActorController,
+  CrabController,
   ActorAdvSearchActor,
   ActorAdvSearchVKBO,
   ActorAdvSearchVKBP
@@ -27,6 +29,7 @@ define([
 	actorWidget: null,
 	actorController: null,
 	baseUrl: null,
+	crabHost:null,
 
 	postCreate: function() {
 	  console.log('..ActorAdvancedSearch::postCreate', arguments);
@@ -34,6 +37,7 @@ define([
 	  this.baseUrl = this.actorWidget.baseUrl;
 	  this.actorSearch = this.actorWidget._actorSearch;
 	  this.erfgoed_id = this.actorWidget.erfgoed_id;
+	  this.crabController = new CrabController({crabHost: this.actorWidget.crabHost});
 	  this.actorController = new ActorController({baseUrl: this.baseUrl});
 	  this._setupLayout();
 	},
@@ -48,6 +52,7 @@ define([
 	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchVKBO);
 	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchVKBP);
       this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchActor);
+	  this._actorAdvSearchActor.startup();
     },
 
     showVKBOSearch: function () {
