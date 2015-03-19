@@ -51,7 +51,7 @@ define([
 			style: "width: 60%;"
 		  }, this.gemeenteCrab);
 		}));
-	  //this.gemeente.style.display="none";
+	  this.gemeente.style.display="none";
 	},
 
 	_changeGemeenten: function() {
