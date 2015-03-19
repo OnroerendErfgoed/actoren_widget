@@ -52,9 +52,9 @@ define([
 			placeholder: "gemeente",
 			class: "input-label-right search-combobox",
 			style: "width: 60%;"
-		  }, this.gemeente);
+		  }, this.gemeenteCrab);
 		}));
-	  this.gemeente.style.display="none";
+	  //this.gemeente.style.display="none";
 	},
 
 	_changeGemeenten: function() {
