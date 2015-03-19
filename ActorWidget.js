@@ -29,6 +29,7 @@ define([
     widgetsInTemplate: true,
 	baseUrl: null,
 	actorController: null,
+	erfgoed_id: null,
 
     _actorSearch: null,
 

@@ -36,7 +36,7 @@ define([
 	},
 
 	_getSearchParams: function() {
-	  var query = {'organisatie': 501};
+	  var query = {'organisatie': this.searchWidget.erfgoed_id};
 	  var searchParams = [
 		'naam',
 		'voornaam',
@@ -52,16 +52,15 @@ define([
 		'rrn'
 	  ];
 	  searchParams.forEach(lang.hitch(this, function(param) {
-		console.log(this.naam.value);
-		if (this.getAttributeNode(param)) {
-		  query[param] = this.getAttribute(param).value;
+		if (this[param].value) {
+		  query[param] = this[param].value;
 		}
 	  }));
 	  return query;
 	},
 
 	_filterGrid: function (query) {
-	  this.searchWidget.actorWidget._actorSearch.AdvSearchFilterGrid(query);
+	  this.searchWidget.actorSearch.AdvSearchFilterGrid(query);
 	},
 
 	_showSearch: function() {
