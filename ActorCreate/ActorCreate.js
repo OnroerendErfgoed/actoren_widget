@@ -5,7 +5,8 @@ define([
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
   './ActorCreateActor',
-  './ActorCreateVKBO'
+  './ActorCreateVKBO',
+  './ActorCreateVKBP'
 ], function(
   template,
   declare,
@@ -13,7 +14,8 @@ define([
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
   ActorCreateActor,
-  ActorCreateVKBO
+  ActorCreateVKBO,
+  ActorCreateVKBP
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -38,13 +40,22 @@ define([
 	showActorCreate: function () {
 	    this.actorCreateStackContainer.addChild(this._actorCreateActor);
 	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBO);
+	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBP);
 	    this.actorCreateStackContainer.selectChild(this._actorCreateActor);
 	},
 
 	showActorCreateVKBO: function () {
 	    this.actorCreateStackContainer.addChild(this._actorCreateVKBO);
 	    this.actorCreateStackContainer.removeChild(this._actorCreateActor);
+	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBP);
 	    this.actorCreateStackContainer.selectChild(this._actorCreateVKBO);
+	},
+
+	showActorCreateVKBP: function () {
+	    this.actorCreateStackContainer.addChild(this._actorCreateVKBP);
+	    this.actorCreateStackContainer.removeChild(this._actorCreateActor);
+	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBO);
+	    this.actorCreateStackContainer.selectChild(this._actorCreateVKBP);
 	},
 
 	_showSearch: function () {
@@ -54,6 +65,7 @@ define([
     _setupLayout: function() {
       this._actorCreateActor = new ActorCreateActor({createWidget: this});
       this._actorCreateVKBO = new ActorCreateVKBO({createWidget: this});
+      this._actorCreateVKBP = new ActorCreateVKBP({createWidget: this});
     }
   });
 });

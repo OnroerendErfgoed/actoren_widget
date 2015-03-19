@@ -1,5 +1,5 @@
 define([
-  'dojo/text!./../templates/ActorCreate/ActorCreateVKBO.html',
+  'dojo/text!./../templates/ActorCreate/ActorCreateVKBP.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
@@ -37,8 +37,8 @@ define([
 	  this.createWidget.showActorCreate();
 	},
 
-	_showActorCreateVKBP: function() {
-	  this.createWidget.showActorCreateVKBP();
+	_showActorCreateVKBO: function() {
+	  this.createWidget.showActorCreateVKBO();
 	}
   });
 });

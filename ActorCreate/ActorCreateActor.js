@@ -35,6 +35,10 @@ define([
 
 	_showActorCreateVKBO: function() {
 	  this.createWidget.showActorCreateVKBO();
+	},
+
+	_showActorCreateVKBP: function() {
+	  this.createWidget.showActorCreateVKBP();
 	}
   });
 });

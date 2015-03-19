@@ -58,7 +58,6 @@ define([
 	  this.gemeente.value  = actor.adres ? actor.adres.gemeente : null;
 	  this.land.value  = actor.adres ? actor.adres.land : null;
 	  this.actortype.value  = actor.type.naam;
-	  this.pers_id.value  = actor.id;
 	  this.actor = actor;
 	},
 	_openSearch: function() {
