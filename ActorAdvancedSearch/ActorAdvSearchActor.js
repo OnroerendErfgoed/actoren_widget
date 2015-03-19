@@ -24,6 +24,10 @@ define([
 	widgetsInTemplate: true,
 	searchWidget: null,
 
+	_gemeenteCombobox: null,
+	_gemeenteStore:null,
+	_gemeenteId:null,
+
 	postCreate: function() {
 	  console.log('...ActorAdvSearchActor::postCreate', arguments);
 	  this.inherited(arguments);
@@ -38,9 +42,9 @@ define([
 	_getGemeenten: function() {
 	  this.searchWidget.crabController.getGeementen().
 		then(lang.hitch(this, function(gemeenten){
-		  console.log(gemeenten);
-		  var gemeentenSelect = new ComboBox({
-			store: new Memory({data: gemeenten}),
+		  this._gemeenteStore = new Memory({data: gemeenten});
+		  this._gemeenteCombobox = new ComboBox({
+			store: this._gemeenteStore,
 			hasDownArrow: false,
 			searchAttr: "naam",
 			autoComplete: false,
@@ -50,14 +54,19 @@ define([
 			style: "width: 60%;"
 		  }, this.gemeente);
 		}));
-
+	  this.gemeente.style.display="none";
 	},
 
 	_changeGemeenten: function() {
-	  if (this.land.value == 'BE') {
-		console.log(this.lang.value);
-
-
+	  if (this.land.value != 'BE') {
+		this.gemeenteCrabNode.style.display="none";
+		this.gemeente.style.display="block";
+		this._gemeenteCombobox.set("value", '');
+	  }
+	  else {
+		this.gemeente.style.display="none";
+		this.gemeenteCrabNode.style.display="block";
+		this.gemeente.value='';
 	  }
 
 	},
@@ -88,6 +97,15 @@ define([
 	  searchParams.forEach(lang.hitch(this, function(param) {
 		if (this[param].value) {
 		  query[param] = this[param].value;
+		}
+	  }));
+	  var comboboxen = [{
+		combobox: this._gemeenteCombobox,
+		parameter: 'gemeente'
+	  }];
+	  comboboxen.forEach(lang.hitch(this, function(object) {
+		if (object.combobox.value) {
+		  query[object.parameter] = object.combobox.value;
 		}
 	  }));
 	  return query;

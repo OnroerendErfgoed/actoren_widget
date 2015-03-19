@@ -2,11 +2,11 @@
     <div class="large-12 columns">
         <header class="clearfix">
             <h3 class="left " style="margin:6px 20px 0 0">Zoeken</h3>
-                <dl class="tabs tiny" data-tab>
-                  <dd class="active" style="margin:0 1px"><a href="#" class="tiny">ACTOREN</a></dd>
-                  <dd style="margin:0 1px"><a href="#" data-dojo-attach-event="onClick: _showVKBOSearch" class="tiny">VKBO</a></dd>
-                  <dd><a href="#" data-dojo-attach-event="onClick: _showVKBPSearch" class="tiny">VKBP</a></dd>
-                </dl>
+            <dl class="tabs tiny" data-tab>
+                <dd class="active" style="margin:0 1px"><a href="#" class="tiny">ACTOREN</a></dd>
+                <dd style="margin:0 1px"><a href="#" data-dojo-attach-event="onClick: _showVKBOSearch" class="tiny">VKBO</a></dd>
+                <dd><a href="#" data-dojo-attach-event="onClick: _showVKBPSearch" class="tiny">VKBP</a></dd>
+            </dl>
         </header>
     </div>
     <div class="large-12 columns">
@@ -33,6 +33,9 @@
                             </div>
                             <div class="inline-inputs clearfix">
                                 <input class="input-label-left" style="width:30%;" data-dojo-attach-point='postcode' type="text" placeholder="postcode"/>
+                                <div data-dojo-attach-point='gemeenteCrabNode'>
+                                    <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeenteCrab'/>
+                                </div>
                                 <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeente' type="text" placeholder="gemeente"/>
                             </div>
 
