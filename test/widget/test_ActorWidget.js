@@ -8,5 +8,4 @@ require([
   }, 'widgetNode');
   actorWidget.startup();
 
-
 });
