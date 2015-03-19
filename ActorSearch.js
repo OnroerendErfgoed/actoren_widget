@@ -143,6 +143,10 @@ define([
 	  this.actorWidget.showDetail(actor);
 	},
 
+	_showCreate: function() {
+	  this.actorWidget.showCreate();
+	},
+
 	_showAdvancedSearch: function () {
 	  this.actorWidget.showAdvancedSearch();
 	},

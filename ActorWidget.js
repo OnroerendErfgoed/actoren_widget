@@ -9,6 +9,7 @@ define([
   './ActorDetail',
   './ActorEdit',
   './ActorAdvancedSearch',
+  './ActorCreate',
   'dijit/layout/StackContainer'
 ], function (
     template,
@@ -20,7 +21,8 @@ define([
     ActorSearch,
 	ActorDetail,
 	ActorEdit,
-	ActorAdvancedSearch
+	ActorAdvancedSearch,
+	ActorCreate
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -52,33 +54,58 @@ define([
     },
 
     showSearch: function () {
+      this.actorStackContainer.addChild(this._actorSearch);
+      this.actorStackContainer.removeChild(this._actorDetail);
+      this.actorStackContainer.removeChild(this._actorEdit);
+      this.actorStackContainer.removeChild(this._actorAdvancedSearch);
+      this.actorStackContainer.removeChild(this._actorCreate);
       this.actorStackContainer.selectChild(this._actorSearch);
     },
 
     showDetail: function (actor) {
+	  this.actorStackContainer.addChild(this._actorDetail);
 	  this._actorDetail.setActor(actor);
+	  this.actorStackContainer.removeChild(this._actorSearch);
+	  this.actorStackContainer.removeChild(this._actorEdit);
+	  this.actorStackContainer.removeChild(this._actorAdvancedSearch);
+	  this.actorStackContainer.removeChild(this._actorCreate);
       this.actorStackContainer.selectChild(this._actorDetail);
     },
 
     showEdit: function (actor) {
+	  this.actorStackContainer.addChild(this._actorEdit);
 	  this._actorEdit.setActor(actor);
+	  this.actorStackContainer.removeChild(this._actorSearch);
+	  this.actorStackContainer.removeChild(this._actorDetail);
+	  this.actorStackContainer.removeChild(this._actorAdvancedSearch);
+	  this.actorStackContainer.removeChild(this._actorCreate);
       this.actorStackContainer.selectChild(this._actorEdit);
     },
 
     showAdvancedSearch: function () {
+	  this.actorStackContainer.addChild(this._actorAdvancedSearch);
+	  this.actorStackContainer.removeChild(this._actorSearch);
+	  this.actorStackContainer.removeChild(this._actorDetail);
+	  this.actorStackContainer.removeChild(this._actorEdit);
+	  this.actorStackContainer.removeChild(this._actorCreate);
       this.actorStackContainer.selectChild(this._actorAdvancedSearch);
+    },
+
+    showCreate: function () {
+	  this.actorStackContainer.addChild(this._actorCreate);
+	  this.actorStackContainer.removeChild(this._actorSearch);
+	  this.actorStackContainer.removeChild(this._actorDetail);
+	  this.actorStackContainer.removeChild(this._actorEdit);
+	  this.actorStackContainer.removeChild(this._actorAdvancedSearch);
+      this.actorStackContainer.selectChild(this._actorCreate);
     },
 
     _setupLayout: function() {
       this._actorSearch = new ActorSearch({actorWidget: this});
-	  this.actorStackContainer.addChild(this._actorSearch);
       this._actorDetail = new ActorDetail({actorWidget: this});
-	  this.actorStackContainer.addChild(this._actorDetail);
       this._actorEdit = new ActorEdit({actorWidget: this});
-	  this.actorStackContainer.addChild(this._actorEdit);
       this._actorAdvancedSearch = new ActorAdvancedSearch({actorWidget: this});
-	  this.actorStackContainer.addChild(this._actorAdvancedSearch );
-
+      this._actorCreate = new ActorCreate({actorWidget: this});
     },
 
 	emitActor: function(actor) {
