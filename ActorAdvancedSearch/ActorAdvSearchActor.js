@@ -49,7 +49,8 @@ define([
 		'land',
 		'type',
 		'persid',
-		'rrn'
+		'rrn',
+		'kbo'
 	  ];
 	  searchParams.forEach(lang.hitch(this, function(param) {
 		if (this[param].value) {

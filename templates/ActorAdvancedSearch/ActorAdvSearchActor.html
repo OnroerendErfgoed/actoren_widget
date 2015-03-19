@@ -36,14 +36,23 @@
                                 <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeente' type="text" placeholder="gemeente"/>
                             </div>
 
-                            <input data-dojo-attach-point='land' type="text" placeholder="land"/>
+                            <select data-dojo-attach-point='land'>
+                                <option value="" disabled selected>land</option>
+                                <option value="BE">België</option>
+                                <option value="NL">Nederland</option>
+                            </select>
 
                         </div>
 
                         <div class="large-4 columns">
-                            <input data-dojo-attach-point='type' type="text" placeholder="actortype"/>
+                            <select data-dojo-attach-point='type'>
+                                <option value="" disabled selected>Actortype</option>
+                                <option value=1>persoon</option>
+                                <option value=2>organisatie</option>
+                            </select>
                             <input data-dojo-attach-point='persid' type="text" placeholder="persoon id"/>
                             <input data-dojo-attach-point='rrn' type="text" placeholder="rijksregisternummer" />
+                            <input data-dojo-attach-point='kbo' type="text" placeholder="Kruispuntbank van Ondernemingen" />
                         </div>
                     </form>
                 </div>
