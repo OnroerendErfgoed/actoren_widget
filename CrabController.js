@@ -54,6 +54,15 @@ define([
 	  return deferred.promise;
 	},
 
+	getPostkantons: function(gemeente_id) {
+	  // nog niet op dev-geo.onroerenderfgoed.be
+	  return this._crabGet("crab/gemeenten/" + gemeente_id + "/postkantons");
+	},
+
+	getStraten: function(gemeente_id) {
+	  return this._crabGet("crab/gemeenten/" + gemeente_id + "/straten");
+	},
+
 	compare: function(a,b) {
 	  if (a.naam < b.naam)
 		return -1;
