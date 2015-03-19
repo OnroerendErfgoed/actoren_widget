@@ -8,8 +8,7 @@ define([
   './ActorSearch',
   './ActorDetail',
   './ActorEdit',
-  './ActorAdvancedSearch',
-  './ActorCreate',
+  './ActorAdvancedSearch/ActorAdvancedSearch',
   'dijit/layout/StackContainer'
 ], function (
     template,
@@ -21,8 +20,7 @@ define([
     ActorSearch,
 	ActorDetail,
 	ActorEdit,
-	ActorAdvancedSearch,
-	ActorCreate
+	ActorAdvancedSearch
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -31,6 +29,7 @@ define([
     widgetsInTemplate: true,
 	baseUrl: null,
 	actorController: null,
+	erfgoed_id: null,
 
     _actorSearch: null,
 

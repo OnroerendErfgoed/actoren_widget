@@ -9,8 +9,7 @@ define([
   'dgrid/extensions/DijitRegistry',
   'dgrid/OnDemandGrid',
   'dgrid/Selection',
-  'dgrid/selector',
-  'dojo/request/xhr'
+  'dgrid/selector'
 ], function(
   template,
   declare,
@@ -22,8 +21,7 @@ define([
   DijitRegistry,
   OnDemandGrid,
   Selection,
-  selector,
-  xhr
+  selector
 ) {
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 

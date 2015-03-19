@@ -32,17 +32,20 @@
                                 <input class="input-label-left" style="width:30%;" data-dojo-attach-point='postcode' type="text" placeholder="postcode"/>
                                 <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeente' type="text" placeholder="gemeente"/>
                             </div>
+
+                            <input data-dojo-attach-point='land' type="text" placeholder="land"/>
                         </div>
 
+
+
                         <div class="large-4 columns">
-                            <input data-dojo-attach-point='pers_id' type="text" placeholder="persoon id"/>
-                            <input data-dojo-attach-point='rijksregisternummer' type="text" placeholder="rijksregisternummer" />
+                            <input data-dojo-attach-point='persid' type="text" placeholder="persoon id"/>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="row text-center">
-                <a href="#" class="button small">ZOEKEN</a>
+                <a href="#" class="button small" data-dojo-attach-event="onClick: _findVKBO">ZOEKEN</a>
             </div>
         </div>
     </div>

@@ -1,10 +1,10 @@
 define([
-  'dojo/text!./templates/ActorAdvancedSearch.html',
+  'dojo/text!./../templates/ActorAdvancedSearch/ActorAdvancedSearch.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  './ActorController',
+  '../ActorController',
   './ActorAdvSearchActor',
   './ActorAdvSearchVKBO',
   './ActorAdvSearchVKBP'
@@ -32,6 +32,8 @@ define([
 	  console.log('..ActorAdvancedSearch::postCreate', arguments);
 	  this.inherited(arguments);
 	  this.baseUrl = this.actorWidget.baseUrl;
+	  this.actorSearch = this.actorWidget._actorSearch;
+	  this.erfgoed_id = this.actorWidget.erfgoed_id;
 	  this.actorController = new ActorController({baseUrl: this.baseUrl});
 	  this._setupLayout();
 	},
