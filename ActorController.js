@@ -1,12 +1,12 @@
 define([
   'dojo/_base/declare',
   "dojo/store/Observable",
-  "dojo/store/JsonRest",
+  './JsonRestCors',
   'dijit/_WidgetBase'
 ], function(
   declare,
   Observable,
-  JsonRest,
+  JsonRestCors,
   _WidgetBase
 ) {
   return declare([_WidgetBase], {
@@ -26,10 +26,11 @@ define([
 	},
 
 	_getStore: function(endpoint) {
-	  return new Observable(new JsonRest({
+	  return new Observable(new JsonRestCors({
 		target: this.baseUrl + endpoint,
 		sortParam: 'sort',
 		idProperty: 'id',
+		withCredentials: true,
 		headers: {
 		  "X-Requested-With": "",
 		  "Content-Type": "application/json"
