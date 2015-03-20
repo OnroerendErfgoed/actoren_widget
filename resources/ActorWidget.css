@@ -68,3 +68,66 @@
 .dijitMenuItemHover {
     background-color: #CBD6F5 !important;
 }
+
+/*country flags*/
+.actor-widget .flag {
+  background-repeat: no-repeat;
+  background-size: 25px auto;
+  padding-left: 30px;
+}
+
+.actor-widget .flag.be {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NTAiIGhlaWdodD0iMzkwIj4KPHJlY3Qgd2lkdGg9IjQ1MCIgaGVpZ2h0PSIzOTAiIGZpbGw9IiNFRDI5MzkiLz4KPHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzOTAiIGZpbGw9IiNGQUUwNDIiLz4KPHJlY3Qgd2lkdGg9IjE1MCIgaGVpZ2h0PSIzOTAiLz4KPC9zdmc+);
+}
+
+.actor-widget .flag.de {
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKCSJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgNSAzIj4KCTxkZXNjPkZsYWcgb2YgR2VybWFueTwvZGVzYz4KCTxyZWN0IGlkPSJibGFja19zdHJpcGUiIHdpZHRoPSI1IiBoZWlnaHQ9IjMiIHk9IjAiIHg9IjAiIGZpbGw9IiMwMDAiLz4KCTxyZWN0IGlkPSJyZWRfc3RyaXBlIiB3aWR0aD0iNSIgaGVpZ2h0PSIyIiB5PSIxIiB4PSIwIiBmaWxsPSIjRDAwIi8+Cgk8cmVjdCBpZD0iZ29sZF9zdHJpcGUiIHdpZHRoPSI1IiBoZWlnaHQ9IjEiIHk9IjIiIHg9IjAiIGZpbGw9IiNGRkNFMDAiLz4KPC9zdmc+);
+}
+
+.actor-widget .actor-widget.flag.fr {
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNjAwIj48cmVjdCB3aWR0aD0iOTAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iI0VEMjkzOSIvPjxyZWN0IHdpZHRoPSI2MDAiIGhlaWdodD0iNjAwIiBmaWxsPSIjZmZmIi8+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiMwMDIzOTUiLz48L3N2Zz4=);
+}
+.actor-widget .flag.gb {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MCAzMCIgd2lkdGg9IjEyMDAiIGhlaWdodD0iNjAwIj4KPGNsaXBQYXRoIGlkPSJ0Ij4KCTxwYXRoIGQ9Ik0zMCwxNSBoMzAgdjE1IHogdjE1IGgtMzAgeiBoLTMwIHYtMTUgeiB2LTE1IGgzMCB6Ii8+CjwvY2xpcFBhdGg+CjxwYXRoIGQ9Ik0wLDAgdjMwIGg2MCB2LTMwIHoiIGZpbGw9IiMwMDI0N2QiLz4KPHBhdGggZD0iTTAsMCBMNjAsMzAgTTYwLDAgTDAsMzAiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSI2Ii8+CjxwYXRoIGQ9Ik0wLDAgTDYwLDMwIE02MCwwIEwwLDMwIiBjbGlwLXBhdGg9InVybCgjdCkiIHN0cm9rZT0iI2NmMTQyYiIgc3Ryb2tlLXdpZHRoPSI0Ii8+CjxwYXRoIGQ9Ik0zMCwwIHYzMCBNMCwxNSBoNjAiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIxMCIvPgo8cGF0aCBkPSJNMzAsMCB2MzAgTTAsMTUgaDYwIiBzdHJva2U9IiNjZjE0MmIiIHN0cm9rZS13aWR0aD0iNiIvPgo8L3N2Zz4=);
+}
+.actor-widget .flag.nl {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNjAwIiB2aWV3Qm94PSIwIDAgOSA2Ij4KPHJlY3QgZmlsbD0iIzIxNDY4QiIJd2lkdGg9IjkiIGhlaWdodD0iNiIvPgo8cmVjdCBmaWxsPSIjRkZGIiB3aWR0aD0iOSIgaGVpZ2h0PSI0Ii8+CjxyZWN0IGZpbGw9IiNBRTFDMjgiCXdpZHRoPSI5IiBoZWlnaHQ9IjIiLz4KPC9zdmc+);
+}
+.actor-widget .flag.lu {
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjYwMCI+CjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjMwMCIgeT0iMzAwIiBmaWxsPSIjMDBBMURFCiIvPgo8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNlZDI5MzkiLz4KPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iMjAwIiB5PSIyMDAiIGZpbGw9IiNmZmYiLz4KPC9zdmc+);
+}
+
+.actor-widget .dijitComboBox.combo-dropdown {
+  background-color: #FFFFFF;
+  border-color: #CCCCCC;
+  height: 2.3125rem;
+  margin: 0 0 1rem 0;
+  width: auto;
+}
+
+.actor-widget .dijitComboBoxFocused.combo-dropdown {
+  border-color: #999999;
+
+}
+
+.actor-widget .dijitComboBox.combo-dropdown input {
+  margin: 0;
+  padding: 0.5rem !important;
+  height: 100% !important;
+}
+
+.actor-widget .dijitComboBox.combo-dropdown .dijitArrowButtonContainer {
+  border-left-color: #FFFFFF;
+  height: 100%;
+}
+
+.actor-widget .dijitComboBox.combo-dropdown .dijitArrowButtonInner {
+  background-color: #FFFFFF;
+  border: none;
+  padding: 0.5rem 0.25rem 0.5rem 0 !important;
+  margin: 0 !important;
+  text-indent: 0 !important;
+  cursor: pointer;
+  width: 1rem;
+  font-size: 0.6rem;
+}
