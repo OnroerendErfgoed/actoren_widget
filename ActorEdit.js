@@ -3,21 +3,24 @@ define([
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
-  'dijit/_WidgetsInTemplateMixin'
+  'dojo/store/Memory',
+  'dijit/form/ComboBox'
 ], function(
   template,
   declare,
   _WidgetBase,
   _TemplatedMixin,
-  _WidgetsInTemplateMixin
+  Memory,
+  ComboBox
 ) {
-  return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+  return declare([_WidgetBase, _TemplatedMixin], {
 
 	templateString: template,
 	baseClass: 'actor-widget',
 	widgetsInTemplate: true,
 	actor: null,
 	actorWidget: null,
+  _telefoonLandcodeSelect: null,
 
 
 	postCreate: function() {
@@ -28,6 +31,7 @@ define([
 	startup: function () {
 	  console.log('..ActorEdit::startup', arguments);
 	  this.inherited(arguments);
+    this._setTelefoonLandcodes();
 	},
 
 	setActor: function(actor) {
@@ -44,15 +48,19 @@ define([
 	  }
 	  this.email.value  = email_adres;
 	  var telefoon_nummer = null;
+	  var telefoon_landcode = null;
 	  actor.telefoons.forEach(function(telefoon) {
-		if (telefoon.type.naam == "werk"){
-		  telefoon_nummer = telefoon.nummer;
-		}
+      if (telefoon.type.naam == "werk"){
+        telefoon_nummer = telefoon.nummer;
+        telefoon_landcode = telefoon.landcode ? telefoon.landcode : null;
+      }
 	  });
 	  if (!telefoon_nummer && actor.telefoons.length > 0) {
-		telefoon_nummer = actor.telefoons[0].nummer;
+		  telefoon_nummer = actor.telefoons[0].nummer;
+      telefoon_landcode = telefoon.landcode ? telefoon.landcode : null;
 	  }
 	  this.telefoon.value  = telefoon_nummer;
+	  this._telefoonLandcodeSelect.set('value',telefoon_landcode);
 	  this.straat.value  = actor.adres ? actor.adres.straat : null;
 	  this.nummer.value  = actor.adres ? actor.adres.huisnummer : null;
 	  this.postcode.value  = actor.adres ? actor.adres.postcode : null;
@@ -66,6 +74,31 @@ define([
 	},
 	_openDetail: function() {
 	  this.actorWidget.showDetail(this.actor);
-	}
+	},
+
+  _setTelefoonLandcodes: function() {
+    var countryCodeStore = new Memory({
+      data: [
+        {name:"+32",  id:"32",  label:"<span class='flag be'>België (+32)</span>"},
+        {name:"+49",  id:"49",  label:"<span class='flag de'>Duitsland (+49)</span>"},
+        {name:"+33",  id:"33",  label:"<span class='flag fr'>Frankrijk (+33)</span>"},
+        {name:"+44",  id:"44",  label:"<span class='flag gb'>Groot-Brittannië (+44)</span>"},
+        {name:"+31",  id:"31",  label:"<span class='flag nl'>Nederland (+31)</span>"},
+        {name:"+352", id:"352", label:"<span class='flag lu'>Luxemburg (+352)</span>"}
+      ]
+    });
+
+    this._telefoonLandcodeSelect = new ComboBox({
+      store: countryCodeStore,
+      value: "+32",
+      hasDownArrow: true,
+      searchAttr: "name",
+      autoComplete: false,
+      required: false,
+      class: "combo-dropdown",
+      labelAttr: "label",
+      labelType: "html"
+    }, this.telefoonLandcode);
+  }
   });
 });

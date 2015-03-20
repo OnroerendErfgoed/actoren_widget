@@ -50,7 +50,6 @@ define([
 
     showActorSearch: function () {
       this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchActor);
-      this._actorAdvSearchActor.startup();
     },
 
     showVKBOSearch: function () {

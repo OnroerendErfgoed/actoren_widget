@@ -44,15 +44,19 @@ define([
 	  }
 	  this.email.value  = email_adres;
 	  var telefoon_nummer = null;
+	  var telefoon_landcode = null;
 	  actor.telefoons.forEach(function(telefoon) {
 		if (telefoon.type.naam == "werk"){
 		  telefoon_nummer = telefoon.nummer;
+		  telefoon_landcode = telefoon.landcode ? telefoon.landcode : null;
 		}
 	  });
 	  if (!telefoon_nummer && actor.telefoons.length > 0) {
-		telefoon_nummer = actor.telefoons[0].nummer;
+		  telefoon_nummer = actor.telefoons[0].nummer;
+		  telefoon_landcode = telefoon.landcode ? telefoon.landcode : null;
 	  }
 	  this.telefoon.value  = telefoon_nummer;
+	  this.telefoonLandcode.value  = telefoon_landcode;
 	  this.straat.value  = actor.adres ? actor.adres.straat : null;
 	  this.nummer.value  = actor.adres ? actor.adres.huisnummer : null;
 	  this.postcode.value  = actor.adres ? actor.adres.postcode : null;
