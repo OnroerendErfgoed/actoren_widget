@@ -1,69 +1,50 @@
 <div class="row">
-    <div class="large-12 columns">
-        <header class="clearfix">
-            <h3 class="left " style="margin:6px 20px 0 0">Zoeken</h3>
-            <dl class="tabs tiny" data-tab>
-                <dd class="active" style="margin:0 1px"><a href="#" class="tiny">ACTOREN</a></dd>
-                <dd style="margin:0 1px"><a href="#" data-dojo-attach-event="onClick: _showVKBOSearch" class="tiny">VKBO</a></dd>
-                <dd><a href="#" data-dojo-attach-event="onClick: _showVKBPSearch" class="tiny">VKBP</a></dd>
-            </dl>
-        </header>
-    </div>
-    <div class="large-12 columns">
-        <small class="right">&lsaquo; <a href="#" data-dojo-attach-event="onClick: _showSearch">Terug naar zoeken</a></small>
-    </div>
-    <div class="large-12 columns">
-        <div class="tabs-content">
-            <div class="row">
-                <div class="content active">
-                    <form style="padding-top:10px">
+  <div class="large-12 columns">
+    <header class="clearfix">
+      <h3 class="left " style="margin:6px 20px 0 0">Zoeken</h3>
+      <dl class="tabs tiny" data-tab>
+        <dd class="active" style="margin:0 1px"><a href="#" class="tiny">ACTOREN</a></dd>
+        <dd style="margin:0 1px"><a href="#" data-dojo-attach-event="onClick: _showVKBOSearch" class="tiny">VKBO</a></dd>
+        <dd><a href="#" data-dojo-attach-event="onClick: _showVKBPSearch" class="tiny">VKBP</a></dd>
+      </dl>
+    </header>
+  </div>
+  <div class="large-12 columns">
+    <small class="right">&lsaquo; <a href="#" data-dojo-attach-event="onClick: _showSearch">Terug naar zoeken</a></small>
+  </div>
+  <div class="large-12 columns">
+    <div class="tabs-content">
+      <div class="row">
+        <div class="content active">
+          <form style="padding-top:10px">
 
-                        <div class="large-4 columns">
-                            <input data-dojo-attach-point='naam' type="text" placeholder="naam"/>
-                            <input data-dojo-attach-point='voornaam' type="text" placeholder="voornaam"/>
-                            <input data-dojo-attach-point='email' type="text" placeholder="email"/>
-                            <input data-dojo-attach-point='telefoon' type="text" placeholder="telefoon"/>
-                        </div>
-
-                        <div class="large-4 columns">
-                            <select data-dojo-attach-point='land' data-dojo-attach-event="onChange: _changeGemeenten">
-                                <option value="BE">België</option>
-                                <option value="NL">Nederland</option>
-                            </select>
-                            <div class="inline-inputs clearfix">
-                                <select class="input-label-left" style="width:30%;" data-dojo-attach-point='postcodeCrab'></select>
-                                <input class="input-label-left" style="width:30%;" data-dojo-attach-point='postcode' type="text" placeholder="postcode"/>
-                                <div data-dojo-attach-point='gemeenteCrabNode'>
-                                    <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeenteCrab' type="text" placeholder="gemeente"/>
-                                </div>
-                                <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeente' type="text" placeholder="gemeente"/>
-                            </div>
-                            <div data-dojo-attach-point='straatCrabNode'>
-                                <input data-dojo-attach-point='straatCrab' type="text" placeholder="straat"/>
-                            </div>
-                            <input data-dojo-attach-point='straat' type="text" placeholder="straat"/>
-                            <div class="inline-inputs clearfix">
-                                <input class="input-label-left" style="width:45%;" data-dojo-attach-point='nummer' type="text" placeholder="nummer"/>
-                                <input class="input-label-right" style="width:45%;" data-dojo-attach-point='postbus' type="text" placeholder="postbus"/>
-                            </div>
-                        </div>
-
-                        <div class="large-4 columns">
-                            <select data-dojo-attach-point='type'>
-                                <option value="" disabled selected>Actortype</option>
-                                <option value=1>persoon</option>
-                                <option value=2>organisatie</option>
-                            </select>
-                            <input data-dojo-attach-point='persid' type="text" placeholder="persoon id"/>
-                            <input data-dojo-attach-point='rrn' type="text" placeholder="rijksregisternummer" />
-                            <input data-dojo-attach-point='kbo' type="text" placeholder="Kruispuntbank van Ondernemingen" />
-                        </div>
-                    </form>
-                </div>
+            <div class="large-4 columns">
+              <input data-dojo-attach-point='naam' type="text" placeholder="naam"/>
+              <input data-dojo-attach-point='voornaam' type="text" placeholder="voornaam"/>
+              <input data-dojo-attach-point='email' type="text" placeholder="email"/>
+              <input data-dojo-attach-point='telefoon' type="text" placeholder="telefoon"/>
             </div>
-            <div class="row text-center">
-                <a href="#" class="button small" data-dojo-attach-event="onClick: _findActoren">ZOEKEN</a>
+
+            <div class="large-4 columns">
+              <div data-dojo-attach-point="crabWidget"></div>
             </div>
+
+            <div class="large-4 columns">
+              <select data-dojo-attach-point='type'>
+                <option value="" disabled selected>Actortype</option>
+                <option value=1>persoon</option>
+                <option value=2>organisatie</option>
+              </select>
+              <input data-dojo-attach-point='persid' type="text" placeholder="persoon id"/>
+              <input data-dojo-attach-point='rrn' type="text" placeholder="rijksregisternummer" />
+              <input data-dojo-attach-point='kbo' type="text" placeholder="Kruispuntbank van Ondernemingen" />
+            </div>
+          </form>
         </div>
+      </div>
+      <div class="row text-center">
+        <a href="#" class="button small" data-dojo-attach-event="onClick: _findActoren">ZOEKEN</a>
+      </div>
     </div>
+  </div>
 </div>
