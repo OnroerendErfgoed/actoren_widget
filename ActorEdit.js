@@ -27,6 +27,7 @@ define([
 
 	startup: function () {
 	  console.log('..ActorEdit::startup', arguments);
+	  this.inherited(arguments);
 	},
 
 	setActor: function(actor) {

@@ -17,48 +17,40 @@ define([
   ActorCreateVKBO,
   ActorCreateVKBP
 ) {
-  return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
-	templateString: template,
-	baseClass: 'actor-widget',
-	widgetsInTemplate: true,
-	actor: null,
-	actorWidget: null,
+    templateString: template,
+    baseClass: 'actor-widget',
+    widgetsInTemplate: true,
+    actor: null,
+    actorWidget: null,
 
 
-	postCreate: function() {
-	  console.log('..ActorCreate::postCreate', arguments);
-	  this.inherited(arguments);
-	  this._setupLayout();
-	},
+    postCreate: function() {
+      console.log('..ActorCreate::postCreate', arguments);
+      this.inherited(arguments);
+      this._setupLayout();
+    },
 
-	startup: function () {
-	  console.log('..ActorCreate::startup', arguments);
-	  this.showActorCreate();
-	},
+    startup: function () {
+      this.inherited(arguments);
+      console.log('..ActorCreate::startup', arguments);
+      this.showActorCreate();
+    },
 
-	showActorCreate: function () {
-	    this.actorCreateStackContainer.addChild(this._actorCreateActor);
-	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBO);
-	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBP);
-	    this.actorCreateStackContainer.selectChild(this._actorCreateActor);
-	},
+    showActorCreate: function () {
+      this.actorCreateStackContainer.selectChild(this._actorCreateActor);
+    },
 
-	showActorCreateVKBO: function () {
-	    this.actorCreateStackContainer.addChild(this._actorCreateVKBO);
-	    this.actorCreateStackContainer.removeChild(this._actorCreateActor);
-	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBP);
-	    this.actorCreateStackContainer.selectChild(this._actorCreateVKBO);
-	},
+    showActorCreateVKBO: function () {
+      this.actorCreateStackContainer.selectChild(this._actorCreateVKBO);
+    },
 
-	showActorCreateVKBP: function () {
-	    this.actorCreateStackContainer.addChild(this._actorCreateVKBP);
-	    this.actorCreateStackContainer.removeChild(this._actorCreateActor);
-	    this.actorCreateStackContainer.removeChild(this._actorCreateVKBO);
-	    this.actorCreateStackContainer.selectChild(this._actorCreateVKBP);
-	},
+    showActorCreateVKBP: function () {
+      this.actorCreateStackContainer.selectChild(this._actorCreateVKBP);
+    },
 
-	_showSearch: function () {
+    _showSearch: function () {
       this.actorWidget.showSearch();
     },
 
@@ -66,6 +58,10 @@ define([
       this._actorCreateActor = new ActorCreateActor({createWidget: this});
       this._actorCreateVKBO = new ActorCreateVKBO({createWidget: this});
       this._actorCreateVKBP = new ActorCreateVKBP({createWidget: this});
+
+      this.actorCreateStackContainer.addChild(this._actorCreateActor);
+      this.actorCreateStackContainer.addChild(this._actorCreateVKBO);
+      this.actorCreateStackContainer.addChild(this._actorCreateVKBP);
     }
   });
 });

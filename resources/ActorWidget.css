@@ -49,6 +49,8 @@
 .search-combobox {
     height: 2.3125rem;
     border: none;
+    width: 100%;
+    margin-bottom: 1rem;
 }
 
 .search-combobox input[type="text"] {

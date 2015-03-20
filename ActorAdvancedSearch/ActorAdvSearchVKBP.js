@@ -27,6 +27,7 @@ define([
 
 	startup: function () {
 	  console.log('...ActorAdvSearchVKBO::startup', arguments);
+	  this.inherited(arguments);
 	},
 
 	_findVKBP: function() {

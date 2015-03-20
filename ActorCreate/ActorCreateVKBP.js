@@ -27,6 +27,7 @@ define([
 
 	startup: function () {
 	  console.log('...ActorCreateVKBO::startup', arguments);
+	  this.inherited(arguments);
 	},
 
 	_openSearch: function() {
