@@ -27,6 +27,7 @@ define([
 
 	startup: function () {
 	  console.log('...ActorCreateActor::startup', arguments);
+	  this.inherited(arguments);
 	},
 
 	_openSearch: function() {

@@ -34,6 +34,7 @@ define([
 
 	startup: function () {
 	  console.log('...ActorAdvSearchActor::startup', arguments);
+	  this.inherited(arguments);
 	  this._setGemeenten();
 	  this.postcodeCrab.style.display="none";
 	  this._setStraten();
