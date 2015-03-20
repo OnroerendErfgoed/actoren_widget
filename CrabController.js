@@ -26,6 +26,8 @@ define([
 
 		_crabGet: function(endpoint){
 			return xhr(this.crabHost + endpoint, {
+				//in afwachting op 'Access-Control-Allow-Origin' header op "https://dev-actoren.onroerenderfgoed.be/actoren/"
+				//withCredentials: true,
 				methode: "GET",
 				handleAs: "json",
 				headers: {
@@ -55,8 +57,14 @@ define([
 		},
 
 		getPostkantons: function(gemeente_id) {
-			// nog niet op dev-geo.onroerenderfgoed.be
-			return this._crabGet("crab/gemeenten/" + gemeente_id + "/postkantons");
+			//in afwachting op 'Access-Control-Allow-Origin' header op "https://dev-actoren.onroerenderfgoed.be/actoren/"
+			//return this._crabGet("crab/gemeenten/" + gemeente_id + "/postkantons");
+			var deferred = new Deferred();
+			deferred.resolve([
+						{"id": "8300"},
+						{"id": "8301"}
+					]);
+			return deferred.promise;
 		},
 
 		getStraten: function(gemeente_id) {

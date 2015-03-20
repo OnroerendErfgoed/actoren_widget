@@ -5,9 +5,7 @@ define([
 	'dojo/store/Memory',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
-	'dijit/_WidgetsInTemplateMixin',
-	'dijit/form/ComboBox',
-	'dijit/form/Select'
+	'dijit/form/ComboBox'
 ], function(
 	template,
 	declare,
@@ -15,33 +13,30 @@ define([
 	Memory,
 	_WidgetBase,
 	_TemplatedMixin,
-	_WidgetsInTemplateMixin,
-	ComboBox,
-	Select
+	ComboBox
 ) {
-	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+	return declare([_WidgetBase, _TemplatedMixin], {
 		templateString: template,
 		baseClass: 'actor-widget',
-		widgetsInTemplate: true,
 		CrabController: null,
 
 		_gemeenteCombobox: null,
-		_postcodeSelect: null,
+		_postcodeCombobox: null,
 		_straatCombobox: null,
 		_nummerCombobox: null,
 
 		postCreate: function() {
-			console.log('...ActorAdvSearchActor::postCreate', arguments);
+			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
+			this._setGemeentenCombo();
+			this._setPostcodesCombo();
+			this._setStratenCombo();
+			this._setNummersCombo();
 		},
 
 		startup: function () {
-			console.log('...ActorAdvSearchActor::startup', arguments);
+			console.log('....CrabWidget::startup', arguments);
 			this.inherited(arguments);
-			this._setGemeentenCombo();
-			this._setPostcodesSelect();
-			this._setStratenCombo();
-			this._setNummersCombo();
 		},
 
 		_setGemeentenCombo: function() {
@@ -57,9 +52,7 @@ define([
 						class: "input-label-right search-combobox",
 						style: "width: 60%;",
 						onChange: lang.hitch(this, function() {
-							//Postcodes moet eerst nog op dev-geo.onroerenderfgoed.be
 							this._changePostcodes();
-
 							this._changeStraten();
 						})
 					}, this.gemeenteCrab);
@@ -67,11 +60,15 @@ define([
 			this.gemeente.style.display="none";
 		},
 
-		_setPostcodesSelect: function() {
-			this._postcodeSelect = new Select({
+		_setPostcodesCombo: function() {
+			this._postcodeCombobox = new ComboBox({
 				hasDownArrow: false,
+				searchAttr: "id",
+				autoComplete: false,
 				required: false,
-				class: "search-combobox"
+				placeholder: "postcode",
+				class: "input-label-left search-combobox",
+				style: "width: 30%;"
 			}, this.postcodeCrab);
 			this.postcodeCrabNode.style.display="none";
 		},
@@ -117,7 +114,7 @@ define([
 				this.nummer.style.display="block";
 				this._gemeenteCombobox.set("value", '');
 				this._straatCombobox.set("value", '');
-				this._postcodeSelect.set("value", '');
+				this._postcodeCombobox.set("value", '');
 				this._nummerCombobox.set("value", '');
 			}
 			else {
@@ -128,55 +125,79 @@ define([
 		},
 
 		_changePostcodes: function() {
-			if (this._gemeenteCombobox) {
+			if (this._gemeenteCombobox.get('value')) {
+				this.postcode.style.display = "none";
+				this.postcode.value = '';
+				this._postcodeCombobox.set('value', '');
+				this.postcodeCrabNode.style.display = "block";
 				if (this._gemeenteCombobox.item) {
-					//Postcodes moet eerst nog op dev-geo.onroerenderfgoed.be
-					//this.crabController.getPostkantons(this._gemeenteCombobox.item.id).
-					//  then(lang.hitch(this, function (postcodes) {
-					var postcodesOptions = [];
-					var postcodes = [
-						{"id": "8300 test"},
-						{"id": "8301 test"}
-					];
-					postcodes.forEach(function(postcode){
-						postcodesOptions.push({label:postcode.id, value: postcode.id})
-					});
-					this.postcode.style.display = "none";
-					this.postcode.value = '';
-					this._postcodeSelect.removeOption(this._postcodeSelect.getOptions());
-					this._postcodeSelect.addOption(postcodesOptions);
-					this.postcodeCrabNode.style.display = "block";
-					//  }));
+					this.crabController.getPostkantons(this._gemeenteCombobox.item.id).
+						then(lang.hitch(this, function (postcodes) {
+							this._postcodeCombobox.set('store', new Memory({data: postcodes}));
+						}));
 				}
 			}
 		},
 
 		_changeStraten: function() {
-			if (this._gemeenteCombobox) {
+			if (this._gemeenteCombobox.get('value')) {
+				this.straat.style.display = "none";
+				this.straat.value = '';
+				this._straatCombobox.set('value', '');
+				this._nummerCombobox.set('value', '');
+				this.nummer.value = '';
+				this.straatCrabNode.style.display = "block";
 				if (this._gemeenteCombobox.item) {
 					this.crabController.getStraten(this._gemeenteCombobox.item.id).
 						then(lang.hitch(this, function (straten) {
-							this.straat.style.display = "none";
-							this.straat.value = '';
 							this._straatCombobox.set('store', new Memory({data: straten}));
-							this.straatCrabNode.style.display = "block";
 						}));
 				}
 			}
 		},
 
 		_changeNummers: function() {
-			if (this._straatCombobox) {
+			if (this._straatCombobox.get('value')) {
+				this.nummer.style.display = "none";
+				this.nummer.value = '';
+				this.nummerCrabNode.style.display = "block";
 				if (this._straatCombobox.item) {
 					this.crabController.getNummers(this._straatCombobox.item.id).
 						then(lang.hitch(this, function (nummers) {
-							this.nummer.style.display = "none";
-							this.nummer.value = '';
 							this._nummerCombobox.set('store', new Memory({data: nummers}));
-							this.nummerCrabNode.style.display = "block";
 						}));
 				}
 			}
+		},
+
+		getValues: function() {
+			var inputs = {
+				straat: null,
+				nummer: null,
+				postbus: null,
+				postcode: null,
+				gemeente: null,
+				land: null
+			};
+			var autocompleteMapping = {
+				straat: this._straatCombobox,
+				nummer: this._nummerCombobox,
+				postcode: this._postcodeCombobox,
+				gemeente: this._gemeenteCombobox
+			};
+			Object.keys(inputs).forEach(lang.hitch(this, function(param) {
+				if (this[param].value) {
+					inputs[param] = this[param].value;
+				}
+				else if (autocompleteMapping[param]) {
+					if (autocompleteMapping[param].get('value')) {
+						inputs[param] = autocompleteMapping[param].get('value');
+					}
+				}
+			}));
+			console.log('inputs');
+			console.log(inputs);
+			return inputs
 		}
 
 	});

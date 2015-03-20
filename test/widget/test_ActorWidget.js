@@ -7,6 +7,8 @@ require([
 	baseUrl: "http://localhost:6543",
 	erfgoed_id: 501,
 	crabHost: "https://dev-geo.onroerenderfgoed.be/"
+	//in afwachting op 'Access-Control-Allow-Origin' header
+	//crabHost: "https://dev-actoren.onroerenderfgoed.be/actoren/"
   }, 'widgetNode');
   actorWidget.startup();
 

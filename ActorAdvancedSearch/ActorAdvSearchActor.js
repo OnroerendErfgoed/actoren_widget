@@ -21,6 +21,7 @@ define([
 		baseClass: 'actor-widget',
 		widgetsInTemplate: true,
 		searchWidget: null,
+		crabWidget: null,
 
 
 		postCreate: function() {
@@ -35,7 +36,7 @@ define([
 		},
 
 		_setCrabWidget: function() {
-			new CrabWidget({crabController: this.searchWidget.crabController}, this.crabWidget).startup();
+			this._crabWidget = new CrabWidget({crabController: this.searchWidget.crabController}, this.crabWidget);
 		},
 
 		_findActoren: function() {
@@ -51,11 +52,6 @@ define([
 				'voornaam',
 				'email',
 				'telefoon',
-				'straat',
-				'nummer',
-				'postbus',
-				'gemeente',
-				'land',
 				'type',
 				'persid',
 				'rrn',
@@ -66,15 +62,12 @@ define([
 					query[param] = this[param].value;
 				}
 			}));
-			var comboboxen = [{
-				combobox: this._gemeenteCombobox,
-				parameter: 'gemeente'
-			}];
-			comboboxen.forEach(lang.hitch(this, function(object) {
-				if (object.combobox.value) {
-					query[object.parameter] = object.combobox.value;
+			var crabParams = this._crabWidget.getValues();
+			Object.keys(crabParams).forEach(function(param){
+				if(crabParams[param]) {
+					query[param] = crabParams[param];
 				}
-			}));
+			});
 			return query;
 		},
 
