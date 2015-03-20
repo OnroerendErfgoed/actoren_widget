@@ -21,51 +21,43 @@ define([
   ActorAdvSearchVKBO,
   ActorAdvSearchVKBP
 ) {
-  return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
-	templateString: template,
-	baseClass: 'actor-widget',
-	widgetsInTemplate: true,
-	actorWidget: null,
-	actorController: null,
-	baseUrl: null,
-	crabHost:null,
+    templateString: template,
+    baseClass: 'actor-widget',
+    widgetsInTemplate: true,
+    actorWidget: null,
+    actorController: null,
+    baseUrl: null,
+    crabHost:null,
 
-	postCreate: function() {
-	  console.log('..ActorAdvancedSearch::postCreate', arguments);
-	  this.inherited(arguments);
-	  this.baseUrl = this.actorWidget.baseUrl;
-	  this.actorSearch = this.actorWidget._actorSearch;
-	  this.erfgoed_id = this.actorWidget.erfgoed_id;
-	  this.crabController = new CrabController({crabHost: this.actorWidget.crabHost});
-	  this.actorController = new ActorController({baseUrl: this.baseUrl});
-	  this._setupLayout();
-	},
+    postCreate: function() {
+      console.log('..ActorAdvancedSearch::postCreate', arguments);
+      this.inherited(arguments);
+      this.baseUrl = this.actorWidget.baseUrl;
+      this.actorSearch = this.actorWidget._actorSearch;
+      this.erfgoed_id = this.actorWidget.erfgoed_id;
+      this.crabController = new CrabController({crabHost: this.actorWidget.crabHost});
+      this.actorController = new ActorController({baseUrl: this.baseUrl});
+      this._setupLayout();
+    },
 
-	startup: function () {
-	  console.log('..ActorAdvancedSearch::startup', arguments);
-	  this.showActorSearch();
-	},
+    startup: function () {
+      console.log('..ActorAdvancedSearch::startup', arguments);
+      this.inherited(arguments);
+      this.showActorSearch();
+    },
 
-	showActorSearch: function () {
-	  this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchActor);
-	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchVKBO);
-	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchVKBP);
+    showActorSearch: function () {
       this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchActor);
-	  this._actorAdvSearchActor.startup();
+      this._actorAdvSearchActor.startup();
     },
 
     showVKBOSearch: function () {
-	  this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchVKBO);
-	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchActor);
-	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchVKBP);
       this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchVKBO);
     },
 
     showVKBPSearch: function () {
-	  this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchVKBP);
-	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchActor);
-	  this.actorAdvSearchStackContainer.removeChild(this._actorAdvSearchVKBO);
       this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchVKBP);
     },
 
@@ -73,11 +65,14 @@ define([
       this.actorWidget.showSearch();
     },
 
-	_setupLayout: function() {
-	  // probleem: Wanneer meerdere widgets aan de stackcontainer worden toegevoegd worden deze beide getoond
+    _setupLayout: function() {
       this._actorAdvSearchActor = new ActorAdvSearchActor({searchWidget: this});
       this._actorAdvSearchVKBO = new ActorAdvSearchVKBO({searchWidget: this});
       this._actorAdvSearchVKBP = new ActorAdvSearchVKBP({searchWidget: this});
+
+      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchActor);
+      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchVKBO);
+      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchVKBP);
     }
   });
 });

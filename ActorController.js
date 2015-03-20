@@ -23,6 +23,7 @@ define([
 	},
 
 	startup: function () {
+	  this.inherited(arguments);
 	},
 
 	_getStore: function(endpoint) {
