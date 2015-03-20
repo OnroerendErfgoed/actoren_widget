@@ -1,3 +1,8 @@
+/* General css */
+.actor-widget label {
+  cursor: default;
+}
+
 /* Restore dgrid css*/
 .dgrid .dgrid-row-table {
   margin: 0 !important;
