@@ -20,8 +20,9 @@ define([
 		templateString: template,
 		baseClass: 'actor-widget',
 		widgetsInTemplate: true,
-		searchWidget: null,
 		crabWidget: null,
+		actorWidget: null,
+		actorAdvancedSearch : null,
 
 
 		postCreate: function() {
@@ -36,7 +37,7 @@ define([
 		},
 
 		_setCrabWidget: function() {
-			this._crabWidget = new CrabWidget({crabController: this.searchWidget.crabController}, this.crabWidget);
+			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
 		},
 
 		_findActoren: function() {
@@ -46,7 +47,7 @@ define([
 		},
 
 		_getSearchParams: function() {
-			var query = {'organisatie': this.searchWidget.erfgoed_id};
+			var query = {};
 			var searchParams = [
 				'naam',
 				'voornaam',
@@ -72,19 +73,15 @@ define([
 		},
 
 		_filterGrid: function (query) {
-			this.searchWidget.actorSearch.AdvSearchFilterGrid(query);
+			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		},
 
 		_showSearch: function() {
-			this.searchWidget._showSearch();
+			this.actorWidget.showSearch();
 		},
 
-		_showVKBOSearch: function() {
-			this.searchWidget.showVKBOSearch();
-		},
-
-		_showVKBPSearch: function() {
-			this.searchWidget.showVKBPSearch();
-		}
+    _showActorCreate: function() {
+      this.actorAdvancedSearch._showActorCreate();
+    }
 	});
 });

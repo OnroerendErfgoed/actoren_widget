@@ -18,7 +18,8 @@ define([
     templateString: template,
     baseClass: 'actor-widget',
     actor: null,
-    createWidget: null,
+		actorWidget: null,
+		actorAdvancedSearch : null,
 
 
     postCreate: function() {
@@ -58,15 +59,11 @@ define([
     },
 
     _openSearch: function() {
-      this.createWidget._showSearch();
+      this.actorWidget.showSearch();
     },
 
-    _showActorCreateVKBO: function() {
-      this.createWidget.showActorCreateVKBO();
-    },
-
-    _showActorCreateVKBP: function() {
-      this.createWidget.showActorCreateVKBP();
+    _showActorSearch: function() {
+      this.actorAdvancedSearch._showActorSearch();
     }
   });
 });

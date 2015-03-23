@@ -57,19 +57,11 @@ define([
 	},
 
 	_filterGrid: function (query) {
-	  this.searchWidget.actorSearch.AdvSearchFilterGrid(query);
+	  this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 	},
 
 	_showSearch: function() {
-	    this.searchWidget._showSearch();
-	},
-
-	_showActorSearch: function() {
-	    this.searchWidget.showActorSearch();
-	},
-
-	_showVKBOSearch: function() {
-	    this.searchWidget.showVKBOSearch();
+	    this.actorWidget.showSearch();
 	}
   });
 });

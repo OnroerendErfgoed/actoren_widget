@@ -4,22 +4,16 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  '../ActorController',
-  '../CrabController',
   './ActorAdvSearchActor',
-  './ActorAdvSearchVKBO',
-  './ActorAdvSearchVKBP'
+	'../ActorCreate/ActorCreateActor'
 ], function(
   template,
   declare,
   _WidgetBase,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
-  ActorController,
-  CrabController,
   ActorAdvSearchActor,
-  ActorAdvSearchVKBO,
-  ActorAdvSearchVKBP
+	ActorCreateActor
 ) {
     return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -34,30 +28,21 @@ define([
     postCreate: function() {
       console.log('..ActorAdvancedSearch::postCreate', arguments);
       this.inherited(arguments);
-      this.baseUrl = this.actorWidget.baseUrl;
-      this.actorSearch = this.actorWidget._actorSearch;
-      this.erfgoed_id = this.actorWidget.erfgoed_id;
-      this.crabController = new CrabController({crabHost: this.actorWidget.crabHost});
-      this.actorController = new ActorController({baseUrl: this.baseUrl});
       this._setupLayout();
     },
 
     startup: function () {
       console.log('..ActorAdvancedSearch::startup', arguments);
       this.inherited(arguments);
-      this.showActorSearch();
+      this._showActorSearch();
     },
 
-    showActorSearch: function () {
-      this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchActor);
+    _showActorSearch: function () {
+      this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearch);
     },
 
-    showVKBOSearch: function () {
-      this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchVKBO);
-    },
-
-    showVKBPSearch: function () {
-      this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearchVKBP);
+    _showActorCreate: function () {
+      this.actorAdvSearchStackContainer.selectChild(this._actorCreate);
     },
 
     _showSearch: function () {
@@ -65,13 +50,11 @@ define([
     },
 
     _setupLayout: function() {
-      this._actorAdvSearchActor = new ActorAdvSearchActor({searchWidget: this});
-      this._actorAdvSearchVKBO = new ActorAdvSearchVKBO({searchWidget: this});
-      this._actorAdvSearchVKBP = new ActorAdvSearchVKBP({searchWidget: this});
+      this._actorAdvSearch = new ActorAdvSearchActor({actorWidget: this.actorWidget, actorAdvancedSearch : this});
+      this._actorCreate = new ActorCreateActor({actorWidget: this.actorWidget, actorAdvancedSearch : this});
 
-      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchActor);
-      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchVKBO);
-      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearchVKBP);
+      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearch);
+      this.actorAdvSearchStackContainer.addChild(this._actorCreate);
     }
   });
 });

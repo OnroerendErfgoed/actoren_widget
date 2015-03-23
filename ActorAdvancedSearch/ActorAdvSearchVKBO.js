@@ -34,7 +34,7 @@ define([
 		},
 
 		_setCrabWidget: function() {
-			this._crabWidget = new CrabWidget({crabController: this.searchWidget.crabController}, this.crabWidget);
+			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
 		},
 
 		_findVKBO: function() {
@@ -64,19 +64,11 @@ define([
 		},
 
 		_filterGrid: function (query) {
-			this.searchWidget.actorSearch.AdvSearchFilterGrid(query);
+			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		},
 
 		_showSearch: function() {
-			this.searchWidget._showSearch();
-		},
-
-		_showActorSearch: function() {
-			this.searchWidget.showActorSearch();
-		},
-
-		_showVKBPSearch: function() {
-			this.searchWidget.showVKBPSearch();
+			this.actorWidget.showSearch();
 		}
 	});
 });
