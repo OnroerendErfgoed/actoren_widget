@@ -103,36 +103,30 @@
 }
 
 .actor-widget .dijitComboBox.combo-dropdown {
-  background-color: #FFFFFF;
-  border-color: #CCCCCC;
+  background: #FFFFFF none;
   height: 2.3125rem;
-  margin: 0 0 1rem 0;
   width: auto;
 }
 
 .actor-widget .dijitComboBoxFocused.combo-dropdown {
   border-color: #999999;
-
 }
 
-.actor-widget .dijitComboBox.combo-dropdown input {
-  margin: 0;
-  padding: 0.5rem !important;
-  height: 100% !important;
-}
-
-.actor-widget .dijitComboBox.combo-dropdown .dijitArrowButtonContainer {
-  border-left-color: #FFFFFF;
+.actor-widget .dijitComboBox.combo-dropdown .dijitInputContainer {
   height: 100%;
 }
 
-.actor-widget .dijitComboBox.combo-dropdown .dijitArrowButtonInner {
-  background-color: #FFFFFF;
+.actor-widget .dijitComboBox.combo-dropdown .dijitArrowButtonContainer {
+  border: none !important;
+  height: 100%;
+  padding: 0!important;
+}
+
+.actor-widget .dijitComboBox.combo-dropdown input.dijitArrowButtonInner {
   border: none;
-  padding: 0.5rem 0.25rem 0.5rem 0 !important;
+  padding-right: 0.5rem !important;
   margin: 0 !important;
-  text-indent: 0 !important;
-  cursor: pointer;
-  width: 1rem;
-  font-size: 0.6rem;
+  width: 1.25rem;
+  height: 100% !important;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+);
 }
