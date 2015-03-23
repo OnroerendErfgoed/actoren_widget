@@ -49,7 +49,7 @@ define([
 						autoComplete: false,
 						required: false,
 						placeholder: "gemeente",
-						class: "input-label-left search-combobox",
+						class: "input-label-right search-combobox",
 						style: "width: 60%;",
 						onChange: lang.hitch(this, function() {
 							this._changePostcodes();
@@ -67,7 +67,7 @@ define([
 				autoComplete: false,
 				required: false,
 				placeholder: "postcode",
-				class: "input-label-right search-combobox",
+				class: "input-label-left search-combobox",
 				style: "width: 30%;"
 			}, this.postcodeCrab);
 			this.postcodeCrabNode.style.display="none";
