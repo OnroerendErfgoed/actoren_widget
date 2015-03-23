@@ -59,7 +59,7 @@ define([
     },
 
     _openSearch: function() {
-      this.actorWidget.showSearch();
+      this.actorAdvancedSearch._showSearch();
     },
 
     _showActorSearch: function() {

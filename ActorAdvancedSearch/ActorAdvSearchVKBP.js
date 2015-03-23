@@ -41,6 +41,7 @@ define([
 			var query = this._getSearchParams();
 			this._filterGrid(query);
 			this._openSearch();
+			this._reset();
 		},
 
 		_getSearchParams: function() {
@@ -70,6 +71,13 @@ define([
 
 		_openSearch: function() {
 			this.actorWidget.showSearch();
+		},
+
+		_reset: function(){
+			this.naam.value = "";
+			this._crabWidget.resetValues();
+			this.persid.value = "";
+			this.rrn.value = "";
 		}
 	});
 });

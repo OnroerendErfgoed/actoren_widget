@@ -46,6 +46,7 @@ define([
     },
 
     _showSearch: function () {
+			this.actorAdvSearchStackContainer.selectChild(this._actorAdvSearch);
       this.actorWidget.showSearch();
     },
 

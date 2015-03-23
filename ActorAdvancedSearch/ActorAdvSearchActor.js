@@ -44,6 +44,7 @@ define([
 			var query = this._getSearchParams();
 			this._filterGrid(query);
 			this._openSearch();
+			this._reset();
 		},
 
 		_getSearchParams: function() {
@@ -77,11 +78,23 @@ define([
 		},
 
 		_openSearch: function() {
-			this.actorWidget.showSearch();
+			this.actorAdvancedSearch._showSearch();
 		},
 
-    _showActorCreate: function() {
-      this.actorAdvancedSearch._showActorCreate();
-    }
+		_showActorCreate: function() {
+			this.actorAdvancedSearch._showActorCreate();
+		},
+
+		_reset: function(){
+			this.naam.value = '';
+			this.voornaam.value = '';
+			this.email.value=  '';
+			this.telefoon.value = '';
+			this._crabWidget.resetValues();
+			this.type.value = "1";
+			this.persid.value = "";
+			this.rrn.value = "";
+			this.kbo.value = "";
+		}
 	});
 });

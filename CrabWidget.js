@@ -197,7 +197,27 @@ define([
 				}
 			}));
 			return inputs
-		}
+		},
 
+		resetValues: function() {
+			this.land.value = 'BE';
+			this._gemeenteCombobox.set("value", '');
+			this._straatCombobox.set("value", '');
+			this._postcodeCombobox.set("value", '');
+			this._nummerCombobox.set("value", '');
+			this.gemeente.value = '';
+			this.straat.value = '';
+			this.postcode.value = '';
+			this.nummer.value = '';
+			this.postbus.value = '';
+			this.gemeenteCrabNode.style.display="block";
+			this.straatCrabNode.style.display="none";
+			this.postcodeCrabNode.style.display="none";
+			this.nummerCrabNode.style.display="none";
+			this.gemeente.style.display="none";
+			this.straat.style.display="block";
+			this.postcode.style.display="block";
+			this.nummer.style.display="block";
+		}
 	});
 });
