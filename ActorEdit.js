@@ -95,7 +95,7 @@ define([
       searchAttr: "name",
       autoComplete: false,
       required: false,
-      class: "combo-dropdown",
+      'class': "combo-dropdown",
       labelAttr: "label",
       labelType: "html"
     }, this.telefoonLandcode);

@@ -49,7 +49,7 @@ define([
 						autoComplete: false,
 						required: false,
 						placeholder: "gemeente",
-						class: "input-label-left search-combobox",
+						'class': "input-label-left search-combobox",
 						style: "width: 60%;",
 						onChange: lang.hitch(this, function() {
 							this._changePostcodes();
@@ -67,7 +67,7 @@ define([
 				autoComplete: false,
 				required: false,
 				placeholder: "postcode",
-				class: "input-label-right search-combobox",
+				'class': "input-label-right search-combobox",
 				style: "width: 30%;"
 			}, this.postcodeCrab);
 			this.postcodeCrabNode.style.display="none";
@@ -80,7 +80,7 @@ define([
 				autoComplete: false,
 				required: false,
 				placeholder: "straat",
-				class: "input-label-right search-combobox",
+				'class': "input-label-right search-combobox",
 				style: "width: 100%;",
 				onChange: lang.hitch(this, function() {
 					this._changeNummers();
@@ -97,7 +97,7 @@ define([
 				autoComplete: false,
 				required: false,
 				placeholder: "nummer",
-				class: "input-label-left search-combobox",
+				'class': "input-label-left search-combobox",
 				style: "width: 45%;"
 			}, this.nummerCrab);
 			this.nummerCrabNode.style.display="none";
