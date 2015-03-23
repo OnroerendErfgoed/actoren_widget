@@ -45,7 +45,6 @@ define([
 			this.inherited(arguments);
 			this.actorController = this.actorWidget.actorController;
 			this._createGrid();
-			this._store = 'wij';
 		},
 
 		_createGrid: function () {
@@ -72,7 +71,7 @@ define([
 
 			this._grid = new (declare([OnDemandGrid, Selection, Keyboard, DijitRegistry]))({
 				selectionMode: 'single',
-				store: this.actorController.actorWijStore,
+				store: this.actorController.actorStore,
 				columns: columns,
 				sort: [
 					{ attribute: 'naam' }
