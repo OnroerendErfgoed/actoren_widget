@@ -40,7 +40,7 @@ define([
 		_findVKBP: function() {
 			var query = this._getSearchParams();
 			this._filterGrid(query);
-			this._showSearch();
+			this._openSearch();
 		},
 
 		_getSearchParams: function() {
