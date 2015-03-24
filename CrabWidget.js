@@ -5,6 +5,7 @@ define([
 	'dojo/store/Memory',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
+	'dijit/_WidgetsInTemplateMixin',
 	'dijit/form/ComboBox'
 ], function(
 	template,
@@ -13,9 +14,10 @@ define([
 	Memory,
 	_WidgetBase,
 	_TemplatedMixin,
+	_WidgetsInTemplateMixin,
 	ComboBox
 ) {
-	return declare([_WidgetBase, _TemplatedMixin], {
+	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 		templateString: template,
 		baseClass: 'actor-widget',
 		CrabController: null,
@@ -237,14 +239,18 @@ define([
 		},
 
 		setValues: function(adres) {
+			console.log('straat');
+			console.log(adres);
 			this.land.value = adres.land;
 			if (adres.land == 'BE') {
-				this._gemeenteCombobox.set('value', adres.gemeente);
-				this._changeStraten();
-				if (this._getGemeenteIdFromCombo()) {
+				this._gemeenteCombobox.set('value', adres.gemeente, false);
+				if (this._getGemeenteIdFromCombo()){
+					this._changeStraten();
+					this._changePostcodes();
+					this._straatCombobox.set('value', adres.straat, false);
 					this._postcodeCombobox.set('value', adres.postcode);
-					this._straatCombobox.set('value', adres.straat);
 					if (this._getStraatIdFromCombo()) {
+						this._changeNummers();
 						this._nummerCombobox.set('value', adres.huisnummer);
 					}
 					else {
@@ -252,14 +258,20 @@ define([
 					}
 				}
 				else {
-					this.postcode.value = adres.postcode;
 					this.straat.value = adres.straat;
 				}
 			}
 			else {
 				this.gemeente.value = adres.gemeente;
+				this.postcode.value = adres.postcode;
+				this.straat.value = adres.straat;
+				this.nummer.value = adres.huisnummer;
 			}
 			this.postbus.value = adres.postbus ? adres.postbus : null;
+		},
+
+		_emit: function(message, evt){
+			this.emit(message, evt);
 		},
 
 		resetValues: function() {
