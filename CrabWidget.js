@@ -128,8 +128,9 @@ define([
 		_changePostcodes: function() {
 			if (this._gemeenteCombobox.get('value')) {
 				this.postcode.style.display = "none";
+				var postcode = this.postcode.value ? this.postcode.value : this._postcodeCombobox.get('value');
+				this._postcodeCombobox.set('value', postcode);
 				this.postcode.value = '';
-				this._postcodeCombobox.set('value', '');
 				this.postcodeCrabNode.style.display = "block";
 				if (this._gemeenteCombobox.item) {
 					this.crabController.getPostkantons(this._gemeenteCombobox.item.id).

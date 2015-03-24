@@ -4,14 +4,16 @@ define([
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dojo/store/Memory',
-  'dijit/form/ComboBox'
+  'dijit/form/ComboBox',
+	'../CrabWidget'
 ], function(
   template,
   declare,
   _WidgetBase,
   _TemplatedMixin,
   Memory,
-  ComboBox
+  ComboBox,
+	CrabWidget
 ) {
   return declare([_WidgetBase, _TemplatedMixin], {
 
@@ -31,7 +33,8 @@ define([
       console.log('...ActorCreateActor::startup', arguments);
       this.inherited(arguments);
       this._setTelefoonLandcodes();
-    },
+			this._setCrabWidget();
+		},
 
     _setTelefoonLandcodes: function() {
       var countryCodeStore = new Memory({
@@ -58,12 +61,23 @@ define([
       }, this.telefoonLandcode);
     },
 
+		_setCrabWidget: function() {
+			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
+		},
+
     _openSearch: function() {
       this.actorAdvancedSearch._showSearch();
     },
 
     _showActorSearch: function() {
       this.actorAdvancedSearch._showActorSearch();
-    }
+    },
+
+		_reset: function(){
+			this.naam.value = "";
+			this._crabWidget.resetValues();
+			this.persid.value = "";
+			this.rrn.value = "";
+		}
   });
 });
