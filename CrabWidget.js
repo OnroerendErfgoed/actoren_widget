@@ -103,6 +103,23 @@ define([
 			this.nummerCrabNode.style.display="none";
 		},
 
+		_getIdfromCombo: function (combobox, searchAttr) {
+			if (combobox.item) {
+				return combobox.item.id;
+			}
+			else {
+				var query = {};
+				query[searchAttr] = combobox.get('value');
+				var result = combobox.store.query(query);
+				if (result.length === 1) {
+					return result[0].id;
+				}
+				else {
+					return null;
+				}
+			}
+		},
+
 		_changeGemeenten: function() {
 			if (this.land.value != 'BE') {
 				this.gemeenteCrabNode.style.display="none";
@@ -132,8 +149,9 @@ define([
 				this._postcodeCombobox.set('value', postcode);
 				this.postcode.value = '';
 				this.postcodeCrabNode.style.display = "block";
-				if (this._gemeenteCombobox.item) {
-					this.crabController.getPostkantons(this._gemeenteCombobox.item.id).
+				var gemeente_id = this._getIdfromCombo(this._gemeenteCombobox, 'naam');
+				if (gemeente_id) {
+					this.crabController.getPostkantons(gemeente_id).
 						then(lang.hitch(this, function (postcodes) {
 							this._postcodeCombobox.set('store', new Memory({data: postcodes}));
 						}));
@@ -149,8 +167,9 @@ define([
 				this._nummerCombobox.set('value', '');
 				this.nummer.value = '';
 				this.straatCrabNode.style.display = "block";
-				if (this._gemeenteCombobox.item) {
-					this.crabController.getStraten(this._gemeenteCombobox.item.id).
+				var gemeente_id = this._getIdfromCombo(this._gemeenteCombobox, 'naam');
+				if (gemeente_id) {
+					this.crabController.getStraten(gemeente_id).
 						then(lang.hitch(this, function (straten) {
 							this._straatCombobox.set('store', new Memory({data: straten}));
 						}));
@@ -163,8 +182,9 @@ define([
 				this.nummer.style.display = "none";
 				this.nummer.value = '';
 				this.nummerCrabNode.style.display = "block";
-				if (this._straatCombobox.item) {
-					this.crabController.getNummers(this._straatCombobox.item.id).
+				var straat_id = this._getIdfromCombo(this._straatCombobox, 'label');
+				if (straat_id) {
+					this.crabController.getNummers(straat_id).
 						then(lang.hitch(this, function (nummers) {
 							this._nummerCombobox.set('store', new Memory({data: nummers}));
 						}));
