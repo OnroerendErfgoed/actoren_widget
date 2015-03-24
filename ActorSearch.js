@@ -8,8 +8,7 @@ define([
 	'dgrid/Keyboard',
 	'dgrid/extensions/DijitRegistry',
 	'dgrid/OnDemandGrid',
-	'dgrid/Selection',
-	'dgrid/selector'
+	'dgrid/Selection'
 ], function(
 	template,
 	declare,
@@ -20,8 +19,7 @@ define([
 	Keyboard,
 	DijitRegistry,
 	OnDemandGrid,
-	Selection,
-	selector
+	Selection
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -49,7 +47,6 @@ define([
 
 		_createGrid: function () {
 			var columns = {
-				//check: selector({label: "", selectorType: "checkbox", style: "width: 50px;"}),
 				id: {
 					label:'#',
 					formatter: function (id) {
@@ -138,10 +135,6 @@ define([
 
 		_showDetail: function(actor) {
 			this.actorWidget.showDetail(actor);
-		},
-
-		_showCreate: function() {
-			this.actorWidget.showCreate();
 		},
 
 		_showActorSearch: function() {

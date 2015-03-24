@@ -120,6 +120,22 @@ define([
 			}
 		},
 
+		_getGemeenteIdFromCombo : function () {
+			return this._getIdfromCombo(this._gemeenteCombobox, 'naam');
+		},
+
+		_getStraatIdFromCombo : function () {
+			return this._getIdfromCombo(this._straatCombobox, 'label');
+		},
+
+		_getNummerIdFromCombo : function () {
+			return this._getIdfromCombo(this._nummerCombobox, 'label');
+		},
+
+		_getPostcodeIdFromCombo : function () {
+			return this._getIdfromCombo(this._postcodeCombobox, 'id');
+		},
+
 		_changeGemeenten: function() {
 			if (this.land.value != 'BE') {
 				this.gemeenteCrabNode.style.display="none";
@@ -149,7 +165,7 @@ define([
 				this._postcodeCombobox.set('value', postcode);
 				this.postcode.value = '';
 				this.postcodeCrabNode.style.display = "block";
-				var gemeente_id = this._getIdfromCombo(this._gemeenteCombobox, 'naam');
+				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
 					this.crabController.getPostkantons(gemeente_id).
 						then(lang.hitch(this, function (postcodes) {
@@ -167,7 +183,7 @@ define([
 				this._nummerCombobox.set('value', '');
 				this.nummer.value = '';
 				this.straatCrabNode.style.display = "block";
-				var gemeente_id = this._getIdfromCombo(this._gemeenteCombobox, 'naam');
+				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
 					this.crabController.getStraten(gemeente_id).
 						then(lang.hitch(this, function (straten) {
@@ -182,7 +198,7 @@ define([
 				this.nummer.style.display = "none";
 				this.nummer.value = '';
 				this.nummerCrabNode.style.display = "block";
-				var straat_id = this._getIdfromCombo(this._straatCombobox, 'label');
+				var straat_id = this._getStraatIdFromCombo();
 				if (straat_id) {
 					this.crabController.getNummers(straat_id).
 						then(lang.hitch(this, function (nummers) {
@@ -218,6 +234,32 @@ define([
 				}
 			}));
 			return inputs
+		},
+
+		setValues: function(adres) {
+			this.land.value = adres.land;
+			if (adres.land == 'BE') {
+				this._gemeenteCombobox.set('value', adres.gemeente);
+				this._changeStraten();
+				if (this._getGemeenteIdFromCombo()) {
+					this._postcodeCombobox.set('value', adres.postcode);
+					this._straatCombobox.set('value', adres.straat);
+					if (this._getStraatIdFromCombo()) {
+						this._nummerCombobox.set('value', adres.huisnummer);
+					}
+					else {
+						this.nummer.value = adres.huisnummer;
+					}
+				}
+				else {
+					this.postcode.value = adres.postcode;
+					this.straat.value = adres.straat;
+				}
+			}
+			else {
+				this.gemeente.value = adres.gemeente;
+			}
+			this.postbus.value = adres.postbus ? adres.postbus : null;
 		},
 
 		resetValues: function() {
