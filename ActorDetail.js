@@ -62,7 +62,6 @@ define([
 			this.actor = actor;
 		},
 		_openSearch: function() {
-			this._reset();
 			this.actorWidget.showSearch();
 			this._reset();
 		},
