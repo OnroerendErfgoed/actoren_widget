@@ -56,16 +56,14 @@ define([
 						searchAttr: "naam",
 						autoComplete: false,
 						required: false,
-						placeholder: "gemeente",
-						class: "input-label-right search-combobox",
-						style: "width: 60%;",
+						class: "placeholder-input",
 						onChange: lang.hitch(this, function() {
 							this._changePostcodes();
 							this._changeStraten();
 						})
 					}, this.gemeenteCrab);
 				}));
-			this.gemeente.style.display="none";
+			this.gemeenteNode.style.display="none";
 		},
 
 		_setPostcodesCombo: function() {
@@ -74,9 +72,7 @@ define([
 				searchAttr: "id",
 				autoComplete: false,
 				required: false,
-				placeholder: "postcode",
-				class: "input-label-left search-combobox",
-				style: "width: 30%;"
+				class: "placeholder-input"
 			}, this.postcodeCrab);
 			this.postcodeCrabNode.style.display="none";
 		},
@@ -87,9 +83,7 @@ define([
 				searchAttr: "label",
 				autoComplete: false,
 				required: false,
-				placeholder: "straat",
-				class: "input-label-right search-combobox",
-				style: "width: 100%;",
+				class: "placeholder-input",
 				onChange: lang.hitch(this, function() {
 					this._changeNummers();
 				})
@@ -104,9 +98,7 @@ define([
 				searchAttr: "label",
 				autoComplete: false,
 				required: false,
-				placeholder: "nummer",
-				class: "input-label-left search-combobox",
-				style: "width: 45%;"
+				class: "placeholder-input"
 			}, this.nummerCrab);
 			this.nummerCrabNode.style.display="none";
 		},
@@ -144,7 +136,7 @@ define([
 			if (this.land.value != 'BE') {
 				this._resetExceptLand();
 				this.gemeenteCrabNode.style.display="none";
-				this.gemeente.style.display="block";
+				this.gemeenteNode.style.display="inline-table";
 			}
 			else {
 				this._resetExceptLand();
@@ -158,8 +150,8 @@ define([
 				this.postcode.value = postcode;
 				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
-					this.postcode.style.display = "none";
-					this.postcodeCrabNode.style.display = "block";
+					this.postcodeNode.style.display = "none";
+					this.postcodeCrabNode.style.display = "inline-table";
 					this.crabController.getPostkantons(gemeente_id).
 						then(lang.hitch(this, function (postcodes) {
 							this._postcodeCombobox.set('store', new Memory({data: postcodes}));
@@ -177,8 +169,8 @@ define([
 				this.nummer.value = '';
 				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
-					this.straat.style.display = "none";
-					this.straatCrabNode.style.display = "block";
+					this.straatNode.style.display = "none";
+					this.straatCrabNode.style.display = "inline-table";
 					this.crabController.getStraten(gemeente_id).
 						then(lang.hitch(this, function (straten) {
 							this._straatCombobox.set('store', new Memory({data: straten}));
@@ -196,8 +188,8 @@ define([
 				this._nummerCombobox.set('value', '');
 				var straat_id = this._getStraatIdFromCombo();
 				if (straat_id) {
-					this.nummer.style.display = "none";
-					this.nummerCrabNode.style.display = "block";
+					this.nummerNode.style.display = "none";
+					this.nummerCrabNode.style.display = "inline-table";
 					this.crabController.getNummers(straat_id).
 						then(lang.hitch(this, function (nummers) {
 							this._nummerCombobox.set('store', new Memory({data: nummers}));
@@ -276,7 +268,7 @@ define([
 		},
 
 		setDisabled: function() {
-			this.gemeente.style.display = "block";
+			this.gemeenteNode.style.display = "inline-table";
 			this.gemeenteCrabNode.style.display = "none";
 			this.land.disabled=true;
 			this.gemeente.disabled=true;
@@ -338,10 +330,10 @@ define([
 			this.straatCrabNode.style.display="none";
 			this.postcodeCrabNode.style.display="none";
 			this.nummerCrabNode.style.display="none";
-			this.gemeente.style.display="none";
-			this.straat.style.display="block";
-			this.postcode.style.display="block";
-			this.nummer.style.display="block";
+			this.gemeenteNode.style.display="none";
+			this.straatNode.style.display="inline-table";
+			this.postcodeNode.style.display="inline-table";
+			this.nummerNode.style.display="inline-table";
 			this.land.disabled=false;
 			this.gemeente.disabled=false;
 			this.straat.disabled=false;

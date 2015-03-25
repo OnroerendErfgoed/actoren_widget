@@ -27224,11 +27224,21 @@ h4.header-img-panel {
 
 /* line 140, ../scss/pyoes/_oe-custom.scss */
 .placeholder-container input[type="text"] {
-  border: none;
+  border: none !important;
+  box-shadow: none;
+  margin: 0;
+  display: table-cell;
+  background-color: transparent !important;
+}
+
+.placeholder-input {
+  border: none !important;
   box-shadow: none;
   margin: 0;
   display: table-cell;
   background-color: transparent;
+  background: none !important;
+  padding-left: 8px;
 }
 
 .placeholder-container select {

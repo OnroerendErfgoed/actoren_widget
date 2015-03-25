@@ -1,28 +1,45 @@
 <div>
-  <select data-dojo-attach-point='land' data-dojo-attach-event="onChange: _changeGemeenten">
-    <option value="BE">België</option>
-    <option value="NL">Nederland</option>
-  </select>
-  <div class="inline-inputs clearfix">
-    <div data-dojo-attach-point='postcodeCrabNode'>
-      <div class="input-label-left" style="width:30%;" data-dojo-attach-point='postcodeCrab' type="text" placeholder="postcode"></div>
-    </div>
-    <input class="input-label-left" style="width:30%; display:block;" data-dojo-attach-point='postcode' type="text" placeholder="postcode"/>
-    <div data-dojo-attach-point='gemeenteCrabNode'>
-      <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeenteCrab' type="text" placeholder="gemeente"/>
-    </div>
-    <input class="input-label-right" style="width:60%;" data-dojo-attach-point='gemeente' type="text" placeholder="gemeente"/>
+  <div class="placeholder-container" tabindex="-1">
+    <label for="land">Land</label>
+    <select data-dojo-attach-point='land' id="land" data-dojo-attach-event="onChange: _changeGemeenten">
+      <option value="BE">België</option>
+      <option value="NL">Nederland</option>
+    </select>
   </div>
-  <div data-dojo-attach-point='straatCrabNode'>
-    <input data-dojo-attach-point='straatCrab' type="text" placeholder="straat"/>
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='postcodeCrabNode' style="width:36%;">
+    <label>Postcode</label>
+    <input data-dojo-attach-point='postcodeCrab' type="text" />
   </div>
-  <input data-dojo-attach-point='straat' type="text" placeholder="straat"/>
-  <div class="inline-inputs clearfix">
-    <div data-dojo-attach-point='nummerCrabNode'>
-      <input class="input-label-left" style="width:45%;" data-dojo-attach-point='nummerCrab' type="text" placeholder="nummer"/>
-    </div>
-    <input class="input-label-left" style="width:45%;" data-dojo-attach-point='nummer' type="text" placeholder="nummer"/>
-
-    <input class="input-label-right" style="width:45%;" data-dojo-attach-point='postbus' type="text" placeholder="postbus"/>
+  <div class="placeholder-container" tabindex="-1" style="width:36%;" data-dojo-attach-point='postcodeNode'>
+    <label for="postcode">Postcode</label>
+    <input id="postcode" data-dojo-attach-point='postcode' type="text" />
+  </div>
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='gemeenteCrabNode' style="width:60%; float:right;">
+    <label>Gemeente</label>
+    <input data-dojo-attach-point='gemeenteCrab' type="text" />
+  </div>
+  <div class="placeholder-container" tabindex="-1" style="width:60%; float:right;" data-dojo-attach-point='gemeenteNode'>
+    <label for="gemeente">Gemeente</label>
+    <input data-dojo-attach-point='gemeente' type="text" id="gemeente"/>
+  </div>
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='straatCrabNode'>
+    <label>Straat</label>
+    <input data-dojo-attach-point='straatCrab' type="text" />
+  </div>
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point="straatNode">
+    <label for="straat">Straat</label>
+    <input data-dojo-attach-point='straat' type="text" id="straat" />
+  </div>
+  <div class="placeholder-container" data-dojo-attach-point='nummerCrabNode' style="width:45%;">
+    <label>Nummer</label>
+    <input data-dojo-attach-point='nummerCrab' type="text"/>
+  </div>
+  <div class="placeholder-container" tabindex="-1" style="width:48%;" data-dojo-attach-point="nummerNode">
+    <label for="nummer">Nummer</label>
+    <input id="nummer" data-dojo-attach-point='nummer' type="text"/>
+  </div>
+  <div class="placeholder-container" tabindex="-1" style="width:48%; float:right;">
+    <label for="postbus">Postbus</label>
+    <input id="postbus" data-dojo-attach-point='postbus' type="text"/>
   </div>
 </div>
