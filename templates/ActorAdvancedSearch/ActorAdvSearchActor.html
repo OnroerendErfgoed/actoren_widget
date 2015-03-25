@@ -18,10 +18,22 @@
           <form style="padding-top:10px">
 
             <div class="large-4 columns">
-              <input data-dojo-attach-point='naam' type="text" placeholder="naam"/>
-              <input data-dojo-attach-point='voornaam' type="text" placeholder="voornaam"/>
-              <input data-dojo-attach-point='email' type="text" placeholder="email"/>
-              <input data-dojo-attach-point='telefoon' type="text" placeholder="telefoon"/>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="naam">Naam</label>
+                <input data-dojo-attach-point='naam' id="naam" type="text"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="voornaam">Voornaam</label>
+                <input data-dojo-attach-point='voornaam' id="voornaam" type="text"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="email">Email</label>
+                <input data-dojo-attach-point='email' id="email" type="text"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="telefoon">Telefoon</label>
+                <input data-dojo-attach-point='telefoon' id="telefoon" type="text" />
+              </div>
             </div>
 
             <div class="large-4 columns">
@@ -29,14 +41,26 @@
             </div>
 
             <div class="large-4 columns">
-              <select data-dojo-attach-point='type'>
-                <option value="" disabled selected>Actortype</option>
-                <option value=1>persoon</option>
-                <option value=2>organisatie</option>
-              </select>
-              <input data-dojo-attach-point='persid' type="text" placeholder="persoon id"/>
-              <input data-dojo-attach-point='rrn' type="text" placeholder="rijksregisternummer" />
-              <input data-dojo-attach-point='kbo' type="text" placeholder="Kruispuntbank van Ondernemingen" />
+              <div class="placeholder-container" tabindex="-1">
+                <label for="actortype">Actortype</label>
+                <select id="actortype" data-dojo-attach-point='type'>
+                  <option value="" disabled selected>Selecteer Actortype</option>
+                  <option value=1>persoon</option>
+                  <option value=2>organisatie</option>
+                </select>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="persid">Persoon ID</label>
+                <input data-dojo-attach-point='persid' type="text" id="persid"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="rrn">Rijksregisternummer</label>
+                <input data-dojo-attach-point='rrn' type="text" id="rrn" />
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="kbo" data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Kruispuntbank voor Ondernemingen">KBO</label>
+                <input data-dojo-attach-point='kbo' type="text" id="kbo" />
+              </div>
             </div>
           </form>
         </div>

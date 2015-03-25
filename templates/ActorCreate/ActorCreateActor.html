@@ -18,16 +18,22 @@
           <form style="padding-top:10px">
 
             <div class="large-4 columns">
-              <label>Naam:<input data-dojo-attach-point='naam' type="text"/></label>
-              <label>Voornaam:<input data-dojo-attach-point='voornaam' type="text"/></label>
-              <label>Email:<input data-dojo-attach-point='email' type="text"/></label>
-              <div class="inline-inputs clearfix">
-                <label class="input-label-left" style="width:20%;">Telefoon:
-                  <input data-dojo-attach-point='telefoonLandcode' />
-                </label>
-                <label class="input-label-right"  style="width:79%;">&nbsp;
-                  <input class="input-block" data-dojo-attach-point='telefoon' type="text" />
-                </label>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="naam">Naam</label>
+                <input data-dojo-attach-point='naam' id="naam" type="text"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="voornaam">Voornaam</label>
+                <input data-dojo-attach-point='voornaam' id="voornaam" type="text"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="email">Email</label>
+                <input data-dojo-attach-point='email' id="email" type="text"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="telefoonlandcode2">Telefoon</label>
+                <input style="width: 30%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode2" />
+                <input style="width: 70%" data-dojo-attach-point='telefoon' type="text" />
               </div>
             </div>
 
@@ -36,8 +42,14 @@
             </div>
 
             <div class="large-4 columns">
-              <label>Actortype:<input data-dojo-attach-point='actortype' type="text"/></label>
-              <label>Rijksregisternummer: <input data-dojo-attach-point='rijksregisternummer' type="text"  /></label>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="actortype">Actortype</label>
+                <input data-dojo-attach-point='actortype' id="actortype" type="text"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="rrn">Rijksregisternummer</label>
+                <input data-dojo-attach-point='rijksregisternummer' id="rrn" type="text"  />
+              </div>
             </div>
           </form>
         </div>

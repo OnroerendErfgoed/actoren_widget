@@ -22,6 +22,7 @@ define([
     actor: null,
 		actorWidget: null,
 		actorAdvancedSearch : null,
+    _telefoonLandcodeSelect: null,
 
 
     postCreate: function() {
@@ -48,14 +49,15 @@ define([
         ]
       });
 
-      new ComboBox({
+      this._telefoonLandcodeSelect = new ComboBox({
         store: countryCodeStore,
         value: "+32",
         hasDownArrow: true,
         searchAttr: "name",
         autoComplete: false,
         required: false,
-        'class': "combo-dropdown",
+        class: "combo-dropdown",
+        style: "width: 30%; float: left; padding-left: 10px;",
         labelAttr: "label",
         labelType: "html"
       }, this.telefoonLandcode);

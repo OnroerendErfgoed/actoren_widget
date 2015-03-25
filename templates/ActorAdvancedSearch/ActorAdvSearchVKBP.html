@@ -14,14 +14,23 @@
           <form style="padding-top:10px">
 
             <div class="large-4 columns">
-              <input data-dojo-attach-point='naam' type="text" placeholder="naam"/>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="naam">Naam</label>
+                <input data-dojo-attach-point='naam' type="text" id="naam"/>
+              </div>
             </div>
             <div class="large-4 columns">
               <div data-dojo-attach-point="crabWidget"></div>
             </div>
             <div class="large-4 columns">
-              <input data-dojo-attach-point='persid' type="text" placeholder="persoon id"/>
-              <input data-dojo-attach-point='rrn' type="text" placeholder="rijksregisternummer" />
+              <div class="placeholder-container" tabindex="-1">
+                <label for="persid">Persoon ID</label>
+                <input data-dojo-attach-point='persid' type="text" id="persid"/>
+              </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="rrn">Rijksregisternummer</label>
+                <input data-dojo-attach-point='rrn' type="text" id="rrn" />
+              </div>
             </div>
           </form>
         </div>
