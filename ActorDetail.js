@@ -62,10 +62,21 @@ define([
 			this.actor = actor;
 		},
 		_openSearch: function() {
+			this._reset();
 			this.actorWidget.showSearch();
+			this._reset();
 		},
 		_openEdit: function() {
 			this.actorWidget.showEdit(this.actor);
+		},
+		_reset: function() {
+			this.naam.value = '';
+			this.voornaam.value = '';
+			this.email.value=  '';
+			this.telefoon.value = '';
+			this.telefoonLandcode.value = '';
+			this._crabWidget.resetValues();
+			this.actortype.value = "1";
 		}
 	});
 });

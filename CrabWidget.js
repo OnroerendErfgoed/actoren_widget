@@ -270,9 +270,6 @@ define([
 			this.postbus.value = adres.postbus ? adres.postbus : null;
 		},
 
-		_emit: function(message, evt){
-			this.emit(message, evt);
-		},
 
 		resetValues: function() {
 			this.land.value = 'BE';
