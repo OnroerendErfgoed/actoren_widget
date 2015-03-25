@@ -64,7 +64,7 @@ define([
 					query[param] = this[param].value;
 				}
 			}));
-			var crabParams = this._crabWidget.getValues();
+			var crabParams = this._crabWidget.getInput().values;
 			Object.keys(crabParams).forEach(function(param){
 				if(crabParams[param]) {
 					query[param] = crabParams[param];
@@ -79,6 +79,7 @@ define([
 
 		_openSearch: function() {
 			this.actorAdvancedSearch._showSearch();
+			this._reset();
 		},
 
 		_showActorCreate: function() {

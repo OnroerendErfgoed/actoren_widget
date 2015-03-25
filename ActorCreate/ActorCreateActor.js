@@ -73,6 +73,7 @@ define([
 
     _showActorSearch: function() {
       this.actorAdvancedSearch._showActorSearch();
+			this._reset();
     },
 
 		_reset: function(){

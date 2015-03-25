@@ -162,13 +162,13 @@ define([
 
 		_changePostcodes: function() {
 			if (this._gemeenteCombobox.get('value')) {
-				this.postcode.style.display = "none";
 				var postcode = this.postcode.value ? this.postcode.value : this._postcodeCombobox.get('value');
 				this._postcodeCombobox.set('value', postcode);
-				this.postcode.value = '';
-				this.postcodeCrabNode.style.display = "block";
+				this.postcode.value = postcode;
 				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
+					this.postcode.style.display = "none";
+					this.postcodeCrabNode.style.display = "block";
 					this.crabController.getPostkantons(gemeente_id).
 						then(lang.hitch(this, function (postcodes) {
 							this._postcodeCombobox.set('store', new Memory({data: postcodes}));
@@ -179,14 +179,14 @@ define([
 
 		_changeStraten: function() {
 			if (this._gemeenteCombobox.get('value')) {
-				this.straat.style.display = "none";
 				this.straat.value = '';
 				this._straatCombobox.set('value', '');
 				this._nummerCombobox.set('value', '');
 				this.nummer.value = '';
-				this.straatCrabNode.style.display = "block";
 				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
+					this.straat.style.display = "none";
+					this.straatCrabNode.style.display = "block";
 					this.crabController.getStraten(gemeente_id).
 						then(lang.hitch(this, function (straten) {
 							this._straatCombobox.set('store', new Memory({data: straten}));
@@ -197,11 +197,11 @@ define([
 
 		_changeNummers: function() {
 			if (this._straatCombobox.get('value')) {
-				this.nummer.style.display = "none";
 				this.nummer.value = '';
-				this.nummerCrabNode.style.display = "block";
 				var straat_id = this._getStraatIdFromCombo();
 				if (straat_id) {
+					this.nummer.style.display = "none";
+					this.nummerCrabNode.style.display = "block";
 					this.crabController.getNummers(straat_id).
 						then(lang.hitch(this, function (nummers) {
 							this._nummerCombobox.set('store', new Memory({data: nummers}));
@@ -210,31 +210,66 @@ define([
 			}
 		},
 
-		getValues: function() {
+		getInput: function() {
 			var inputs = {
-				straat: null,
-				nummer: null,
-				postbus: null,
-				postcode: null,
-				gemeente: null,
-				land: null
+				values: {
+					straat: null,
+					nummer: null,
+					postbus: null,
+					postcode: null,
+					gemeente: null,
+					land: null
+				},
+				ids : {
+					straat_id: null,
+					nummer_id: null,
+					postcode_id: null,
+					gemeente_id: null
+				}
 			};
 			var autocompleteMapping = {
-				straat: this._straatCombobox,
-				nummer: this._nummerCombobox,
-				postcode: this._postcodeCombobox,
-				gemeente: this._gemeenteCombobox
-			};
-			Object.keys(inputs).forEach(lang.hitch(this, function(param) {
-				if (this[param].value) {
-					inputs[param] = this[param].value;
-				}
-				else if (autocompleteMapping[param]) {
-					if (autocompleteMapping[param].get('value')) {
-						inputs[param] = autocompleteMapping[param].get('value');
+				straat: {
+					combobox: this._straatCombobox,
+					id: {
+						name: 'straat_id',
+						function: this._getStraatIdFromCombo
+					}
+				},
+				nummer: {
+					combobox: this._nummerCombobox,
+					id: {
+						name: 'nummer_id',
+						function: this._getNummerIdFromCombo
+					}
+				},
+				postcode: {
+					combobox: this._postcodeCombobox,
+					id: {
+						name: 'postcode_id',
+						function: this._getPostcodeIdFromCombo
+					}
+				},
+				gemeente: {
+					combobox: this._gemeenteCombobox,
+					id: {
+						name: 'gemeente_id',
+						function: this._getGemeenteIdFromCombo
 					}
 				}
-			}));
+			};
+			Object.keys(inputs.values).forEach(lang.hitch(this, function(param) {
+					if (this[param].value) {
+						inputs.values[param] = this[param].value;
+					}
+					else if (autocompleteMapping[param].combobox) {
+						if (autocompleteMapping[param].combobox.get('value')) {
+							inputs.values[param] = autocompleteMapping[param].combobox.get('value');
+							var idParam = autocompleteMapping[param].id.name;
+							inputs.ids[idParam] = lang.hitch(this, autocompleteMapping[param].id.function)();
+						}
+					}
+				}
+			));
 			return inputs
 		},
 
