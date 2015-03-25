@@ -27,6 +27,10 @@ define([
 		_straatCombobox: null,
 		_nummerCombobox: null,
 
+		_gemeentePrev: null,
+		_straatPrev: null,
+
+
 		postCreate: function() {
 			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
@@ -178,7 +182,7 @@ define([
 		},
 
 		_changeStraten: function() {
-			if (this._gemeenteCombobox.get('value')) {
+			if (this._gemeenteCombobox.get('value') && this._gemeenteCombobox.get('value') != this._gemeentePrev) {
 				this.straat.value = '';
 				this._straatCombobox.set('value', '');
 				this._nummerCombobox.set('value', '');
@@ -192,12 +196,14 @@ define([
 							this._straatCombobox.set('store', new Memory({data: straten}));
 						}));
 				}
+				this._gemeentePrev = this._gemeenteCombobox.get('value');
 			}
 		},
 
 		_changeNummers: function() {
-			if (this._straatCombobox.get('value')) {
+			if (this._straatCombobox.get('value') && this._straatCombobox.get('value') != this._straatPrev) {
 				this.nummer.value = '';
+				this._nummerCombobox.set('value', '');
 				var straat_id = this._getStraatIdFromCombo();
 				if (straat_id) {
 					this.nummer.style.display = "none";
@@ -207,6 +213,7 @@ define([
 							this._nummerCombobox.set('store', new Memory({data: nummers}));
 						}));
 				}
+				this._straatPrev = this._straatCombobox.get('value');
 			}
 		},
 
@@ -261,7 +268,7 @@ define([
 					if (this[param].value) {
 						inputs.values[param] = this[param].value;
 					}
-					else if (autocompleteMapping[param].combobox) {
+					else if (autocompleteMapping[param]) {
 						if (autocompleteMapping[param].combobox.get('value')) {
 							inputs.values[param] = autocompleteMapping[param].combobox.get('value');
 							var idParam = autocompleteMapping[param].id.name;
@@ -304,10 +311,12 @@ define([
 					else {
 						this.nummer.value = adres.huisnummer;
 					}
+					this._straatPrev = adres.straat;
 				}
 				else {
 					this.straat.value = adres.straat;
 				}
+				this._gemeentePrev = adres.gemeente;
 			}
 			else {
 				this.gemeente.value = adres.gemeente;
@@ -344,6 +353,8 @@ define([
 			this.postcode.disabled=false;
 			this.nummer.disabled=false;
 			this.postbus.disabled=false;
+			this._gemeentePrev=null;
+			this._straatPrev=null;
 		}
 	});
 });

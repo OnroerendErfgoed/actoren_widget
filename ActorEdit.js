@@ -108,6 +108,10 @@ define([
 			this.telefoonLandcode.value = '';
 			this._crabWidget.resetValues();
 			this.actortype.value = "1";
+		},
+
+		_save: function() {
+			console.log(this._crabWidget.getInput());
 		}
 	});
 });
