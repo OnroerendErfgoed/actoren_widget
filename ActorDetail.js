@@ -58,6 +58,9 @@ define([
 			if (actor.adres) {
 				this._crabWidget.setValuesDisabled(actor.adres);
 			}
+			else {
+				this._crabWidget.setDisabled();
+			}
 			this.actortype.value  = actor.type.naam;
 			this.actor = actor;
 		},

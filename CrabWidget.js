@@ -268,12 +268,16 @@ define([
 		},
 
 		setValuesDisabled: function(adres){
-			this.gemeente.style.display = "block";
-			this.gemeenteCrabNode.style.display = "none";
+			this.setDisabled();
 			this.gemeente.value = adres.gemeente;
 			this.postcode.value = adres.postcode;
 			this.straat.value = adres.straat;
 			this.nummer.value = adres.huisnummer;
+		},
+
+		setDisabled: function() {
+			this.gemeente.style.display = "block";
+			this.gemeenteCrabNode.style.display = "none";
 			this.land.disabled=true;
 			this.gemeente.disabled=true;
 			this.straat.disabled=true;
