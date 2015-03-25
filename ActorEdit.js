@@ -71,6 +71,7 @@ define([
 		},
 		_openDetail: function() {
 			this.actorWidget.showDetail(this.actor);
+			this._reset();
 		},
 
 		_setTelefoonLandcodes: function() {

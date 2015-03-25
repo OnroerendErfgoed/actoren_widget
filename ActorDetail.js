@@ -67,6 +67,7 @@ define([
 		},
 		_openEdit: function() {
 			this.actorWidget.showEdit(this.actor);
+			this._reset();
 		},
 		_reset: function() {
 			this.naam.value = '';
