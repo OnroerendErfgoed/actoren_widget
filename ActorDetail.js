@@ -55,12 +55,7 @@ define([
 			}
 			this.telefoon.value  = telefoon.length ? telefoon[0].nummer : null;
 			this.telefoonLandcode.value  = telefoon.length ? telefoon[0].landcode ? telefoon[0].landcode : null : null;
-			if (actor.adres) {
-				this._crabWidget.setValuesDisabled(actor.adres);
-			}
-			else {
-				this._crabWidget.setDisabled();
-			}
+			actor.adres ? this._crabWidget.setValuesDisabled(actor.adres) :	this._crabWidget.setDisabled();
 			this.actortype.value  = actor.type.naam;
 			this.actor = actor;
 		},
