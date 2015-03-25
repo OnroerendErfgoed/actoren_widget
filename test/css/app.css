@@ -27206,6 +27206,10 @@ h4.header-img-panel {
   margin-bottom: 16px;
 }
 
+.placeholder-disabled {
+  background-color: #DDDDDD;
+}
+
 /* line 134, ../scss/pyoes/_oe-custom.scss */
 .placeholder-container label {
   display: table-cell;
@@ -27215,6 +27219,7 @@ h4.header-img-panel {
 	width: 22%;
   vertical-align: middle;
 	font-size: 0.775rem;
+  background-color: transparent;
 }
 
 /* line 140, ../scss/pyoes/_oe-custom.scss */
