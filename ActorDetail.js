@@ -56,7 +56,7 @@ define([
 			this.telefoon.value  = telefoon.length ? telefoon[0].nummer : null;
 			this.telefoonLandcode.value  = telefoon.length ? telefoon[0].landcode ? telefoon[0].landcode : null : null;
 			if (actor.adres) {
-				this._crabWidget.setValues(actor.adres);
+				this._crabWidget.setValuesDisabled(actor.adres);
 			}
 			this.actortype.value  = actor.type.naam;
 			this.actor = actor;

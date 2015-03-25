@@ -238,9 +238,22 @@ define([
 			return inputs
 		},
 
+		setValuesDisabled: function(adres){
+			this.gemeente.style.display = "block";
+			this.gemeenteCrabNode.style.display = "none";
+			this.gemeente.value = adres.gemeente;
+			this.postcode.value = adres.postcode;
+			this.straat.value = adres.straat;
+			this.nummer.value = adres.huisnummer;
+			this.land.disabled=true;
+			this.gemeente.disabled=true;
+			this.straat.disabled=true;
+			this.postcode.disabled=true;
+			this.nummer.disabled=true;
+			this.postbus.disabled=true;
+		},
+
 		setValues: function(adres) {
-			console.log('straat');
-			console.log(adres);
 			this.land.value = adres.land;
 			if (adres.land == 'BE') {
 				this._gemeenteCombobox.set('value', adres.gemeente, false);
@@ -290,6 +303,12 @@ define([
 			this.straat.style.display="block";
 			this.postcode.style.display="block";
 			this.nummer.style.display="block";
+			this.land.disabled=false;
+			this.gemeente.disabled=false;
+			this.straat.disabled=false;
+			this.postcode.disabled=false;
+			this.nummer.disabled=false;
+			this.postbus.disabled=false;
 		}
 	});
 });
