@@ -16,11 +16,10 @@
       <div class="row">
         <div class="content active">
           <form style="padding-top:10px">
-
             <div class="large-4 columns">
               <div class="placeholder-container" tabindex="-1">
-                <label for="naam">Naam</label>
-                <input data-dojo-attach-point='naam' id="naam" type="text"/>
+                <label for="naam">*Naam</label>
+                <input data-dojo-attach-point='naam' id="naam" type="text" pattern=".{1,255}" required title="Gelieve een naam in te vullen"/>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="voornaam">Voornaam</label>
@@ -79,11 +78,11 @@
                 </select>
               </div>
             </div>
+            <div class="row text-center">
+              <button href="#" data-dojo-attach-event="onClick: _save" class="button small">AANMAKEN</button>
+            </div>
           </form>
         </div>
-      </div>
-      <div class="row text-center">
-        <a href="#" data-dojo-attach-event="onClick: _save" class="button small">AANMAKEN</a>
       </div>
     </div>
   </div>

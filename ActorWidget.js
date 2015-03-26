@@ -49,8 +49,10 @@ define([
 			this._setupLayout();
 
 			this.on('send.actor', function(evt){
-				console.log('send.actor');
-				console.log(evt.actor);
+				console.log('send.actor', evt.actor);
+			});
+			this.on('error', function(evt){
+				console.log('error', evt.message);
 			});
 		},
 
@@ -106,6 +108,9 @@ define([
 
 		emitActor: function(actor) {
 			this.emit('send.actor', {actor: actor});
+		},
+		emitError: function(evt) {
+			this.emit('error', evt);
 		}
 
 	});

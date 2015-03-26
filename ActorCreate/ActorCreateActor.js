@@ -5,7 +5,8 @@ define([
 	'dijit/_TemplatedMixin',
 	'dojo/store/Memory',
 	'dijit/form/ComboBox',
-	'../CrabWidget'
+	'../CrabWidget',
+	'dijit/form/Form'
 ], function(
 	template,
 	declare,
@@ -135,63 +136,70 @@ define([
 		},
 
 		_save: function() {
-			var actorNew = {};
-			actorNew['naam'] = this.naam.value;
-			actorNew['voornaam'] = this.voornaam.value;
-			actorNew['rrn'] = this.rrn.value;
-			actorNew['kbo'] = this.kbo.value;
-			actorNew['actortype'] = {
-				type: {
-					id: this.type.value
+			if (!this.naam.validity.valid) {
+				this.actorWidget.emitError({widget: 'ActorCreateActor', message: 'Naam is verplicht'});
+				this.naam.setCustomValidity("Naam is verplicht.");
+			} else {
+				var actorNew = {};
+				actorNew['naam'] = this.naam.value;
+				actorNew['voornaam'] = this.voornaam.value;
+				actorNew['rrn'] = this.rrn.value;
+				actorNew['kbo'] = this.kbo.value;
+				actorNew['actortype'] = {
+					type: {
+						id: this.type.value
+					}
+				};
+				actorNew['telefoons'] = [];
+				for (var telefoontype in this._actorTelefoons) {
+					actorNew['telefoons'].push(
+						{
+							type: {
+								id: telefoontype
+							},
+							nummer: this._actorTelefoons[telefoontype].nummer,
+							landcode: this._actorTelefoons[telefoontype].landcode
+						}
+					)
 				}
-			};
-			actorNew['telefoons'] =[];
-			for (var telefoontype in this._actorTelefoons){
-				actorNew['telefoons'].push(
-					{
-						type: {
-							id: telefoontype
-						},
-						nummer: this._actorTelefoons[telefoontype].nummer,
-						landcode: this._actorTelefoons[telefoontype].landcode
-					}
-				)
-			}
-			actorNew['emails'] =[];
-			for (var emailtype in this._actorEmails){
-				actorNew['emails'].push(
-					{
-						type: {
-							id: emailtype
-						},
-						email: this._actorEmails[emailtype].email
-					}
-				)
-			}
-			actorNew['urls'] =[];
-			for (var urltype in this._actorUrls){
-				actorNew['urls'].push(
-					{
-						type: {
-							id: urltype
-						},
-						url: this._actorUrls[urltype].url
-					}
-				)
-			}
+				actorNew['emails'] = [];
+				for (var emailtype in this._actorEmails) {
+					actorNew['emails'].push(
+						{
+							type: {
+								id: emailtype
+							},
+							email: this._actorEmails[emailtype].email
+						}
+					)
+				}
+				actorNew['urls'] = [];
+				for (var urltype in this._actorUrls) {
+					actorNew['urls'].push(
+						{
+							type: {
+								id: urltype
+							},
+							url: this._actorUrls[urltype].url
+						}
+					)
+				}
 
-			console.log(actorNew);
-			var actorNewAdres = {};
-			var crabWidgetValues = this._crabWidget.getInput();
-			actorNewAdres['land'] = crabWidgetValues.values.land;
-			actorNewAdres['postcode'] = crabWidgetValues.values.postcode;
-			actorNewAdres['gemeente'] = crabWidgetValues.values.gemeente;
-			actorNewAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
-			actorNewAdres['straat'] = crabWidgetValues.values.straat;
-			actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
-			actorNewAdres['huisnummer'] = crabWidgetValues.values.nummer;
-			actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
-			console.log(actorNewAdres);
+				console.log(actorNew);
+
+				var actorNewAdres = {};
+				var crabWidgetValues = this._crabWidget.getInput();
+				actorNewAdres['land'] = crabWidgetValues.values.land;
+				actorNewAdres['postcode'] = crabWidgetValues.values.postcode;
+				actorNewAdres['gemeente'] = crabWidgetValues.values.gemeente;
+				actorNewAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
+				actorNewAdres['straat'] = crabWidgetValues.values.straat;
+				actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
+				actorNewAdres['huisnummer'] = crabWidgetValues.values.nummer;
+				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
+
+				console.log(actorNewAdres);
+			}
 
 
 		}
