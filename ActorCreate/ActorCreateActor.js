@@ -164,7 +164,7 @@ define([
 						type: {
 							id: urltype
 						},
-						email: this._actorUrls[urltype].url
+						url: this._actorUrls[urltype].url
 					}
 				)
 			}
