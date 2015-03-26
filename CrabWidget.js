@@ -7,7 +7,8 @@ define([
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
 	'dijit/form/ComboBox',
-	'dojo/Deferred'
+	'dojo/Deferred',
+  'dojo/dom-class'
 ], function(
 	template,
 	declare,
@@ -17,7 +18,8 @@ define([
 	_TemplatedMixin,
 	_WidgetsInTemplateMixin,
 	ComboBox,
-	Deferred
+	Deferred,
+  domClass
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 		templateString: template,
@@ -271,11 +273,17 @@ define([
 			this.gemeenteNode.style.display = "inline-table";
 			this.gemeenteCrabNode.style.display = "none";
 			this.land.disabled=true;
+      domClass.add(this.landNode, 'placeholder-disabled');
 			this.gemeente.disabled=true;
+      domClass.add(this.gemeenteNode, 'placeholder-disabled');
 			this.straat.disabled=true;
+      domClass.add(this.straatNode, 'placeholder-disabled');
 			this.postcode.disabled=true;
+      domClass.add(this.postcodeNode, 'placeholder-disabled');
 			this.nummer.disabled=true;
+      domClass.add(this.nummerNode, 'placeholder-disabled');
 			this.postbus.disabled=true;
+      domClass.add(this.postbusNode, 'placeholder-disabled');
 		},
 
 		setValues: function(adres) {

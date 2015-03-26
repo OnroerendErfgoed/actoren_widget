@@ -1,5 +1,5 @@
 <div>
-  <div class="placeholder-container" tabindex="-1">
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='landNode'>
     <label for="land">Land</label>
     <select data-dojo-attach-point='land' id="land" data-dojo-attach-event="onChange: _changeGemeenten">
       <option value="BE">België</option>
@@ -38,7 +38,7 @@
     <label for="nummer">Nummer</label>
     <input id="nummer" data-dojo-attach-point='nummer' type="text"/>
   </div>
-  <div class="placeholder-container" tabindex="-1" style="width:48%; float:right;">
+  <div class="placeholder-container" tabindex="-1" style="width:48%; float:right;" data-dojo-attach-point="postbusNode">
     <label for="postbus">Postbus</label>
     <input id="postbus" data-dojo-attach-point='postbus' type="text"/>
   </div>
