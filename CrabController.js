@@ -25,17 +25,13 @@ define([
 		},
 
 		_crabGet: function(endpoint){
-			var headers = {
-				"X-Requested-With": "",
-				"Content-Type": "application/json"
-			};
-			if(this.ssoToken!=undefined){
-				headers['OpenAmSSOID'] = this.ssoToken;
-			}
 			return xhr(this.crabHost + endpoint, {
 				methode: "GET",
 				handleAs: "json",
-				headers: headers
+				headers: {
+					"X-Requested-With": "",
+					"Content-Type": "application/json"
+				}
 			})
 		},
 
