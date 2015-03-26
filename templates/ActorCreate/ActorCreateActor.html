@@ -71,7 +71,12 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="url">URL</label>
-                <input data-dojo-attach-point='url' type="text" id="url" />
+                <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput"/>
+                <select id="urltype" data-dojo-attach-point='urltypes' style="width:45%;" data-dojo-attach-event="onChange: _watchUrlTypes">
+                  <option value=1 selected>website</option>
+                  <option value=2>blog</option>
+                  <option value=3>webapplicatie</option>
+                </select>
               </div>
             </div>
           </form>
