@@ -1,6 +1,7 @@
 define([
 	'dojo/text!./../templates/ActorCreate/ActorCreateActor.html',
 	'dojo/_base/declare',
+	'dojo/_base/lang',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dojo/store/Memory',
@@ -10,6 +11,7 @@ define([
 ], function(
 	template,
 	declare,
+	lang,
 	_WidgetBase,
 	_TemplatedMixin,
 	Memory,
@@ -135,11 +137,50 @@ define([
 			this._crabWidget.resetValues();
 		},
 
-		_save: function() {
+		_validateInputWithTypes: function (inputs, input, inputtype, watchFuntion) {
+			var inputValid = true,
+				inputtypeInvalid,
+				inputtypePrev = inputtype.value;
+			Object.keys(inputs).forEach(lang.hitch(this, function(inputkey){
+				inputtype.value = inputkey;
+				lang.hitch(this, watchFuntion)();
+				if (!input.validity.valid) {
+					inputValid = false;
+					inputtypeInvalid = inputkey;
+				}
+			}));
+			inputtype.value = inputValid? inputtypePrev : inputtypeInvalid;
+			return inputValid;
+		},
+
+		_isValid: function() {
+			var valid = true;
 			if (!this.naam.validity.valid) {
-				this.actorWidget.emitError({widget: 'ActorCreateActor', message: 'Naam is verplicht'});
-				this.naam.setCustomValidity("Naam is verplicht.");
-			} else {
+				valid = false;
+			}
+			if (!this.kbo.validity.valid || !this.rrn.validity.valid) {
+			}
+			var inputs = [this.voornaam, this._crabWidget, this._crabWidget.nummer, this._crabWidget.postbus,
+				this._crabWidget.postcode, this._crabWidget.gemeente];
+			inputs.forEach(lang.hitch(this, function(input){
+				if (input.validity) {
+					if (!input.validity.valid) {
+						valid = false;
+					}
+				}
+			}));
+			valid = this._validateInputWithTypes(this._actorEmails, this.email, this.emailtypes, this._watchEmailTypes) ?
+				valid : false;
+			valid = this._validateInputWithTypes(this._actorTelefoons, this.telefoon, this.telefoontypes, this._watchTelefoonTypes) ?
+				valid : false;
+			valid = this._validateInputWithTypes(this._actorUrls, this.url, this.urltypes, this._watchUrlTypes) ?
+				valid : false;
+			return valid
+
+		},
+
+		_save: function() {
+			if (this._isValid()) {
 				var actorNew = {};
 				actorNew['naam'] = this.naam.value;
 				actorNew['voornaam'] = this.voornaam.value;
@@ -200,8 +241,6 @@ define([
 
 				console.log(actorNewAdres);
 			}
-
-
 		}
 	});
 });

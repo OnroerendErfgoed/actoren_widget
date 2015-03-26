@@ -12,7 +12,7 @@
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:36%;" data-dojo-attach-point='postcodeNode'>
     <label for="postcode">Postcode</label>
-    <input id="postcode" data-dojo-attach-point='postcode' type="text" />
+    <input id="postcode" data-dojo-attach-point='postcode' type="text" pattern=".{1,20}" />
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='gemeenteCrabNode' style="width:60%; float:right;">
     <label>Gemeente</label>
@@ -20,7 +20,7 @@
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:60%; float:right;" data-dojo-attach-point='gemeenteNode'>
     <label for="gemeente">Gemeente</label>
-    <input data-dojo-attach-point='gemeente' type="text" id="gemeente"/>
+    <input data-dojo-attach-point='gemeente' type="text" id="gemeente" pattern=".{1,50}"/>
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='straatCrabNode'>
     <label>Straat</label>
@@ -28,7 +28,7 @@
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point="straatNode">
     <label for="straat">Straat</label>
-    <input data-dojo-attach-point='straat' type="text" id="straat" />
+    <input data-dojo-attach-point='straat' type="text" id="straat" pattern=".{1,100}"/>
   </div>
   <div class="placeholder-container" data-dojo-attach-point='nummerCrabNode' style="width:45%;">
     <label>Nummer</label>
@@ -36,10 +36,10 @@
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:48%;" data-dojo-attach-point="nummerNode">
     <label for="nummer">Nummer</label>
-    <input id="nummer" data-dojo-attach-point='nummer' type="text"/>
+    <input id="nummer" data-dojo-attach-point='nummer' type="text" pattern=".{1,20}"/>
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:48%; float:right;" data-dojo-attach-point="postbusNode">
     <label for="postbus">Postbus</label>
-    <input id="postbus" data-dojo-attach-point='postbus' type="text"/>
+    <input id="postbus" data-dojo-attach-point='postbus' type="text" pattern=".{1,20}"/>
   </div>
 </div>
