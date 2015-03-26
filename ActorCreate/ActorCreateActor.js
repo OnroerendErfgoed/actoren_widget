@@ -81,6 +81,26 @@ define([
 			this._crabWidget.resetValues();
 			this.persid.value = "";
 			this.rrn.value = "";
+		},
+
+		_save: function() {
+			var ActorEdit = this.actor;
+			// naam
+			// voornaam
+			// telefoon
+			// email
+			// url
+			// adres
+			// actortype
+			// rrn
+			// persid
+			// kbo
+
+			console.log(ActorEdit);
+
+
+
+			console.log(this._crabWidget.getInput());
 		}
   });
 });
