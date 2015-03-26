@@ -155,18 +155,13 @@ define([
 
 		_isValid: function() {
 			var valid = true;
-			if (!this.naam.validity.valid) {
-				valid = false;
-			}
-			if (!this.kbo.validity.valid || !this.rrn.validity.valid) {
-			}
+			valid = this.naam.validity.valid ? valid : false;
+			valid = this.kbo.validity.valid || this.rrn.validity.valid ? valid : false;
 			var inputs = [this.voornaam, this._crabWidget, this._crabWidget.nummer, this._crabWidget.postbus,
 				this._crabWidget.postcode, this._crabWidget.gemeente];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
-					if (!input.validity.valid) {
-						valid = false;
-					}
+					valid = input.validity.valid ? valid : false;
 				}
 			}));
 			valid = this._validateInputWithTypes(this._actorEmails, this.email, this.emailtypes, this._watchEmailTypes) ?
@@ -180,7 +175,9 @@ define([
 		},
 
 		_save: function() {
-			if (this._isValid()) {
+			if (!this._isValid()) {
+				this.actorWidget.emitError({widget: 'ActorCreateActor', message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'})
+			} else {
 				var actorNew = {};
 				actorNew['naam'] = this.naam.value;
 				actorNew['voornaam'] = this.voornaam.value;
