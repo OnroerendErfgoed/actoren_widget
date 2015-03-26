@@ -63,6 +63,7 @@ define([
 				this._crabWidget.setValues(actor.adres);
 			}
 			this.actortype.value  = actor.type.naam;
+      this.url.value  = actor.urls.length ? actor.urls[0].url ? actor.urls[0].url : null : null;
 			this.actor = actor;
 		},
 		_openSearch: function() {
