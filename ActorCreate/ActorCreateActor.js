@@ -112,6 +112,7 @@ define([
 
 		_openSearch: function() {
 			this.actorAdvancedSearch._showSearch();
+			this._reset();
 		},
 
 		_showActorSearch: function() {
@@ -176,7 +177,10 @@ define([
 
 		_save: function() {
 			if (!this._isValid()) {
-				this.actorWidget.emitError({widget: 'ActorCreateActor', message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'})
+				this.actorWidget.emitError({
+					widget: 'ActorCreateActor',
+					message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'
+				})
 			} else {
 				var actorNew = {};
 				actorNew['naam'] = this.naam.value;
@@ -237,7 +241,43 @@ define([
 				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
 
 				console.log(actorNewAdres);
+
+
+				this.actorWidget.actorController.saveActor(actorNew).then(
+					lang.hitch(this, function(response) {
+						console.log(response);
+						this.actorWidget.actorController.saveActorAdres(actorNewAdres, response.id).then(
+							lang.hitch(this, function(response){
+								console.log(response);
+							}),
+							lang.hitch(this, function (error) {
+									console.log(error);
+									this.actorWidget.emitError({
+										widget: 'ActorCreateActor',
+										message: 'Bewaren van het adres van de nieuwe actor is mislukt'
+									})
+								}
+							));
+					}),
+					lang.hitch(this, function(error) {
+						console.log(error);
+						this.actorWidget.emitError({
+							widget: 'ActorCreateActor',
+							message: 'Bewaren van de nieuwe actor is mislukt'
+						})
+					}));
 			}
+		},
+
+		_findNewActor: function(naam, voornaam) {
+			// of id in query
+			var query = {naam: naam, voornaam: voornaam};
+			this._filterGrid(query);
+			this._openSearch();
+		},
+
+		_filterGrid: function (query) {
+			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		}
 	});
 });
