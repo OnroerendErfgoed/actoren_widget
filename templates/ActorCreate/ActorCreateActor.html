@@ -28,12 +28,23 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="email">Email</label>
-                <input data-dojo-attach-point='email' id="email" type="text"/>
+                <input data-dojo-attach-point='email' id="email" type="text" style="width:70%; float:left;"/>
+                <select id="emailtype" data-dojo-attach-point='emailtype' style="width:30%; ">
+                  <option value=1>thuis</option>
+                  <option value=2 selected>werk</option>
+                </select>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode2">Telefoon</label>
-                <input style="width: 30%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode2" />
-                <input style="width: 70%" data-dojo-attach-point='telefoon' type="text" />
+                <input style="width: 10%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode2" />
+                <input style="width: 40%; float: left;" data-dojo-attach-point='telefoon' type="text" />
+                <select id="telefoontype" data-dojo-attach-point='telefoontype' style="width:30%; ">
+                  <option value=1>thuis</option>
+                  <option value=2 selected>werk</option>
+                  <option value=3>mobiel</option>
+                  <option value=4>fax thuis</option>
+                  <option value=5>fax werk</option>
+                </select>
               </div>
             </div>
 

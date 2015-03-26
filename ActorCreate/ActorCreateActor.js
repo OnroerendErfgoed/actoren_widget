@@ -84,10 +84,13 @@ define([
 		},
 
 		_save: function() {
-			var ActorEdit = this.actor;
+			var ActorNew = {};
 			// naam
+			ActorNew['naam'] = this.naam.value;
 			// voornaam
+			ActorNew['voornaam'] = this.voornaam.value;
 			// telefoon
+			ActorNew['telefoons'] = [];
 			// email
 			// url
 			// adres
