@@ -118,9 +118,20 @@ define([
 
 		_reset: function(){
 			this.naam.value = "";
-			this._crabWidget.resetValues();
-			this.persid.value = "";
+			this.voornaam.value = "";
+			this.email.value = "";
+			this._actorEmails = {};
+			this.emailtypes.value = 2;
+			this.telefoon.value = "";
+			this._actorTelefoons = {};
+			this.telefoontypes.value = 2;
+			this.url.value = "";
+			this._actorUrls = {};
+			this.urltypes.value = 1;
+			this.type.value = "";
 			this.rrn.value = "";
+			this.kbo.value = "";
+			this._crabWidget.resetValues();
 		},
 
 		_save: function() {
@@ -168,10 +179,21 @@ define([
 					}
 				)
 			}
-			// adres
-			// console.log(this._crabWidget.getInput());
 
 			console.log(actorNew);
+			var actorNewAdres = {};
+			var crabWidgetValues = this._crabWidget.getInput();
+			actorNewAdres['land'] = crabWidgetValues.values.land;
+			actorNewAdres['postcode'] = crabWidgetValues.values.postcode;
+			actorNewAdres['gemeente'] = crabWidgetValues.values.gemeente;
+			actorNewAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
+			actorNewAdres['straat'] = crabWidgetValues.values.straat;
+			actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
+			actorNewAdres['huisnummer'] = crabWidgetValues.values.nummer;
+			actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
+			console.log(actorNewAdres);
+
+
 		}
 	});
 });
