@@ -24,6 +24,9 @@ define([
 		actorAdvancedSearch : null,
     _telefoonLandcodeSelect: null,
 
+		_actorTelefoons: {},
+		_actorEmails: {},
+
 
     postCreate: function() {
       console.log('...ActorCreateActor::postCreate', arguments);
@@ -57,11 +60,36 @@ define([
         autoComplete: false,
         required: false,
         class: "combo-dropdown",
-        style: "width: 30%; float: left; padding-left: 10px;",
+        style: "width: 20%; float: left; padding-left: 10px;",
         labelAttr: "label",
         labelType: "html"
       }, this.telefoonLandcode);
     },
+
+		_watchTelefoonTypes: function () {
+			this.telefoon.value = this._actorTelefoons[this.telefoontypes.selectedOptions[0].value] ?
+				this._actorTelefoons[this.telefoontypes.selectedOptions[0].value].nummer : null;
+			this._telefoonLandcodeSelect.set('value', this._actorTelefoons[this.telefoontypes.selectedOptions[0].value] ?
+				this._actorTelefoons[this.telefoontypes.selectedOptions[0].value].landcode : '+32');
+		},
+
+		_watchTelefoonInput: function() {
+			this._actorTelefoons[this.telefoontypes.selectedOptions[0].value] = {
+				'nummer': this.telefoon.value,
+				'landcode': this._telefoonLandcodeSelect.get('value')
+			}
+		},
+
+		_watchEmailTypes: function () {
+			this.email.value = this._actorEmails[this.emailtypes.selectedOptions[0].value] ?
+				this._actorEmails[this.emailtypes.selectedOptions[0].value].email : null;
+		},
+
+		_watchEmailInput: function() {
+			this._actorEmails[this.emailtypes.selectedOptions[0].value] = {
+				'email': this.email.value
+			}
+		},
 
 		_setCrabWidget: function() {
 			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
@@ -84,26 +112,45 @@ define([
 		},
 
 		_save: function() {
-			var ActorNew = {};
+			var actorNew = {};
 			// naam
-			ActorNew['naam'] = this.naam.value;
+			actorNew['naam'] = this.naam.value;
 			// voornaam
-			ActorNew['voornaam'] = this.voornaam.value;
+			actorNew['voornaam'] = this.voornaam.value;
 			// telefoon
-			ActorNew['telefoons'] = [];
+			actorNew['telefoons'] =[];
+			for (var telefoontype in this._actorTelefoons){
+				actorNew['telefoons'].push(
+					{
+						type: {
+							id: telefoontype
+						},
+						nummer: this._actorTelefoons[telefoontype].nummer,
+						landcode: this._actorTelefoons[telefoontype].landcode
+					}
+				)
+			}
 			// email
+			actorNew['emails'] =[];
+			for (var emailtype in this._actorEmails){
+				actorNew['emails'].push(
+					{
+						type: {
+							id: emailtype
+						},
+						email: this._actorEmails[emailtype].email
+					}
+				)
+			}
 			// url
 			// adres
+			// console.log(this._crabWidget.getInput());
 			// actortype
 			// rrn
 			// persid
 			// kbo
 
-			console.log(ActorEdit);
-
-
-
-			console.log(this._crabWidget.getInput());
+			console.log(actorNew);
 		}
   });
 });
