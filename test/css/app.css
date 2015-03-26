@@ -27247,6 +27247,7 @@ h4.header-img-panel {
   margin: 0;
   display: table-cell;
   background-color: transparent;
+  -moz-appearance: none;
 }
 
 .placeholder-container > .combo-dropdown {
