@@ -111,6 +111,17 @@ define([
 		},
 
 		_save: function() {
+			var ActorEdit = this.actor;
+			// telefoon
+			// email
+			// url
+			// adres --> bij verandering einddatum vorig adres invullen en startdatum nieuw adres
+			// actortype
+
+			console.log(ActorEdit);
+
+
+
 			console.log(this._crabWidget.getInput());
 		}
 	});
