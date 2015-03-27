@@ -6,8 +6,7 @@ define([
 	'dijit/_TemplatedMixin',
 	'dojo/store/Memory',
 	'dijit/form/ComboBox',
-	'../CrabWidget',
-	'dijit/form/Form'
+	'../CrabWidget'
 ], function(
 	template,
 	declare,
@@ -42,6 +41,7 @@ define([
 			this.inherited(arguments);
 			this._setTelefoonLandcodes();
 			this._setCrabWidget();
+			//this._setValidationFunction();
 		},
 
 		_setTelefoonLandcodes: function() {
@@ -97,7 +97,7 @@ define([
 
 		_watchUrlTypes: function () {
 			this.url.value = this._actorUrls[this.urltypes.selectedOptions[0].value] ?
-				this._actorUrls[this.urltypes.selectedOptions[0].value].url : null;
+				this._actorUrls[this.urltypes.selectedOptions[0].value].url : 'http';
 		},
 
 		_watchUrlInput: function() {
@@ -123,7 +123,7 @@ define([
 		_reset: function(){
 			this.naam.value = "";
 			this.voornaam.value = "";
-			this.email.value = "";
+			this.email.value = "http";
 			this._actorEmails = {};
 			this.emailtypes.value = 2;
 			this.telefoon.value = "";
@@ -138,6 +138,28 @@ define([
 			this._crabWidget.resetValues();
 		},
 
+		//todo: actor validatie in zijn geheel
+
+		_rrnValidation: function () {
+			var rrn = this.rrn.value;
+			if (isNaN(rrn) && rrn.length !=11) {
+				return false
+			} else if (rrn[0] === '0' || rrn[0] === '1'){
+				rrn = '2' + rrn
+			}
+			x = 97 - (int(rrn[:-2]) - (int(rrn[:-2]) / 97) * 97);
+			if (int(rrn[-2:]) != x) {
+				return false;
+			}
+
+
+		},
+
+		_kboValidation: function () {
+			var kbo = this.kbo.value.trim().replace('.', '');
+			return (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
+		},
+
 		_validateInputWithTypes: function (inputs, input, inputtype, watchFuntion) {
 			var inputValid = true,
 				inputtypeInvalid,
@@ -145,8 +167,8 @@ define([
 			Object.keys(inputs).forEach(lang.hitch(this, function(inputkey){
 				inputtype.value = inputkey;
 				lang.hitch(this, watchFuntion)();
+				inputValid = lang.hitch(this, this._setCustomValidity)(input.validity.valid, input, inputValid);
 				if (!input.validity.valid) {
-					inputValid = false;
 					inputtypeInvalid = inputkey;
 				}
 			}));
@@ -154,15 +176,26 @@ define([
 			return inputValid;
 		},
 
+		_setCustomValidity: function(valid, node, validParam) {
+			if (!valid) {
+				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
+				validParam = false;
+			} else {
+				node.setCustomValidity('');
+			}
+			return validParam;
+		},
+
 		_isValid: function() {
 			var valid = true;
-			valid = this.naam.validity.valid ? valid : false;
-			valid = this.kbo.validity.valid && this.rrn.validity.valid ? valid : false;
+			valid = lang.hitch(this, this._setCustomValidity)(this.naam.validity.valid, this.naam, valid);
+			valid = lang.hitch(this, this._setCustomValidity)(this._kboValidation(), this.naam, valid);
+			valid = lang.hitch(this, this._setCustomValidity)(this._rrnValidation(), this.naam, valid);
 			var inputs = [this.voornaam, this._crabWidget, this._crabWidget.nummer, this._crabWidget.postbus,
 				this._crabWidget.postcode, this._crabWidget.gemeente];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
-					valid = input.validity.valid ? valid : false;
+					valid = lang.hitch(this, this._setCustomValidity)(input.validity.valid, input, valid);
 				}
 			}));
 			valid = this._validateInputWithTypes(this._actorEmails, this.email, this.emailtypes, this._watchEmailTypes) ?

@@ -36,7 +36,7 @@
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode2">Telefoon</label>
                 <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode2" />
-                <input style="width: 50%; float: left;" data-dojo-attach-point='telefoon' type="text" data-dojo-attach-event="onChange: _watchTelefoonInput" pattern=".{4,50}"/>
+                <input style="width: 50%; float: left;" data-dojo-attach-point='telefoon' type="text" data-dojo-attach-event="onChange: _watchTelefoonInput" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s]{1,40}$"/>
                 <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:30%;" data-dojo-attach-event="onChange: _watchTelefoonTypes">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>
@@ -62,15 +62,15 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="rrn">Rijksregisternummer</label>
-                <input data-dojo-attach-point='rrn' type="text" id="rrn" pattern=".{11,11}"/>
+                <input data-dojo-attach-point='rrn' type="text" id="rrn" />
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="kbo" data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Kruispuntbank voor Ondernemingen">KBO</label>
-                <input data-dojo-attach-point='kbo' type="text" id="kbo" pattern="^[0-9]{9,10}$"/>
+                <input data-dojo-attach-point='kbo' type="text" id="kbo"/>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="url">URL</label>
-                <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern=".{1,255}"/>
+                <input data-dojo-attach-point='url' value='http' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern="^(https?:\/\/)(?=.*\.).{1,255}"/>
                 <select id="urltype" data-dojo-attach-point='urltypes' style="width:45%;" data-dojo-attach-event="onChange: _watchUrlTypes">
                   <option value=1 selected>website</option>
                   <option value=2>blog</option>
