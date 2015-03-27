@@ -2,12 +2,14 @@ define([
 	'dojo/_base/declare',
 	"dojo/store/Observable",
 	'./JsonRestCors',
-	'dijit/_WidgetBase'
+	'dijit/_WidgetBase',
+	'dojo/request/xhr'
 ], function(
 	declare,
 	Observable,
 	JsonRestCors,
-	_WidgetBase
+	_WidgetBase,
+	xhr
 ) {
 	return declare([_WidgetBase], {
 
@@ -49,10 +51,10 @@ define([
 		saveActor: function(actor) {
 			if (!actor.id || actor.id.length == 0) {
 				delete actor.id;
-				return this._store.add(actor);
+				return this.actorStore.add(actor);
 			}
 			else {
-				return this._store.put(actor);
+				return this.actorStore.put(actor);
 			}
 		},
 
@@ -62,8 +64,9 @@ define([
 
 		saveActorAdres:function(adres,actorId)
 		{
-			var target=this._target+actorId+this._adresParameter;
+			var target=this.baseUrl + this._target + actorId + this._adresParameter;
 			return xhr(target,{
+				withCredentials: true,
 				handleAs: "json",
 				method:"POST",
 				data: JSON.stringify(adres),

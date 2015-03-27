@@ -157,7 +157,7 @@ define([
 		_isValid: function() {
 			var valid = true;
 			valid = this.naam.validity.valid ? valid : false;
-			valid = this.kbo.validity.valid || this.rrn.validity.valid ? valid : false;
+			valid = this.kbo.validity.valid && this.rrn.validity.valid ? valid : false;
 			var inputs = [this.voornaam, this._crabWidget, this._crabWidget.nummer, this._crabWidget.postbus,
 				this._crabWidget.postcode, this._crabWidget.gemeente];
 			inputs.forEach(lang.hitch(this, function(input){
@@ -240,24 +240,33 @@ define([
 				actorNewAdres['huisnummer'] = crabWidgetValues.values.nummer;
 				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
 
+				var adresResult = false;
+				for (var adresKey in actorNewAdres) {
+					if (adresKey != 'land' && actorNewAdres[adresKey]) {
+						adresResult = true;
+					}
+				}
+
 				console.log(actorNewAdres);
 
 
 				this.actorWidget.actorController.saveActor(actorNew).then(
 					lang.hitch(this, function(response) {
 						console.log(response);
-						this.actorWidget.actorController.saveActorAdres(actorNewAdres, response.id).then(
-							lang.hitch(this, function(response){
-								console.log(response);
-							}),
-							lang.hitch(this, function (error) {
-									console.log(error);
-									this.actorWidget.emitError({
-										widget: 'ActorCreateActor',
-										message: 'Bewaren van het adres van de nieuwe actor is mislukt'
-									})
-								}
-							));
+						if (adresResult) {
+							this.actorWidget.actorController.saveActorAdres(actorNewAdres, response.id).then(
+								lang.hitch(this, function (response) {
+									console.log(response);
+								}),
+								lang.hitch(this, function (error) {
+										console.log(error);
+										this.actorWidget.emitError({
+											widget: 'ActorCreateActor',
+											message: 'Bewaren van het adres van de nieuwe actor is mislukt'
+										})
+									}
+								));
+						}
 					}),
 					lang.hitch(this, function(error) {
 						console.log(error);
