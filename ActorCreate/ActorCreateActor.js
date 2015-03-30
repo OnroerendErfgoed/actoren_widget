@@ -202,7 +202,7 @@ define([
 
 		_setCustomValidity: function(node, validParam, CustomValidBool) {
 			node.setCustomValidity('');
-			var valid = CustomValidBool === 'undefined'? CustomValidBool : node.validity.valid;
+			var valid = CustomValidBool === undefined? node.validity.valid : CustomValidBool;
 			if (!valid) {
 				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
 				validParam = false;
