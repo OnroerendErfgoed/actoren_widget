@@ -54,23 +54,22 @@
             <div class="large-4 columns">
               <div class="placeholder-container" tabindex="-1">
                 <label for="actortype">Actortype</label>
-                <select id="actortype" data-dojo-attach-point='type'>
-                  <option value="" disabled selected>Selecteer Actortype</option>
-                  <option value=1>persoon</option>
+                <select id="actortype" data-dojo-attach-point='type' data-dojo-attach-event="onChange: _watchActorTypes">
+                  <option value=1 selected>persoon</option>
                   <option value=2>organisatie</option>
                 </select>
               </div>
-              <div class="placeholder-container" tabindex="-1">
+              <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='rrnNode'>
                 <label for="rrn">Rijksregisternummer</label>
                 <input data-dojo-attach-point='rrn' type="text" id="rrn" />
               </div>
-              <div class="placeholder-container" tabindex="-1">
+              <div class="placeholder-container placeholder-disabled" tabindex="-1" data-dojo-attach-point='kboNode'>
                 <label for="kbo" data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Kruispuntbank voor Ondernemingen">KBO</label>
-                <input data-dojo-attach-point='kbo' type="text" id="kbo"/>
+                <input disabled data-dojo-attach-point='kbo' type="text" id="kbo"/>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="url">URL</label>
-                <input data-dojo-attach-point='url' value='http' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern="^(https?:\/\/)(?=.*\.).{1,255}"/>
+                <input data-dojo-attach-point='url' value='http' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern="^(http?).{1,255}"/>
                 <select id="urltype" data-dojo-attach-point='urltypes' style="width:45%;" data-dojo-attach-event="onChange: _watchUrlTypes">
                   <option value=1 selected>website</option>
                   <option value=2>blog</option>

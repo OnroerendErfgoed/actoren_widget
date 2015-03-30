@@ -52,7 +52,7 @@ define([
 				console.log('send.actor', evt.actor);
 			});
 			this.on('error', function(evt){
-				console.log('error', evt.message);
+				console.log('error', evt.error);
 			});
 		},
 
