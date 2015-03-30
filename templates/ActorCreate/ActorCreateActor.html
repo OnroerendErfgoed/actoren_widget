@@ -69,7 +69,7 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="url">URL</label>
-                <input data-dojo-attach-point='url' value='http' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern="^(http?).{1,255}"/>
+                <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern="^(https?:\/\/).{1,255}"/>
                 <select id="urltype" data-dojo-attach-point='urltypes' style="width:45%;" data-dojo-attach-event="onChange: _watchUrlTypes">
                   <option value=1 selected>website</option>
                   <option value=2>blog</option>

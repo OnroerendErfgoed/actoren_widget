@@ -99,7 +99,7 @@ define([
 
 		_watchUrlTypes: function () {
 			this.url.value = this._actorUrls[this.urltypes.selectedOptions[0].value] ?
-				this._actorUrls[this.urltypes.selectedOptions[0].value].url : 'http';
+				this._actorUrls[this.urltypes.selectedOptions[0].value].url : null;
 		},
 
 		_watchUrlInput: function() {
@@ -151,7 +151,7 @@ define([
 			this.telefoon.value = "";
 			this._actorTelefoons = {};
 			this.telefoontypes.value = 2;
-			this.url.value = "http";
+			this.url.value = "";
 			this._actorUrls = {};
 			this.urltypes.value = 1;
 			this.type.value = "";
@@ -162,25 +162,41 @@ define([
 
 		_rrnValidation: function () {
 			var rrn = this.rrn.value,
-				valid;
+				valid = true;
 			rrn = this.rrn.value.split(" ").join("").split('.').join("").split('-').join("");
 			this.rrn.value = rrn;
-			if (isNaN(rrn) && rrn.length !=11) {
-				valid = false;
+			if (rrn.length > 0) {
+				if (isNaN(rrn) || rrn.length != 11) {
+					valid = false;
+				}
+				else if (rrn.substring(0, 1) === '0' || rrn.substring(0, 1) === '1') {
+					rrn = '2' + rrn;
+				}
+				else {
+					var x = 97 - (parseInt(rrn.substring(0, rrn.length - 2)) - (parseInt(rrn.substring(0, rrn.length - 2) / 97)) * 97);
+					valid = parseInt(rrn.slice(-2)) === x;
+				}
 			}
-			else if (rrn.substring(0,1) === '0' || rrn.substring(0,1) === '1'){
-				rrn = '2' + rrn;
-			}
-			else {
-				var x = 97 - (parseInt(rrn.substring(0, rrn.length - 2)) - (parseInt(rrn.substring(0, rrn.length - 2) / 97)) * 97);
-				valid = parseInt(rrn.slice(-2)) === x;
+			return valid;
+		},
+
+		_gemeenteValidation: function() {
+			var valid = true;
+			if (this._crabWidget.land.value == 'BE') {
+				if (!this._crabWidget.getInput().ids.gemeente_id) {
+					valid = false;
+				}
 			}
 			return valid;
 		},
 
 		_kboValidation: function () {
 			var kbo = this.kbo.value.split(" ").join("").split('.').join();
-			return (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
+			if (kbo.length >  0) {
+				return (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
+			} else {
+				return true;
+			}
 		},
 
 		_validateInputWithTypes: function (inputs, input, inputtype, watchFuntion) {
@@ -200,11 +216,12 @@ define([
 			return inputValid;
 		},
 
-		_setCustomValidity: function(node, validParam, CustomValidBool) {
+		_setCustomValidity: function(node, validParam, CustomValidBool, ExtraMessage) {
 			node.setCustomValidity('');
-			var valid = CustomValidBool === undefined? node.validity.valid : CustomValidBool;
+			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
 			if (!valid) {
-				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
+				var extraMessage = ExtraMessage === undefined ? '' : ExtraMessage;
+				node.setCustomValidity("Waarde is niet volgens het juiste formaat. " + extraMessage);
 				validParam = false;
 			}
 			return validParam;
@@ -227,6 +244,7 @@ define([
 				valid : false;
 			valid = lang.hitch(this, this._setCustomValidity)(this.kbo, valid, this._kboValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.rrn, valid, this._rrnValidation());
+			valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation(), "Gemeente in België is verplicht.");
 			return valid
 
 		},
@@ -235,7 +253,8 @@ define([
 			if (!this._isValid()) {
 				this.actorWidget.emitError({
 					widget: 'ActorCreateActor',
-					message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'
+					message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.',
+					error: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'
 				})
 			} else {
 				var actorNew = {};
