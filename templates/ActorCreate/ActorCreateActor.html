@@ -36,7 +36,7 @@
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode2">Telefoon</label>
                 <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode2" />
-                <input style="width: 50%; float: left;" data-dojo-attach-point='telefoon' type="text" data-dojo-attach-event="onChange: _watchTelefoonInput" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s]{1,40}$"/>
+                <input style="width: 50%; float: left;" data-dojo-attach-point='telefoon' type="text" data-dojo-attach-event="onChange: _watchTelefoonInput" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s-]{1,40}$"/>
                 <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:30%;" data-dojo-attach-event="onChange: _watchTelefoonTypes">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>

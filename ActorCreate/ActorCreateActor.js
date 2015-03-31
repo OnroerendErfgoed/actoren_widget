@@ -251,7 +251,7 @@ define([
 		_save: function() {
 			if (!this._isValid()) {
 				this.actorWidget.emitError({
-					widget: 'ActorCreateActor',
+					widget: 'ActorCreate',
 					message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.',
 					error: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'
 				})
@@ -321,7 +321,7 @@ define([
 							}),
 							lang.hitch(this, function (error) {
 									this.actorWidget.emitError({
-										widget: 'ActorCreateActor',
+										widget: 'ActorCreate',
 										message: 'Bewaren van het adres van de nieuwe actor is mislukt',
 										error: error
 									})
@@ -330,7 +330,7 @@ define([
 					}),
 					lang.hitch(this, function(error) {
 						this.actorWidget.emitError({
-							widget: 'ActorCreateActor',
+							widget: 'ActorCreate',
 							message: 'Bewaren van de nieuwe actor is mislukt',
 							error: error
 						})
@@ -339,7 +339,6 @@ define([
 		},
 
 		_findNewActor: function(id) {
-			// of id in query
 			var query = {query:'id:' +id};
 			this._filterGrid(query);
 			this._openSearch();

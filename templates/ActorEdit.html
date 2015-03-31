@@ -27,17 +27,32 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="email">Email</label>
-                <input data-dojo-attach-point='email' id="email" type="text"/>
+                <input data-dojo-attach-point='email' id="email" type="text" style="width:70%; float:left;" data-dojo-attach-event="onChange: _watchEmailInput" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+                <select id="emailtype" data-dojo-attach-point='emailtypes' style="width:30%;" data-dojo-attach-event="onChange: _watchEmailTypes">
+                  <option value=1>thuis</option>
+                  <option value=2 selected>werk</option>
+                </select>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode">Telefoon</label>
-                <input style="width: 30%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode" />
-                <input style="width: 70%" data-dojo-attach-point='telefoon' type="text" />
+                <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode" />
+                <input style="width: 50%; float: left;" data-dojo-attach-point='telefoon' type="text" data-dojo-attach-event="onChange: _watchTelefoonInput" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s-]{1,40}$"/>
+                <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:30%;" data-dojo-attach-event="onChange: _watchTelefoonTypes">
+                  <option value=1>thuis</option>
+                  <option value=2 selected>werk</option>
+                  <option value=3>mobiel</option>
+                  <option value=4>fax thuis</option>
+                  <option value=5>fax werk</option>
+                </select>
               </div>
             </div>
             <div class="large-4 columns">
               <div data-dojo-attach-point="crabWidget"></div>
+              <div class="row text-center">
+                <button href="#" data-dojo-attach-event="onClick: _save" class="button small">BEWAAR</button>
+              </div>
             </div>
+
             <div class="large-4 columns">
               <div class="placeholder-container placeholder-disabled" tabindex="-1">
                 <label for="actortype">Actortype</label>
@@ -45,14 +60,16 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="url">URL</label>
-                <input data-dojo-attach-point='url' id="url" type="text"/>
+                <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern="^(https?:\/\/).{1,255}"/>
+                <select id="urltype" data-dojo-attach-point='urltypes' style="width:45%;" data-dojo-attach-event="onChange: _watchUrlTypes">
+                  <option value=1 selected>website</option>
+                  <option value=2>blog</option>
+                  <option value=3>webapplicatie</option>
+                </select>
               </div>
             </div>
           </form>
         </div>
-      </div>
-      <div class="row text-center">
-        <a href="#" data-dojo-attach-event="onClick: _save" class="button small">BEWAAR</a>
       </div>
     </div>
   </div>
