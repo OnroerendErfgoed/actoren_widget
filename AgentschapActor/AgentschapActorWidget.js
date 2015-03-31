@@ -23,7 +23,9 @@ define([
 		templateString: template,
 		baseClass: 'actor-widget',
 		widgetsInTemplate: true,
-		baseUrl: null,
+		actorWijStore: null,
+    actorStore: null,
+    baseUrl: null,
 		actorController: null,
 		_actorSearch: null,
 
@@ -31,7 +33,11 @@ define([
 			this.inherited(arguments);
 			console.log('ActorWidget::postCreate', arguments);
 
-			this.actorController = new ActorController({baseUrl: this.baseUrl});
+			this.actorController = new ActorController({
+        actorWijStore: this.actorWijStore,
+        actorStore: this.actorStore,
+        baseUrl: this.baseUrl
+      });
 			this._setupLayout();
 
 			this.on('send.actor', function(evt){

@@ -35,7 +35,8 @@ require([
 
   var actorWidget = new AgentschapActorWidget({
     actorWijStore: actorWijStore,
-    actorStore: actorStore
+    actorStore: actorStore,
+    baseUrl: baseUrl
   }, 'widgetNode');
   actorWidget.startup();
 

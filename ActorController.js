@@ -1,13 +1,9 @@
 define([
 	'dojo/_base/declare',
-	"dojo/store/Observable",
-	'./JsonRestCors',
 	'dijit/_WidgetBase',
 	'dojo/request/xhr'
 ], function(
 	declare,
-	Observable,
-	JsonRestCors,
 	_WidgetBase,
 	xhr
 ) {
@@ -15,33 +11,18 @@ define([
 
 		baseUrl: null,
 		actorStore: null,
+    actorWijStore: null,
 
 		_target: '/actoren/',
-		_targetWij: '/actoren/wij/',
 		_adresParameter: '/adressen',
 
 		postCreate: function() {
 			console.log('..ActorController::postCreate', arguments);
 			this.inherited(arguments);
-			this.actorStore = this._getStore(this._target);
-			this.actorWijStore = this._getStore(this._targetWij);
 		},
 
 		startup: function () {
 			this.inherited(arguments);
-		},
-
-		_getStore: function(endpoint) {
-			return new Observable(new JsonRestCors({
-				target: this.baseUrl + endpoint,
-				sortParam: 'sort',
-				idProperty: 'id',
-				withCredentials: true,
-				headers: {
-					"X-Requested-With": "",
-					"Content-Type": "application/json"
-				}
-			}));
 		},
 
 		getActor: function(id) {
