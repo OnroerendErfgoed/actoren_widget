@@ -27212,7 +27212,7 @@ h4.header-img-panel {
   margin: 0;
   display: table-cell;
   background-color: transparent;
-  -moz-appearance: none;
+  height: 37px;
 }
 
 /* line 151, ../scss/pyoes/_oe-custom.scss */
