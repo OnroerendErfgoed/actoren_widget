@@ -216,12 +216,11 @@ define([
 			return inputValid;
 		},
 
-		_setCustomValidity: function(node, validParam, CustomValidBool, ExtraMessage) {
+		_setCustomValidity: function(node, validParam, CustomValidBool) {
 			node.setCustomValidity('');
 			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
 			if (!valid) {
-				var extraMessage = ExtraMessage === undefined ? '' : ExtraMessage;
-				node.setCustomValidity("Waarde is niet volgens het juiste formaat. " + extraMessage);
+				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
 				validParam = false;
 			}
 			return validParam;
@@ -244,7 +243,7 @@ define([
 				valid : false;
 			valid = lang.hitch(this, this._setCustomValidity)(this.kbo, valid, this._kboValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.rrn, valid, this._rrnValidation());
-			valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation(), "Gemeente in België is verplicht.");
+			valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
 			return valid
 
 		},
