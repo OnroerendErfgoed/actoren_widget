@@ -27,14 +27,13 @@
               </div>
               <div class="placeholder-container" tabindex="-1" style="width: 90%">
                 <label for="email">Email</label>
-                <input data-dojo-attach-point='email' id="email" type="text" style="width:70%; float:left;" data-dojo-attach-event="onChange: _watchEmailInput" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
-                <select id="emailtype" data-dojo-attach-point='emailtypes' style="width:30%;" data-dojo-attach-event="onChange: _watchEmailTypes">
+                <input data-dojo-attach-point='email' id="email" type="text" style="width:70%; float:left;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+                <select id="emailtype" data-dojo-attach-point='emailtypes' style="width:30%;">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>
                 </select>
-              </div><a href="#"><i class="fa fa-plus plus-minus-icon"></i></a>
-              <ul class="nodisk">
-                <li>maarten@mail.com (werk) <i class="fa fa-trash plus-minus-icon"></i></li>
+              </div><a href="#" data-dojo-attach-event="onClick: _addEmail"><i class="fa fa-plus plus-minus-icon"></i></a>
+              <ul data-dojo-attach-point="emaillist" class="nodisk">
               </ul>
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode">Telefoon</label>
