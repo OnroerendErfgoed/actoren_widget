@@ -39,15 +39,18 @@
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode">Telefoon</label>
                 <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode" />
-                <input style="width: 50%; float: left;" data-dojo-attach-point='telefoon' type="text" data-dojo-attach-event="onChange: _watchTelefoonInput" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s-]{1,40}$"/>
-                <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:30%;" data-dojo-attach-event="onChange: _watchTelefoonTypes">
+                <input style="width: 35%; float: left;" data-dojo-attach-point='telefoon' type="text" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s-]{1,40}$"/>
+                <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:25%;">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>
                   <option value=3>mobiel</option>
                   <option value=4>fax thuis</option>
                   <option value=5>fax werk</option>
                 </select>
+                <a href="#" data-dojo-attach-event="onClick: _addTelefoon" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
               </div>
+              <ul data-dojo-attach-point="telefoonlist" class="nodisk">
+              </ul>
             </div>
             <div class="large-4 columns">
               <div data-dojo-attach-point="crabWidget"></div>
