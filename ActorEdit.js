@@ -111,7 +111,7 @@ define([
 				autoComplete: false,
 				required: false,
 				class: "combo-dropdown",
-        style: "width: 20%; float: left; padding-left: 10px;",
+				style: "width: 20%; float: left; padding-left: 10px;",
 				labelAttr: "label",
 				labelType: "html"
 			}, this.telefoonLandcode);
@@ -289,21 +289,38 @@ define([
 				actorEditAdres['huisnummer'] = crabWidgetValues.values.nummer;
 				actorEditAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
 
+				var adresEdited = false;
+				if (actorEdit.adres) {
+					['huisnummer', 'gemeente', 'poscode', 'land', 'straat'].forEach(function (adresKey) {
+						if (actorEditAdres[adresKey] != actorEdit.adres[adresKey]) {
+							adresEdited = true;
+						}
+					});
+				}
+				else {
+					adresEdited = true;
+				}
+
 				var actorId = actorEdit.id;
 				this.actorWidget.actorController.saveActor(actorEdit).then(
 					lang.hitch(this, function(response) {
-						this.actorWidget.actorController.saveActorAdres(actorEditAdres, actorId).then(
-							lang.hitch(this, function (response) {
-								this._findActor(actorId)
-							}),
-							lang.hitch(this, function (error) {
+						if (!adresEdited) {
+							this._findActor(actorId)
+						}
+						else {
+							this.actorWidget.actorController.saveActorAdres(actorEditAdres, actorId).then(
+								lang.hitch(this, function (response) {
+									this._findActor(actorId)
+								}),
+								lang.hitch(this, function (error) {
 									this.actorWidget.emitError({
 										widget: 'ActorEdit',
 										message: 'Bewaren van het nieuwe adres van de actor is mislukt',
 										error: error
 									})
-								}
-							));
+								})
+							);
+						}
 					}),
 					lang.hitch(this, function(error) {
 						this.actorWidget.emitError({
