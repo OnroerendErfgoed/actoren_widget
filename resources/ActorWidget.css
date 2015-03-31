@@ -131,8 +131,23 @@
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+);
 }
 
-.plus-minus-icon {
-  margin-top: 15px;
-  margin-left: 10px;
+.plus-icon {
+  padding-top: 12px;
+  padding-left: 8px;
   color: #3f3840;
+}
+
+.plus-icon-link {
+  display:table-cell;
+  border-left: 1px dotted #d3d3d3;
+  float: left;
+  vertical-align: middle;
+  height: 37px;
+}
+
+.minus-icon {
+  padding-top: 15px;
+  padding-left: 10px;
+  color: #3f3840;
+  height: 100%;
 }
