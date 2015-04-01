@@ -356,10 +356,11 @@ define([
 
 				this.actorWidget.actorController.saveActor(actorNew).then(
 					lang.hitch(this, function(response) {
-						var actorId = response.id;
-						this.actorWidget.actorController.saveActorAdres(actorNewAdres, actorId).then(
+						var actor = response;
+						this.actorWidget.actorController.saveActorAdres(actorNewAdres, actor.id).then(
 							lang.hitch(this, function (response) {
-								this._findNewActor(actorId)
+								actor.adres = response;
+								this._findNewActor(actor)
 							}),
 							lang.hitch(this, function (error) {
 									this.actorWidget.emitError({
@@ -376,14 +377,15 @@ define([
 							message: 'Bewaren van de nieuwe actor is mislukt',
 							error: error
 						})
-					}));
+					})
+				);
 			}
 		},
 
-		_findNewActor: function(id) {
-			var query = {query:'id:' +id};
+		_findNewActor: function(actor) {
+			var query = {query:'id:' +actor.id};
 			this._filterGrid(query);
-			this._openSearch();
+			this.actorWidget.showDetail(actor);
 		},
 
 		_filterGrid: function (query) {

@@ -346,16 +346,21 @@ define([
 				}
 
 				var actorId = actorEdit.id;
+				//todo remove next line
+				actorEdit.adres = actorEditAdres;
 				this.actorWidget.actorController.saveActor(actorEdit).then(
 					lang.hitch(this, function(response) {
-						this.actor = actorEdit;
+						var actor = response;
 						if (!adresEdited) {
-							this._openDetail()
+							this.actorWidget.showDetail(actor);
+							this._reset();
 						}
 						else {
 							this.actorWidget.actorController.saveActorAdres(actorEditAdres, actorId).then(
 								lang.hitch(this, function (response) {
-									this._openDetail()
+									actor.adres = response;
+									this.actorWidget.showDetail(actor);
+									this._reset();
 								}),
 								lang.hitch(this, function (error) {
 									this.actorWidget.emitError({
@@ -373,7 +378,8 @@ define([
 							message: 'Bewaren van de bewerkte actor is mislukt',
 							error: error
 						})
-					}));
+					})
+				);
 			}
 		}
 	});
