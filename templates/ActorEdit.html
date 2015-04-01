@@ -27,8 +27,8 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="email">Email</label>
-                <input data-dojo-attach-point='email' id="email" type="text" style="width:65%; float:left;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
-                <select id="emailtype" data-dojo-attach-point='emailtypes' style="width:25%; float:left" class="placeholder-input-border">
+                <input data-dojo-attach-point='email' id="email" type="text" style="width:60%; float:left;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+                <select id="emailtype" data-dojo-attach-point='emailtypes' style="width:30%; float:left" class="placeholder-input-border">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>
                 </select>
@@ -39,8 +39,8 @@
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode">Telefoon</label>
                 <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode" />
-                <input style="width: 35%; float: left;" data-dojo-attach-point='telefoon' type="text" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s-]{1,40}$"/>
-                <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:25%;">
+                <input style="width: 40%; float: left;" data-dojo-attach-point='telefoon' type="text" pattern="^(?!.*[0-9]{16,})(?=.*[1-9])[0-9\/.,\s-]{1,40}$"/>
+                <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:30%; float:left;" class="placeholder-input-border">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>
                   <option value=3>mobiel</option>
@@ -66,13 +66,16 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="url">URL</label>
-                <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url" data-dojo-attach-event="onChange: _watchUrlInput" pattern="^(https?:\/\/).{1,255}"/>
-                <select id="urltype" data-dojo-attach-point='urltypes' style="width:45%;" data-dojo-attach-event="onChange: _watchUrlTypes">
+                <input data-dojo-attach-point='url' style="width:50%; float:left;" type="text" id="url" pattern="^(https?:\/\/).{1,255}"/>
+                <select id="urltype" data-dojo-attach-point='urltypes' style="width:40%; float:left;" class="placeholder-input-border">
                   <option value=1 selected>website</option>
                   <option value=2>blog</option>
                   <option value=3>webapplicatie</option>
                 </select>
+                <a href="#" data-dojo-attach-event="onClick: _addUrl" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
               </div>
+              <ul data-dojo-attach-point="urllist" class="nodisk">
+              </ul>
             </div>
           </form>
         </div>
