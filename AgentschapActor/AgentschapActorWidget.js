@@ -1,10 +1,10 @@
 define([
-	'dojo/text!./../templates/AgentschapActor/AgentschapActorWidget.html',
+	'dojo/text!templates/AgentschapActorWidget.html',
 	'dojo/_base/declare',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
-	'./../ActorController',
+	'./../controllers/ActorController',
 	'./AgentschapActorSearch',
 	'./AgentschapActorDetail',
 	'dijit/layout/StackContainer'

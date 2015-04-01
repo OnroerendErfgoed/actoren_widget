@@ -4,14 +4,14 @@ define([
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
-	'./ActorController',
-  './CrabController',
-	'./ActorSearch',
-	'./ActorDetail',
-	'./ActorEdit',
-	'./ActorAdvancedSearch/ActorAdvancedSearch',
-	'./ActorAdvancedSearch/ActorAdvSearchVKBO',
-	'./ActorAdvancedSearch/ActorAdvSearchVKBP',
+	'../controllers/ActorController',
+  '../controllers/CrabController',
+	'./actorWidgets/ActorSearch',
+	'./actorWidgets/actorDetail/ActorDetail',
+	'./actorWidgets/actorDetail/ActorEdit',
+	'./ActorAdvSearchUI',
+	'./actorWidgets/actorAdvSearch/ActorAdvSearchVKBO',
+	'./actorWidgets/actorAdvSearch/ActorAdvSearchVKBP',
 	'dijit/layout/StackContainer'
 ], function (
 	template,
@@ -24,7 +24,7 @@ define([
 	ActorSearch,
 	ActorDetail,
 	ActorEdit,
-	ActorAdvancedSearch,
+	ActorAdvSearchUI,
 	ActorAdvSearchVKBO,
 	ActorAdvSearchVKBP
 ) {
@@ -81,7 +81,7 @@ define([
 		},
 
 		showActorSearch: function () {
-			this.actorStackContainer.selectChild(this._actorAdvancedSearch);
+			this.actorStackContainer.selectChild(this._ActorAdvSearchUI);
 		},
 
 		showVKBOSearch: function () {
@@ -101,11 +101,11 @@ define([
 			this.actorStackContainer.addChild(this._actorDetail);
 			this.actorStackContainer.addChild(this._actorEdit);
 
-			this._actorAdvancedSearch =  new ActorAdvancedSearch({actorWidget: this});
+			this._ActorAdvSearchUI =  new ActorAdvSearchUI({actorWidget: this});
 			this._actorSearchVKBO =  new ActorAdvSearchVKBO({actorWidget: this});
 			this._actorSearchVKBP =  new ActorAdvSearchVKBP({actorWidget: this});
 
-			this.actorStackContainer.addChild(this._actorAdvancedSearch);
+			this.actorStackContainer.addChild(this._ActorAdvSearchUI);
 			this.actorStackContainer.addChild(this._actorSearchVKBO);
 			this.actorStackContainer.addChild(this._actorSearchVKBP);
 		},

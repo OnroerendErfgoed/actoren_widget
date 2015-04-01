@@ -1,5 +1,5 @@
 define([
-	'dojo/text!./../templates/ActorAdvancedSearch/ActorAdvSearchVKBO.html',
+	'dojo/text!./templates/ActorAdvSearchActor.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dijit/_WidgetBase',
@@ -20,16 +20,19 @@ define([
 		templateString: template,
 		baseClass: 'actor-widget',
 		widgetsInTemplate: true,
-		searchWidget: null,
+		crabWidget: null,
+		actorWidget: null,
+		actorAdvancedSearch : null,
+
 
 		postCreate: function() {
-			console.log('...ActorAdvSearchVKBO::postCreate', arguments);
 			this.inherited(arguments);
+			console.log('...ActorAdvSearchActor::postCreate', arguments);
 		},
 
 		startup: function () {
-			console.log('...ActorAdvSearchVKBO::startup', arguments);
 			this.inherited(arguments);
+			console.log('...ActorAdvSearchActor::startup', arguments);
 			this._setCrabWidget();
 		},
 
@@ -37,7 +40,7 @@ define([
 			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
 		},
 
-		_findVKBO: function() {
+		_findActoren: function() {
 			var query = this._getSearchParams();
 			this._filterGrid(query);
 			this._openSearch();
@@ -45,10 +48,16 @@ define([
 		},
 
 		_getSearchParams: function() {
-			var query = {'type': 2};
+			var query = {};
 			var searchParams = [
 				'naam',
-				'persid'
+				'voornaam',
+				'email',
+				'telefoon',
+				'type',
+				'persid',
+				'rrn',
+				'kbo'
 			];
 			searchParams.forEach(lang.hitch(this, function(param) {
 				if (this[param].value) {
@@ -70,14 +79,25 @@ define([
 
 		_openSearch: function(evt) {
 			evt? evt.preventDefault() : null;
-			this.actorWidget.showSearch();
+			this.actorAdvancedSearch._showSearch();
 			this._reset();
+		},
+
+		_showActorCreate: function(evt) {
+			evt.preventDefault();
+			this.actorAdvancedSearch._showActorCreate();
 		},
 
 		_reset: function(){
 			this.naam.value = '';
+			this.voornaam.value = '';
+			this.email.value=  '';
+			this.telefoon.value = '';
 			this._crabWidget.resetValues();
+			this.type.value = "1";
 			this.persid.value = "";
+			this.rrn.value = "";
+			this.kbo.value = "";
 		}
 	});
 });

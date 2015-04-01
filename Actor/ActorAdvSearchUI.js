@@ -1,11 +1,11 @@
 define([
-  'dojo/text!./../templates/ActorAdvancedSearch/ActorAdvancedSearch.html',
+  'dojo/text!./templates/ActorAdvSearchUI.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
-  './ActorAdvSearchActor',
-	'../ActorCreate/ActorCreateActor'
+  './actorWidgets/actorAdvSearch/ActorAdvSearchActor',
+	'./actorWidgets/actorAdvSearch/ActorCreateActor'
 ], function(
   template,
   declare,

@@ -1,5 +1,5 @@
 define([
-	'dojo/_base/declare',
+	'../dojo/_base/declare',
 	'dijit/_WidgetBase',
 	'dojo/request/xhr'
 ], function(

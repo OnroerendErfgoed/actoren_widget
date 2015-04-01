@@ -1,5 +1,5 @@
 define([
-  'dojo/text!./../templates/AgentschapActor/AgentschapActorDetail.html',
+  'dojo/text!templates/AgentschapActorDetail.html',
   'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',

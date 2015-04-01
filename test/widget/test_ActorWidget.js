@@ -1,5 +1,5 @@
 require([
-  'actorwidget/ActorWidget',
+  'actorwidget/Actor/ActorWidget',
 	'dojo/store/Observable',
 	'actorwidget/test/util/JsonRestCors',
   'dojo/domReady!'

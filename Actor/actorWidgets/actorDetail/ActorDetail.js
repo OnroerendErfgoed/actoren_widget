@@ -4,7 +4,7 @@ define([
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
-	'./CrabWidget'
+	'../CrabWidget'
 ], function(
 	template,
 	declare,

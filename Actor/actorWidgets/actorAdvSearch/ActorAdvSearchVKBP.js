@@ -1,5 +1,5 @@
 define([
-	'dojo/text!./../templates/ActorAdvancedSearch/ActorAdvSearchVKBP.html',
+	'dojo/text!./templates/ActorAdvSearchVKBP.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dijit/_WidgetBase',

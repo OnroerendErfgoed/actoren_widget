@@ -1,5 +1,6 @@
 define([
-	'dojo/text!./../templates/ActorCreate/ActorCreateActor.html',
+	'dojo',
+	'dojo/text!./templates/ActorEdit.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dijit/_WidgetBase',
@@ -7,9 +8,9 @@ define([
 	'dojo/store/Memory',
 	'dijit/form/ComboBox',
 	'../CrabWidget',
-	'dojo/dom-class',
 	"dojo/dom-construct"
 ], function(
+	dojo,
 	template,
 	declare,
 	lang,
@@ -18,16 +19,15 @@ define([
 	Memory,
 	ComboBox,
 	CrabWidget,
-	domClass,
 	domConstruct
 ) {
 	return declare([_WidgetBase, _TemplatedMixin], {
 
 		templateString: template,
 		baseClass: 'actor-widget',
+		widgetsInTemplate: true,
 		actor: null,
 		actorWidget: null,
-		actorAdvancedSearch : null,
 		_telefoonLandcodeSelect: null,
 
 		_actorTelefoons: [],
@@ -37,15 +37,63 @@ define([
 
 
 		postCreate: function() {
-			console.log('...ActorCreateActor::postCreate', arguments);
+			console.log('..ActorEdit::postCreate', arguments);
 			this.inherited(arguments);
 		},
 
 		startup: function () {
-			console.log('...ActorCreateActor::startup', arguments);
+			console.log('..ActorEdit::startup', arguments);
 			this.inherited(arguments);
 			this._setTelefoonLandcodes();
 			this._setCrabWidget();
+		},
+
+		_setCrabWidget: function() {
+			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
+		},
+
+		setActor: function(actor) {
+			this.naam.value = actor.naam;
+			this.voornaam.value = actor.voornaam;
+
+			actor.emails.forEach(lang.hitch(this, function(email) {
+				this._index++;
+				email['id'] = this._index.toString();
+				this._actorEmails.push(email);
+				this._createListItem(this._index, email.email, email.type.naam, this.emaillist, this._removeEmail);
+			}));
+
+			actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
+				this._index++;
+				telefoon['id'] = this._index.toString();
+				this._actorTelefoons.push(telefoon);
+				var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
+				this._createListItem(this._index, telefoonvalue, telefoon.type.naam, this.telefoonlist, this._removeTelefoon);
+			}));
+
+			if (actor.adres) {
+				this._crabWidget.setValues(actor.adres);
+			}
+			this.actortype.value  = actor.type.naam;
+
+			actor.urls.forEach(lang.hitch(this, function(url) {
+				this._index++;
+				url['id'] = this._index.toString();
+				this._actorUrls.push(url);
+				this._createListItem(this._index, url.url, url.type.naam, this.urllist, this._removeUrl);
+			}));
+
+			this.actor = actor;
+		},
+		_openSearch: function(evt) {
+			evt? evt.preventDefault() : null;
+			this.actorWidget.showSearch();
+			this._reset();
+		},
+		_openDetail: function(evt) {
+			evt? evt.preventDefault() : null;
+			this.actorWidget.showDetail(this.actor);
+			this._reset();
 		},
 
 		_setTelefoonLandcodes: function() {
@@ -166,87 +214,30 @@ define([
 			}))
 		},
 
-		_watchActorTypes: function() {
-			switch (this.type.value) {
-				case "1":
-					this.kbo.value = '';
-					this.kbo.disabled=true;
-					domClass.add(this.kboNode, 'placeholder-disabled');
-					this.rrn.disabled=false;
-					domClass.remove(this.rrnNode, 'placeholder-disabled');
-					break;
-				case "2":
-					this.rrn.value = '';
-					this.rrn.disabled=true;
-					domClass.add(this.rrnNode, 'placeholder-disabled');
-					this.kbo.disabled=false;
-					domClass.remove(this.kboNode, 'placeholder-disabled');
-					break;
-			}
-
-		},
-
-		_setCrabWidget: function() {
-			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
-		},
-
-		_openSearch: function(evt) {
-			evt? evt.preventDefault() : null;
-			this.actorAdvancedSearch._showSearch();
-			this._reset();
-		},
-
-		_showActorSearch: function(evt) {
-			evt? evt.preventDefault() : null;
-			this.actorAdvancedSearch._showActorSearch();
-			this._reset();
-		},
-
-		_reset: function(){
-			this.naam.value = "";
-			this.voornaam.value = "";
-			this.email.value = "";
+		_reset: function() {
+			this.naam.value = '';
+			this.voornaam.value = '';
+			this.email.value=  '';
 			this._actorEmails.forEach(lang.hitch(this, function(emailObject){
 				domConstruct.empty('li' + emailObject.id);
 			}));
 			this._actorEmails = [];
 			this.emailtypes.value = 2;
-			this.telefoon.value = "";
+			this.telefoon.value = '';
 			this._actorTelefoons.forEach(lang.hitch(this, function(telefoonObject){
 				domConstruct.empty('li' + telefoonObject.id);
 			}));
 			this._actorTelefoons = [];
 			this.telefoontypes.value = 2;
+			this.telefoonLandcode.value = '';
+			this._crabWidget.resetValues();
+			this.actortype.value = "1";
 			this.url.value = "";
 			this._actorUrls.forEach(lang.hitch(this, function(urlObject){
 				domConstruct.empty('li' + urlObject.id);
 			}));
 			this._actorUrls = [];
 			this.urltypes.value = 1;
-			this.type.value = "1";
-			this.rrn.value = "";
-			this.kbo.value = "";
-			this._crabWidget.resetValues();
-		},
-
-		_rrnValidation: function () {
-			var rrn = this.rrn.value,
-				valid = true;
-			rrn = this.rrn.value.split(" ").join("").split('.').join("").split('-').join("");
-			this.rrn.value = rrn;
-			if (rrn.length > 0) {
-				if (isNaN(rrn) || rrn.length != 11) {
-					valid = false;
-				}
-				else if (rrn.substring(0, 1) === '0' || rrn.substring(0, 1) === '1') {
-					rrn = '2' + rrn;
-				}
-				else {
-					var x = 97 - (parseInt(rrn.substring(0, rrn.length - 2)) - (parseInt(rrn.substring(0, rrn.length - 2) / 97)) * 97);
-					valid = parseInt(rrn.slice(-2)) === x;
-				}
-			}
-			return valid;
 		},
 
 		_gemeenteValidation: function() {
@@ -258,16 +249,6 @@ define([
 			}
 			return valid;
 		},
-
-		_kboValidation: function () {
-			var kbo = this.kbo.value.split(" ").join("").split('.').join();
-			if (kbo.length >  0) {
-				return (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
-			} else {
-				return true;
-			}
-		},
-
 
 		_telefoonValidation: function () {
 			var valid = true;
@@ -308,88 +289,98 @@ define([
 
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
-				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
+			var inputs = [this.email, this.telefoon, this.url, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
+				this._crabWidget.postcode, this._crabWidget.gemeente];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
 					valid = lang.hitch(this, this._setCustomValidity)(input, valid);
 				}
 			}));
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
-			valid = lang.hitch(this, this._setCustomValidity)(this.kbo, valid, this._kboValidation());
-			valid = lang.hitch(this, this._setCustomValidity)(this.rrn, valid, this._rrnValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
 			return valid
 
 		},
 
-		_save: function() {
+		_save: function(evt) {
+			evt? evt.preventDefault() : null;
 			if (!this._isValid()) {
 				this.actorWidget.emitError({
-					widget: 'ActorCreate',
-					message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.',
-					error: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'
+					widget: 'ActorEdit',
+					message: 'Input waarden om een actor te bewerken, zijn incorrect.',
+					error: 'Input waarden om een actor te bewerken, zijn incorrect.'
 				})
 			} else {
-				var actorNew = {};
-				actorNew['naam'] = this.naam.value;
-				actorNew['voornaam'] = this.voornaam.value;
-				actorNew['rrn'] = this.rrn.value;
-				actorNew['kbo'] = this.kbo.value;
-				actorNew['type'] = {id: this.type.value};
-				this._addEmail();
-				actorNew['emails'] = this._actorEmails;
-				this._addTelefoon();
-				actorNew['telefoons'] = this._actorTelefoons;
-				this._addUrl();
-				actorNew['urls'] = this._actorUrls;
-				var actorNewAdres = {};
-				var crabWidgetValues = this._crabWidget.getInput();
-				actorNewAdres['land'] = crabWidgetValues.values.land;
-				actorNewAdres['postcode'] = crabWidgetValues.values.postcode;
-				actorNewAdres['gemeente'] = crabWidgetValues.values.gemeente;
-				actorNewAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
-				actorNewAdres['straat'] = crabWidgetValues.values.straat;
-				actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
-				actorNewAdres['huisnummer'] = crabWidgetValues.values.nummer;
-				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
+				var actorEdit = this.actor;
 
-				this.actorWidget.actorController.saveActor(actorNew).then(
+				this._addEmail();
+				actorEdit['emails'] = this._actorEmails;
+
+				this._addTelefoon();
+				actorEdit['telefoons'] = this._actorTelefoons;
+
+				this._addUrl();
+				actorEdit['urls'] = this._actorUrls;
+
+				var actorEditAdres = {};
+				var crabWidgetValues = this._crabWidget.getInput();
+				actorEditAdres['land'] = crabWidgetValues.values.land;
+				actorEditAdres['postcode'] = crabWidgetValues.values.postcode;
+				actorEditAdres['gemeente'] = crabWidgetValues.values.gemeente;
+				actorEditAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
+				actorEditAdres['straat'] = crabWidgetValues.values.straat;
+				actorEditAdres['straat_id'] = crabWidgetValues.ids.straat_id;
+				actorEditAdres['huisnummer'] = crabWidgetValues.values.nummer;
+				actorEditAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
+
+				var adresEdited = false;
+				if (actorEdit.adres) {
+					['huisnummer', 'gemeente', 'poscode', 'land', 'straat'].forEach(function (adresKey) {
+						if (actorEditAdres[adresKey] != actorEdit.adres[adresKey]) {
+							adresEdited = true;
+						}
+					});
+				}
+				else {
+					adresEdited = true;
+				}
+
+				var actorId = actorEdit.id;
+				//todo remove next line
+				actorEdit.adres = actorEditAdres;
+				this.actorWidget.actorController.saveActor(actorEdit).then(
 					lang.hitch(this, function(response) {
 						var actor = response;
-						this.actorWidget.actorController.saveActorAdres(actorNewAdres, actor.id).then(
-							lang.hitch(this, function (response) {
-								actor.adres = response;
-								this._findNewActor(actor)
-							}),
-							lang.hitch(this, function (error) {
+						if (!adresEdited) {
+							this.actorWidget.showDetail(actor);
+							this._reset();
+						}
+						else {
+							this.actorWidget.actorController.saveActorAdres(actorEditAdres, actorId).then(
+								lang.hitch(this, function (response) {
+									actor.adres = response;
+									this.actorWidget.showDetail(actor);
+									this._reset();
+								}),
+								lang.hitch(this, function (error) {
 									this.actorWidget.emitError({
-										widget: 'ActorCreate',
-										message: 'Bewaren van het adres van de nieuwe actor is mislukt',
+										widget: 'ActorEdit',
+										message: 'Bewaren van het nieuwe adres van de actor is mislukt',
 										error: error
 									})
-								}
-							));
+								})
+							);
+						}
 					}),
 					lang.hitch(this, function(error) {
 						this.actorWidget.emitError({
-							widget: 'ActorCreate',
-							message: 'Bewaren van de nieuwe actor is mislukt',
+							widget: 'ActorEdit',
+							message: 'Bewaren van de bewerkte actor is mislukt',
 							error: error
 						})
 					})
 				);
 			}
-		},
-
-		_findNewActor: function(actor) {
-			var query = {query:'id:' +actor.id};
-			this._filterGrid(query);
-			this.actorWidget.showDetail(actor);
-		},
-
-		_filterGrid: function (query) {
-			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		}
 	});
 });
