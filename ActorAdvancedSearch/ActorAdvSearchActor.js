@@ -78,7 +78,7 @@ define([
 		},
 
 		_openSearch: function(evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			this.actorAdvancedSearch._showSearch();
 			this._reset();
 		},

@@ -141,7 +141,7 @@ define([
 		},
 
 		_showActorSearch: function(evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			this.actorWidget.showActorSearch();
 		},
 
@@ -156,7 +156,7 @@ define([
 		},
 
 		_emitSelectedActoren: function(evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			for(var id in this._grid.selection){
 				if(this._grid.selection[id]){
 					this.actorController.getActor(id).

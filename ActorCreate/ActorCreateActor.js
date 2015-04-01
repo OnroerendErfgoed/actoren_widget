@@ -75,7 +75,7 @@ define([
 		},
 
 		_addEmail: function (evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			if (this.email.value.split(' ').join("").length > 0) {
 				var actorEmail = this._actorEmails.filter(lang.hitch(this, function (emailObject) {
 					return (emailObject.email === this.email.value && emailObject.type.id === this.emailtypes.value);
@@ -96,7 +96,7 @@ define([
 		},
 
 		_addTelefoon: function (evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			if (this.telefoon.value.split(' ').join("").length > 0) {
 				var actorTelefoon = this._actorTelefoons.filter(lang.hitch(this, function (telefoonObject) {
 					return (telefoonObject.nummer === this.telefoon.value &&
@@ -121,7 +121,7 @@ define([
 		},
 
 		_addUrl: function (evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			if (this.url.value.split(' ').join("").length > 0) {
 				var actorUrl = this._actorUrls.filter(lang.hitch(this, function (urlObject) {
 					return (urlObject.url === this.url.value && urlObject.type.id === this.urltypes.value);
@@ -191,13 +191,13 @@ define([
 		},
 
 		_openSearch: function(evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			this.actorAdvancedSearch._showSearch();
 			this._reset();
 		},
 
 		_showActorSearch: function(evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			this.actorAdvancedSearch._showActorSearch();
 			this._reset();
 		},
@@ -278,17 +278,19 @@ define([
 			[' ', '.', '/', '-', ','].forEach(function(delimiter){
 				nummer = nummer.split(delimiter).join("");
 			});
-			var landcode = this._telefoonLandcodeSelect.get('value').ltrim0();
-			[' ', '.', '/', '-', ','].forEach(function(delimiter){
-				landcode = landcode.split(delimiter).join("");
-			});
-			landcode = landcode.indexOf('+') !== 0 ? '+' + landcode : landcode;
-			if (landcode.slice(0,1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1)) ||
-				landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
-				valid = false;
-			} else if (landcode === '+32') {
-				if (nummer.length !== 8 && nummer.length !== 9 ) {
+			if (nummer.length !== 0) {
+				var landcode = this._telefoonLandcodeSelect.get('value').ltrim0();
+				[' ', '.', '/', '-', ','].forEach(function (delimiter) {
+					landcode = landcode.split(delimiter).join("");
+				});
+				landcode = landcode.indexOf('+') !== 0 ? '+' + landcode : landcode;
+				if (landcode.slice(0, 1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1)) ||
+					landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
 					valid = false;
+				} else if (landcode === '+32') {
+					if (nummer.length !== 8 && nummer.length !== 9) {
+						valid = false;
+					}
 				}
 			}
 			return valid
@@ -334,20 +336,13 @@ define([
 				actorNew['voornaam'] = this.voornaam.value;
 				actorNew['rrn'] = this.rrn.value;
 				actorNew['kbo'] = this.kbo.value;
-				actorNew['type'] = {
-					type: {
-						id: this.type.value
-					}
-				};
+				actorNew['type'] = {id: this.type.value};
 				this._addEmail();
 				actorNew['emails'] = this._actorEmails;
-
 				this._addTelefoon();
 				actorNew['telefoons'] = this._actorTelefoons;
-
 				this._addUrl();
 				actorNew['urls'] = this._actorUrls;
-
 				var actorNewAdres = {};
 				var crabWidgetValues = this._crabWidget.getInput();
 				actorNewAdres['land'] = crabWidgetValues.values.land;

@@ -70,7 +70,7 @@ define([
 		},
 
 		_openSearch: function(evt) {
-			evt.preventDefault();
+			evt? evt.preventDefault() : null;
 			this.actorWidget.showSearch();
 			this._reset();
 		},
