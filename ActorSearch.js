@@ -78,6 +78,7 @@ define([
 			}, this.gridNode);
 
 			this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
+				evt.preventDefault();
 				var cell = this._grid.cell(evt);
 				if (cell.column.field == 'id') {
 					var id = this._grid.row(evt).id;
@@ -90,6 +91,7 @@ define([
 
 			}));
 			this._grid.on(".dgrid-row:dblclick", lang.hitch(this, function(evt){
+				evt.preventDefault();
 				var id = this._grid.row(evt).id;
 				this.actorController.getActor(id).
 					then(lang.hitch(this, function(actor){
@@ -101,6 +103,7 @@ define([
 		},
 
 		_filterGrid: function (evt) {
+			evt.preventDefault();
 			if (this._store != 'wij') {
 				this._grid.set('store', this.actorController.actorWijStore);
 				this._store = 'wij';
@@ -137,19 +140,23 @@ define([
 			this.actorWidget.showDetail(actor);
 		},
 
-		_showActorSearch: function() {
+		_showActorSearch: function(evt) {
+			evt? evt.preventDefault() : null;
 			this.actorWidget.showActorSearch();
 		},
 
-		_showVKBOSearch: function() {
+		_showVKBOSearch: function(evt) {
+			evt.preventDefault();
 			this.actorWidget.showVKBOSearch();
 		},
 
-		_showVKBPSearch: function() {
+		_showVKBPSearch: function(evt) {
+			evt.preventDefault();
 			this.actorWidget.showVKBPSearch();
 		},
 
-		_emitSelectedActoren: function() {
+		_emitSelectedActoren: function(evt) {
+			evt? evt.preventDefault() : null;
 			for(var id in this._grid.selection){
 				if(this._grid.selection[id]){
 					this.actorController.getActor(id).

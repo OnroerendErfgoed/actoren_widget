@@ -6,22 +6,22 @@
       <option value="NL">Nederland</option>
     </select>
   </div>
-  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='postcodeCrabNode' style="width:36%;">
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='gemeenteCrabNode' style="width:60%;">
+    <label>Gemeente</label>
+    <input data-dojo-attach-point='gemeenteCrab' type="text" />
+    <input data-dojo-attach-point='gemeenteCrabValidation' type="text" style="margin: -37px 0px 0px 0px;" title="Gelieve een gemeente in te vullen"/>
+  </div>
+  <div class="placeholder-container" tabindex="-1" style="width:60%;" data-dojo-attach-point='gemeenteNode'>
+    <label for="gemeente">Gemeente</label>
+    <input data-dojo-attach-point='gemeente' type="text" id="gemeente" pattern=".{1,50}"/>
+  </div>
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='postcodeCrabNode' style="width:36%; float:right;">
     <label>Postcode</label>
     <input data-dojo-attach-point='postcodeCrab' type="text" />
   </div>
-  <div class="placeholder-container" tabindex="-1" style="width:36%;" data-dojo-attach-point='postcodeNode'>
+  <div class="placeholder-container" tabindex="-1" style="width:36%; float:right;" data-dojo-attach-point='postcodeNode'>
     <label for="postcode">Postcode</label>
     <input id="postcode" data-dojo-attach-point='postcode' type="text" pattern=".{1,20}" />
-  </div>
-  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='gemeenteCrabNode' style="width:60%; float:right;">
-    <label>Gemeente</label>
-    <input data-dojo-attach-point='gemeenteCrab' type="text" />
-    <input data-dojo-attach-point='gemeenteCrabValidation' type="text" style="margin-left: -37px;" required title="Gelieve een gemeente in te vullen"/>
-  </div>
-  <div class="placeholder-container" tabindex="-1" style="width:60%; float:right;" data-dojo-attach-point='gemeenteNode'>
-    <label for="gemeente">Gemeente</label>
-    <input data-dojo-attach-point='gemeente' type="text" id="gemeente" pattern=".{1,50}"/>
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='straatCrabNode'>
     <label>Straat</label>

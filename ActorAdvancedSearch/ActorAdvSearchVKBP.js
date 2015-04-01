@@ -69,7 +69,8 @@ define([
 			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		},
 
-		_openSearch: function() {
+		_openSearch: function(evt) {
+			evt? evt.preventDefault() : null;
 			this.actorWidget.showSearch();
 			this._reset();
 		},

@@ -60,11 +60,13 @@ define([
       this.url.value  = actor.urls.length ? actor.urls[0].url ? actor.urls[0].url : null : null;
 			this.actor = actor;
 		},
-		_openSearch: function() {
+		_openSearch: function(evt) {
+			evt.preventDefault();
 			this.actorWidget.showSearch();
 			this._reset();
 		},
-		_openEdit: function() {
+		_openEdit: function(evt) {
+			evt.preventDefault();
 			this.actorWidget.showEdit(this.actor);
 			this._reset();
 		},
