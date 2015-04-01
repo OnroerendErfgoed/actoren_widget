@@ -33,7 +33,8 @@ define([
 		templateString: template,
 		baseClass: 'actor-widget',
 		widgetsInTemplate: true,
-		baseUrl: null,
+		actorWijStore: null,
+    actorStore: null,
 		actorController: null,
 		erfgoed_id: null,
 		crabHost: null,
@@ -44,7 +45,10 @@ define([
 			this.inherited(arguments);
 			console.log('ActorWidget::postCreate', arguments);
 
-			this.actorController = new ActorController({baseUrl: this.baseUrl});
+			this.actorController = new ActorController({
+        actorWijStore: this.actorWijStore,
+        actorStore: this.actorStore
+      });
 			this.crabController = new CrabController({crabHost: this.crabHost});
 			this._setupLayout();
 

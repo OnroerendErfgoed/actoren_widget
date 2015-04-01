@@ -1,6 +1,6 @@
 // Basically a JsonRest with the ''withCredentials' option
 define([
-    "dojo/_base/xhr",
+    "../../dojo/_base/xhr",
     "dojo/_base/lang",
     "dojo/json",
     "dojo/_base/declare",
