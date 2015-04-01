@@ -25,7 +25,6 @@ define([
 		widgetsInTemplate: true,
 		actorWijStore: null,
     actorStore: null,
-    baseUrl: null,
 		actorController: null,
 		_actorSearch: null,
 
