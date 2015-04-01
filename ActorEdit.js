@@ -151,7 +151,7 @@ define([
 					telefoonObject.landcode === this._telefoonLandcodeSelect.get('value') &&
 					telefoonObject.type.id === this.telefoontypes.value);
 				}));
-				if (actorTelefoon.length === 0 && lang.hitch(this, this._setCustomValidity)(this.telefoon, true)) {
+				if (actorTelefoon.length === 0 && lang.hitch(this, this._setCustomValidity)(this.telefoon, true, this._telefoonValidation())) {
 					this._index++;
 					this._actorTelefoons.push({
 						id: this._index.toString(),
@@ -250,6 +250,31 @@ define([
 			return valid;
 		},
 
+		_telefoonValidation: function () {
+			var valid = true;
+			String.prototype.ltrim0 = function() {
+				return this.replace(/^[0]+/,"");
+			};
+			var nummer = this.telefoon.value.ltrim0();
+			[' ', '.', '/', '-', ','].forEach(function(delimiter){
+				nummer = nummer.split(delimiter).join("");
+			});
+			var landcode = this._telefoonLandcodeSelect.get('value').ltrim0();
+			[' ', '.', '/', '-', ','].forEach(function(delimiter){
+				landcode = landcode.split(delimiter).join("");
+			});
+			landcode = landcode.indexOf('+') !== 0 ? '+' + landcode : landcode;
+			if (landcode.slice(0,1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1)) ||
+				landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
+				valid = false;
+			} else if (landcode === '+32') {
+				if (nummer.length !== 8 && nummer.length !== 9 ) {
+					valid = false;
+				}
+			}
+			return valid
+		},
+
 		_setCustomValidity: function(node, validParam, CustomValidBool) {
 			node.setCustomValidity('');
 			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
@@ -269,6 +294,7 @@ define([
 					valid = lang.hitch(this, this._setCustomValidity)(input, valid);
 				}
 			}));
+			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
 			return valid
 
