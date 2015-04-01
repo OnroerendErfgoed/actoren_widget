@@ -223,7 +223,7 @@ define([
 			}));
 			this._actorUrls = [];
 			this.urltypes.value = 1;
-			this.type.value = "";
+			this.type.value = "1";
 			this.rrn.value = "";
 			this.kbo.value = "";
 			this._crabWidget.resetValues();
