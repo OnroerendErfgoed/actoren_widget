@@ -77,12 +77,14 @@ define([
 			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		},
 
-		_openSearch: function() {
+		_openSearch: function(evt) {
+			evt.preventDefault();
 			this.actorAdvancedSearch._showSearch();
 			this._reset();
 		},
 
-		_showActorCreate: function() {
+		_showActorCreate: function(evt) {
+			evt.preventDefault();
 			this.actorAdvancedSearch._showActorCreate();
 		},
 

@@ -85,11 +85,13 @@ define([
 
 			this.actor = actor;
 		},
-		_openSearch: function() {
+		_openSearch: function(evt) {
+			evt.preventDefault();
 			this.actorWidget.showSearch();
 			this._reset();
 		},
-		_openDetail: function() {
+		_openDetail: function(evt) {
+			evt.preventDefault();
 			this.actorWidget.showDetail(this.actor);
 			this._reset();
 		},
@@ -120,7 +122,8 @@ define([
 			}, this.telefoonLandcode);
 		},
 
-		_addEmail: function () {
+		_addEmail: function (evt) {
+			evt.preventDefault();
 			if (this.email.value.split(' ').join("").length > 0) {
 				var actorEmail = this._actorEmails.filter(lang.hitch(this, function (emailObject) {
 					return (emailObject.email === this.email.value && emailObject.type.id === this.emailtypes.value);
@@ -140,7 +143,8 @@ define([
 			}
 		},
 
-		_addTelefoon: function () {
+		_addTelefoon: function (evt) {
+			evt.preventDefault();
 			if (this.telefoon.value.split(' ').join("").length > 0) {
 				var actorTelefoon = this._actorTelefoons.filter(lang.hitch(this, function (telefoonObject) {
 					return (telefoonObject.nummer === this.telefoon.value &&
@@ -164,7 +168,8 @@ define([
 			}
 		},
 
-		_addUrl: function () {
+		_addUrl: function (evt) {
+			evt.preventDefault();
 			if (this.url.value.split(' ').join("").length > 0) {
 				var actorUrl = this._actorUrls.filter(lang.hitch(this, function (urlObject) {
 					return (urlObject.url === this.url.value && urlObject.type.id === this.urltypes.value);
@@ -269,7 +274,8 @@ define([
 
 		},
 
-		_save: function() {
+		_save: function(evt) {
+			evt.preventDefault();
 			if (!this._isValid()) {
 				this.actorWidget.emitError({
 					widget: 'ActorEdit',

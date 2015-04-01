@@ -78,6 +78,7 @@ define([
 			}, this.gridNode);
 
 			this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
+				evt.preventDefault();
 				var cell = this._grid.cell(evt);
 				if (cell.column.field == 'id') {
 					var id = this._grid.row(evt).id;
@@ -90,6 +91,7 @@ define([
 
 			}));
 			this._grid.on(".dgrid-row:dblclick", lang.hitch(this, function(evt){
+				evt.preventDefault();
 				var id = this._grid.row(evt).id;
 				this.actorController.getActor(id).
 					then(lang.hitch(this, function(actor){
@@ -125,7 +127,8 @@ define([
 			this.actorWidget.showDetail(actor);
 		},
 
-		_emitSelectedActoren: function() {
+		_emitSelectedActoren: function(evt) {
+			evt.preventDefault();
 			for(var id in this._grid.selection){
 				if(this._grid.selection[id]){
 					this.actorController.getActor(id).
