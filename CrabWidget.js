@@ -147,9 +147,8 @@ define([
 
 		_changePostcodes: function() {
 			if (this._gemeenteCombobox.get('value')) {
-				var postcode = this.postcode.value ? this.postcode.value : this._postcodeCombobox.get('value');
-				this._postcodeCombobox.set('value', postcode);
-				this.postcode.value = postcode;
+				this._postcodeCombobox.set('value', '');
+				this.postcode.value = '';
 				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
 					this.postcodeNode.style.display = "none";
@@ -334,7 +333,7 @@ define([
 			this.postcode.value = '';
 			this.nummer.value = '';
 			this.postbus.value = '';
-			this.gemeenteCrabNode.style.display="block";
+			this.gemeenteCrabNode.style.display="inline-table";
 			this.straatCrabNode.style.display="none";
 			this.postcodeCrabNode.style.display="none";
 			this.nummerCrabNode.style.display="none";

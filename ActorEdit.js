@@ -90,8 +90,8 @@ define([
 			this._reset();
 		},
 		_openDetail: function() {
-			this._reset();
 			this.actorWidget.showDetail(this.actor);
+			this._reset();
 		},
 
 		_setTelefoonLandcodes: function() {
