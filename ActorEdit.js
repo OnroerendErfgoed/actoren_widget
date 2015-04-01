@@ -162,7 +162,7 @@ define([
 						}
 					});
 					var telefoonvalue = this._telefoonLandcodeSelect.get('value') ? this._telefoonLandcodeSelect.get('value') + this.telefoon.value : '+32' + this.telefoon.value;
-					this._createListItem(this._index, telefoonvalue, this.emailtypes.selectedOptions[0].label, this.telefoonlist, this._removeTelefoon);
+					this._createListItem(this._index, telefoonvalue, this.telefoontypes.selectedOptions[0].label, this.telefoonlist, this._removeTelefoon);
 					this.telefoon.value = '';
 				}
 			}
