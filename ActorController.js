@@ -9,19 +9,13 @@ define([
 ) {
 	return declare([_WidgetBase], {
 
-		baseUrl: null,
 		actorStore: null,
     actorWijStore: null,
 
-		_target: '/actoren/',
 		_adresParameter: '/adressen',
 
 		postCreate: function() {
 			console.log('..ActorController::postCreate', arguments);
-			this.inherited(arguments);
-		},
-
-		startup: function () {
 			this.inherited(arguments);
 		},
 
@@ -43,9 +37,8 @@ define([
 			return this.actorStore.query(query);
 		},
 
-		saveActorAdres:function(adres,actorId)
-		{
-			var target=this.baseUrl + this._target + actorId + this._adresParameter;
+		saveActorAdres:function(adres,actorId) {
+			var target = this.actorStore.target + actorId + this._adresParameter;
 			return xhr(target,{
 				withCredentials: true,
 				handleAs: "json",

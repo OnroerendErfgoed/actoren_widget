@@ -35,8 +35,7 @@ define([
 
 			this.actorController = new ActorController({
         actorWijStore: this.actorWijStore,
-        actorStore: this.actorStore,
-        baseUrl: this.baseUrl
+        actorStore: this.actorStore
       });
 			this._setupLayout();
 
