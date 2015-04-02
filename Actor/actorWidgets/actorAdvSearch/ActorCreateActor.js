@@ -232,6 +232,22 @@ define([
 			this._crabWidget.resetValues();
 		},
 
+		_setValidationMessageMapping: function () {
+			this._validationMessageMapping = {
+				naam: "Naam is verplicht. Gelieve een geledige naam in te vullen.",
+				voornaam: "De waarde is te lang.",
+				email: "De waarde is niet volgens het geldig email formaat.",
+				telfoon: "De waarde is niet volgens het geldig telefoon formaat.",
+				url: "De waarde is niet volgens het geldig url formaat.",
+				rrn: "De waarde is niet volgens het geldig rrn formaat.",
+				kbo: "De waarde is niet volgens het geldig kbo formaat.",
+				gemeente: "De waarde is te lang",
+				straat: "De waarde is te lang",
+				nummer: "De waarde is te lang",
+				postbus: "De waarde is te lang"
+			}
+		},
+
 		_rrnValidation: function () {
 			var rrn = this.rrn.value,
 				valid = true;
@@ -240,6 +256,7 @@ define([
 			if (rrn.length > 0) {
 				if (isNaN(rrn) || rrn.length != 11) {
 					valid = false;
+					this._validationMessageMapping['rrn'] = "Een rijksregisternummer moet 11 cijfers lang zijn.";
 				}
 				else if (rrn.substring(0, 1) === '0' || rrn.substring(0, 1) === '1') {
 					rrn = '2' + rrn;
@@ -247,6 +264,9 @@ define([
 				else {
 					var x = 97 - (parseInt(rrn.substring(0, rrn.length - 2)) - (parseInt(rrn.substring(0, rrn.length - 2) / 97)) * 97);
 					valid = parseInt(rrn.slice(-2)) === x;
+					if (!valid) {
+						this._validationMessageMapping['rrn'] = "Dit is geen correct rijksregisternummer.";
+					}
 				}
 			}
 			return valid;
@@ -265,7 +285,11 @@ define([
 		_kboValidation: function () {
 			var kbo = this.kbo.value.split(" ").join("").split('.').join();
 			if (kbo.length >  0) {
-				return (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
+				var valid = (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
+				if (!valid) {
+					this._validationMessageMapping['kbo'] = "Dit is geen correct ondernemingsnummer.";
+				}
+				return valid
 			} else {
 				return true;
 			}
@@ -287,11 +311,17 @@ define([
 					landcode = landcode.split(delimiter).join("");
 				});
 				landcode = landcode.indexOf('+') !== 0 ? '+' + landcode : landcode;
-				if (landcode.slice(0, 1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1)) ||
-					landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
+				if (landcode.slice(0, 1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1))) {
 					valid = false;
-				} else if (landcode === '+32') {
+					this._validationMessageMapping['telefoon'] = "Een geldige landcode begint met een + gevolgd door maximaal 4 cijfers";
+				}
+				else if (landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
+					valid = false;
+					this._validationMessageMapping['telefoon'] = "Een geldige nummer begint met een + gevolgd door maximaal 15 cijfers";
+				}
+				else if (landcode === '+32') {
 					if (nummer.length !== 8 && nummer.length !== 9) {
+						this._validationMessageMapping['telefoon'] = "Na +32 moeten er 8 of 9 cijfers volgen";
 						valid = false;
 					}
 				}
@@ -303,7 +333,8 @@ define([
 			node.setCustomValidity('');
 			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
 			if (!valid) {
-				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
+				var message = this._validationMessageMapping[node.id] ? this._validationMessageMapping[node.id] : "Waarde is niet volgens het juiste formaat.";
+				node.setCustomValidity(message);
 				validParam = false;
 				node.reportValidity();
 			}

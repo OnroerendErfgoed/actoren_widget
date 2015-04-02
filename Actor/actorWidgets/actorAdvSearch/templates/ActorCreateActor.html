@@ -19,7 +19,7 @@
             <div class="large-4 columns">
               <div class="placeholder-container" tabindex="-1">
                 <label for="naam">*Naam</label>
-                <input data-dojo-attach-point='naam' id="naam" type="text" pattern=".{1,255}" required title="Gelieve een naam in te vullen"/>
+                <input data-dojo-attach-point='naam' id="naam" type="text" pattern=".{1,255}" required />
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="voornaam">Voornaam</label>
@@ -39,7 +39,7 @@
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode2">Telefoon</label>
                 <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode2" />
-                <input style="width: 40%; float: left;" data-dojo-attach-point='telefoon' type="text"/>
+                <input style="width: 40%; float: left;" id="telefoon" data-dojo-attach-point='telefoon' type="text"/>
                 <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:30%; float:left;" class="placeholder-input-border">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>
