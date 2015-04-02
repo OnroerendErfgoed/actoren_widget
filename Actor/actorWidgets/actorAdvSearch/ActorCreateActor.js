@@ -302,6 +302,7 @@ define([
 			if (!valid) {
 				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
 				validParam = false;
+				node.reportValidity();
 			}
 			return validParam;
 		},

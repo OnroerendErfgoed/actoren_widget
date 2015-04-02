@@ -278,19 +278,22 @@ define([
 		},
 
 		_setCustomValidity: function(node, validParam, CustomValidBool) {
-			node.setCustomValidity('');
 			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
 			if (!valid) {
 				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
+				node.reportValidity();
 				validParam = false;
+			}
+			else {
+				node.setCustomValidity('');
 			}
 			return validParam;
 		},
 
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.email, this.telefoon, this.url, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
-				this._crabWidget.postcode, this._crabWidget.gemeente];
+			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
+				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
 					valid = lang.hitch(this, this._setCustomValidity)(input, valid);
