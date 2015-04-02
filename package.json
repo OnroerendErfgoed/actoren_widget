@@ -7,7 +7,7 @@
 		"type":"git",
 		"url":"https://github.com/OnroerendErfgoed/actoren_widget"
 	},
-    "main": "./ActorWidget",
+    "main": "./Actor/ActorWidget",
     "dojoBuild": "package.js",
     "directories": {
 		"lib": "."

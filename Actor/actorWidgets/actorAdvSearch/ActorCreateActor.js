@@ -1,4 +1,5 @@
 define([
+	'dojo',
 	'dojo/text!./templates/ActorCreateActor.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
@@ -10,6 +11,7 @@ define([
 	'dojo/dom-class',
 	"dojo/dom-construct"
 ], function(
+	dojo,
 	template,
 	declare,
 	lang,
@@ -46,6 +48,7 @@ define([
 			this.inherited(arguments);
 			this._setTelefoonLandcodes();
 			this._setCrabWidget();
+			this._setValidationMessageMapping();
 		},
 
 		_setTelefoonLandcodes: function() {
