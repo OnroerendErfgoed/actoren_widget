@@ -4,78 +4,78 @@
 }
 
 /* Restore dgrid css*/
-.dgrid .dgrid-row-table {
+.actor-widget .dgrid {
+    height: 300px;
+}
+
+.actor-widget .dgrid .dgrid-row-table {
   margin: 0 !important;
   background: none;
 }
 
-.dgrid table th {
+.actor-widget .dgrid table th {
   width: auto;
 }
 
-.dgrid [class*="column"] + [class*="column"]:last-child {
+.actor-widget .dgrid [class*="column"] + [class*="column"]:last-child {
   float: none;
 }
 
-.dgrid-sort-arrow {
+.actor-widget .dgrid-sort-arrow {
   margin: 0;
 }
 
-.dgrid {
-    height: 345px !important;
-}
-
-.dgrid-column-check, .dgrid-column-id {
+.actor-widget .dgrid-column-check, .dgrid-column-id {
     width: 50px !important;
 }
 
-.input-label-left {
+.actor-widget .input-label-left {
     display: inline-block;
     margin: 0;
     float: left !important;
 }
 
-.input-label-right {
+.actor-widget .input-label-right {
     display: inline-block;
     margin: 0;
     float: right !important;
 }
 
-.inline-inputs {
+.actor-widget .inline-inputs {
     width: 100%;
     display: inline-block;
     margin: 0;
 }
 
-.tabs-content {
+.actor-widget .tabs-content {
     border: 1px solid rgba(117, 63, 127, 0.3) !important;
 }
 
-.search-combobox {
+.actor-widget .search-combobox {
     height: 2.3125rem;
     border: none;
     width: 100%;
     margin-bottom: 1rem;
 }
 
-.search-combobox input[type="text"] {
+.actor-widget .search-combobox input[type="text"] {
     background-color: white !important;
     border: 1px solid #cccccc !important;
     margin: 0 0 1rem 0 !important;
     padding: 0.5rem !important;
 }
 
-.dijitMenu {
+.actor-widget .dijitMenu {
     border: 1px solid #cccccc !important;
     color: #616161;
 }
 
-.dijitMenuItemHover {
+.actor-widget .dijitMenuItemHover {
     background-color: #CBD6F5 !important;
 }
 
 /*country flags*/
-.flag {
+.actor-widget .flag {
   background-repeat: no-repeat;
   background-size: 25px auto;
   padding-left: 30px;
@@ -131,13 +131,13 @@
   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+);
 }
 
-.plus-icon {
+.actor-widget .plus-icon {
   padding-top: 12px;
   padding-left: 8px;
   color: #3f3840;
 }
 
-.plus-icon-link {
+.actor-widget .plus-icon-link {
   display:table-cell;
   border-left: 1px dotted #d3d3d3;
   float: left;
@@ -145,13 +145,13 @@
   height: 37px;
 }
 
-.minus-icon {
+.actor-widget .minus-icon {
   padding-top: 15px;
   padding-left: 10px;
   color: #3f3840;
   height: 100%;
 }
 
-.placeholder-input-border {
+.actor-widget .placeholder-input-border {
   border-left: 1px dotted #d3d3d3 !important;
 }
