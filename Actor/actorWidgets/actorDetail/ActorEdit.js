@@ -46,6 +46,7 @@ define([
 			this.inherited(arguments);
 			this._setTelefoonLandcodes();
 			this._setCrabWidget();
+			this._setValidationMessageMapping();
 		},
 
 		_setCrabWidget: function() {
@@ -128,6 +129,7 @@ define([
 				var actorEmail = this._actorEmails.filter(lang.hitch(this, function (emailObject) {
 					return (emailObject.email === this.email.value && emailObject.type.id === this.emailtypes.value);
 				}));
+				this._resetValidity();
 				if (actorEmail.length === 0 && lang.hitch(this, this._setCustomValidity)(this.email, true)) {
 					this._index++;
 					this._actorEmails.push({
@@ -151,6 +153,7 @@ define([
 					telefoonObject.landcode === this._telefoonLandcodeSelect.get('value') &&
 					telefoonObject.type.id === this.telefoontypes.value);
 				}));
+				this._resetValidity();
 				if (actorTelefoon.length === 0 && lang.hitch(this, this._setCustomValidity)(this.telefoon, true, this._telefoonValidation())) {
 					this._index++;
 					this._actorTelefoons.push({
@@ -174,6 +177,7 @@ define([
 				var actorUrl = this._actorUrls.filter(lang.hitch(this, function (urlObject) {
 					return (urlObject.url === this.url.value && urlObject.type.id === this.urltypes.value);
 				}));
+				this._resetValidity();
 				if (actorUrl.length === 0 && lang.hitch(this, this._setCustomValidity)(this.url, true)) {
 					this._index++;
 					this._actorUrls.push({
@@ -240,6 +244,19 @@ define([
 			this.urltypes.value = 1;
 		},
 
+		_setValidationMessageMapping: function () {
+			this._validationMessageMapping = {
+				email: "De waarde is niet volgens het geldig email formaat.",
+				telefoon: "De waarde is niet volgens het geldig telefoon formaat.",
+				url: "De waarde is niet volgens het geldig url formaat.",
+				gemeente: "De waarde is te lang",
+				gemeenteCrabValidation: "Gemeente is verplicht. Gelieve een geldige gemeente in te vullen.",
+				straat: "De waarde is te lang",
+				nummer: "De waarde is te lang",
+				postbus: "De waarde is te lang"
+			}
+		},
+
 		_gemeenteValidation: function() {
 			var valid = true;
 			if (this._crabWidget.land.value == 'BE') {
@@ -265,11 +282,17 @@ define([
 					landcode = landcode.split(delimiter).join("");
 				});
 				landcode = landcode.indexOf('+') !== 0 ? '+' + landcode : landcode;
-				if (landcode.slice(0, 1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1)) ||
-					landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
+				if (landcode.slice(0, 1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1))) {
 					valid = false;
-				} else if (landcode === '+32') {
+					this._validationMessageMapping['telefoon'] = "Een geldige landcode begint met een + gevolgd door maximaal 4 cijfers";
+				}
+				else if (landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
+					valid = false;
+					this._validationMessageMapping['telefoon'] = "Een geldige nummer begint met een + gevolgd door maximaal 15 cijfers";
+				}
+				else if (landcode === '+32') {
 					if (nummer.length !== 8 && nummer.length !== 9) {
+						this._validationMessageMapping['telefoon'] = "Na +32 moeten er 8 of 9 cijfers volgen";
 						valid = false;
 					}
 				}
@@ -278,16 +301,29 @@ define([
 		},
 
 		_setCustomValidity: function(node, validParam, CustomValidBool) {
+			node.setCustomValidity('');
 			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
 			if (!valid) {
-				node.setCustomValidity("Waarde is niet volgens het juiste formaat.");
-				node.reportValidity();
+				var message = this._validationMessageMapping[node.id] ? this._validationMessageMapping[node.id] : "Waarde is niet volgens het juiste formaat.";
+				node.setCustomValidity(message);
 				validParam = false;
-			}
-			else {
-				node.setCustomValidity('');
+				/* firefox heeft geen reportValidity functie */
+				node.reportValidity ? node.reportValidity() : this._reportValidity();
 			}
 			return validParam;
+		},
+
+		/* Nodig in firefox */
+		_reportValidity: function() {
+				this.reportValidity.click();
+		},
+		/* Nodig in firefox */
+		_resetValidity: function () {
+			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
+				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation];
+			inputs.forEach(lang.hitch(this, function(input){
+				input.setCustomValidity('');
+			}))
 		},
 
 		_isValid: function() {
@@ -349,8 +385,6 @@ define([
 				}
 
 				var actorId = actorEdit.id;
-				//todo remove next line
-				actorEdit.adres = actorEditAdres;
 				this.actorWidget.actorController.saveActor(actorEdit).then(
 					lang.hitch(this, function(response) {
 						var actor = response;

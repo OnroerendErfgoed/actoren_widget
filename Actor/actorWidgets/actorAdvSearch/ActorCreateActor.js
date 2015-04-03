@@ -83,6 +83,7 @@ define([
 				var actorEmail = this._actorEmails.filter(lang.hitch(this, function (emailObject) {
 					return (emailObject.email === this.email.value && emailObject.type.id === this.emailtypes.value);
 				}));
+				this._resetValidity();
 				if (actorEmail.length === 0 && lang.hitch(this, this._setCustomValidity)(this.email, true)) {
 					this._index++;
 					this._actorEmails.push({
@@ -106,6 +107,7 @@ define([
 					telefoonObject.landcode === this._telefoonLandcodeSelect.get('value') &&
 					telefoonObject.type.id === this.telefoontypes.value);
 				}));
+				this._resetValidity();
 				if (actorTelefoon.length === 0 && lang.hitch(this, this._setCustomValidity)(this.telefoon, true, this._telefoonValidation())) {
 					this._index++;
 					this._actorTelefoons.push({
@@ -129,6 +131,7 @@ define([
 				var actorUrl = this._actorUrls.filter(lang.hitch(this, function (urlObject) {
 					return (urlObject.url === this.url.value && urlObject.type.id === this.urltypes.value);
 				}));
+				this._resetValidity();
 				if (actorUrl.length === 0 && lang.hitch(this, this._setCustomValidity)(this.url, true)) {
 					this._index++;
 					this._actorUrls.push({
@@ -234,14 +237,15 @@ define([
 
 		_setValidationMessageMapping: function () {
 			this._validationMessageMapping = {
-				naam: "Naam is verplicht. Gelieve een geledige naam in te vullen.",
+				naam: "Naam is verplicht. Gelieve een geldige naam in te vullen.",
 				voornaam: "De waarde is te lang.",
 				email: "De waarde is niet volgens het geldig email formaat.",
-				telfoon: "De waarde is niet volgens het geldig telefoon formaat.",
+				telefoon: "De waarde is niet volgens het geldig telefoon formaat.",
 				url: "De waarde is niet volgens het geldig url formaat.",
 				rrn: "De waarde is niet volgens het geldig rrn formaat.",
 				kbo: "De waarde is niet volgens het geldig kbo formaat.",
 				gemeente: "De waarde is te lang",
+				gemeenteCrabValidation: "Gemeente is verplicht. Gelieve een geldige gemeente in te vullen.",
 				straat: "De waarde is te lang",
 				nummer: "De waarde is te lang",
 				postbus: "De waarde is te lang"
@@ -336,10 +340,25 @@ define([
 				var message = this._validationMessageMapping[node.id] ? this._validationMessageMapping[node.id] : "Waarde is niet volgens het juiste formaat.";
 				node.setCustomValidity(message);
 				validParam = false;
-				node.reportValidity();
+				/* firefox heeft geen reportValidity functie */
+				node.reportValidity ? node.reportValidity() : this._reportValidity();
 			}
 			return validParam;
 		},
+
+		/* Nodig in firefox */
+		_reportValidity: function() {
+				this.reportValidity.click();
+		},
+		/* Nodig in firefox */
+		_resetValidity: function () {
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
+				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation, this.kbo, this.rrn];
+			inputs.forEach(lang.hitch(this, function(input){
+				input.setCustomValidity('');
+			}))
+		},
+
 
 		_isValid: function() {
 			var valid = true;
@@ -357,6 +376,8 @@ define([
 			return valid
 
 		},
+
+
 
 		_save: function() {
 			if (!this._isValid()) {
