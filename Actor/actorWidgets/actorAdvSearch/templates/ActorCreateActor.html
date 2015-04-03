@@ -16,6 +16,7 @@
       <div class="row">
         <div class="content active">
           <form style="padding-top:10px">
+            <input type="submit" data-dojo-attach-point="reportValidity" style="display:none">
             <div class="large-4 columns">
               <div class="placeholder-container" tabindex="-1">
                 <label for="naam">*Naam</label>
@@ -56,7 +57,7 @@
             <div class="large-4 columns">
               <div data-dojo-attach-point="crabWidget"></div>
               <div class="row text-center">
-                <button href="#" data-dojo-attach-event="onClick: _save" class="button small">AANMAKEN</button>
+                <button href="#" data-dojo-attach-point="aanmaken" data-dojo-attach-event="onClick: _save" class="button small">AANMAKEN</button>
               </div>
             </div>
 

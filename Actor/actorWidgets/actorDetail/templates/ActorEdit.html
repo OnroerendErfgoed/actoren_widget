@@ -16,6 +16,7 @@
       <div class="row">
         <div class="content active">
           <form style="padding-top:10px">
+            <input type="submit" data-dojo-attach-point="reportValidity" style="display:none">
             <div class="large-4 columns">
               <div class="placeholder-container placeholder-disabled" tabindex="-1">
                 <label for="naam">Naam</label>
@@ -39,7 +40,7 @@
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode">Telefoon</label>
                 <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode" />
-                <input style="width: 40%; float: left;" data-dojo-attach-point='telefoon' type="text"/>
+                <input style="width: 40%; float: left;" data-dojo-attach-point='telefoon' id="telefoon" type="text"/>
                 <select id="telefoontype" data-dojo-attach-point='telefoontypes' style="width:30%; float:left;" class="placeholder-input-border">
                   <option value=1>thuis</option>
                   <option value=2 selected>werk</option>
