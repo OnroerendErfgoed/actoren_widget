@@ -5,7 +5,7 @@ define([
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
 	'../controllers/ActorController',
-  '../controllers/CrabController',
+	'../controllers/CrabController',
 	'./actorWidgets/ActorSearch',
 	'./actorWidgets/actorDetail/ActorDetail',
 	'./actorWidgets/actorDetail/ActorEdit',
@@ -34,10 +34,12 @@ define([
 		baseClass: 'actor-widget',
 		widgetsInTemplate: true,
 		actorWijStore: null,
-    actorStore: null,
+		actorStore: null,
 		actorController: null,
 		erfgoed_id: null,
 		crabHost: null,
+		permissionToAdd: false,
+		permissionToEdit: false,
 
 		_actorSearch: null,
 
@@ -46,9 +48,9 @@ define([
 			console.log('ActorWidget::postCreate', arguments);
 
 			this.actorController = new ActorController({
-        actorWijStore: this.actorWijStore,
-        actorStore: this.actorStore
-      });
+				actorWijStore: this.actorWijStore,
+				actorStore: this.actorStore
+			});
 			this.crabController = new CrabController({crabHost: this.crabHost});
 			this._setupLayout();
 
@@ -95,11 +97,9 @@ define([
 		_setupLayout: function() {
 			this._actorSearch = new ActorSearch({actorWidget: this});
 			this._actorDetail = new ActorDetail({actorWidget: this});
-			this._actorEdit = new ActorEdit({actorWidget: this});
 
 			this.actorStackContainer.addChild(this._actorSearch);
 			this.actorStackContainer.addChild(this._actorDetail);
-			this.actorStackContainer.addChild(this._actorEdit);
 
 			this._ActorAdvSearchUI =  new ActorAdvSearchUI({actorWidget: this});
 			this._actorSearchVKBO =  new ActorAdvSearchVKBO({actorWidget: this});
@@ -108,6 +108,15 @@ define([
 			this.actorStackContainer.addChild(this._ActorAdvSearchUI);
 			this.actorStackContainer.addChild(this._actorSearchVKBO);
 			this.actorStackContainer.addChild(this._actorSearchVKBP);
+
+			if (this.permissionToEdit) {
+				this._actorEdit = new ActorEdit({actorWidget: this});
+				this.actorStackContainer.addChild(this._actorEdit);
+			}
+			else {
+				this._actorDetail.headerButtons.style.display = 'none';
+				this._actorDetail.headerText.innerHTML = 'Actor detail';
+			}
 		},
 
 		emitActor: function(actor) {

@@ -52,10 +52,16 @@ define([
 
     _setupLayout: function() {
       this._actorAdvSearch = new ActorAdvSearchActor({actorWidget: this.actorWidget, actorAdvancedSearch : this});
-      this._actorCreate = new ActorCreateActor({actorWidget: this.actorWidget, actorAdvancedSearch : this});
+			this.actorAdvSearchStackContainer.addChild(this._actorAdvSearch);
 
-      this.actorAdvSearchStackContainer.addChild(this._actorAdvSearch);
-      this.actorAdvSearchStackContainer.addChild(this._actorCreate);
+			if (this.actorWidget.permissionToAdd) {
+				this._actorCreate = new ActorCreateActor({actorWidget: this.actorWidget, actorAdvancedSearch: this});
+				this.actorAdvSearchStackContainer.addChild(this._actorCreate);
+			}
+			else {
+				this._actorAdvSearch.headerButtons.style.display = 'none';
+				this._actorAdvSearch.headerText.innerHTML = 'Zoeken in actoren';
+			}
     }
   });
 });

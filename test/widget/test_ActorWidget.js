@@ -35,6 +35,8 @@ require([
   var actorWidget = new ActorWidget({
     actorWijStore: actorWijStore,
     actorStore: actorStore,
+		permissionToAdd: true,
+		permissionToEdit: true,
 	  erfgoed_id: 501,
 	  crabHost: "https://dev-actoren.onroerenderfgoed.be/"
   }, 'widgetNode');
