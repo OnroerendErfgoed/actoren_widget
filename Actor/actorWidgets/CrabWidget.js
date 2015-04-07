@@ -262,6 +262,7 @@ define([
 
 		setValuesDisabled: function(adres){
 			this.setDisabled();
+			this.land.value = adres.land;
 			this.gemeente.value = adres.gemeente;
 			this.postcode.value = adres.postcode;
 			this.straat.value = adres.straat;
