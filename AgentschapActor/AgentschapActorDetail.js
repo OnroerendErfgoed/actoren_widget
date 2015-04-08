@@ -1,3 +1,7 @@
+/**
+ * Widget om een actor van het agentschap gedetaileerd weer te geven.
+ * @module AgentschapActor/AgentschapActorDetail
+ */
 define([
   'dojo/text!./templates/AgentschapActorDetail.html',
   'dojo/_base/declare',
@@ -19,17 +23,26 @@ define([
     actor: null,
     actorWidget: null,
 
-
+		/**
+		 * Standaard widget functie.
+		 */
     postCreate: function() {
       console.log('..ActorDetail::postCreate', arguments);
       this.inherited(arguments);
     },
 
+		/**
+		 * Standaard widget functie.
+		 */
     startup: function () {
       console.log('..ActorDetail::startup', arguments);
       this.inherited(arguments);
     },
 
+		/**
+		 * Zet de detail data van de actor
+		 * @param {Object} actor
+		 */
     setActor: function(actor) {
       this.naam.value = actor.naam;
       this.voornaam.value = actor.voornaam;
@@ -57,6 +70,12 @@ define([
       this.url.value = actor.urls.length ? actor.urls[0].url ? actor.urls[0].url : null : null;
       this.actor = actor;
     },
+
+		/**
+		 * Event functie waarbij de zoek widget geopend wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
     _openSearch: function(evt) {
 			evt.preventDefault();
       this.actorWidget.showSearch();

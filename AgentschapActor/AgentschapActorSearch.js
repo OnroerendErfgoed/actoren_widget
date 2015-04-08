@@ -1,3 +1,7 @@
+/**
+ * Widget voor het zoeken naar een actor van het agentschap.
+ * @module AgentschapActor/AgentschapActorSearch
+ */
 define([
 	'dojo/text!./templates/AgentschapActorSearch.html',
 	'dojo/_base/declare',
@@ -32,11 +36,19 @@ define([
 		actorWidget: null,
 		actorController: null,
 
+		/**
+		 * Standaard widget functie.
+		 */
 		postCreate: function() {
 			console.log('..ActorSearch::postCreate', arguments);
 			this.inherited(arguments);
 		},
 
+		/**
+		 * Standaard widget functie.
+		 * De actorController ophalen uit de actorWidget.
+		 * Aanmaken van het resultaten grid.
+		 */
 		startup: function () {
 			console.log('..ActorSearch::startup', arguments);
 			this.inherited(arguments);
@@ -44,9 +56,12 @@ define([
 			this._createGrid();
 		},
 
+		/**
+		 * Opbouwen van grid: kolommen, store, 'on click event' en 'on dlb click event'
+		 * @private
+		 */
 		_createGrid: function () {
 			var columns = {
-				//check: selector({label: "", selectorType: "checkbox", style: "width: 50px;"}),
 				id: {
 					label:'#',
 					formatter: function (id) {
@@ -102,6 +117,11 @@ define([
 
 		},
 
+		/**
+		 * Een event functie die na input in html element een filtering het grid zal toepassen
+		 * @param {event} evt
+		 * @private
+		 */
 		_filterGrid: function (evt) {
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
@@ -123,10 +143,20 @@ define([
 			}, 30));
 		},
 
+		/**
+		 * Tonen van de detail widget waarbij een actor wordt meegegeven.
+		 * @param {Object} actor
+		 * @private
+		 */
 		_showDetail: function(actor) {
 			this.actorWidget.showDetail(actor);
 		},
 
+		/**
+		 * Een event functie die de geselecteerde actor in het grid meegeeft aan een private emit functie.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_emitSelectedActoren: function(evt) {
 			evt.preventDefault();
 			for(var id in this._grid.selection){
@@ -139,6 +169,10 @@ define([
 			}
 		},
 
+		/**
+		 * Een event uitsturen aan de actorwidget waaraan een actor wordt meegeven.
+		 * @param {Object} actor
+		 */
 		_emitActor: function(actor) {
 			this.actorWidget.emitActor(actor);
 		}
