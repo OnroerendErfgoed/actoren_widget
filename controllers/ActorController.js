@@ -46,6 +46,24 @@ define([
 				data: JSON.stringify(adres),
 				headers:{'Content-Type': 'application/json', "Accept": "application/json"}
 			})
+		},
+
+		/**
+		 * Kijkt of een actor via ElasticSearch kan gevonden worden.
+		 * @param {number} id ID van de actor
+		 * @returns {Object} Actor met het meegegeven ID
+		 */
+		checkActorInES: function(id)
+		{
+			return xhr(this.actorStore.target + "?query=id:" + id, {
+					'handleAs': 'json',
+					'headers': {
+						'Accept': "application/json",
+						"X-Requested-With": ""
+					}
+				}
+			)
 		}
+
 	});
 });

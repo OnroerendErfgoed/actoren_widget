@@ -31,7 +31,7 @@ define([
 		_previousSearchValue:'',
 		actorWidget: null,
 		actorController: null,
-		_store: null,
+		_store: 'all',
 
 		postCreate: function() {
 			console.log('..ActorSearch::postCreate', arguments);
@@ -104,6 +104,7 @@ define([
 
 		_filterGrid: function (evt) {
 			evt.preventDefault();
+			this._grid.set('sort', []);
 			if (this._store != 'wij') {
 				this._grid.set('store', this.actorController.actorWijStore);
 				this._store = 'wij';
@@ -137,11 +138,13 @@ define([
 		},
 
 		_showDetail: function(actor) {
+			this._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorWidget.showDetail(actor);
 		},
 
 		_showActorSearch: function(evt) {
 			evt? evt.preventDefault() : null;
+			this._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorWidget.showActorSearch();
 		},
 
@@ -154,6 +157,13 @@ define([
 			evt.preventDefault();
 			this.actorWidget.showVKBPSearch();
 		},
+
+    _refresh: function (evt) {
+			evt.preventDefault();
+			this._grid.set("store", this.actorController.actorStore);
+			this.actorenFilter.value = '';
+			this._grid.refresh();
+    },
 
 		_emitSelectedActoren: function(evt) {
 			evt? evt.preventDefault() : null;

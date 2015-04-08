@@ -416,7 +416,8 @@ define([
 						this.actorWidget.actorController.saveActorAdres(actorNewAdres, actor.id).then(
 							lang.hitch(this, function (response) {
 								actor.adres = response;
-								this._findNewActor(actor)
+								this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
+
 							}),
 							lang.hitch(this, function (error) {
 									this.actorWidget.emitError({
@@ -441,7 +442,44 @@ define([
 		_findNewActor: function(actor) {
 			var query = {query:'id:' +actor.id};
 			this._filterGrid(query);
+			this._reset();
+			this.actorAdvancedSearch._showSearch();
 			this.actorWidget.showDetail(actor);
+		},
+
+		/**
+		 * Wacht tot de afwerking van het toevoegen van een Actor is uitgevoerd.
+		 * @param {Object} Actor
+		 * @private
+		 */
+		_waitForAdd: function (actor, callback) {
+			this.recursively_ajax({
+				actor:actor,
+				callback: callback
+			}, this);
+		},
+
+		/**
+		 * Maakt recursieve ajax calls om de paar seconden naar de server
+		 * om te controleren of deze de behandeling van de actor heeft afgerond.
+		 * @param {Object} params Parameters
+		 * @param {Object} context Context
+		 */
+		recursively_ajax: function(params, context){
+			//wait for the backend to finish by polling every 2 seconds
+			context.actorWidget.actorController.checkActorInES(params.actor.id).then(function (response) {
+				if (response.length===0) {
+					setTimeout(context.recursively_ajax, 2000, params, context);
+				}
+				else {
+						params.callback(params.actor);
+					}
+			},  function(error) {
+						context.actorWidget.emitError({
+							widget: 'ActorCreate',
+							error: error
+						});
+			});
 		},
 
 		_filterGrid: function (query) {
