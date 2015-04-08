@@ -34,9 +34,9 @@ define([
 
 		/**
 		 * Standaard widget functie.
-		 * Aanmaken van de actor controller
-		 * Layout opbouwen uit andere widgets
-		 * Een listener event toevoegen (log voor development)
+		 * Aanmaken van de actor controller.
+		 * Layout opbouwen uit andere widgets.
+		 * Een listener event toevoegen (log voor development).
 		 */
 		postCreate: function () {
 			this.inherited(arguments);
@@ -56,7 +56,7 @@ define([
 
 		/**
 		 * Standaard widget functie.
-		 * Opstarten van de gebruikte widgets en de opstart widget bepalen.
+		 * Opstarten van de gebruikte widgets en de opstart-widget bepalen.
 		 */
 		startup: function () {
 			this.inherited(arguments);
@@ -65,14 +65,14 @@ define([
 		},
 
 		/**
-		 * Functie om de widget AgentschapActorSearch to te tonen
+		 * Functie om de zoek widget te tonen.
 		 */
 		showSearch: function () {
 			this.actorStackContainer.selectChild(this._actorSearch);
 		},
 
 		/**
-		 * Functie om de detail widget te tonen met informatie over de meegegeven actor
+		 * Functie om de detail widget te tonen met informatie over de meegegeven actor.
 		 * @param {Object} actor
 		 */
 		showDetail: function (actor) {

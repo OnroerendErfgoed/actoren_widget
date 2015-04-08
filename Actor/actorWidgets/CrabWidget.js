@@ -1,3 +1,7 @@
+/**
+ * Widget voor het beheren van een adres.
+ * @module Actor/actorWidgets/CrabWidget
+ */
 define([
 	'dojo/text!./templates/CrabWidget.html',
 	'dojo/_base/declare',
@@ -8,7 +12,7 @@ define([
 	'dijit/_WidgetsInTemplateMixin',
 	'dijit/form/ComboBox',
 	'dojo/Deferred',
-  'dojo/dom-class'
+	'dojo/dom-class'
 ], function(
 	template,
 	declare,
@@ -19,7 +23,7 @@ define([
 	_WidgetsInTemplateMixin,
 	ComboBox,
 	Deferred,
-  domClass
+	domClass
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 		templateString: template,
@@ -34,7 +38,10 @@ define([
 		_gemeentePrev: null,
 		_straatPrev: null,
 
-
+		/**
+		 * Standaard widget functie.
+		 * Opbouwen van meerdere adres <class>dijit/form/ComboBox<class>.
+		 */
 		postCreate: function() {
 			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
@@ -44,11 +51,18 @@ define([
 			this._setNummersCombo();
 		},
 
+		/**
+		 * Standaard widget functie.
+		 */
 		startup: function () {
 			console.log('....CrabWidget::startup', arguments);
 			this.inherited(arguments);
 		},
 
+		/**
+		 * Opbouw gemeente <class>dijit/form/ComboBox<class>.
+		 * @private
+		 */
 		_setGemeentenCombo: function() {
 			this.crabController.getGeementen().
 				then(lang.hitch(this, function(gemeenten){
@@ -68,6 +82,10 @@ define([
 			this.gemeenteNode.style.display="none";
 		},
 
+		/**
+		 * Opbouw postcode <class>dijit/form/ComboBox<class>.
+		 * @private
+		 */
 		_setPostcodesCombo: function() {
 			this._postcodeCombobox = new ComboBox({
 				hasDownArrow: false,
@@ -79,6 +97,10 @@ define([
 			this.postcodeCrabNode.style.display="none";
 		},
 
+		/**
+		 * Opbouw straat <class>dijit/form/ComboBox<class>.
+		 * @private
+		 */
 		_setStratenCombo: function() {
 			this._straatCombobox = new ComboBox({
 				hasDownArrow: false,
@@ -93,6 +115,10 @@ define([
 			this.straatCrabNode.style.display="none";
 		},
 
+		/**
+		 * Opbouw huisnummer <class>dijit/form/ComboBox<class>.
+		 * @private
+		 */
 		_setNummersCombo: function() {
 			this._nummerCombobox = new ComboBox({
 				store: new Memory(),
@@ -105,6 +131,14 @@ define([
 			this.nummerCrabNode.style.display="none";
 		},
 
+		/**
+		 * Geeft de overeenkomen id bij een opgegeven <class>dijit/form/ComboBox<class> en string waarde.
+		 * Bij geen overeenkomst null.
+		 * @param {Object} combobox
+		 * @param {string} searchAttr
+		 * @returns {nummer} id van de string waarde in de opgegeven <class>dijit/form/ComboBox<class>.
+		 * @private
+		 */
 		_getIdfromCombo: function (combobox, searchAttr) {
 			if (combobox.item) {
 				return combobox.item.id;
@@ -122,18 +156,37 @@ define([
 			}
 		},
 
+		/**
+		 * Geeft de overeengekomen Crab id van de opgegeven gemeente.
+		 * @returns {nummer}
+		 * @private
+		 */
 		_getGemeenteIdFromCombo : function () {
 			return this._getIdfromCombo(this._gemeenteCombobox, 'naam');
 		},
 
+		/**
+		 * Geeft de overeengekomen Crab id van de opgegeven straat.
+		 * @returns {nummer}
+		 * @private
+		 */
 		_getStraatIdFromCombo : function () {
 			return this._getIdfromCombo(this._straatCombobox, 'label');
 		},
 
+		/**
+		 * Geeft de overeengekomen Crab id van het opgegeven huisnummer.
+		 * @returns {nummer}
+		 * @private
+		 */
 		_getNummerIdFromCombo : function () {
 			return this._getIdfromCombo(this._nummerCombobox, 'label');
 		},
 
+		/**
+		 * Afhankelijk van de waarde land worden de gemeenten aangepast.
+		 * @private
+		 */
 		_changeGemeenten: function() {
 			if (this.land.value != 'BE') {
 				this._resetExceptLand();
@@ -145,6 +198,10 @@ define([
 			}
 		},
 
+		/**
+		 * Afhankelijk van de waarde gemeente worden de postcodes aangepast.
+		 * @private
+		 */
 		_changePostcodes: function() {
 			if (this._gemeenteCombobox.get('value')) {
 				this._postcodeCombobox.set('value', '');
@@ -161,6 +218,10 @@ define([
 			}
 		},
 
+		/**
+		 * Afhankelijk van de waarde gemeente worden de straten en huisnummers aangepast.
+		 * @private
+		 */
 		_changeStraten: function() {
 			var deferred = new Deferred();
 			if (this._gemeenteCombobox.get('value') && this._gemeenteCombobox.get('value') != this._gemeentePrev) {
@@ -183,6 +244,10 @@ define([
 			return deferred.promise;
 		},
 
+		/**
+		 * Afhankelijk van de waarde straat worden de huisnummers aangepast.
+		 * @private
+		 */
 		_changeNummers: function() {
 			if (this._straatCombobox.get('value') && this._straatCombobox.get('value') != this._straatPrev) {
 				this.nummer.value = '';
@@ -200,6 +265,10 @@ define([
 			}
 		},
 
+		/**
+		 * Geeft de ingevoerde adres waarden en crab id's terug
+		 * @returns {{values: {straat: null, nummer: null, postbus: null, postcode: null, gemeente: null, land: null}, ids: {straat_id: null, nummer_id: null, gemeente_id: null}}}
+		 */
 		getInput: function() {
 			var inputs = {
 				values: {
@@ -260,6 +329,10 @@ define([
 			return inputs
 		},
 
+		/**
+		 * Maakt van de inputvelden niet-bewerk velden. En voert het opgegeven adres in.
+		 * @param {Object} adres
+		 */
 		setValuesDisabled: function(adres){
 			this.setDisabled();
 			this.land.value = adres.land;
@@ -269,23 +342,30 @@ define([
 			this.nummer.value = adres.huisnummer;
 		},
 
+		/**
+		 * Maakt van de inputvelden niet-bewerk velden.
+		 */
 		setDisabled: function() {
 			this.gemeenteNode.style.display = "inline-table";
 			this.gemeenteCrabNode.style.display = "none";
 			this.land.disabled=true;
-      domClass.add(this.landNode, 'placeholder-disabled');
+			domClass.add(this.landNode, 'placeholder-disabled');
 			this.gemeente.disabled=true;
-      domClass.add(this.gemeenteNode, 'placeholder-disabled');
+			domClass.add(this.gemeenteNode, 'placeholder-disabled');
 			this.straat.disabled=true;
-      domClass.add(this.straatNode, 'placeholder-disabled');
+			domClass.add(this.straatNode, 'placeholder-disabled');
 			this.postcode.disabled=true;
-      domClass.add(this.postcodeNode, 'placeholder-disabled');
+			domClass.add(this.postcodeNode, 'placeholder-disabled');
 			this.nummer.disabled=true;
-      domClass.add(this.nummerNode, 'placeholder-disabled');
+			domClass.add(this.nummerNode, 'placeholder-disabled');
 			this.postbus.disabled=true;
-      domClass.add(this.postbusNode, 'placeholder-disabled');
+			domClass.add(this.postbusNode, 'placeholder-disabled');
 		},
 
+		/**
+		 * Voert het opgegeven adres in.
+		 * @param {Object} adres
+		 */
 		setValues: function(adres) {
 			this.land.value = adres.land;
 			if (adres.land == 'BE') {
@@ -319,11 +399,18 @@ define([
 			this.postbus.value = adres.postbus ? adres.postbus : null;
 		},
 
-
+		/**
+		 * reset functie naar default waarden.
+		 */
 		resetValues: function() {
 			this.land.value = 'BE';
 			this._resetExceptLand();
 		},
+
+		/**
+		 * reset functie naar default waarden, land niet meegerekend.
+		 * @private
+		 */
 		_resetExceptLand: function() {
 			this._gemeenteCombobox.set("value", '');
 			this._straatCombobox.set("value", '');

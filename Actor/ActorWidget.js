@@ -1,3 +1,7 @@
+/**
+ * De hoofd layout waarmee de actor widget wordt opgestart, opgebouwd en beheerd.
+ * @module Actor/ActorWidget
+ */
 define([
 	'dojo/text!./templates/ActorWidget.html',
 	'dojo/_base/declare',
@@ -43,6 +47,12 @@ define([
 
 		_actorSearch: null,
 
+		/**
+		 * Standaard widget functie.
+		 * Aanmaken van de actor en crab controllers.
+		 * Layout opbouwen uit andere widgets.
+		 * Listener events toevoegen (log voor development).
+		 */
 		postCreate: function () {
 			this.inherited(arguments);
 			console.log('ActorWidget::postCreate', arguments);
@@ -62,38 +72,66 @@ define([
 			});
 		},
 
+		/**
+		 * Standaard widget functie.
+		 * Opstarten van de gebruikte widgets en de opstart-widget bepalen.
+		 */
 		startup: function () {
 			this.inherited(arguments);
 			console.log('ActorWidget::startup', arguments);
 			this.showSearch();
 		},
 
+		/**
+		 * Functie om de zoek widget te tonen.
+		 */
 		showSearch: function () {
 			this.actorStackContainer.selectChild(this._actorSearch);
 		},
 
+		/**
+		 * Functie om de detail widget te tonen met informatie over de meegegeven actor.
+		 * @param {Object} actor
+		 */
 		showDetail: function (actor) {
 			this._actorDetail.setActor(actor);
 			this.actorStackContainer.selectChild(this._actorDetail);
 		},
 
+		/**
+		 * Functie om de bewerk widget te tonen met informatie over de meegegeven actor.
+		 * @param {Object} actor
+		 */
 		showEdit: function (actor) {
 			this._actorEdit.setActor(actor);
 			this.actorStackContainer.selectChild(this._actorEdit);
 		},
 
+		/**
+		 * Functie om de uitgebreide actor zoek widget te tonen.
+		 */
 		showActorSearch: function () {
 			this.actorStackContainer.selectChild(this._ActorAdvSearchUI);
 		},
 
+		/**
+		 * Functie om de vkbo zoek widget te tonen.
+		 */
 		showVKBOSearch: function () {
 			this.actorStackContainer.selectChild(this._actorSearchVKBO);
 		},
 
+		/**
+		 * Functie om de uitgebreide vkbp zoek widget te tonen.
+		 */
 		showVKBPSearch: function () {
 			this.actorStackContainer.selectChild(this._actorSearchVKBP);
 		},
 
+		/**
+		 * De content van de widget toevoegen (afhankelijk welke toegelaten zijn voor de gebruiker)
+		 * @private
+		 */
 		_setupLayout: function() {
 			this._actorSearch = new ActorSearch({actorWidget: this});
 			this._actorDetail = new ActorDetail({actorWidget: this});
@@ -119,9 +157,18 @@ define([
 			}
 		},
 
+		/**
+		 * Een event toevoegen aan deze widget waaraan een actor wordt meegeven.
+		 * @param {Object} actor
+		 */
 		emitActor: function(actor) {
 			this.emit('send.actor', {actor: actor});
 		},
+
+		/**
+		 * Een event toevoegen aan deze widget waaraan een error wordt meegeven.
+		 * @param {Event} evt met error attribuut.
+		 */
 		emitError: function(evt) {
 			this.emit('error', evt);
 		}
