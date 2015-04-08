@@ -1,3 +1,7 @@
+/**
+ * Widget om een actor aan te maken.
+ * @module Actor/actorWidgets/actorAdvSearch/ActorCreateActor
+ */
 define([
 	'dojo',
 	'dojo/text!./templates/ActorCreateActor.html',
@@ -37,12 +41,20 @@ define([
 		_actorUrls: [],
 		_index: 0,
 
-
+		/**
+		 * Standaard widget functie.
+		 */
 		postCreate: function() {
 			console.log('...ActorCreateActor::postCreate', arguments);
 			this.inherited(arguments);
 		},
 
+		/**
+		 * Standaard widget functie.
+		 * Opstarten telefoon landcodes.
+		 * Opstarten CrabWidget.
+		 * Opstarten boodschappen mapping voor validatie.
+		 */
 		startup: function () {
 			console.log('...ActorCreateActor::startup', arguments);
 			this.inherited(arguments);
@@ -51,6 +63,10 @@ define([
 			this._setValidationMessageMapping();
 		},
 
+		/**
+		 * Opstarten van telefoon landcodes.
+		 * @private
+		 */
 		_setTelefoonLandcodes: function() {
 			var countryCodeStore = new Memory({
 				data: [
@@ -77,6 +93,11 @@ define([
 			}, this.telefoonLandcode);
 		},
 
+		/**
+		 * Event functie waarbij een email gevalideerd wordt en toegevoegd wordt aan een emaillijst gecombineerd met een delete event.
+		 * @param {event} evt
+		 * @private
+		 */
 		_addEmail: function (evt) {
 			evt? evt.preventDefault() : null;
 			if (this.email.value.split(' ').join("").length > 0) {
@@ -99,6 +120,11 @@ define([
 			}
 		},
 
+		/**
+		 * Event functie waarbij een telefoon object gevalideerd wordt en toegevoegd wordt aan een telefoonlijst gecombineerd met een delete event.
+		 * @param {event} evt
+		 * @private
+		 */
 		_addTelefoon: function (evt) {
 			evt? evt.preventDefault() : null;
 			if (this.telefoon.value.split(' ').join("").length > 0) {
@@ -125,6 +151,11 @@ define([
 			}
 		},
 
+		/**
+		 * Event functie waarbij een url gevalideerd wordt en toegevoegd wordt aan een urllijst gecombineerd met een delete event.
+		 * @param {event} evt
+		 * @private
+		 */
 		_addUrl: function (evt) {
 			evt? evt.preventDefault() : null;
 			if (this.url.value.split(' ').join("").length > 0) {
@@ -147,6 +178,15 @@ define([
 			}
 		},
 
+		/**
+		 * Toevoegen van een waarde met type aan een list (ul html element), voorzien van een verwijder functie (verwijderen uit de lijst).
+		 * @param {number} id Deze id wordt gebruikt in de aanmaakt van het element en wordt doorgegeven aan de verwijder functie.
+		 * @param {string} value De waarde van het toe te voegen element.
+		 * @param {string} type De waarde van het type van het toe te voegen element.
+		 * @param {Object} ullist Het ul html element waaraan de waarde toegevoegd moet worden.
+		 * @param {function} removeFunction Een extra verwijder functie met als doel deze te verwijderen uit de attribuut l
+		 * @private
+		 */
 		_createListItem: function(id, value, type, ullist, removeFunction) {
 			id = id.toString();
 			domConstruct.create("li", {id: "li" + id, innerHTML: value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash plus-minus-icon"></i>'}, ullist);
@@ -156,23 +196,47 @@ define([
 			}));
 		},
 
+		/**
+		 * Verwijder functie voor een item met opgegeven id in emaillijst _actorEmails van de widget.
+		 * @param id
+		 * @private
+		 */
 		_removeEmail: function(id) {
 			this._actorEmails = this._actorEmails.filter(lang.hitch(this, function(object){
 				return (object.id !== id);
 			}))
 		},
+
+		/**
+		 * Verwijder functie voor een item met opgegeven id in telefoonlijst _actorTelefoons van de widget.
+		 * @param id
+		 * @private
+		 */
 		_removeTelefoon: function(id) {
 			this._actorTelefoons = this._actorTelefoons.filter(lang.hitch(this, function(object){
 				return (object.id !== id);
 			}))
 		},
+
+		/**
+		 * Verwijder functie voor een item met opgegeven id in urllijst _actorUrls van de widget.
+		 * @param id
+		 * @private
+		 */
 		_removeUrl: function(id) {
 			this._actorUrls = this._actorUrls.filter(lang.hitch(this, function(object){
 				return (object.id !== id);
 			}))
 		},
 
-		_watchActorTypes: function() {
+		/**
+		 * Event functie waarbij de kbo input veld niet-bewerkbaan wordt als het over een persoon gaat.
+		 * Bij een organisatie zal het rrn input veld niet-bewerkbaar worden.
+		 * @param evt
+		 * @private
+		 */
+		_watchActorTypes: function(evt) {
+			evt? evt.preventDefault() : null;
 			switch (this.type.value) {
 				case "1":
 					this.kbo.value = '';
@@ -189,25 +253,42 @@ define([
 					domClass.remove(this.kboNode, 'placeholder-disabled');
 					break;
 			}
-
 		},
 
+		/**
+		 * CrabWidget opstarten.
+		 * @private
+		 */
 		_setCrabWidget: function() {
 			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
 		},
 
+		/**
+		 * Event functie waarbij de zoek widget geopend wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_openSearch: function(evt) {
 			evt? evt.preventDefault() : null;
 			this.actorAdvancedSearch._showSearch();
 			this._reset();
 		},
 
+		/**
+		 * Event functie waarbij de uitgebreide actor zoek widget geopend wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_showActorSearch: function(evt) {
 			evt? evt.preventDefault() : null;
 			this.actorAdvancedSearch._showActorSearch();
 			this._reset();
 		},
 
+		/**
+		 * Reset functie van de aanmaak actor widget.
+		 * @private
+		 */
 		_reset: function(){
 			this.naam.value = "";
 			this.voornaam.value = "";
@@ -235,6 +316,10 @@ define([
 			this._crabWidget.resetValues();
 		},
 
+		/**
+		 * Opstarsten van de boodschappen mapping voor de validatie
+		 * @private
+		 */
 		_setValidationMessageMapping: function () {
 			this._validationMessageMapping = {
 				naam: "Naam is verplicht. Gelieve een geldige naam in te vullen.",
@@ -252,6 +337,11 @@ define([
 			}
 		},
 
+		/**
+		 * Validatie rijksregisternummer
+		 * @returns {boolean} True wanneer geldig, False wanneer ongeldig. Met eventuele aanpassing van de validatie boodschap.
+		 * @private
+		 */
 		_rrnValidation: function () {
 			var rrn = this.rrn.value,
 				valid = true;
@@ -276,6 +366,11 @@ define([
 			return valid;
 		},
 
+		/**
+		 * Validatie gemeente.
+		 * @returns {boolean} True wanneer geldig, False wanneer ongeldig.
+		 * @private
+		 */
 		_gemeenteValidation: function() {
 			var valid = true;
 			if (this._crabWidget.land.value == 'BE') {
@@ -286,6 +381,11 @@ define([
 			return valid;
 		},
 
+		/**
+		 * Validatie kbo nummer
+		 * @returns {boolean} True wanneer geldig, False wanneer ongeldig. Met eventuele aanpassing van de validatie boodschap.
+		 * @private
+		 */
 		_kboValidation: function () {
 			var kbo = this.kbo.value.split(" ").join("").split('.').join();
 			if (kbo.length >  0) {
@@ -299,7 +399,11 @@ define([
 			}
 		},
 
-
+		/**
+		 * Validatie telefoon
+		 * @returns {boolean} True wanneer geldig, False wanneer ongeldig. Met eventuele aanpassing van de validatie boodschap.
+		 * @private
+		 */
 		_telefoonValidation: function () {
 			var valid = true;
 			String.prototype.ltrim0 = function() {
@@ -333,6 +437,15 @@ define([
 			return valid
 		},
 
+		/**
+		 * Een functie die de geldigheid van een html node nagaat.
+		 * Wanneer geldig zal de opgegeven validatie parameter ongewijzigd blijven. Anders wordt deze op 'false' gezet.
+		 * @param {Object} node Html element.
+		 * @param {Boolean} validParam Validatie parameter
+		 * @param {Boolean} CustomValidBool. Wanneer aanwezig bepaalt deze parameter de validatie. Enkel geldig wanneer 'true'.
+		 * @returns {Boolean}
+		 * @private
+		 */
 		_setCustomValidity: function(node, validParam, CustomValidBool) {
 			node.setCustomValidity('');
 			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
@@ -346,11 +459,17 @@ define([
 			return validParam;
 		},
 
-		/* Nodig in firefox */
+		/**
+		 * Nodig in Firefox omdat een htlm node geen reportValidity functie heeft.
+		 * @private
+		 */
 		_reportValidity: function() {
-				this.reportValidity.click();
+			this.reportValidity.click();
 		},
-		/* Nodig in firefox */
+		/**
+		 * Nodig in Firefox om de reportValidity functie correct uit te voeren.
+		 * @private
+		 */
 		_resetValidity: function () {
 			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation, this.kbo, this.rrn];
@@ -359,7 +478,11 @@ define([
 			}))
 		},
 
-
+		/**
+		 * Nagaan of de ingevoerde inputs in de bewerk widget correct zijn. 'true' wanneer geldig.
+		 * @returns {boolean}
+		 * @private
+		 */
 		_isValid: function() {
 			var valid = true;
 			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
@@ -377,10 +500,15 @@ define([
 
 		},
 
-
-
-		_save: function() {
+		/**
+		 * Event functie om de ingevoerde gegevens van een actor op te slaan. Eerst worden de parameters gevalideerd.
+		 * Bij succes zal de detail widget van deze actor getoond worden. Anders wordt er een error uitgezonden in een event van de actor widget.
+		 * @param {Event} evt
+		 * @private
+		 */
+		_save: function(evt) {
 			if (!this._isValid()) {
+				evt? evt.preventDefault() : null;
 				this.actorWidget.emitError({
 					widget: 'ActorCreate',
 					message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.',
@@ -439,6 +567,12 @@ define([
 			}
 		},
 
+		/**
+		 * De nieuw toegevoegde actor weergeven in de detail widget.
+		 * Wanneer er daarna naar de zoek widget wordt teruggekeerd, zal deze weergegeven zijn in het het grid.
+		 * @param {Object} actor De toegevoegde actor.
+		 * @private
+		 */
 		_findNewActor: function(actor) {
 			var query = {query:'id:' +actor.id};
 			this._filterGrid(query);
@@ -449,7 +583,8 @@ define([
 
 		/**
 		 * Wacht tot de afwerking van het toevoegen van een Actor is uitgevoerd.
-		 * @param {Object} Actor
+		 * @param {Object} actor
+		 * @param {Function} callback
 		 * @private
 		 */
 		_waitForAdd: function (actor, callback) {
@@ -472,13 +607,13 @@ define([
 					setTimeout(context.recursively_ajax, 2000, params, context);
 				}
 				else {
-						params.callback(params.actor);
-					}
+					params.callback(params.actor);
+				}
 			},  function(error) {
-						context.actorWidget.emitError({
-							widget: 'ActorCreate',
-							error: error
-						});
+				context.actorWidget.emitError({
+					widget: 'ActorCreate',
+					error: error
+				});
 			});
 		},
 

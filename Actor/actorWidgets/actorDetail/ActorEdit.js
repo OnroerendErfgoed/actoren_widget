@@ -1,3 +1,7 @@
+/**
+ * Widget om een actor te bewerken.
+ * @module Actor/actorWidgets/actorDetail/ActorEdit
+ */
 define([
 	'dojo',
 	'dojo/text!./templates/ActorEdit.html',
@@ -35,12 +39,20 @@ define([
 		_actorUrls: [],
 		_index: 0,
 
-
+		/**
+		 * Standaard widget functie.
+		 */
 		postCreate: function() {
 			console.log('..ActorEdit::postCreate', arguments);
 			this.inherited(arguments);
 		},
 
+		/**
+		 * Standaard widget functie.
+		 * Opstarten telefoon landcodes
+		 * Opstarten CrabWidget
+		 * Opstarten boodschappen mapping voor validatie
+		 */
 		startup: function () {
 			console.log('..ActorEdit::startup', arguments);
 			this.inherited(arguments);
@@ -49,10 +61,18 @@ define([
 			this._setValidationMessageMapping();
 		},
 
+		/**
+		 * CrabWidget opstarten.
+		 * @private
+		 */
 		_setCrabWidget: function() {
 			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
 		},
 
+		/**
+		 * Zet de detail data van de actor en opslaan van widget attributen voor verder beheer.
+		 * @param {Object} actor
+		 */
 		setActor: function(actor) {
 			this.naam.value = actor.naam;
 			this.voornaam.value = actor.voornaam;
@@ -83,20 +103,35 @@ define([
 				this._actorUrls.push(url);
 				this._createListItem(this._index, url.url, url.type.naam, this.urllist, this._removeUrl);
 			}));
-
 			this.actor = actor;
 		},
+
+		/**
+		 * Event functie waarbij de zoek widget geopend wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_openSearch: function(evt) {
 			evt? evt.preventDefault() : null;
 			this.actorWidget.showSearch();
 			this._reset();
 		},
+
+		/**
+		 * Event functie waarbij de niet-bewerkbare detail widget geopend wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_openDetail: function(evt) {
 			evt? evt.preventDefault() : null;
 			this.actorWidget.showDetail(this.actor);
 			this._reset();
 		},
 
+		/**
+		 * Opstarten van telefoon landcodes.
+		 * @private
+		 */
 		_setTelefoonLandcodes: function() {
 			var countryCodeStore = new Memory({
 				data: [
@@ -123,6 +158,11 @@ define([
 			}, this.telefoonLandcode);
 		},
 
+		/**
+		 * Event functie waarbij een email gevalideerd wordt en toegevoegd wordt aan een emaillijst gecombineerd met een delete event.
+		 * @param {event} evt
+		 * @private
+		 */
 		_addEmail: function (evt) {
 			evt? evt.preventDefault() : null;
 			if (this.email.value.split(' ').join("").length > 0) {
@@ -145,6 +185,11 @@ define([
 			}
 		},
 
+		/**
+		 * Event functie waarbij een telefoon object gevalideerd wordt en toegevoegd wordt aan een telefoonlijst gecombineerd met een delete event.
+		 * @param {event} evt
+		 * @private
+		 */
 		_addTelefoon: function (evt) {
 			evt? evt.preventDefault() : null;
 			if (this.telefoon.value.split(' ').join("").length > 0) {
@@ -171,6 +216,11 @@ define([
 			}
 		},
 
+		/**
+		 * Event functie waarbij een url gevalideerd wordt en toegevoegd wordt aan een urllijst gecombineerd met een delete event.
+		 * @param {event} evt
+		 * @private
+		 */
 		_addUrl: function (evt) {
 			evt? evt.preventDefault() : null;
 			if (this.url.value.split(' ').join("").length > 0) {
@@ -193,6 +243,15 @@ define([
 			}
 		},
 
+		/**
+		 * Toevoegen van een waarde met type aan een list (ul html element), voorzien van een verwijder functie (verwijderen uit de lijst).
+		 * @param {number} id Deze id wordt gebruikt in de aanmaakt van het element en wordt doorgegeven aan de verwijder functie.
+		 * @param {string} value De waarde van het toe te voegen element.
+		 * @param {string} type De waarde van het type van het toe te voegen element.
+		 * @param {Object} ullist Het ul html element waaraan de waarde toegevoegd moet worden.
+		 * @param {function} removeFunction Een extra verwijder functie met als doel deze te verwijderen uit de attribuut l
+		 * @private
+		 */
 		_createListItem: function(id, value, type, ullist, removeFunction) {
 			id = id.toString();
 			domConstruct.create("li", {id: "li" + id, innerHTML: value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash plus-minus-icon"></i>'}, ullist);
@@ -202,22 +261,43 @@ define([
 			}));
 		},
 
+		/**
+		 * Verwijder functie voor een item met opgegeven id in emaillijst _actorEmails van de widget.
+		 * @param id
+		 * @private
+		 */
 		_removeEmail: function(id) {
 			this._actorEmails = this._actorEmails.filter(lang.hitch(this, function(object){
 				return (object.id !== id);
 			}))
 		},
+
+		/**
+		 * Verwijder functie voor een item met opgegeven id in telefoonlijst _actorTelefoons van de widget.
+		 * @param id
+		 * @private
+		 */
 		_removeTelefoon: function(id) {
 			this._actorTelefoons = this._actorTelefoons.filter(lang.hitch(this, function(object){
 				return (object.id !== id);
 			}))
 		},
+
+		/**
+		 * Verwijder functie voor een item met opgegeven id in urllijst _actorUrls van de widget.
+		 * @param id
+		 * @private
+		 */
 		_removeUrl: function(id) {
 			this._actorUrls = this._actorUrls.filter(lang.hitch(this, function(object){
 				return (object.id !== id);
 			}))
 		},
 
+		/**
+		 * Reset functie van de bewerk widget.
+		 * @private
+		 */
 		_reset: function() {
 			this.naam.value = '';
 			this.voornaam.value = '';
@@ -244,6 +324,10 @@ define([
 			this.urltypes.value = 1;
 		},
 
+		/**
+		 * Opstarsten van de boodschappen mapping voor de validatie
+		 * @private
+		 */
 		_setValidationMessageMapping: function () {
 			this._validationMessageMapping = {
 				email: "De waarde is niet volgens het geldig email formaat.",
@@ -257,6 +341,11 @@ define([
 			}
 		},
 
+		/**
+		 * Validatie gemeente.
+		 * @returns {boolean} True wanneer geldig, False wanneer ongeldig.
+		 * @private
+		 */
 		_gemeenteValidation: function() {
 			var valid = true;
 			if (this._crabWidget.land.value == 'BE') {
@@ -267,6 +356,11 @@ define([
 			return valid;
 		},
 
+		/**
+		 * Validatie telefoon
+		 * @returns {boolean} True wanneer geldig, False wanneer ongeldig. Met eventuele aanpassing van de validatie boodschap.
+		 * @private
+		 */
 		_telefoonValidation: function () {
 			var valid = true;
 			String.prototype.ltrim0 = function() {
@@ -300,6 +394,15 @@ define([
 			return valid
 		},
 
+		/**
+		 * Een functie die de geldigheid van een html node nagaat.
+		 * Wanneer geldig zal de opgegeven validatie parameter ongewijzigd blijven. Anders wordt deze op 'false' gezet.
+		 * @param {Object} node Html element.
+		 * @param {Boolean} validParam Validatie parameter
+		 * @param {Boolean} CustomValidBool. Wanneer aanwezig bepaalt deze parameter de validatie. Enkel geldig wanneer 'true'.
+		 * @returns {Boolean}
+		 * @private
+		 */
 		_setCustomValidity: function(node, validParam, CustomValidBool) {
 			node.setCustomValidity('');
 			var valid = CustomValidBool === undefined ? node.validity.valid : CustomValidBool;
@@ -313,11 +416,17 @@ define([
 			return validParam;
 		},
 
-		/* Nodig in firefox */
+		/**
+		 * Nodig in Firefox omdat een htlm node geen reportValidity functie heeft.
+		 * @private
+		 */
 		_reportValidity: function() {
-				this.reportValidity.click();
+			this.reportValidity.click();
 		},
-		/* Nodig in firefox */
+		/**
+		 * Nodig in Firefox om de reportValidity functie correct uit te voeren.
+		 * @private
+		 */
 		_resetValidity: function () {
 			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation];
@@ -326,6 +435,11 @@ define([
 			}))
 		},
 
+		/**
+		 * Nagaan of de ingevoerde inputs in de bewerk widget correct zijn. 'true' wanneer geldig.
+		 * @returns {boolean}
+		 * @private
+		 */
 		_isValid: function() {
 			var valid = true;
 			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
@@ -341,6 +455,13 @@ define([
 
 		},
 
+		/**
+		 * Event functie om de ingevoerde gegevens van een actor op te slaan. Eerst worden de parameters gevalideerd.
+		 * Enkel wanneer een adres wijzigd is, zal een een put op de adressen endpoint uitgevoerd worden.
+		 * Bij succes zal de detail widget van deze actor getoond worden. Anders wordt er een error uitgezonden in een event van de actor widget.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_save: function(evt) {
 			evt? evt.preventDefault() : null;
 			if (!this._isValid()) {

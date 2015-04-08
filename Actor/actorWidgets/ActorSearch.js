@@ -1,3 +1,7 @@
+/**
+ * Widget voor het zoeken naar een actor van het agentschap en uitgebreid zoeken naar actoren.
+ * @module Actor/actorWidgets/ActorSearch
+ */
 define([
 	'dojo/text!./templates/ActorSearch.html',
 	'dojo/_base/declare',
@@ -33,11 +37,19 @@ define([
 		actorController: null,
 		_store: 'all',
 
+		/**
+		 * Standaard widget functie.
+		 */
 		postCreate: function() {
 			console.log('..ActorSearch::postCreate', arguments);
 			this.inherited(arguments);
 		},
 
+		/**
+		 * Standaard widget functie.
+		 * De actorController ophalen uit de actorWidget.
+		 * Aanmaken van het resultaten grid.
+		 */
 		startup: function () {
 			console.log('..ActorSearch::startup', arguments);
 			this.inherited(arguments);
@@ -45,6 +57,10 @@ define([
 			this._createGrid();
 		},
 
+		/**
+		 * Opbouwen van grid: kolommen, store, 'on click event' en 'on dlb click event'
+		 * @private
+		 */
 		_createGrid: function () {
 			var columns = {
 				id: {
@@ -102,6 +118,12 @@ define([
 
 		},
 
+		/**
+		 * Een event functie die na input in html element een filtering het grid zal toepassen.
+		 * De filtering gebeurt op actoren van het agentschap. De sort moet overgenomen worden vanuit elastic search
+		 * @param {event} evt
+		 * @private
+		 */
 		_filterGrid: function (evt) {
 			evt.preventDefault();
 			this._grid.set('sort', []);
@@ -129,6 +151,10 @@ define([
 			}, 30));
 		},
 
+		/**
+		 * Het grid zal actoren filteren worden op meegegeven query
+		 * @param {object} query bv {naam: 'testpersoon'}
+		 */
 		AdvSearchFilterGrid: function(query) {
 			this.actorenFilter.value = "";
 			this._grid.set("store", this.actorController.actorStore);
@@ -137,34 +163,64 @@ define([
 			this._grid.refresh();
 		},
 
+		/**
+		 * Tonen van de detail widget waarbij een actor wordt meegegeven.
+		 * @param {Object} actor
+		 * @private
+		 */
 		_showDetail: function(actor) {
 			this._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorWidget.showDetail(actor);
 		},
 
+		/**
+		 * Event functie waarbij de uitgebreide actor zoek widget getoond wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_showActorSearch: function(evt) {
 			evt? evt.preventDefault() : null;
 			this._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorWidget.showActorSearch();
 		},
 
+		/**
+		 * Event functie waarbij de uitgebreide vkbo zoek widget getoond wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_showVKBOSearch: function(evt) {
 			evt.preventDefault();
 			this.actorWidget.showVKBOSearch();
 		},
 
+		/**
+		 * Event functie waarbij de uitgebreide vkbp zoek widget getoond wordt.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_showVKBPSearch: function(evt) {
 			evt.preventDefault();
 			this.actorWidget.showVKBPSearch();
 		},
 
-    _refresh: function (evt) {
+		/**
+		 * Event refresh functie van de widget.
+		 * @param evt
+		 * @private
+		 */
+		_refresh: function (evt) {
 			evt.preventDefault();
 			this._grid.set("store", this.actorController.actorStore);
 			this.actorenFilter.value = '';
 			this._grid.refresh();
-    },
+		},
 
+		/**
+		 * Een event functie die de geselecteerde actor in het grid meegeeft aan een private emit functie.
+		 * @param {Event} evt
+		 * @private
+		 */
 		_emitSelectedActoren: function(evt) {
 			evt? evt.preventDefault() : null;
 			for(var id in this._grid.selection){
@@ -177,6 +233,10 @@ define([
 			}
 		},
 
+		/**
+		 * Een event uitsturen aan de actorwidget waaraan een actor wordt meegeven.
+		 * @param {Object} actor
+		 */
 		_emitActor: function(actor) {
 			this.actorWidget.emitActor(actor);
 		}
