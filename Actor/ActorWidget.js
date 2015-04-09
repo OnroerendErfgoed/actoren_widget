@@ -40,7 +40,6 @@ define([
 		actorWijStore: null,
 		actorStore: null,
 		actorController: null,
-		erfgoed_id: null,
 		crabHost: null,
 		permissionToAdd: false,
 		permissionToEdit: false,
