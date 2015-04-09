@@ -294,19 +294,19 @@ define([
 			this.voornaam.value = "";
 			this.email.value = "";
 			this._actorEmails.forEach(lang.hitch(this, function(emailObject){
-				domConstruct.empty('li' + emailObject.id);
+				domConstruct.destroy('li' + emailObject.id);
 			}));
 			this._actorEmails = [];
 			this.emailtypes.value = 2;
 			this.telefoon.value = "";
 			this._actorTelefoons.forEach(lang.hitch(this, function(telefoonObject){
-				domConstruct.empty('li' + telefoonObject.id);
+				domConstruct.destroy('li' + telefoonObject.id);
 			}));
 			this._actorTelefoons = [];
 			this.telefoontypes.value = 2;
 			this.url.value = "";
 			this._actorUrls.forEach(lang.hitch(this, function(urlObject){
-				domConstruct.empty('li' + urlObject.id);
+				domConstruct.destroy('li' + urlObject.id);
 			}));
 			this._actorUrls = [];
 			this.urltypes.value = 1;
