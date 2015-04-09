@@ -191,7 +191,7 @@ define([
 			id = id.toString();
 			domConstruct.create("li", {id: "li" + id, innerHTML: value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash plus-minus-icon"></i>'}, ullist);
 			this.connect(dojo.byId(id), "onclick", lang.hitch(this, function() {
-				domConstruct.empty("li" + id);
+				domConstruct.destroy("li" + id);
 				lang.hitch(this, removeFunction)(id);
 			}));
 		},
