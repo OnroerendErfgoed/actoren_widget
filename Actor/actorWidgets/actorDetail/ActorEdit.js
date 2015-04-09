@@ -254,7 +254,7 @@ define([
 		 */
 		_createListItem: function(id, value, type, ullist, removeFunction) {
 			id = id.toString();
-			domConstruct.create("li", {id: "li" + id, innerHTML: value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash plus-minus-icon"></i>'}, ullist);
+			domConstruct.create("li", {id: "li" + id, innerHTML: '<small>' + value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash right"></i></small>'}, ullist);
 			this.connect(dojo.byId(id), "onclick", lang.hitch(this, function() {
 				domConstruct.empty("li" + id);
 				lang.hitch(this, removeFunction)(id);
