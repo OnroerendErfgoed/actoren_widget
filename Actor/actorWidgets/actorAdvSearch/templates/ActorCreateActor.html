@@ -3,8 +3,8 @@
     <header class="clearfix">
       <h3 class="left " style="margin:6px 20px 0 0">Actoren</h3>
       <dl class="tabs tiny" data-tab>
-        <dd style="margin:0 1px"><a href="#" data-dojo-attach-event="onClick: _showActorSearch" class="tiny">Zoeken</a></dd>
-        <dd class="active" style="margin:0 1px"><a href="#" class="tiny">Aanmaken</a></dd>
+        <dd style="margin:0 1px"><a href="#" data-dojo-attach-event="onClick: _showActorSearch" class="button tiny">Zoeken</a></dd>
+        <dd class="active" style="margin:0 1px"><a href="#" class="button tiny">Aanmaken</a></dd>
       </dl>
     </header>
   </div>
@@ -35,7 +35,7 @@
                 </select>
                 <a href="#" data-dojo-attach-event="onClick: _addEmail" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
               </div>
-              <ul data-dojo-attach-point="emaillist" class="nodisk">
+              <ul data-dojo-attach-point="emaillist" class="nodisk list-selected-items">
               </ul>
               <div class="placeholder-container" tabindex="-1">
                 <label for="telefoonlandcode2">Telefoon</label>
@@ -50,15 +50,13 @@
                 </select>
                 <a href="#" data-dojo-attach-event="onClick: _addTelefoon" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
               </div>
-              <ul data-dojo-attach-point="telefoonlist" class="nodisk">
+              <ul data-dojo-attach-point="telefoonlist" class="nodisk list-selected-items">
               </ul>
             </div>
 
             <div class="large-4 columns">
               <div data-dojo-attach-point="crabWidget"></div>
-              <div class="row text-center">
-                <button href="#" data-dojo-attach-point="aanmaken" data-dojo-attach-event="onClick: _save" class="button small">AANMAKEN</button>
-              </div>
+
             </div>
 
 
@@ -88,11 +86,14 @@
                 </select>
                 <a href="#" data-dojo-attach-event="onClick: _addUrl" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
               </div>
-              <ul data-dojo-attach-point="urllist" class="nodisk">
+              <ul data-dojo-attach-point="urllist" class="nodisk list-selected-items">
               </ul>
             </div>
           </form>
         </div>
+      </div>
+      <div class="row text-center">
+        <button href="#" data-dojo-attach-point="aanmaken" data-dojo-attach-event="onClick: _save" class="button tiny">AANMAKEN</button>
       </div>
     </div>
   </div>
