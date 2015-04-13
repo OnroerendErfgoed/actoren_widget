@@ -127,8 +127,8 @@ define([
 				autoComplete: false,
 				required: false,
 				class: "placeholder-input"
-			}, this.nummerCrab);
-			this.nummerCrabNode.style.display="none";
+			}, this.huisnummerCrab);
+			this.huisnummerCrabNode.style.display="none";
 		},
 
 		/**
@@ -228,7 +228,7 @@ define([
 				this.straat.value = '';
 				this._straatCombobox.set('value', '');
 				this._nummerCombobox.set('value', '');
-				this.nummer.value = '';
+				this.huisnummer.value = '';
 				var gemeente_id = this._getGemeenteIdFromCombo();
 				if (gemeente_id) {
 					this.straatNode.style.display = "none";
@@ -250,12 +250,12 @@ define([
 		 */
 		_changeNummers: function() {
 			if (this._straatCombobox.get('value') && this._straatCombobox.get('value') != this._straatPrev) {
-				this.nummer.value = '';
+				this.huisnummer.value = '';
 				this._nummerCombobox.set('value', '');
 				var straat_id = this._getStraatIdFromCombo();
 				if (straat_id) {
-					this.nummerNode.style.display = "none";
-					this.nummerCrabNode.style.display = "inline-table";
+					this.huisnummerNode.style.display = "none";
+					this.huisnummerCrabNode.style.display = "inline-table";
 					this.crabController.getNummers(straat_id).
 						then(lang.hitch(this, function (nummers) {
 							this._nummerCombobox.set('store', new Memory({data: nummers}));
@@ -267,13 +267,13 @@ define([
 
 		/**
 		 * Geeft de ingevoerde adres waarden en crab id's terug
-		 * @returns {{values: {straat: null, nummer: null, postbus: null, postcode: null, gemeente: null, land: null}, ids: {straat_id: null, nummer_id: null, gemeente_id: null}}}
+		 * @returns {{values: {straat: null, huisnummer: null, postbus: null, postcode: null, gemeente: null, land: null}, ids: {straat_id: null, huisnummer_id: null, gemeente_id: null}}}
 		 */
 		getInput: function() {
 			var inputs = {
 				values: {
 					straat: null,
-					nummer: null,
+					huisnummer: null,
 					postbus: null,
 					postcode: null,
 					gemeente: null,
@@ -281,7 +281,7 @@ define([
 				},
 				ids : {
 					straat_id: null,
-					nummer_id: null,
+					huisnummer_id: null,
 					gemeente_id: null
 				}
 			};
@@ -293,10 +293,10 @@ define([
 						function: this._getStraatIdFromCombo
 					}
 				},
-				nummer: {
+				huisnummer: {
 					combobox: this._nummerCombobox,
 					id: {
-						name: 'nummer_id',
+						name: 'huisnummer_id',
 						function: this._getNummerIdFromCombo
 					}
 				},
@@ -339,7 +339,7 @@ define([
 			this.gemeente.value = adres.gemeente;
 			this.postcode.value = adres.postcode;
 			this.straat.value = adres.straat;
-			this.nummer.value = adres.huisnummer;
+			this.huisnummer.value = adres.huisnummer;
 		},
 
 		/**
@@ -356,8 +356,8 @@ define([
 			domClass.add(this.straatNode, 'placeholder-disabled');
 			this.postcode.disabled=true;
 			domClass.add(this.postcodeNode, 'placeholder-disabled');
-			this.nummer.disabled=true;
-			domClass.add(this.nummerNode, 'placeholder-disabled');
+			this.huisnummer.disabled=true;
+			domClass.add(this.huisnummerNode, 'placeholder-disabled');
 			this.postbus.disabled=true;
 			domClass.add(this.postbusNode, 'placeholder-disabled');
 		},
@@ -380,7 +380,7 @@ define([
 					}));
 					this._straatCombobox.set('value', adres.straat, false);
 
-					this.nummer.value = adres.huisnummer;
+					this.huisnummer.value = adres.huisnummer;
 					this._changePostcodes();
 					this._postcodeCombobox.set('value', adres.postcode);
 					this._straatPrev = adres.straat;
@@ -394,7 +394,7 @@ define([
 				this.gemeente.value = adres.gemeente;
 				this.postcode.value = adres.postcode;
 				this.straat.value = adres.straat;
-				this.nummer.value = adres.huisnummer;
+				this.huisnummer.value = adres.huisnummer;
 			}
 			this.postbus.value = adres.postbus ? adres.postbus : null;
 		},
@@ -419,21 +419,21 @@ define([
 			this.gemeente.value = '';
 			this.straat.value = '';
 			this.postcode.value = '';
-			this.nummer.value = '';
+			this.huisnummer.value = '';
 			this.postbus.value = '';
 			this.gemeenteCrabNode.style.display="inline-table";
 			this.straatCrabNode.style.display="none";
 			this.postcodeCrabNode.style.display="none";
-			this.nummerCrabNode.style.display="none";
+			this.huisnummerCrabNode.style.display="none";
 			this.gemeenteNode.style.display="none";
 			this.straatNode.style.display="inline-table";
 			this.postcodeNode.style.display="inline-table";
-			this.nummerNode.style.display="inline-table";
+			this.huisnummerNode.style.display="inline-table";
 			this.land.disabled=false;
 			this.gemeente.disabled=false;
 			this.straat.disabled=false;
 			this.postcode.disabled=false;
-			this.nummer.disabled=false;
+			this.huisnummer.disabled=false;
 			this.postbus.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
