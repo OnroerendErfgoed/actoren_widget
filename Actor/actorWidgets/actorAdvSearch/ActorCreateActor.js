@@ -332,7 +332,7 @@ define([
 				gemeente: "De waarde is te lang",
 				gemeenteCrabValidation: "Gemeente is verplicht. Gelieve een geldige gemeente in te vullen.",
 				straat: "De waarde is te lang",
-				nummer: "De waarde is te lang",
+				huisnummer: "De waarde is te lang",
 				postbus: "De waarde is te lang"
 			}
 		},
@@ -471,7 +471,7 @@ define([
 		 * @private
 		 */
 		_resetValidity: function () {
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.postbus,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation, this.kbo, this.rrn];
 			inputs.forEach(lang.hitch(this, function(input){
 				input.setCustomValidity('');
@@ -485,7 +485,7 @@ define([
 		 */
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.nummer, this._crabWidget.postbus,
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.postbus,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
@@ -535,8 +535,8 @@ define([
 				actorNewAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
 				actorNewAdres['straat'] = crabWidgetValues.values.straat;
 				actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
-				actorNewAdres['huisnummer'] = crabWidgetValues.values.nummer;
-				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.nummer_id;
+				actorNewAdres['huisnummer'] = crabWidgetValues.values.huisnummer;
+				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.huisnummer_id;
 
 				this.actorWidget.actorController.saveActor(actorNew).then(
 					lang.hitch(this, function(response) {
