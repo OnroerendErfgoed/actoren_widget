@@ -57,7 +57,7 @@ define([
 		/**
 		 * Een event functie waarbij een query wordt samengesteld afhankelijk van ingevulde parameters.
 		 * Het grid in de zoek widget wordt gefilterd aan de hand van deze query en de zoek widget wordt geopend.
- 		 * @param {event} evt
+		 * @param {event} evt
 		 * @private
 		 */
 		_findActoren: function(evt) {
@@ -90,12 +90,25 @@ define([
 					query[param] = this[param].value;
 				}
 			}));
-			var crabParams = this._crabWidget.getInput().values;
-			Object.keys(crabParams).forEach(function(param){
-				if(crabParams[param]) {
-					query[param] = crabParams[param];
+			var querylist = [];
+
+			var crabParams = this._crabWidget.getInput();
+			['postcode', 'postbus', 'land'].forEach(function(param){
+				if (crabParams.values[param]) {
+					query[param] = crabParams.values[param];
 				}
 			});
+			// bijvoorbeeld ?gemeente=143 en ?query=gemeente:Vlissingen AND straat;Hogeweg
+			['gemeente', 'straat', 'huisnummer'].forEach(function(param){
+				if (crabParams.ids[param + '_id']) {
+					query[param] = crabParams.ids[param + '_id']
+				} else if (crabParams.values[param]) {
+					querylist.push(param + ':' + crabParams.values[param])
+				}
+			});
+			if (querylist.length > 0) {
+				query['query'] = querylist.join(' AND ');
+			}
 			return query;
 		},
 
