@@ -52,6 +52,9 @@ define([
 				console.log('send.actor');
 				console.log(evt.actor);
 			});
+			this.on('error', function(evt){
+				console.log('error', evt.error);
+			});
 		},
 
 		/**
@@ -97,6 +100,14 @@ define([
 		 */
 		emitActor: function(actor) {
 			this.emit('send.actor', {actor: actor});
+		},
+
+		/**
+		 * Een event toevoegen aan deze widget waaraan een error wordt meegeven.
+		 * @param {Event} evt met error attribuut.
+		 */
+		emitError: function(evt) {
+			this.emit('error', evt);
 		}
 
 	});

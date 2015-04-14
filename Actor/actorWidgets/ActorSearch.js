@@ -114,6 +114,10 @@ define([
 						this._emitActor(actor);
 					}));
 			}));
+			this._grid.on('dgrid-error', lang.hitch(this, function(evt){
+				evt.preventDefault();
+				this._emitError(evt)
+			}));
 			this._grid.refresh();
 
 		},
@@ -239,6 +243,14 @@ define([
 		 */
 		_emitActor: function(actor) {
 			this.actorWidget.emitActor(actor);
+		},
+
+		/**
+		 * Een event uitsturen aan de actorwidget waaraan een error wordt meegeven.
+		 * @param {Event} evt
+		 */
+		_emitError: function(evt) {
+			this.actorWidget.emitError(evt);
 		}
 
 	});
