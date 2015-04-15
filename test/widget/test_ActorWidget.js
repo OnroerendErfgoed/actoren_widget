@@ -1,44 +1,50 @@
 require([
-  'actorwidget/Actor/ActorWidget',
+	'actorwidget/Actor/ActorWidget',
 	'dojo/store/Observable',
 	'actorwidget/test/util/JsonRestCors',
-  'dojo/domReady!'
+	'dojo/domReady!'
 ], function (
-  ActorWidget,
+	ActorWidget,
 	Observable,
 	JsonRestCors
 ) {
-  var baseUrl= "http://localhost:6543";
+	var baseUrl= "http://localhost:6543";
 
-  var actorWijStore = new Observable(new JsonRestCors({
-    target: baseUrl + '/actoren/wij/',
-    sortParam: 'sort',
-    idProperty: 'id',
-    withCredentials: true,
-    headers: {
-      "X-Requested-With": "",
-      "Content-Type": "application/json"
-    }
-  }));
+	var actorWijStore = new Observable(new JsonRestCors({
+		target: baseUrl + '/actoren/wij/',
+		sortParam: 'sort',
+		idProperty: 'id',
+		withCredentials: true,
+		headers: {
+			"X-Requested-With": "",
+			"Content-Type": "application/json"
+		}
+	}));
 
-  var actorStore = new Observable(new JsonRestCors({
-    target: baseUrl + '/actoren/',
-    sortParam: 'sort',
-    idProperty: 'id',
-    withCredentials: true,
-    headers: {
-      "X-Requested-With": "",
-      "Content-Type": "application/json"
-    }
-  }));
+	var actorStore = new Observable(new JsonRestCors({
+		target: baseUrl + '/actoren/',
+		sortParam: 'sort',
+		idProperty: 'id',
+		withCredentials: true,
+		headers: {
+			"X-Requested-With": "",
+			"Content-Type": "application/json"
+		}
+	}));
 
-  var actorWidget = new ActorWidget({
-    actorWijStore: actorWijStore,
-    actorStore: actorStore,
+	var actorWidget = new ActorWidget({
+		actorWijStore: actorWijStore,
+		actorStore: actorStore,
 		permissionToAdd: true,
 		permissionToEdit: true,
-	  crabHost: "https://dev-actoren.onroerenderfgoed.be/"
-  }, 'widgetNode');
-  actorWidget.startup();
+		crabHost: "https://dev-actoren.onroerenderfgoed.be/",
+		typeLists: {
+			emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}], // get <actorenHost>/email_types
+			telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}], // get <actorenHost>/telephone_types
+			urlTypes: [{"naam": "website", "id": 1}, {"naam": "blog", "id": 2}, {"naam": "webapplicatie", "id": 3}], // get <actorenHost>/url_types
+			actorTypes: [{"naam": "persoon", "id": 1}, {"naam": "organisatie", "id": 2}] // get <actorenHost>/actor_types
+		}
+	}, 'widgetNode');
+	actorWidget.startup();
 
 });

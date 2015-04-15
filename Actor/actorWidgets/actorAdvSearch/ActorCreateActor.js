@@ -51,6 +51,7 @@ define([
 
 		/**
 		 * Standaard widget functie.
+		 * Selectielijsten aanvullen.
 		 * Opstarten telefoon landcodes.
 		 * Opstarten CrabWidget.
 		 * Opstarten boodschappen mapping voor validatie.
@@ -58,9 +59,34 @@ define([
 		startup: function () {
 			console.log('...ActorCreateActor::startup', arguments);
 			this.inherited(arguments);
+			this._setSelectLists();
 			this._setTelefoonLandcodes();
 			this._setCrabWidget();
 			this._setValidationMessageMapping();
+		},
+
+		/**
+		 * Selectielijsten aanvullen met opties
+		 * @private
+		 */
+		_setSelectLists: function(){
+			var selected;
+			this.actorWidget.typeLists.emailTypes.forEach(lang.hitch(this, function(type){
+				selected = type.naam === 'werk' ? '" selected': '"';
+				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.emailtypes);
+			}));
+			this.actorWidget.typeLists.telephoneTypes.forEach(lang.hitch(this, function(type){
+				selected = type.naam === 'werk' ? '" selected': '"';
+				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.telefoontypes);
+			}));
+			this.actorWidget.typeLists.urlTypes.forEach(lang.hitch(this, function(type){
+				selected = type.naam === 'website' ? '" selected': '"';
+				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.urltypes);
+			}));
+			this.actorWidget.typeLists.actorTypes.forEach(lang.hitch(this, function(type){
+				selected = type.naam === 'persoon' ? '" selected': '"';
+				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.type);
+			}));
 		},
 
 		/**
