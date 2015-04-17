@@ -9,7 +9,8 @@ define([
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
-	'../CrabWidget'
+	'../CrabWidget',
+	"dojo/dom-construct"
 ], function(
 	template,
 	declare,
@@ -17,7 +18,8 @@ define([
 	_WidgetBase,
 	_TemplatedMixin,
 	_WidgetsInTemplateMixin,
-	CrabWidget
+	CrabWidget,
+	domConstruct
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -52,6 +54,18 @@ define([
 		 */
 		_setCrabWidget: function() {
 			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
+			this._setSelectLists();
+		},
+
+		/**
+		 * Selectielijsten aanvullen met opties
+		 * @private
+		 */
+		_setSelectLists: function(){
+			this.actorWidget.typeLists.actorTypes.forEach(lang.hitch(this, function(type){
+				domConstruct.place('<option value="' + type.id + '">' + type.naam + '</option>', this.type);
+			}));
+			domConstruct.place('<option value="" disabled selected>Selecteer Actortype</option>', this.type);
 		},
 
 		/**
@@ -90,7 +104,6 @@ define([
 					query[param] = this[param].value;
 				}
 			}));
-			var querylist = [];
 
 			var crabParams = this._crabWidget.getInput();
 			['postcode', 'postbus', 'land'].forEach(function(param){
@@ -98,17 +111,18 @@ define([
 					query[param] = crabParams.values[param];
 				}
 			});
-			// bijvoorbeeld ?gemeente=143 en ?query=gemeente:Vlissingen AND straat;Hogeweg
+			// bijvoorbeeld ?gemeente=143 en ?gemeente_naam=Rotterdam
 			['gemeente', 'straat', 'huisnummer'].forEach(function(param){
 				if (crabParams.ids[param + '_id']) {
 					query[param] = crabParams.ids[param + '_id']
 				} else if (crabParams.values[param]) {
-					querylist.push(param + ':' + crabParams.values[param])
+					if (param === 'huisnummer') {
+						query[param + '_label'] = crabParams.values[param]
+					} else {
+						query[param + '_naam'] = crabParams.values[param]
+					}
 				}
 			});
-			if (querylist.length > 0) {
-				query['query'] = querylist.join(' AND ');
-			}
 			return query;
 		},
 
