@@ -166,7 +166,7 @@ define([
 			this.email.value=  '';
 			this.telefoon.value = '';
 			this._crabWidget.resetValues();
-			this.type.value = "1";
+			this.type.value = "";
 			this.persid.value = "";
 			this.rrn.value = "";
 			this.kbo.value = "";
