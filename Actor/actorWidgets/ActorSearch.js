@@ -6,6 +6,7 @@ define([
 	'dojo/text!./templates/ActorSearch.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
+	'dojo/Deferred',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
@@ -17,6 +18,7 @@ define([
 	template,
 	declare,
 	lang,
+	Deferred,
 	_WidgetBase,
 	_TemplatedMixin,
 	_WidgetsInTemplateMixin,
@@ -221,20 +223,37 @@ define([
 		},
 
 		/**
+		 * Geeft de geselecteerde actor.
+		 * @returns {Deferred.promise|*}
+		 */
+		getSelectedActor: function() {
+			var deffered = new Deferred();
+			for(var id in this._grid.selection){
+				if(this._grid.selection[id]){
+					this.actorController.getActor(id).then(
+						function(actor){
+							deffered.resolve(actor)
+						},
+						function(error) {
+							deffered.reject(error);
+						}
+					);
+				}
+			}
+			return deffered.promise;
+		},
+
+		/**
 		 * Een event functie die de geselecteerde actor in het grid meegeeft aan een private emit functie.
 		 * @param {Event} evt
 		 * @private
 		 */
 		_emitSelectedActoren: function(evt) {
 			evt? evt.preventDefault() : null;
-			for(var id in this._grid.selection){
-				if(this._grid.selection[id]){
-					this.actorController.getActor(id).
-						then(lang.hitch(this, function(actor){
+			this.getSelectedActor().
+				then(lang.hitch(this, function(actor){
 							this._emitActor(actor);
-						}));
-				}
-			}
+				}));
 		},
 
 		/**

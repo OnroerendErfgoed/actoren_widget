@@ -155,20 +155,37 @@ define([
 		},
 
 		/**
+		 * Geeft de geselecteerde actor.
+		 * @returns {Deferred.promise|*}
+		 */
+		getSelectedActor: function() {
+			var deffered = new Deferred();
+			for(var id in this._grid.selection){
+				if(this._grid.selection[id]){
+					this.actorController.getActor(id).then(
+						function(actor){
+							deffered.resolve(actor)
+						},
+						function(error) {
+							deffered.reject(error);
+						}
+					);
+				}
+			}
+			return deffered.promise;
+		},
+
+		/**
 		 * Een event functie die de geselecteerde actor in het grid meegeeft aan een private emit functie.
 		 * @param {Event} evt
 		 * @private
 		 */
 		_emitSelectedActoren: function(evt) {
-			evt.preventDefault();
-			for(var id in this._grid.selection){
-				if(this._grid.selection[id]){
-					this.actorController.getActor(id).
-						then(lang.hitch(this, function(actor){
+			evt? evt.preventDefault() : null;
+			this.getSelectedActor().
+				then(lang.hitch(this, function(actor){
 							this._emitActor(actor);
-						}));
-				}
-			}
+				}));
 		},
 
 		/**

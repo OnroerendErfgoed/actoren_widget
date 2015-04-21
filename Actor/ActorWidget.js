@@ -171,6 +171,14 @@ define([
 		},
 
 		/**
+		 * Geeft de geselecteerde actor.
+		 * @returns {Deferred.promise|*}
+		 */
+		getSelectedActor: function() {
+			return this._actorSearch.getSelectedActor();
+		},
+
+		/**
 		 * Een event toevoegen aan deze widget waaraan een error wordt meegeven.
 		 * @param {Event} evt met error attribuut.
 		 */
