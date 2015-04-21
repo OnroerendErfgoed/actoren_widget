@@ -157,12 +157,12 @@ define([
 		_setTelefoonLandcodes: function() {
 			var countryCodeStore = new Memory({
 				data: [
-					{name:"+32",  id:"32",  label:"<span class='flag be'>België (+32)</span>"},
-					{name:"+49",  id:"49",  label:"<span class='flag de'>Duitsland (+49)</span>"},
-					{name:"+33",  id:"33",  label:"<span class='flag fr'>Frankrijk (+33)</span>"},
-					{name:"+44",  id:"44",  label:"<span class='flag gb'>Groot-Brittannië (+44)</span>"},
-					{name:"+31",  id:"31",  label:"<span class='flag nl'>Nederland (+31)</span>"},
-					{name:"+352", id:"352", label:"<span class='flag lu'>Luxemburg (+352)</span>"}
+					{name:"+32",  id:"32",  label:"<span class='actor-widget flag be'>België (+32)</span>"},
+					{name:"+49",  id:"49",  label:"<span class='actor-widget flag de'>Duitsland (+49)</span>"},
+					{name:"+33",  id:"33",  label:"<span class='actor-widget flag fr'>Frankrijk (+33)</span>"},
+					{name:"+44",  id:"44",  label:"<span class='actor-widget flag gb'>Groot-Brittannië (+44)</span>"},
+					{name:"+31",  id:"31",  label:"<span class='actor-widget flag nl'>Nederland (+31)</span>"},
+					{name:"+352", id:"352", label:"<span class='actor-widget flag lu'>Luxemburg (+352)</span>"}
 				]
 			});
 
