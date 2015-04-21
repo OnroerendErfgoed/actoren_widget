@@ -42,7 +42,7 @@ require([
 			vkbo: false,
 			vkbp: false
 		},
-		crabHost: "https://dev-actoren.onroerenderfgoed.be/",
+		crabHost: "http://localhost:6543/",
 		typeLists: {
 			emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}], // get <actorenHost>/email_types
 			telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}], // get <actorenHost>/telephone_types

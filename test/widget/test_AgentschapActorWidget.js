@@ -35,7 +35,8 @@ require([
 
   var actorWidget = new AgentschapActorWidget({
     actorWijStore: actorWijStore,
-    actorStore: actorStore
+    actorStore: actorStore,
+		crabHost: "http://localhost:6543/"
   }, 'widgetNode');
   actorWidget.startup();
 

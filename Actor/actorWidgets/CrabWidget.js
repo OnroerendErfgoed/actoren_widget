@@ -12,7 +12,8 @@ define([
 	'dijit/_WidgetsInTemplateMixin',
 	'dijit/form/ComboBox',
 	'dojo/Deferred',
-	'dojo/dom-class'
+	'dojo/dom-class',
+	'dojo/dom-construct'
 ], function(
 	template,
 	declare,
@@ -23,7 +24,8 @@ define([
 	_WidgetsInTemplateMixin,
 	ComboBox,
 	Deferred,
-	domClass
+	domClass,
+	domConstruct
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 		templateString: template,
@@ -45,6 +47,7 @@ define([
 		postCreate: function() {
 			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
+			this._setLandenList();
 			this._setGemeentenCombo();
 			this._setPostcodesCombo();
 			this._setStratenCombo();
@@ -60,11 +63,32 @@ define([
 		},
 
 		/**
+		 * Selectielijsten aanvullen met opties
+		 * @private
+		 */
+		_setLandenList: function(){
+			// default lijst van landen
+			domConstruct.place('<option value="BE" selected>België</option>', this.land);
+			domConstruct.place('<option value="DE">Duitsland</option>', this.land);
+			domConstruct.place('<option value="FR">Frankrijk</option>', this.land);
+			domConstruct.place('<option value="GB">Groot-Brittanië</option>', this.land);
+			domConstruct.place('<option value="NL">Nederland</option>', this.land);
+			domConstruct.place('<option value="LU">Luxemburg</option>', this.land);
+			domConstruct.place('<option disabled>─────────────────────────</option>', this.land);
+			this.crabController.getLanden().
+				then(lang.hitch(this, function(landenLijst){
+					landenLijst.forEach(lang.hitch(this, function(land){
+						domConstruct.place('<option value="' + land.id + '">' + land.naam + '</option>', this.land);
+					}));
+				}));
+		},
+
+		/**
 		 * Opbouw gemeente <class>dijit/form/ComboBox<class>.
 		 * @private
 		 */
 		_setGemeentenCombo: function() {
-			this.crabController.getGeementen().
+			this.crabController.getGemeenten().
 				then(lang.hitch(this, function(gemeenten){
 					this._gemeenteCombobox = new ComboBox({
 						store: new Memory({data: gemeenten}),

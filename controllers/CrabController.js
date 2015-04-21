@@ -43,11 +43,39 @@ define([
 		},
 
 		/**
+		 * Geeft landen terug.
+		 * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
+		 */
+		getLanden: function(){
+			var deferred = new Deferred();
+			this._crabGet('crab/landen').
+				then(lang.hitch(this, function(landen) {
+					landen.sort(this._compare);
+					deferred.resolve(landen);
+				}));
+			return deferred.promise;
+		},
+
+		/**
+		 * Geef de naam van het land terug met een opgegeven ID.
+		 * @param landId
+		 * @returns {Deferred.promise|*} promise met string van de landnaam
+		 */
+		getLandNaam: function(landId){
+			var deferred = new Deferred();
+			this._crabGet('crab/landen/' + landId).
+				then(function(land){
+					deferred.resolve(land.naam)
+				});
+			return deferred.promise;
+		},
+
+		/**
 		 * Geeft de gemeenten van België terug.
 		 * Per gewest worden de gemeenten opgehaald, samengevoegd en gesorteerd.
 		 * @returns {Boolean} (Promise) 'True' als de deferred een response met json body terug krijgt, anders 'False'.
 		 */
-		getGeementen: function(){
+		getGemeenten: function(){
 			var deferred = new Deferred();
 			this._crabGet('crab/gewesten/1/gemeenten').
 				then(lang.hitch(this, function(data) {

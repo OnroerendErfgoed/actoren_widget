@@ -22,6 +22,13 @@ define([
 		widgetsInTemplate: true,
 		actor: null,
 		actorWidget: null,
+		defaultLanden: {
+			BE: 'België',
+			FR: 'Frankrijk',
+			GB: 'Groot-Brittanië',
+			NL: 'Nederland',
+			LU: 'Luxemburg'
+		},
 
 		/**
 		 * Standaard widget functie.
@@ -65,7 +72,19 @@ define([
 			this.nummer.value  = actor.adres ? actor.adres.huisnummer : null;
 			this.postcode.value  = actor.adres ? actor.adres.postcode : null;
 			this.gemeente.value  = actor.adres ? actor.adres.gemeente : null;
-			this.land.value  = actor.adres ? actor.adres.land : null;
+			if (actor.adres) {
+				if (actor.adres.land) {
+					if (this.defaultLanden[actor.adres.land]) {
+						this.land.value = this.defaultLanden[actor.adres.land]
+					}
+					else {
+						this.actorWidget.crabController.getLandNaam(actor.adres.land).
+							then(function(land_value){
+								this.land.value = land_value;
+							})
+					}
+				}
+			}
 			this.actortype.value  = actor.type.naam;
 			this.url.value = actor.urls.length ? actor.urls[0].url ? actor.urls[0].url : null : null;
 			this.actor = actor;

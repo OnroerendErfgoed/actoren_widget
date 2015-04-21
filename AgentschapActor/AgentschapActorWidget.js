@@ -9,6 +9,7 @@ define([
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
 	'./../controllers/ActorController',
+	'./../controllers/CrabController',
 	'./AgentschapActorSearch',
 	'./AgentschapActorDetail',
 	'dijit/layout/StackContainer'
@@ -19,6 +20,7 @@ define([
 	_TemplatedMixin,
 	_WidgetsInTemplateMixin,
 	ActorController,
+	CrabController,
 	AgentschapActorSearch,
 	AgentschapActorDetail
 ) {
@@ -35,6 +37,7 @@ define([
 		/**
 		 * Standaard widget functie.
 		 * Aanmaken van de actor controller.
+		 * Aanmaken van de crab controller.
 		 * Layout opbouwen uit andere widgets.
 		 * Een listener event toevoegen (log voor development).
 		 */
@@ -46,6 +49,7 @@ define([
 				actorWijStore: this.actorWijStore,
 				actorStore: this.actorStore
 			});
+			this.crabController = new CrabController({crabHost: this.crabHost});
 			this._setupLayout();
 
 			this.on('send.actor', function(evt){
