@@ -69,9 +69,13 @@ define([
 					label:'#',
 					formatter: function (id) {
 						return '<a href="#" >' + id + '</a>'
-					}
+					},
+					sortable: false
 				},
-				naam: 'Naam',
+				naam: {
+					label:'Naam',
+					sortable: false
+				},
 				voornaam: {
 					label: 'Voornaam',
 					sortable: false
@@ -80,7 +84,8 @@ define([
 					label: 'Type',
 					formatter: function (type) {
 						return type['naam'];
-					}
+					},
+					sortable: false
 				}
 			};
 
@@ -98,7 +103,7 @@ define([
 			this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
 				evt.preventDefault();
 				var cell = this._grid.cell(evt);
-				if (cell.column.field == 'id') {
+				if (cell.column.field == 'id' && this._grid.row(evt)) {
 					var id = this._grid.row(evt).id;
 					this.actorController.getActor(id).
 						then(lang.hitch(this, function(actor){
