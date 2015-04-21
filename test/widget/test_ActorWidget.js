@@ -37,6 +37,11 @@ require([
 		actorStore: actorStore,
 		permissionToAdd: true,
 		permissionToEdit: true,
+		actorCategories: {
+			actoren: true,
+			vkbo: false,
+			vkbp: false
+		},
 		crabHost: "https://dev-actoren.onroerenderfgoed.be/",
 		typeLists: {
 			emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}], // get <actorenHost>/email_types

@@ -44,6 +44,11 @@ define([
 		permissionToAdd: false,
 		permissionToEdit: false,
 		// default values
+		actorCategories: {
+			actoren: true,
+			vkbo: false,
+			vkbp: false
+		},
 		typeLists: {
 			emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}],
 			telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}],
@@ -144,13 +149,27 @@ define([
 			this.actorStackContainer.addChild(this._actorSearch);
 			this.actorStackContainer.addChild(this._actorDetail);
 
-			this._ActorAdvSearchUI =  new ActorAdvSearchUI({actorWidget: this});
-			this._actorSearchVKBO =  new ActorAdvSearchVKBO({actorWidget: this});
-			this._actorSearchVKBP =  new ActorAdvSearchVKBP({actorWidget: this});
-
-			this.actorStackContainer.addChild(this._ActorAdvSearchUI);
-			this.actorStackContainer.addChild(this._actorSearchVKBO);
-			this.actorStackContainer.addChild(this._actorSearchVKBP);
+			if (this.actorCategories.actoren) {
+				this._ActorAdvSearchUI =  new ActorAdvSearchUI({actorWidget: this});
+				this.actorStackContainer.addChild(this._ActorAdvSearchUI);
+			}
+			else {
+				this._actorSearch.advSearchActor.style.display = 'none';
+			}
+			if (this.actorCategories.vkbo) {
+				this._actorSearchVKBO =  new ActorAdvSearchVKBO({actorWidget: this});
+				this.actorStackContainer.addChild(this._actorSearchVKBO);
+			}
+			else {
+				this._actorSearch.advSearchVKBO.style.display = 'none';
+			}
+			if (this.actorCategories.vkbp) {
+				this._actorSearchVKBP =  new ActorAdvSearchVKBP({actorWidget: this});
+				this.actorStackContainer.addChild(this._actorSearchVKBP);
+			}
+			else {
+				this._actorSearch.advSearchVKBP.style.display = 'none';
+			}
 
 			if (this.permissionToEdit) {
 				this._actorEdit = new ActorEdit({actorWidget: this});
