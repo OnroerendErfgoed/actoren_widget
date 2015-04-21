@@ -132,6 +132,7 @@ define([
 		 * @private
 		 */
 		_filterGrid: function (evt) {
+			this._grid.set('sort', []);
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
 				clearTimeout(this._timeoutId);
