@@ -167,6 +167,7 @@ define([
 		 * @param {object} query bv {naam: 'testpersoon'}
 		 */
 		AdvSearchFilterGrid: function(query) {
+			this._grid.set('sort', []);
 			this.actorenFilter.value = "";
 			this._grid.set("store", this.actorController.actorStore);
 			this._store = 'all';
@@ -191,7 +192,6 @@ define([
 		 */
 		_showActorSearch: function(evt) {
 			evt? evt.preventDefault() : null;
-			this._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorWidget.showActorSearch();
 		},
 
@@ -223,6 +223,7 @@ define([
 		_refresh: function (evt) {
 			evt.preventDefault();
 			this._grid.set("store", this.actorController.actorStore);
+			this._grid.set("query", {});
 			this.actorenFilter.value = '';
 			this._grid.refresh();
 		},

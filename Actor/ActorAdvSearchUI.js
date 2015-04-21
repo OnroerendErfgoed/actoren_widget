@@ -62,6 +62,7 @@ define([
 		 * @private
 		 */
 		_showActorCreate: function () {
+			this.actorWidget._actorSearch._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorAdvSearchStackContainer.selectChild(this._actorCreate);
 		},
 
