@@ -5,12 +5,14 @@
 define([
 	'dojo/text!./templates/AgentschapActorDetail.html',
 	'dojo/_base/declare',
+	'dojo/_base/lang',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin'
 ], function(
 	template,
 	declare,
+	lang,
 	_WidgetBase,
 	_TemplatedMixin,
 	_WidgetsInTemplateMixin
@@ -79,9 +81,9 @@ define([
 					}
 					else {
 						this.actorWidget.crabController.getLandNaam(actor.adres.land).
-							then(function(land_value){
+							then(lang.hitch(this, function(land_value){
 								this.land.value = land_value;
-							})
+							}))
 					}
 				}
 			}
