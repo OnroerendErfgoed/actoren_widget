@@ -570,6 +570,7 @@ define([
 						this.actorWidget.actorController.saveActorAdres(actorNewAdres, actor.id).then(
 							lang.hitch(this, function (response) {
 								actor.adres = response;
+								this._addNewTag(actor.id);
 								this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
 
 							}),
@@ -645,6 +646,15 @@ define([
 
 		_filterGrid: function (query) {
 			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
+		},
+
+		/**
+		 * Id toevoegen aan lijst met nieuwe id's zodat er een tag getoond kan worden in het grid voor de nieuwe actor.
+		 * @param id
+		 * @private
+		 */
+		_addNewTag: function (id) {
+			this.actorWidget._actorSearch.new.push(id);
 		}
 	});
 });
