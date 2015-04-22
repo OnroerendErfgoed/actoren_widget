@@ -10,6 +10,8 @@ define([
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
+  'dijit/Menu',
+  'dijit/MenuItem',
 	'dgrid/Keyboard',
 	'dgrid/extensions/DijitRegistry',
 	'dgrid/OnDemandGrid',
@@ -22,6 +24,8 @@ define([
 	_WidgetBase,
 	_TemplatedMixin,
 	_WidgetsInTemplateMixin,
+	Menu,
+	MenuItem,
 	Keyboard,
 	DijitRegistry,
 	OnDemandGrid,
@@ -100,6 +104,14 @@ define([
 				noDataMessage: 'geen resultaten beschikbaar'
 			}, this.gridNode);
 
+			var contextMenu = this._createContextMenu();
+      //bridge between contextMenu and grid
+      this._grid.on('.dgrid-row:contextmenu', lang.hitch(this, function(evt){
+        evt.preventDefault(); // prevent default browser context menu
+        contextMenu.selectedGridItem = this._grid.row(evt).data;
+        contextMenu._scheduleOpen(this, null, { x: evt.pageX, y: evt.pageY });
+      }));
+
 			this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
 				evt.preventDefault();
 				var cell = this._grid.cell(evt);
@@ -127,6 +139,49 @@ define([
 			}));
 			this._grid.refresh();
 
+		},
+
+		/**
+		 * Maak context menu om actoren uit het grid te bekijken, toe te voegen of te bewerken indien toegelaten.
+		 * @returns {Menu}
+		 * @private
+		 */
+		_createContextMenu: function () {
+			var contextMenu = new Menu({});
+
+			contextMenu.addChild(new MenuItem({
+				label: 'Bekijken',
+				onClick: lang.hitch(this, function () {
+					this.actorController.getActor(contextMenu.selectedGridItem.id).
+						then(lang.hitch(this, function(actor){
+							this._showDetail(actor);
+						}));
+				})
+			}));
+
+			if (this.actorWidget.permissionToEdit) {
+				contextMenu.addChild(new MenuItem({
+					label: 'Bewerken',
+					onClick: lang.hitch(this, function () {
+						this.actorController.getActor(contextMenu.selectedGridItem.id).
+							then(lang.hitch(this, function(actor){
+								this._showEdit(actor);
+							}));
+					})
+				}));
+			}
+
+			contextMenu.addChild(new MenuItem({
+				label: 'Toevoegen',
+				onClick: lang.hitch(this, function () {
+					this.actorController.getActor(contextMenu.selectedGridItem.id).
+						then(lang.hitch(this, function(actor){
+							this._emitActor(actor);
+						}));
+				})
+			}));
+
+			return contextMenu;
 		},
 
 		/**
@@ -183,6 +238,16 @@ define([
 		_showDetail: function(actor) {
 			this._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorWidget.showDetail(actor);
+		},
+
+		/**
+		 * Tonen van de bewerk widget waarbij een actor wordt meegegeven.
+		 * @param {Object} actor
+		 * @private
+		 */
+		_showEdit: function(actor) {
+			this._grid.set('sort', [{ attribute: 'naam' }]);
+			this.actorWidget.showEdit(actor);
 		},
 
 		/**

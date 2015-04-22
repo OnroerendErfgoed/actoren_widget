@@ -10,6 +10,8 @@ define([
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
+  'dijit/Menu',
+  'dijit/MenuItem',
 	'dgrid/Keyboard',
 	'dgrid/extensions/DijitRegistry',
 	'dgrid/OnDemandGrid',
@@ -22,6 +24,8 @@ define([
 	_WidgetBase,
 	_TemplatedMixin,
 	_WidgetsInTemplateMixin,
+	Menu,
+	MenuItem,
 	Keyboard,
 	DijitRegistry,
 	OnDemandGrid,
@@ -99,6 +103,8 @@ define([
 				noDataMessage: 'geen resultaten beschikbaar'
 			}, this.gridNode);
 
+			var contextMenu = this._createContextMenu();
+
 			this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
 				evt.preventDefault();
 				var cell = this._grid.cell(evt);
@@ -118,6 +124,12 @@ define([
 						this._emitActor(actor);
 					}));
 			}));
+      //bridge between contextMenu and grid
+      this._grid.on('.dgrid-row:contextmenu', lang.hitch(this, function(evt){
+        evt.preventDefault(); // prevent default browser context menu
+        contextMenu.selectedGridItem = this._grid.row(evt).data;
+        contextMenu._scheduleOpen(this, null, { x: evt.pageX, y: evt.pageY });
+      }));
 			this._grid.on('dgrid-error', lang.hitch(this, function(evt){
 				evt.preventDefault();
 				this._emitError(evt)
@@ -125,6 +137,38 @@ define([
 			this._grid.refresh();
 
 		},
+
+		/**
+		 * Maak context menu om actoren uit het grid te bekijken of toe te voegen.
+		 * @returns {Menu}
+		 * @private
+		 */
+		_createContextMenu: function () {
+			var contextMenu = new Menu({});
+
+			contextMenu.addChild(new MenuItem({
+				label: 'Bekijken',
+				onClick: lang.hitch(this, function () {
+					this.actorController.getActor(contextMenu.selectedGridItem.id).
+						then(lang.hitch(this, function(actor){
+							this._showDetail(actor);
+						}));
+				})
+			}));
+
+			contextMenu.addChild(new MenuItem({
+				label: 'Toevoegen',
+				onClick: lang.hitch(this, function () {
+					this.actorController.getActor(contextMenu.selectedGridItem.id).
+						then(lang.hitch(this, function(actor){
+							this._emitActor(actor);
+						}));
+				})
+			}));
+
+			return contextMenu;
+		},
+
 
 		/**
 		 * Een event functie die na input in html element een filtering het grid zal toepassen
