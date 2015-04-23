@@ -135,6 +135,7 @@ define([
 		 */
 		_openSearch: function(evt) {
 			evt? evt.preventDefault() : null;
+			this.actorWidget._actorSearch.removeSort();
 			this.actorWidget.showSearch();
 			this._reset();
 		},
@@ -146,6 +147,7 @@ define([
 		 */
 		_openDetail: function(evt) {
 			evt? evt.preventDefault() : null;
+			this.actorWidget._actorSearch.removeSort();
 			this.actorWidget.showDetail(this.actor);
 			this._reset();
 		},
@@ -532,6 +534,8 @@ define([
 					lang.hitch(this, function(response) {
 						var actor = response;
 						if (!adresEdited) {
+							this._addUpdatedTag(actor.id);
+							this._filterGrid({query:'id:' +actor.id});
 							this.actorWidget.showDetail(actor);
 							this._reset();
 						}
@@ -539,6 +543,8 @@ define([
 							this.actorWidget.actorController.saveActorAdres(actorEditAdres, actorId).then(
 								lang.hitch(this, function (response) {
 									actor.adres = response;
+									this._addUpdatedTag(actor.id);
+									this._filterGrid({query:'id:' +actor.id});
 									this.actorWidget.showDetail(actor);
 									this._reset();
 								}),
@@ -561,6 +567,24 @@ define([
 					})
 				);
 			}
+		},
+
+		/**
+		 * Id toevoegen aan lijst met bewerkte id's zodat er een tag getoond kan worden in het grid voor de bewerkte actor.
+		 * Alleen als de actor id nog niet in de lijst of in de lijst met nieuwe actor id's voorkomt.
+		 * @param id
+		 * @private
+		 */
+		_addUpdatedTag: function (id) {
+			var actorSearch = this.actorWidget._actorSearch;
+			if (!(actorSearch.updated.indexOf(id) > -1 || actorSearch.new.indexOf(id) > -1)) {
+				actorSearch.updated.push(id);
+			}
+		},
+
+		_filterGrid: function (query) {
+			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		}
+
 	});
 });

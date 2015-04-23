@@ -72,8 +72,7 @@ define([
 					label:'#',
 					formatter: function (id) {
 						return '<a href="#" >' + id + '</a>'
-					},
-					sortable: false
+					}
 				},
 				naam: {
 					label:'Naam',

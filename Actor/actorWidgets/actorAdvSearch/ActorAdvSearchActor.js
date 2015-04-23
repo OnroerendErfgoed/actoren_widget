@@ -142,6 +142,7 @@ define([
 		 */
 		_openSearch: function(evt) {
 			evt? evt.preventDefault() : null;
+			this.actorWidget._actorSearch.removeSort();
 			this.actorAdvancedSearch._showSearch();
 			this._reset();
 		},
@@ -153,6 +154,7 @@ define([
 		 */
 		_showActorCreate: function(evt) {
 			evt.preventDefault();
+			this.actorWidget._actorSearch.addSort();
 			this.actorAdvancedSearch._showActorCreate();
 		},
 

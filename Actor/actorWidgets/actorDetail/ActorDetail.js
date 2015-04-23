@@ -97,6 +97,7 @@ define([
 		 */
 		_openEdit: function(evt) {
 			evt.preventDefault();
+			this.actorWidget._actorSearch.addSort();
 			this.actorWidget.showEdit(this.actor);
 			this._reset();
 		},
