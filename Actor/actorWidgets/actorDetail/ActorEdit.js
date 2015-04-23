@@ -516,10 +516,11 @@ define([
 				actorEditAdres['straat_id'] = crabWidgetValues.ids.straat_id;
 				actorEditAdres['huisnummer'] = crabWidgetValues.values.huisnummer;
 				actorEditAdres['huisnummer_id'] = crabWidgetValues.ids.huisnummer_id;
+				actorEditAdres['subadres'] = crabWidgetValues.values.subadres;
 
 				var adresEdited = false;
 				if (actorEdit.adres) {
-					['huisnummer', 'gemeente', 'poscode', 'land', 'straat'].forEach(function (adresKey) {
+					['huisnummer', 'gemeente', 'poscode', 'land', 'straat', 'subadres'].forEach(function (adresKey) {
 						if (actorEditAdres[adresKey] != actorEdit.adres[adresKey]) {
 							adresEdited = true;
 						}
