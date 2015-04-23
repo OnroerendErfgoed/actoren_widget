@@ -135,6 +135,7 @@ define([
 		 */
 		_openSearch: function(evt) {
 			evt? evt.preventDefault() : null;
+			this.actorWidget._actorSearch.removeSort();
 			this.actorWidget.showSearch();
 			this._reset();
 		},
@@ -146,6 +147,7 @@ define([
 		 */
 		_openDetail: function(evt) {
 			evt? evt.preventDefault() : null;
+			this.actorWidget._actorSearch.removeSort();
 			this.actorWidget.showDetail(this.actor);
 			this._reset();
 		},
@@ -533,6 +535,7 @@ define([
 						var actor = response;
 						if (!adresEdited) {
 							this._addUpdatedTag(actor.id);
+							this._filterGrid({query:'id:' +actor.id});
 							this.actorWidget.showDetail(actor);
 							this._reset();
 						}
@@ -541,6 +544,7 @@ define([
 								lang.hitch(this, function (response) {
 									actor.adres = response;
 									this._addUpdatedTag(actor.id);
+									this._filterGrid({query:'id:' +actor.id});
 									this.actorWidget.showDetail(actor);
 									this._reset();
 								}),
@@ -576,6 +580,10 @@ define([
 			if (!(actorSearch.updated.indexOf(id) > -1 || actorSearch.new.indexOf(id) > -1)) {
 				actorSearch.updated.push(id);
 			}
+		},
+
+		_filterGrid: function (query) {
+			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
 		}
 
 	});

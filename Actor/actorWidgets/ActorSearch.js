@@ -202,7 +202,7 @@ define([
 		 */
 		_filterGrid: function (evt) {
 			evt.preventDefault();
-			this._grid.set('sort', []);
+			this.removeSort();
 			if (this._store != 'wij') {
 				this._grid.set('store', this.actorController.actorWijStore);
 				this._store = 'wij';
@@ -232,7 +232,7 @@ define([
 		 * @param {object} query bv {naam: 'testpersoon'}
 		 */
 		AdvSearchFilterGrid: function(query) {
-			this._grid.set('sort', []);
+			this.removeSort();
 			this.actorenFilter.value = "";
 			this._grid.set("store", this.actorController.actorStore);
 			this._store = 'all';
@@ -241,12 +241,25 @@ define([
 		},
 
 		/**
+		 * Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
+		 */
+		removeSort: function() {
+			this._grid.set('sort', []);
+		},
+
+		/**
+		 * Functie om sort parameter toe te voegen aan het grid, belangrijk bij bewerken een aanpassen
+		 */
+		addSort: function() {
+			this._grid.set('sort', [{ attribute: 'naam' }]);
+		},
+
+		/**
 		 * Tonen van de detail widget waarbij een actor wordt meegegeven.
 		 * @param {Object} actor
 		 * @private
 		 */
 		_showDetail: function(actor) {
-			this._grid.set('sort', [{ attribute: 'naam' }]);
 			this.actorWidget.showDetail(actor);
 		},
 
@@ -256,7 +269,7 @@ define([
 		 * @private
 		 */
 		_showEdit: function(actor) {
-			this._grid.set('sort', [{ attribute: 'naam' }]);
+			this.addSort();
 			this.actorWidget.showEdit(actor);
 		},
 
@@ -297,6 +310,7 @@ define([
 		 */
 		_refresh: function (evt) {
 			evt.preventDefault();
+			this.addSort();
 			this._grid.set("store", this.actorController.actorStore);
 			this._grid.set("query", {});
 			this.actorenFilter.value = '';

@@ -296,6 +296,7 @@ define([
 		 */
 		_openSearch: function(evt) {
 			evt? evt.preventDefault() : null;
+			this.actorWidget._actorSearch.removeSort();
 			this.actorAdvancedSearch._showSearch();
 			this._reset();
 		},
@@ -307,6 +308,7 @@ define([
 		 */
 		_showActorSearch: function(evt) {
 			evt? evt.preventDefault() : null;
+			this.actorWidget._actorSearch.removeSort();
 			this.actorAdvancedSearch._showActorSearch();
 			this._reset();
 		},

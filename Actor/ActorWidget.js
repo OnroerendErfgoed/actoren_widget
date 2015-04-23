@@ -96,6 +96,7 @@ define([
 		 * Functie om de zoek widget te tonen.
 		 */
 		showSearch: function () {
+			this._actorSearch.removeSort();
 			this.actorStackContainer.selectChild(this._actorSearch);
 		},
 
@@ -104,6 +105,7 @@ define([
 		 * @param {Object} actor
 		 */
 		showDetail: function (actor) {
+			this._actorSearch.addSort();
 			this._actorDetail.setActor(actor);
 			this.actorStackContainer.selectChild(this._actorDetail);
 		},
@@ -113,6 +115,7 @@ define([
 		 * @param {Object} actor
 		 */
 		showEdit: function (actor) {
+			this._actorSearch.addSort();
 			this._actorEdit.setActor(actor);
 			this.actorStackContainer.selectChild(this._actorEdit);
 		},
@@ -121,6 +124,7 @@ define([
 		 * Functie om de uitgebreide actor zoek widget te tonen.
 		 */
 		showActorSearch: function () {
+			this._actorSearch.removeSort();
 			this.actorStackContainer.selectChild(this._ActorAdvSearchUI);
 		},
 
