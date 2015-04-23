@@ -361,7 +361,7 @@ define([
 				gemeenteCrabValidation: "Gemeente is verplicht. Gelieve een geldige gemeente in te vullen.",
 				straat: "De waarde is te lang",
 				huisnummer: "De waarde is te lang",
-				postbus: "De waarde is te lang"
+				subadres: "De waarde is te lang"
 			}
 		},
 
@@ -499,7 +499,7 @@ define([
 		 * @private
 		 */
 		_resetValidity: function () {
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.postbus,
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation, this.kbo, this.rrn];
 			inputs.forEach(lang.hitch(this, function(input){
 				input.setCustomValidity('');
@@ -513,7 +513,7 @@ define([
 		 */
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.postbus,
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {

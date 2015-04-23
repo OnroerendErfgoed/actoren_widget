@@ -291,14 +291,14 @@ define([
 
 		/**
 		 * Geeft de ingevoerde adres waarden en crab id's terug
-		 * @returns {{values: {straat: null, huisnummer: null, postbus: null, postcode: null, gemeente: null, land: null}, ids: {straat_id: null, huisnummer_id: null, gemeente_id: null}}}
+		 * @returns {{values: {straat: null, huisnummer: null, subadres: null, postcode: null, gemeente: null, land: null}, ids: {straat_id: null, huisnummer_id: null, gemeente_id: null}}}
 		 */
 		getInput: function() {
 			var inputs = {
 				values: {
 					straat: null,
 					huisnummer: null,
-					postbus: null,
+					subadres: null,
 					postcode: null,
 					gemeente: null,
 					land: null
@@ -382,8 +382,8 @@ define([
 			domClass.add(this.postcodeNode, 'placeholder-disabled');
 			this.huisnummer.disabled=true;
 			domClass.add(this.huisnummerNode, 'placeholder-disabled');
-			this.postbus.disabled=true;
-			domClass.add(this.postbusNode, 'placeholder-disabled');
+			this.subadres.disabled=true;
+			domClass.add(this.subadresNode, 'placeholder-disabled');
 		},
 
 		/**
@@ -420,7 +420,7 @@ define([
 				this.straat.value = adres.straat;
 				this.huisnummer.value = adres.huisnummer;
 			}
-			this.postbus.value = adres.postbus ? adres.postbus : null;
+			this.subadres.value = adres.subadres ? adres.subadres : null;
 		},
 
 		/**
@@ -444,7 +444,7 @@ define([
 			this.straat.value = '';
 			this.postcode.value = '';
 			this.huisnummer.value = '';
-			this.postbus.value = '';
+			this.subadres.value = '';
 			this.gemeenteCrabNode.style.display="inline-table";
 			this.straatCrabNode.style.display="none";
 			this.postcodeCrabNode.style.display="none";
@@ -458,7 +458,7 @@ define([
 			this.straat.disabled=false;
 			this.postcode.disabled=false;
 			this.huisnummer.disabled=false;
-			this.postbus.disabled=false;
+			this.subadres.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
 		}
