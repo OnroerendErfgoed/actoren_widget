@@ -3,6 +3,7 @@
  * @module Actor/actorWidgets/CrabWidget
  */
 define([
+  'dojo',
 	'dojo/text!./templates/CrabWidget.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
@@ -15,6 +16,7 @@ define([
 	'dojo/dom-class',
 	'dojo/dom-construct'
 ], function(
+  dojo,
 	template,
 	declare,
 	lang,
@@ -31,6 +33,7 @@ define([
 		templateString: template,
 		baseClass: 'actor-widget',
 		CrabController: null,
+    actorWidget: null,
 
 		_gemeenteCombobox: null,
 		_postcodeCombobox: null,
@@ -40,6 +43,9 @@ define([
 		_gemeentePrev: null,
 		_straatPrev: null,
 
+    _crabAddresses: [],
+    _adresIndex: 100,
+
 		/**
 		 * Standaard widget functie.
 		 * Opbouwen van meerdere adres <class>dijit/form/ComboBox<class>.
@@ -48,6 +54,7 @@ define([
 			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
 			this._setLandenList();
+      this._setSelectLists();
 			this._setGemeentenCombo();
 			this._setPostcodesCombo();
 			this._setStratenCombo();
@@ -60,6 +67,18 @@ define([
 		startup: function () {
 			console.log('....CrabWidget::startup', arguments);
 			this.inherited(arguments);
+		},
+
+    /**
+		 * Selectielijsten aanvullen met opties
+		 * @private
+		 */
+		_setSelectLists: function(){
+			var selected;
+			this.actorWidget.typeLists.adresTypes.forEach(lang.hitch(this, function(type){
+				selected = type.naam === 'primair' ? '" selected': '"';
+				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.adrestypes);
+			}));
 		},
 
 		/**
@@ -289,6 +308,51 @@ define([
 			}
 		},
 
+    _addAddress: function(evt) {
+      evt? evt.preventDefault() : null;
+      var adres = this.getInput();
+      this._adresIndex++;
+      this._crabAddresses.push({
+        id: this._adresIndex.toString(),
+        land: adres.values.land,
+        gemeente: adres.values.gemeente,
+        postcode: adres.values.postcode,
+        straat: adres.values.straat,
+        huisnummer: adres.values.huisnummer,
+        postbus: adres.values.subadres,
+        type: {
+          id: 1
+        }
+      });
+      var fullAddress = adres.values.straat + " " + adres.values.huisnummer + ", " + adres.values.postcode + " " + adres.values.gemeente + ", " + adres.values.land;
+      this._createListItem(this._adresIndex, fullAddress, "Post", this.adreslist, this._removeAddress);
+      this.resetValues();
+    },
+
+    /**
+		 * Toevoegen van een waarde met type aan een list (ul html element), voorzien van een verwijder functie (verwijderen uit de lijst).
+		 * @param {number} id Deze id wordt gebruikt in de aanmaakt van het element en wordt doorgegeven aan de verwijder functie.
+		 * @param {string} value De waarde van het toe te voegen element.
+		 * @param {string} type De waarde van het type van het toe te voegen element.
+		 * @param {Object} ullist Het ul html element waaraan de waarde toegevoegd moet worden.
+		 * @param {function} removeFunction Een extra verwijder functie met als doel deze te verwijderen uit de attribuut lijst
+		 * @private
+		 */
+		_createListItem: function(id, value, type, ullist, removeFunction) {
+			id = id.toString();
+			domConstruct.create("li", {id: "li" + id, innerHTML: '<small>' + value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash right" title="Verwijderen"></i></small>'}, ullist);
+			this.connect(dojo.byId(id), "onclick", lang.hitch(this, function() {
+				domConstruct.destroy("li" + id);
+				lang.hitch(this, removeFunction)(id);
+			}));
+		},
+
+    _removeAddress: function(id) {
+			this._crabAddresses = this._crabAddresses.filter(lang.hitch(this, function(object){
+				return (object.id !== id);
+			}))
+		},
+
 		/**
 		 * Geeft de ingevoerde adres waarden en crab id's terug
 		 * @returns {{values: {straat: null, huisnummer: null, subadres: null, postcode: null, gemeente: null, land: null}, ids: {straat_id: null, huisnummer_id: null, gemeente_id: null}}}
@@ -384,7 +448,10 @@ define([
 			domClass.add(this.huisnummerNode, 'placeholder-disabled');
 			this.subadres.disabled=true;
 			domClass.add(this.subadresNode, 'placeholder-disabled');
-		},
+      this.adrestypes.disabled=true;
+			domClass.add(this.adrestypeNode, 'placeholder-disabled');
+      this.addAddressIconNode.style.display ='none';
+    },
 
 		/**
 		 * Voert het opgegeven adres in.
@@ -421,6 +488,7 @@ define([
 				this.huisnummer.value = adres.huisnummer;
 			}
 			this.subadres.value = adres.subadres ? adres.subadres : null;
+
 		},
 
 		/**
