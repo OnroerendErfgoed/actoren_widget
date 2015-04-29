@@ -378,14 +378,14 @@ define([
 					combobox: this._straatCombobox,
 					id: {
 						name: 'straat_id',
-						function: this._getStraatIdFromCombo
+						combo_function: this._getStraatIdFromCombo
 					}
 				},
 				huisnummer: {
 					combobox: this._nummerCombobox,
 					id: {
 						name: 'huisnummer_id',
-						function: this._getNummerIdFromCombo
+						combo_function: this._getNummerIdFromCombo
 					}
 				},
 				postcode: {
@@ -395,7 +395,7 @@ define([
 					combobox: this._gemeenteCombobox,
 					id: {
 						name: 'gemeente_id',
-						function: this._getGemeenteIdFromCombo
+						combo_function: this._getGemeenteIdFromCombo
 					}
 				}
 			};
@@ -408,7 +408,7 @@ define([
 							inputs.values[param] = autocompleteMapping[param].combobox.get('value');
 							if (autocompleteMapping[param].id) {
 								var idParam = autocompleteMapping[param].id.name;
-								inputs.ids[idParam] = lang.hitch(this, autocompleteMapping[param].id.function)();
+								inputs.ids[idParam] = lang.hitch(this, autocompleteMapping[param].id.combo_function)();
 							}
 						}
 					}
