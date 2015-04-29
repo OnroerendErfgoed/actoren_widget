@@ -657,7 +657,7 @@ define([
 		 * @private
 		 */
 		_addNewTag: function (id) {
-			this.actorWidget._actorSearch.new.push(id);
+			this.actorWidget._actorSearch.actoren_new.push(id);
 		}
 	});
 });
