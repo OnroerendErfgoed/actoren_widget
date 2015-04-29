@@ -175,7 +175,7 @@ define([
 				searchAttr: "name",
 				autoComplete: false,
 				required: false,
-				class: "combo-dropdown",
+				'class': "combo-dropdown",
 				style: "width: 20%; float: left; padding-left: 10px;",
 				labelAttr: "label",
 				labelType: "html"

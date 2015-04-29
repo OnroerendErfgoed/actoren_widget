@@ -115,7 +115,7 @@ define([
 						searchAttr: "naam",
 						autoComplete: false,
 						required: false,
-						class: "placeholder-input",
+						'class': "placeholder-input",
 						onChange: lang.hitch(this, function() {
 							this._changePostcodes();
 							this._changeStraten();
@@ -135,7 +135,7 @@ define([
 				searchAttr: "id",
 				autoComplete: false,
 				required: false,
-				class: "placeholder-input"
+				'class': "placeholder-input"
 			}, this.postcodeCrab);
 			this.postcodeCrabNode.style.display="none";
 		},
@@ -150,7 +150,7 @@ define([
 				searchAttr: "label",
 				autoComplete: false,
 				required: false,
-				class: "placeholder-input",
+				'class': "placeholder-input",
 				onChange: lang.hitch(this, function() {
 					this._changeNummers();
 				})
@@ -169,7 +169,7 @@ define([
 				searchAttr: "label",
 				autoComplete: false,
 				required: false,
-				class: "placeholder-input"
+				'class': "placeholder-input"
 			}, this.huisnummerCrab);
 			this.huisnummerCrabNode.style.display="none";
 		},
