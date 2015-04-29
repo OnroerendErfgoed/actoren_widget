@@ -50,7 +50,7 @@ define([
 		 * @private
 		 */
 		_setCrabWidget: function() {
-			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController}, this.crabWidget);
+			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController, actorWidget: this.actorWidget}, this.crabWidget);
 		},
 
 		/**

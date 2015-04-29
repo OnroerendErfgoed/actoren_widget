@@ -53,7 +53,8 @@ define([
 			emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}],
 			telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}],
 			urlTypes: [{"naam": "website", "id": 1}, {"naam": "blog", "id": 2}, {"naam": "webapplicatie", "id": 3}],
-			actorTypes: [{"naam": "persoon", "id": 1}, {"naam": "organisatie", "id": 2}]
+			actorTypes: [{"naam": "persoon", "id": 1}, {"naam": "organisatie", "id": 2}],
+      adresTypes: [{"naam": "post", "id": 1}, {"naam": "primair", "id": 2}]
 		},
 		_actorSearch: null,
 

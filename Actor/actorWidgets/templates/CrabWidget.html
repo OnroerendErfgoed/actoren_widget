@@ -41,4 +41,12 @@
     <label for="subadres">Postbus</label>
     <input id="subadres" data-dojo-attach-point='subadres' type="text" pattern=".{1,20}"/>
   </div>
+  <div class="placeholder-container" tabindex="-1" data-dojo-attach-point="adrestypeNode">
+    <label for="adrestypes">Type adres</label>
+    <select id="adrestypes" data-dojo-attach-point='adrestypes' type="text" style="width: 90%; float:left;">
+    </select>
+    <a href="#" data-dojo-attach-event="onClick: _addAddress" data-dojo-attach-point="addAddressIconNode" class="plus-icon-link" title="Voeg adres toe"><i class="fa fa-plus plus-icon"></i></a>
+  </div>
+  <ul data-dojo-attach-point="adreslist" class="nodisk list-selected-items">
+  </ul>
 </div>
