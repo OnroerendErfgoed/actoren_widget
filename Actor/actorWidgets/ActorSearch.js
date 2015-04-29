@@ -43,8 +43,8 @@ define([
 		actorController: null,
 		_store: 'all',
 
-		updated: [],
-		new: [],
+		actoren_updated: [],
+		actoren_new: [],
 
 		/**
 		 * Standaard widget functie.
@@ -89,10 +89,10 @@ define([
 				type: {
 					label: 'Type',
 					formatter: lang.hitch(this, function (type, object) {
-						if (this.updated.indexOf(object.id) > -1) {
+						if (this.actoren_updated.indexOf(object.id) > -1) {
 							return type['naam'] + '<span class="success label right">bewerkt</span>';
 						}
-						else if (this.new.indexOf(object.id) > -1) {
+						else if (this.actoren_new.indexOf(object.id) > -1) {
 							return type['naam'] + '<span class="success label right">nieuw</span>';
 						}
 						else {

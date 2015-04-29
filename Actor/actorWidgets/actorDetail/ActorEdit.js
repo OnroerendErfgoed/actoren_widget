@@ -578,8 +578,8 @@ define([
 		 */
 		_addUpdatedTag: function (id) {
 			var actorSearch = this.actorWidget._actorSearch;
-			if (!(actorSearch.updated.indexOf(id) > -1 || actorSearch.new.indexOf(id) > -1)) {
-				actorSearch.updated.push(id);
+			if (!(actorSearch.actoren_updated.indexOf(id) > -1 || actorSearch.actoren_new.indexOf(id) > -1)) {
+				actorSearch.actoren_updated.push(id);
 			}
 		},
 
