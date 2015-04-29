@@ -565,7 +565,7 @@ define([
 				actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
 				actorNewAdres['huisnummer'] = crabWidgetValues.values.huisnummer;
 				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.huisnummer_id;
-				actorEditAdres['subadres'] = crabWidgetValues.values.subadres;
+				actorNewAdres['subadres'] = crabWidgetValues.values.subadres;
 
 				this.actorWidget.actorController.saveActor(actorNew).then(
 					lang.hitch(this, function(response) {

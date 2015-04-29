@@ -71,14 +71,7 @@ define([
 		 */
 		checkActorInES: function(id)
 		{
-			return xhr(this.actorStore.target + "?query=id:" + id, {
-					'handleAs': 'json',
-					'headers': {
-						'Accept': "application/json",
-						"X-Requested-With": ""
-					}
-				}
-			)
+			return this.actorStore.query({'query': 'id:' + id})
 		}
 
 	});
