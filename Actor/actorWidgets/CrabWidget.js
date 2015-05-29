@@ -14,7 +14,9 @@ define([
 	'dijit/form/ComboBox',
 	'dojo/Deferred',
 	'dojo/dom-class',
-	'dojo/dom-construct'
+	'dojo/dom-construct',
+  'dojo/_base/array',
+  'dojo/number'
 ], function(
   dojo,
 	template,
@@ -27,7 +29,9 @@ define([
 	ComboBox,
 	Deferred,
 	domClass,
-	domConstruct
+	domConstruct,
+  array,
+  number
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 		templateString: template,
@@ -44,6 +48,8 @@ define([
 		_straatPrev: null,
 
     _crabAddresses: [],
+    _crabAddressesRemove: [],
+    _crabAddressesNew: [],
     _adresIndex: 100,
 
 		/**
@@ -226,6 +232,15 @@ define([
 			return this._getIdfromCombo(this._nummerCombobox, 'label');
 		},
 
+    /**
+		 * Geeft de overeengekomen Crab id van het opgegeven subadres.
+		 * @returns {nummer}
+		 * @private
+		 */
+		_getPostcodeIdFromCombo : function () {
+			return this._getIdfromCombo(this._postcodeCombobox, 'label');
+		},
+
 		/**
 		 * Afhankelijk van de waarde land worden de gemeenten aangepast.
 		 * @private
@@ -310,22 +325,26 @@ define([
 
     _addAddress: function(evt) {
       evt? evt.preventDefault() : null;
-      var adres = this.getInput();
+      var adres = this.getInputValues();
       this._adresIndex++;
-      this._crabAddresses.push({
-        id: this._adresIndex.toString(),
+      var adres = {
+        id: this._adresIndex,
         land: adres.values.land,
         gemeente: adres.values.gemeente,
+        gemeente_id: this._getGemeenteIdFromCombo(),
         postcode: adres.values.postcode,
         straat: adres.values.straat,
+        straat_id: this._getStraatIdFromCombo(),
         huisnummer: adres.values.huisnummer,
-        postbus: adres.values.subadres,
-        type: {
-          id: 1
-        }
-      });
-      var fullAddress = adres.values.straat + " " + adres.values.huisnummer + ", " + adres.values.postcode + " " + adres.values.gemeente + ", " + adres.values.land;
-      this._createListItem(this._adresIndex, fullAddress, "Post", this.adreslist, this._removeAddress);
+        nummer_id: this._getNummerIdFromCombo(),
+        subadres: adres.values.subadres,
+        subadres_id: null,
+        type: {"id": adres.values.adrestypes }
+      }
+      this._crabAddresses.push(adres);
+      this._crabAddressesNew.push(adres);
+      var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
+      this._createListItem(this._adresIndex, fullAddress, "Post", this.adreslist, this._removeAddress, false);
       this.resetValues();
     },
 
@@ -338,34 +357,64 @@ define([
 		 * @param {function} removeFunction Een extra verwijder functie met als doel deze te verwijderen uit de attribuut lijst
 		 * @private
 		 */
-		_createListItem: function(id, value, type, ullist, removeFunction) {
+		_createListItem: function(id, value, type, ullist, removeFunction, disabled) {
 			id = id.toString();
-			domConstruct.create("li", {id: "li" + id, innerHTML: '<small>' + value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash right" title="Verwijderen"></i></small>'}, ullist);
-			this.connect(dojo.byId(id), "onclick", lang.hitch(this, function() {
-				domConstruct.destroy("li" + id);
-				lang.hitch(this, removeFunction)(id);
-			}));
+      if (disabled) {
+        domConstruct.create("li", {
+          id: "li_" + id,
+          innerHTML: '<small>' + value + ' (' + type + ') </small>'
+        }, ullist);
+      } else {
+        domConstruct.create("li", {
+          id: "li" + id,
+          innerHTML: '<small>' + value + ' (' + type + ') <i id="' + id + '" class="fa fa-trash right" title="Verwijderen"></i></small>'
+        }, ullist);
+        this.connect(dojo.byId(id), "onclick", lang.hitch(this, function () {
+          lang.hitch(this, removeFunction)(id);
+          var nodeId = "li" + id;
+          domConstruct.destroy(nodeId);
+        }));
+      }
 		},
 
     _removeAddress: function(id) {
-			this._crabAddresses = this._crabAddresses.filter(lang.hitch(this, function(object){
-				return (object.id !== id);
-			}))
+      this._crabAddressesRemove.push(this._crabAddresses.filter(lang.hitch(this, function(object){
+				return (object.id == number.parse(id));
+			}))[0]);
+      this._crabAddressesNew = this._crabAddressesNew.filter(lang.hitch(this, function(object){
+				return (object.id !== number.parse(id));
+			}));
+      this._crabAddresses = this._crabAddresses.filter(lang.hitch(this, function(object){
+				return (object.id !== number.parse(id));
+			}));
 		},
+
+    getInputRemove: function() {
+      return this._crabAddressesRemove;
+    },
+
+    getInputNew: function() {
+      return this._crabAddressesNew;
+    },
 
 		/**
 		 * Geeft de ingevoerde adres waarden en crab id's terug
 		 * @returns {{values: {straat: null, huisnummer: null, subadres: null, postcode: null, gemeente: null, land: null}, ids: {straat_id: null, huisnummer_id: null, gemeente_id: null}}}
 		 */
 		getInput: function() {
-			var inputs = {
+      return this._crabAddresses;
+		},
+
+    getInputValues: function() {
+      var inputs = {
 				values: {
 					straat: null,
 					huisnummer: null,
 					subadres: null,
 					postcode: null,
 					gemeente: null,
-					land: null
+					land: null,
+          adrestypes: null
 				},
 				ids : {
 					straat_id: null,
@@ -414,8 +463,8 @@ define([
 					}
 				}
 			));
-			return inputs
-		},
+			return inputs;
+    },
 
 		/**
 		 * Maakt van de inputvelden niet-bewerk velden. En voert het opgegeven adres in.
@@ -430,7 +479,21 @@ define([
 			this.huisnummer.value = adres.huisnummer;
 		},
 
-		/**
+    setValuesListDisabled: function (adressen) {
+      this._crabAddresses = [];
+      this._crabAddressesRemove = [];
+      this._crabAddressesNew = [];
+      domConstruct.empty(this.adreslist);
+      array.forEach(adressen, lang.hitch(this, function(adres) {
+        var id = this._adresIndex++;
+        if (adres.id) { id = adres.id }
+        this._crabAddresses.push(adres);
+        var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
+        this._createListItem(id, fullAddress, "Post", this.adreslist, this._removeAddress, true);
+      }));
+    },
+
+    /**
 		 * Maakt van de inputvelden niet-bewerk velden.
 		 */
 		setDisabled: function() {
@@ -458,6 +521,9 @@ define([
 		 * @param {Object} adres
 		 */
 		setValues: function(adres) {
+      this._crabAddresses = [];
+      this._crabAddressesRemove = [];
+      this._crabAddressesNew = [];
 			this.land.value = adres.land;
 			if (adres.land == 'BE') {
 				this._gemeenteCombobox.set('value', adres.gemeente, false);
@@ -490,6 +556,20 @@ define([
 			this.subadres.value = adres.subadres ? adres.subadres : null;
 
 		},
+
+    setValuesList: function(adressen) {
+      this._crabAddresses = [];
+      this._crabAddressesRemove = [];
+      this._crabAddressesNew = [];
+      domConstruct.empty(this.adreslist);
+      array.forEach(adressen, lang.hitch(this, function(adres) {
+        var id = this._adresIndex++;
+        if (adres.id) { id = adres.id }
+        this._crabAddresses.push(adres);
+        var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
+        this._createListItem(id, fullAddress, "Post", this.adreslist, this._removeAddress, false);
+      }));
+    },
 
 		/**
 		 * reset functie naar default waarden.

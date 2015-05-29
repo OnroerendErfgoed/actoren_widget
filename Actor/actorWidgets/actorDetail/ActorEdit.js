@@ -12,7 +12,9 @@ define([
 	'dojo/store/Memory',
 	'dijit/form/ComboBox',
 	'../CrabWidget',
-	"dojo/dom-construct"
+	"dojo/dom-construct",
+  'dojo/_base/array',
+  'dojo/promise/all'
 ], function(
 	dojo,
 	template,
@@ -23,7 +25,9 @@ define([
 	Memory,
 	ComboBox,
 	CrabWidget,
-	domConstruct
+	domConstruct,
+  array,
+  all
 ) {
 	return declare([_WidgetBase, _TemplatedMixin], {
 
@@ -114,9 +118,12 @@ define([
 				this._createListItem(this._index, telefoonvalue, telefoon.type.naam, this.telefoonlist, this._removeTelefoon);
 			}));
 
-			if (actor.adres) {
+			/*if (actor.adres) {
 				this._crabWidget.setValues(actor.adres);
-			}
+			}*/
+      if (actor.adressen) {
+        this._crabWidget.setValuesList(actor.adressen);
+      }
 			this.actortype.value  = actor.type.naam;
 
 			actor.urls.forEach(lang.hitch(this, function(url) {
@@ -373,7 +380,7 @@ define([
 		_gemeenteValidation: function() {
 			var valid = true;
 			if (this._crabWidget.land.value == 'BE') {
-				if (!this._crabWidget.getInput().ids.gemeente_id) {
+				if (!this._crabWidget.getInputValues().ids.gemeente_id) {
 					valid = false;
 				}
 			}
@@ -474,7 +481,7 @@ define([
 				}
 			}));
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
-			valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
+			//valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
 			return valid
 
 		},
@@ -506,58 +513,102 @@ define([
 				this._addUrl();
 				actorEdit['urls'] = this._actorUrls;
 
-				var actorEditAdres = {};
-				var crabWidgetValues = this._crabWidget.getInput();
-				actorEditAdres['land'] = crabWidgetValues.values.land;
-				actorEditAdres['postcode'] = crabWidgetValues.values.postcode;
-				actorEditAdres['gemeente'] = crabWidgetValues.values.gemeente;
-				actorEditAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
-				actorEditAdres['straat'] = crabWidgetValues.values.straat;
-				actorEditAdres['straat_id'] = crabWidgetValues.ids.straat_id;
-				actorEditAdres['huisnummer'] = crabWidgetValues.values.huisnummer;
-				actorEditAdres['huisnummer_id'] = crabWidgetValues.ids.huisnummer_id;
-				actorEditAdres['subadres'] = crabWidgetValues.values.subadres;
+				var crabWidgetValuesNew = this._crabWidget.getInputNew();
+        var crabWidgetValuesRemove = this._crabWidget.getInputRemove();
+        var crabWidgetValues = this._crabWidget.getInput();
 
-				var adresEdited = false;
-				if (actorEdit.adres) {
-					['huisnummer', 'gemeente', 'poscode', 'land', 'straat', 'subadres'].forEach(function (adresKey) {
-						if (actorEditAdres[adresKey] != actorEdit.adres[adresKey]) {
-							adresEdited = true;
-						}
-					});
-				}
-				else {
-					adresEdited = true;
-				}
+        console.log(crabWidgetValuesNew);
+        console.log(crabWidgetValuesRemove);
+
+        crabWidgetValuesRemove = crabWidgetValuesRemove.filter(lang.hitch(this, function(object){
+          return (array.indexOf(crabWidgetValuesNew, object) < 0);
+        }));
+
+        console.log(crabWidgetValuesRemove);
 
 				var actorId = actorEdit.id;
-				this.actorWidget.actorController.saveActor(actorEdit).then(
-					lang.hitch(this, function(response) {
-						var actor = response;
-						if (!adresEdited) {
-							this._addUpdatedTag(actor.id);
-							this._filterGrid({query:'id:' +actor.id});
-							this.actorWidget.showDetail(actor);
-							this._reset();
-						}
-						else {
-							this.actorWidget.actorController.saveActorAdres(actorEditAdres, actorId).then(
-								lang.hitch(this, function (response) {
-									actor.adres = response;
-									this._addUpdatedTag(actor.id);
-									this._filterGrid({query:'id:' +actor.id});
-									this.actorWidget.showDetail(actor);
-									this._reset();
-								}),
-								lang.hitch(this, function (error) {
-									this.actorWidget.emitError({
-										widget: 'ActorEdit',
-										message: 'Bewaren van het nieuwe adres van de actor is mislukt',
-										error: error
-									})
-								})
-							);
-						}
+        this.actorWidget.actorController.saveActor(actorEdit).then(
+          lang.hitch(this, function(response) {
+            var actor = response;
+            if (crabWidgetValuesRemove.length > 0) { // first remove addresses, then add new
+              var promises = [];
+              array.forEach(crabWidgetValuesRemove, lang.hitch(this, function(adres) {
+                var prom = this.actorWidget.actorController.deleteActorAdres(adres.id, actorId);
+                promises.push(prom);
+              }));
+              all(promises).then( // when all removed, add new ones
+                lang.hitch(this, function (response) {
+                  var promisesNew = [];
+                  if (crabWidgetValuesNew.length > 0) {
+                    array.forEach(crabWidgetValuesNew, lang.hitch(this, function (adres) {
+                      adres.id = null;
+                      var prom = this.actorWidget.actorController.saveActorAdres(adres, actorId);
+                      promisesNew.push(prom);
+                    }));
+                    all(promisesNew).then( // when new ones added handle redirect and stuff
+                      lang.hitch(this, function (response) {
+                        if (!actor.adres) {
+                          actor.adres = response[0];
+                        }
+                        if (crabWidgetValues.length > 0) {
+                          actor.adressen = crabWidgetValues;
+                        }
+                        this._addUpdatedTag(actor.id);
+                        this._filterGrid({query: 'id:' + actor.id});
+                        this.actorWidget.showDetail(actor);
+                        this._reset();
+                      }),
+                      lang.hitch(this, function (error) {
+                        this.actorWidget.emitError({
+                          widget: 'ActorEdit',
+                          message: 'Bewaren van het nieuwe adres van de actor is mislukt',
+                          error: error
+                        })
+                      }));
+                  } else { // when only removed, handle redirect and stuff
+                    if (crabWidgetValues.length > 0) {
+                      actor.adressen = crabWidgetValues;
+                      actor.adres = crabWidgetValues[0];
+                    }
+                    this._addUpdatedTag(actor.id);
+                    this._filterGrid({query: 'id:' + actor.id});
+                    this.actorWidget.showDetail(actor);
+                    this._reset();
+                  }
+                }),
+                lang.hitch(this, function (error) {
+                  this.actorWidget.emitError({
+                    widget: 'ActorEdit',
+                    message: 'Er ging iets mis bij het verwijderen van een adres.',
+                    error: error
+                  })
+                }));
+            } else { // just add new
+              var promisesOnlyNew = [];
+              array.forEach(crabWidgetValuesNew, lang.hitch(this, function(adres) {
+                adres.id = null;
+                var prom = this.actorWidget.actorController.saveActorAdres(adres, actorId);
+                promisesOnlyNew.push(prom);
+              }));
+              all(promisesOnlyNew).then( // when new ones added handle redirect and stuff
+                lang.hitch(this, function (response) {
+                  actor.adres = response[0];
+                  if (crabWidgetValues.length > 0) {
+                    actor.adressen = crabWidgetValues;
+                  }
+                  this._addUpdatedTag(actor.id);
+                  this._filterGrid({query:'id:' +actor.id});
+                  this.actorWidget.showDetail(actor);
+                  this._reset();
+                }),
+                lang.hitch(this, function (error) {
+                  this.actorWidget.emitError({
+                    widget: 'ActorEdit',
+                    message: 'Bewaren van het nieuwe adres van de actor is mislukt',
+                    error: error
+                  })
+                }));
+            }
 					}),
 					lang.hitch(this, function(error) {
 						this.actorWidget.emitError({
