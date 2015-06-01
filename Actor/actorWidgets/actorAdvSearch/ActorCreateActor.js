@@ -525,10 +525,7 @@ define([
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.kbo, valid, this._kboValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.rrn, valid, this._rrnValidation());
-      if (this._crabWidget.getInputNew().length <= 0) {
-        valid = false;
-      }
-      if (this.naam.value == '' || this.voornaam.value == '' || this.rrn.value == '') {
+      if (this._crabWidget.getInput().length <= 0) {
         valid = false;
       }
 
