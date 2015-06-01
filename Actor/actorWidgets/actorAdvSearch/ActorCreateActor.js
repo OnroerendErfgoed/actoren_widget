@@ -355,7 +355,7 @@ define([
 		_setValidationMessageMapping: function () {
 			this._validationMessageMapping = {
 				naam: "Naam is verplicht. Gelieve een geldige naam in te vullen.",
-				voornaam: "De waarde is te lang.",
+				voornaam: "Naam is verplicht. Gelieve een geldige voornaam in te vullen.",
 				email: "De waarde is niet volgens het geldig email formaat.",
 				telefoon: "De waarde is niet volgens het geldig telefoon formaat.",
 				url: "De waarde is niet volgens het geldig url formaat.",
@@ -503,8 +503,7 @@ define([
 		 * @private
 		 */
 		_resetValidity: function () {
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
-				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation, this.kbo, this.rrn];
+			var inputs = [this.naam, this.voornaam, this.email, this.url, this.telefoon, this.kbo, this.rrn];
 			inputs.forEach(lang.hitch(this, function(input){
 				input.setCustomValidity('');
 			}))
@@ -517,8 +516,7 @@ define([
 		 */
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
-				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
+			var inputs = [this.naam, this.voornaam, this.email, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
 					valid = lang.hitch(this, this._setCustomValidity)(input, valid);
@@ -527,7 +525,13 @@ define([
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.kbo, valid, this._kboValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.rrn, valid, this._rrnValidation());
-			//valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
+      if (this._crabWidget.getInputNew().length <= 0) {
+        valid = false;
+      }
+      if (this.naam.value == '' || this.voornaam.value == '' || this.rrn.value == '') {
+        valid = false;
+      }
+
 			return valid
 
 		},
@@ -573,7 +577,6 @@ define([
             }));
 						all(promises).then(
               lang.hitch(this, function (response) {
-                console.log("resp: ", response);
 								actor.adres = response[0];
 								this._addNewTag(actor.id);
 								this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
@@ -596,6 +599,7 @@ define([
 						})
 					})
 				);
+        console.log('saved?');
 			}
 		},
 

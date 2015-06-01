@@ -482,6 +482,9 @@ define([
 			}));
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
 			//valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
+      if (this._crabWidget.getInput().length <= 0) {
+        valid = false;
+      }
 			return valid
 
 		},
