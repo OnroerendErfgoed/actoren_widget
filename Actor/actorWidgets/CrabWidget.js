@@ -16,7 +16,9 @@ define([
 	'dojo/dom-class',
 	'dojo/dom-construct',
   'dojo/_base/array',
-  'dojo/number'
+  'dojo/number',
+  'dojo/query',
+  'dojo/topic'
 ], function(
   dojo,
 	template,
@@ -31,7 +33,9 @@ define([
 	domClass,
 	domConstruct,
   array,
-  number
+  number,
+  query,
+  topic
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 		templateString: template,
@@ -73,6 +77,7 @@ define([
 		startup: function () {
 			console.log('....CrabWidget::startup', arguments);
 			this.inherited(arguments);
+      this._clearHighlights();
 		},
 
     /**
@@ -325,27 +330,29 @@ define([
 
     _addAddress: function(evt) {
       evt? evt.preventDefault() : null;
-      var adres = this.getInputValues();
-      this._adresIndex++;
-      var adres = {
-        id: this._adresIndex,
-        land: adres.values.land,
-        gemeente: adres.values.gemeente,
-        gemeente_id: this._getGemeenteIdFromCombo(),
-        postcode: adres.values.postcode,
-        straat: adres.values.straat,
-        straat_id: this._getStraatIdFromCombo(),
-        huisnummer: adres.values.huisnummer,
-        nummer_id: this._getNummerIdFromCombo(),
-        subadres: adres.values.subadres,
-        subadres_id: null,
-        type: {"id": adres.values.adrestypes }
+      var adresInputs = this.getInputValues();
+      if (this._isValid()) {
+        this._adresIndex++;
+        var adres = {
+          id: this._adresIndex,
+          land: adresInputs.values.land,
+          gemeente: adresInputs.values.gemeente,
+          gemeente_id: this._getGemeenteIdFromCombo(),
+          postcode: adresInputs.values.postcode,
+          straat: adresInputs.values.straat,
+          straat_id: this._getStraatIdFromCombo(),
+          huisnummer: adresInputs.values.huisnummer,
+          nummer_id: this._getNummerIdFromCombo(),
+          subadres: adresInputs.values.subadres,
+          subadres_id: null,
+          type: {"id": adresInputs.values.adrestypes}
+        };
+        this._crabAddresses.push(adres);
+        this._crabAddressesNew.push(adres);
+        var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
+        this._createListItem(this._adresIndex, fullAddress, this.adrestypes.selectedOptions[0].label, this.adreslist, this._removeAddress, false);
+        this.resetValues();
       }
-      this._crabAddresses.push(adres);
-      this._crabAddressesNew.push(adres);
-      var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
-      this._createListItem(this._adresIndex, fullAddress, "Post", this.adreslist, this._removeAddress, false);
-      this.resetValues();
     },
 
     /**
@@ -381,6 +388,9 @@ define([
       this._crabAddressesRemove.push(this._crabAddresses.filter(lang.hitch(this, function(object){
 				return (object.id == number.parse(id));
 			}))[0]);
+      this._crabAddressesRemove = this._crabAddressesRemove.filter(lang.hitch(this, function(object){
+        return (array.indexOf(this._crabAddressesNew, object) < 0);
+      }));
       this._crabAddressesNew = this._crabAddressesNew.filter(lang.hitch(this, function(object){
 				return (object.id !== number.parse(id));
 			}));
@@ -483,13 +493,21 @@ define([
       this._crabAddresses = [];
       this._crabAddressesRemove = [];
       this._crabAddressesNew = [];
+      this._clearHighlights();
       domConstruct.empty(this.adreslist);
       array.forEach(adressen, lang.hitch(this, function(adres) {
         var id = this._adresIndex++;
         if (adres.id) { id = adres.id }
         this._crabAddresses.push(adres);
+        var type = this.actorWidget.typeLists.adresTypes.filter(lang.hitch(this, function(type) {
+          if (adres.adrestype) {
+            return (type.id == adres.adrestype.id);
+          } else {
+            return (type.id == adres.type.id);
+          }
+        }));
         var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
-        this._createListItem(id, fullAddress, "Post", this.adreslist, this._removeAddress, true);
+        this._createListItem(id, fullAddress, type[0].naam, this.adreslist, this._removeAddress, true);
       }));
     },
 
@@ -497,6 +515,7 @@ define([
 		 * Maakt van de inputvelden niet-bewerk velden.
 		 */
 		setDisabled: function() {
+      this._clearHighlights();
 			this.gemeenteNode.style.display = "inline-table";
 			this.gemeenteCrabNode.style.display = "none";
 			this.land.disabled=true;
@@ -524,6 +543,7 @@ define([
       this._crabAddresses = [];
       this._crabAddressesRemove = [];
       this._crabAddressesNew = [];
+      this._clearHighlights();
 			this.land.value = adres.land;
 			if (adres.land == 'BE') {
 				this._gemeenteCombobox.set('value', adres.gemeente, false);
@@ -561,13 +581,21 @@ define([
       this._crabAddresses = [];
       this._crabAddressesRemove = [];
       this._crabAddressesNew = [];
+      this._clearHighlights();
       domConstruct.empty(this.adreslist);
       array.forEach(adressen, lang.hitch(this, function(adres) {
         var id = this._adresIndex++;
         if (adres.id) { id = adres.id }
         this._crabAddresses.push(adres);
+        var type = this.actorWidget.typeLists.adresTypes.filter(lang.hitch(this, function(type) {
+          if (adres.adrestype) {
+            return (type.id == adres.adrestype.id);
+          } else {
+            return (type.id == adres.type.id);
+          }
+        }));
         var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
-        this._createListItem(id, fullAddress, "Post", this.adreslist, this._removeAddress, false);
+        this._createListItem(id, fullAddress, type[0].naam, this.adreslist, this._removeAddress, false);
       }));
     },
 
@@ -577,6 +605,7 @@ define([
 		resetValues: function() {
 			this.land.value = 'BE';
 			this._resetExceptLand();
+      this._clearHighlights();
 		},
 
 		/**
@@ -609,6 +638,91 @@ define([
 			this.subadres.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
-		}
+		},
+
+    /**
+		 * Nagaan of de ingevoerde inputs in de bewerk widget correct zijn. 'true' wanneer geldig.
+     * @returns {boolean}
+     * @private
+     */
+    _isValid: function() {
+      var invalids = [];
+      var invalidElements = [];
+      this._clearHighlights();
+
+      if (this.land.value == '') {
+        invalids.push('land');
+        invalidElements.push(this.landNode);
+      }
+      if (this.land.value == 'BE') {
+        if (this._gemeenteCombobox.get('value') == '') {
+          invalids.push('gemeente');
+          invalidElements.push(this.gemeenteNode);
+          invalidElements.push(this.gemeenteCrabNode);
+        }
+        if (this._postcodeCombobox.get('value') == '') {
+          invalids.push('postcode');
+          invalidElements.push(this.postcodeNode);
+          invalidElements.push(this.postcodeCrabNode);
+        }
+        if (this._straatCombobox.get('value') == '') {
+          invalids.push('straat');
+          invalidElements.push(this.straatNode);
+          invalidElements.push(this.straatCrabNode);
+        }
+        if (this._nummerCombobox.get('value') == '') {
+          invalids.push('huisnummer');
+          invalidElements.push(this.huisnummerNode);
+          invalidElements.push(this.huisnummerCrabNode);
+        }
+      } else {
+        if (this.gemeente.value == '') {
+          invalids.push('gemeente');
+          invalidElements.push(this.gemeenteNode);
+        }
+        if (this.straat.value == '') {
+          invalids.push('straat');
+          invalidElements.push(this.straatNode);
+        }
+        if (this.postcode.value == '') {
+          invalids.push('postcode');
+          invalidElements.push(this.postcodeNode);
+        }
+        if (this.huisnummer.value == '') {
+          invalids.push('huisnummer');
+          invalidElements.push(this.huisnummerNode);
+        }
+      }
+
+      if(invalids.length > 0) {
+        this._highlightInvalids(invalidElements);
+        topic.publish('dGrowl', "Gelieve volgende velden correct in te vullen: " + invalids.join(), {
+          'title':"Adres verplichte velden",
+          'sticky': false,
+          'channel': 'error'});
+        return false;
+      }
+      return true;
+    },
+
+    _clearHighlights: function() {
+      // remove all highlights
+      query(".placeholder-container.error", this.formCrabNode).forEach(function(elem){
+        domClass.remove(elem, "error");
+      });
+      query("small.error", this.formNode).forEach(function(small) {
+        //domConstruct.destroy(small);
+      });
+    },
+
+    _highlightInvalids: function(invalids) {
+      this._clearHighlights();
+      // add selected highlights
+      invalids.forEach(lang.hitch(this, function(invalid){
+        domClass.add(invalid, "error");
+        //domConstruct.place('<small class="error" style="margin-top:-15px; margin-bottom: 0;">Gelieve bovenstaand veld correct in te vullen</small>', invalid, "after");
+      }));
+    }
+
 	});
 });

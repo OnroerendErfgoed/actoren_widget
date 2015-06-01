@@ -559,19 +559,8 @@ define([
 				actorNew['telefoons'] = this._actorTelefoons;
 				this._addUrl();
 				actorNew['urls'] = this._actorUrls;
-				//var actorNewAdres = {};
-				var crabWidgetValues = this._crabWidget.getInput();
 
-        /*
-				actorNewAdres['land'] = crabWidgetValues.values.land;
-				actorNewAdres['postcode'] = crabWidgetValues.values.postcode;
-				actorNewAdres['gemeente'] = crabWidgetValues.values.gemeente;
-				actorNewAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
-				actorNewAdres['straat'] = crabWidgetValues.values.straat;
-				actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
-				actorNewAdres['huisnummer'] = crabWidgetValues.values.huisnummer;
-				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.huisnummer_id;
-				actorNewAdres['subadres'] = crabWidgetValues.values.subadres;*/
+				var crabWidgetValues = this._crabWidget.getInputNew();
 
 				this.actorWidget.actorController.saveActor(actorNew).then(
 					lang.hitch(this, function(response) {

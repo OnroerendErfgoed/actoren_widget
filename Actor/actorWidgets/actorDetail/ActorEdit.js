@@ -517,19 +517,17 @@ define([
         var crabWidgetValuesRemove = this._crabWidget.getInputRemove();
         var crabWidgetValues = this._crabWidget.getInput();
 
-        console.log(crabWidgetValuesNew);
-        console.log(crabWidgetValuesRemove);
-
         crabWidgetValuesRemove = crabWidgetValuesRemove.filter(lang.hitch(this, function(object){
           return (array.indexOf(crabWidgetValuesNew, object) < 0);
         }));
-
-        console.log(crabWidgetValuesRemove);
 
 				var actorId = actorEdit.id;
         this.actorWidget.actorController.saveActor(actorEdit).then(
           lang.hitch(this, function(response) {
             var actor = response;
+            if (crabWidgetValues.length > 0) {
+              actor.adressen = crabWidgetValues;
+            }
             if (crabWidgetValuesRemove.length > 0) { // first remove addresses, then add new
               var promises = [];
               array.forEach(crabWidgetValuesRemove, lang.hitch(this, function(adres) {
@@ -549,9 +547,6 @@ define([
                       lang.hitch(this, function (response) {
                         if (!actor.adres) {
                           actor.adres = response[0];
-                        }
-                        if (crabWidgetValues.length > 0) {
-                          actor.adressen = crabWidgetValues;
                         }
                         this._addUpdatedTag(actor.id);
                         this._filterGrid({query: 'id:' + actor.id});
