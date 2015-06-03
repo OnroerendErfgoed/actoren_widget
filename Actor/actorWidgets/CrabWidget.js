@@ -711,7 +711,7 @@ define([
         domClass.remove(elem, "error");
       });
       query("small.error", this.formNode).forEach(function(small) {
-        //domConstruct.destroy(small);
+        domConstruct.destroy(small);
       });
     },
 
@@ -720,8 +720,11 @@ define([
       // add selected highlights
       invalids.forEach(lang.hitch(this, function(invalid){
         domClass.add(invalid, "error");
-        //domConstruct.place('<small class="error" style="margin-top:-15px; margin-bottom: 0;">Gelieve bovenstaand veld correct in te vullen</small>', invalid, "after");
       }));
+      if (invalids.length > 0)
+      {
+        domConstruct.place('<small class="error" style="margin-top:-15px; margin-bottom: 0;">Gelieve bovenstaande adres velden correct in te vullen.</small>', this.errorMsg, "last");
+      }
     }
 
 	});
