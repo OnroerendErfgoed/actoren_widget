@@ -105,7 +105,7 @@ define([
 				}
 			}));
 
-			var crabParams = this._crabWidget.getInput();
+			var crabParams = this._crabWidget.getInputValues();
 			['postcode', 'subadres', 'land'].forEach(function(param){
 				if (crabParams.values[param]) {
 					query[param] = crabParams.values[param];
