@@ -203,10 +203,12 @@ define([
 		_filterGrid: function (evt) {
 			evt.preventDefault();
 			this.removeSort();
-			if (this._store != 'wij') {
+			/*if (this._store != 'wij') {
 				this._grid.set('store', this.actorController.actorWijStore);
 				this._store = 'wij';
-			}
+			}*/
+      this._grid.set("store", this.actorController.actorStore);
+			this._store = 'all';
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
 				clearTimeout(this._timeoutId);
