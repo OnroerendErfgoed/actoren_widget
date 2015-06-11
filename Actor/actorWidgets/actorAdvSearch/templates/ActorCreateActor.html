@@ -24,7 +24,7 @@
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="voornaam-{id}">Voornaam</label>
-                <input data-dojo-attach-point='voornaam' id="voornaam-{id}" pattern=".{1,100}" type="text"/>
+                <input data-dojo-attach-point='voornaam' id="voornaam-{id}" pattern=".{1,100}" type="text" required/>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="email-{id}">Email</label>
@@ -61,7 +61,7 @@
               </div>
               <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='rrnNode'>
                 <label for="rrn-{id}">Rijksregisternummer</label>
-                <input data-dojo-attach-point='rrn' type="text" id="rrn-{id}" />
+                <input data-dojo-attach-point='rrn' type="text" id="rrn-{id}" required/>
               </div>
               <div class="placeholder-container placeholder-disabled" tabindex="-1" data-dojo-attach-point='kboNode'>
                 <label for="kbo-{id}" data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Kruispuntbank voor Ondernemingen">KBO</label>
@@ -80,9 +80,9 @@
           </form>
         </div>
       </div>
-    </div>
-    <div class="row text-center">
-      <button href="#" data-dojo-attach-point="aanmaken" data-dojo-attach-event="onClick: _save" class="button tiny">AANMAKEN</button>
+      <div class="row text-center">
+        <a href="#" data-dojo-attach-point="aanmaken" data-dojo-attach-event="onClick: _save" class="button tiny">AANMAKEN</a>
+      </div>
     </div>
   </div>
 

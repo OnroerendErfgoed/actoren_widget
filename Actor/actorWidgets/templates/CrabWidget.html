@@ -1,4 +1,4 @@
-<div>
+<div data-dojo-attach-point='formCrabNode'>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='landNode'>
     <label for="land-{id}">Land</label>
     <select data-dojo-attach-point='land' id="land-{id}" data-dojo-attach-event="onChange: _changeGemeenten">
@@ -47,6 +47,7 @@
     </select>
     <a href="#" data-dojo-attach-event="onClick: _addAddress" data-dojo-attach-point="addAddressIconNode" class="plus-icon-link" title="Voeg adres toe"><i class="fa fa-plus plus-icon"></i></a>
   </div>
+  <div data-dojo-attach-point="errorMsg"></div>
   <ul data-dojo-attach-point="adreslist" class="nodisk list-selected-items">
   </ul>
 </div>

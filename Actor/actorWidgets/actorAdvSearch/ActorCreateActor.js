@@ -13,7 +13,9 @@ define([
 	'dijit/form/ComboBox',
 	'../CrabWidget',
 	'dojo/dom-class',
-	"dojo/dom-construct"
+	"dojo/dom-construct",
+  'dojo/_base/array',
+  'dojo/promise/all'
 ], function(
 	dojo,
 	template,
@@ -25,7 +27,9 @@ define([
 	ComboBox,
 	CrabWidget,
 	domClass,
-	domConstruct
+	domConstruct,
+  array,
+  all
 ) {
 	return declare([_WidgetBase, _TemplatedMixin], {
 
@@ -351,7 +355,7 @@ define([
 		_setValidationMessageMapping: function () {
 			this._validationMessageMapping = {
 				naam: "Naam is verplicht. Gelieve een geldige naam in te vullen.",
-				voornaam: "De waarde is te lang.",
+				voornaam: "Naam is verplicht. Gelieve een geldige voornaam in te vullen.",
 				email: "De waarde is niet volgens het geldig email formaat.",
 				telefoon: "De waarde is niet volgens het geldig telefoon formaat.",
 				url: "De waarde is niet volgens het geldig url formaat.",
@@ -402,7 +406,7 @@ define([
 		_gemeenteValidation: function() {
 			var valid = true;
 			if (this._crabWidget.land.value == 'BE') {
-				if (!this._crabWidget.getInput().ids.gemeente_id) {
+				if (!this._crabWidget.getInput().gemeente_id) {
 					valid = false;
 				}
 			}
@@ -499,8 +503,7 @@ define([
 		 * @private
 		 */
 		_resetValidity: function () {
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
-				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation, this.kbo, this.rrn];
+			var inputs = [this.naam, this.voornaam, this.email, this.url, this.telefoon, this.kbo, this.rrn];
 			inputs.forEach(lang.hitch(this, function(input){
 				input.setCustomValidity('');
 			}))
@@ -513,8 +516,7 @@ define([
 		 */
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
-				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
+			var inputs = [this.naam, this.voornaam, this.email, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
 					valid = lang.hitch(this, this._setCustomValidity)(input, valid);
@@ -523,7 +525,10 @@ define([
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.kbo, valid, this._kboValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.rrn, valid, this._rrnValidation());
-			valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
+      if (this._crabWidget.getInput().length <= 0) {
+        valid = false;
+      }
+
 			return valid
 
 		},
@@ -555,29 +560,26 @@ define([
 				actorNew['telefoons'] = this._actorTelefoons;
 				this._addUrl();
 				actorNew['urls'] = this._actorUrls;
-				var actorNewAdres = {};
-				var crabWidgetValues = this._crabWidget.getInput();
-				actorNewAdres['land'] = crabWidgetValues.values.land;
-				actorNewAdres['postcode'] = crabWidgetValues.values.postcode;
-				actorNewAdres['gemeente'] = crabWidgetValues.values.gemeente;
-				actorNewAdres['gemeente_id'] = crabWidgetValues.ids.gemeente_id;
-				actorNewAdres['straat'] = crabWidgetValues.values.straat;
-				actorNewAdres['straat_id'] = crabWidgetValues.ids.straat_id;
-				actorNewAdres['huisnummer'] = crabWidgetValues.values.huisnummer;
-				actorNewAdres['huisnummer_id'] = crabWidgetValues.ids.huisnummer_id;
-				actorNewAdres['subadres'] = crabWidgetValues.values.subadres;
+
+				var crabWidgetValues = this._crabWidget.getInputNew();
 
 				this.actorWidget.actorController.saveActor(actorNew).then(
 					lang.hitch(this, function(response) {
 						var actor = response;
-						this.actorWidget.actorController.saveActorAdres(actorNewAdres, actor.id).then(
-							lang.hitch(this, function (response) {
-								actor.adres = response;
+            var promises = [];
+            array.forEach(crabWidgetValues, lang.hitch(this, function(adres) {
+              adres.id = null;
+              var prom = this.actorWidget.actorController.saveActorAdres(adres, actor.id);
+              promises.push(prom);
+            }));
+						all(promises).then(
+              lang.hitch(this, function (response) {
+								actor.adres = response[0];
 								this._addNewTag(actor.id);
 								this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
-
 							}),
 							lang.hitch(this, function (error) {
+                  console.log("error: ", error);
 									this.actorWidget.emitError({
 										widget: 'ActorCreate',
 										message: 'Bewaren van het adres van de nieuwe actor is mislukt',
@@ -594,6 +596,7 @@ define([
 						})
 					})
 				);
+        console.log('saved?');
 			}
 		},
 

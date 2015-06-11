@@ -53,14 +53,37 @@ define([
 		 * @param {number} actorId id van de actor waarvan het adres moet worden opgeslagen
 		 * @returns {Boolean} (Promise) 'True' als het adres van de actor opgeslagen is, anders 'False'.
 		 */
-		saveActorAdres:function(adres,actorId) {
+		saveActorAdres:function(adres, actorId) {
 			var target = this.actorStore.target + actorId + this._adresParameter;
+      console.log(JSON.stringify(adres));
 			return xhr(target,{
 				withCredentials: true,
 				handleAs: "json",
 				method:"POST",
 				data: JSON.stringify(adres),
 				headers:{'Content-Type': 'application/json', "Accept": "application/json"}
+			})
+		},
+
+    // todo: fix function
+    editActorAdres:function(adres,actorId) {
+			var target = this.actorStore.target + actorId + this._adresParameter;
+			return xhr(target,{
+				withCredentials: true,
+				handleAs: "json",
+				method:"PUT",
+				data: JSON.stringify(adres),
+				headers:{'Content-Type': 'application/json', "Accept": "application/json"}
+			})
+		},
+
+    deleteActorAdres:function(adresId, actorId) {
+			var target = this.actorStore.target + actorId + this._adresParameter + "/" + adresId;
+			return xhr(target,{
+				withCredentials: true,
+				handleAs: "json",
+				method:"DELETE",
+				headers:{"Accept": "application/json"}
 			})
 		},
 
