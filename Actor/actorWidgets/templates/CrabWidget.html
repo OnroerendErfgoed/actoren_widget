@@ -1,49 +1,49 @@
 <div data-dojo-attach-point='formCrabNode'>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='landNode'>
-    <label for="land">Land</label>
-    <select data-dojo-attach-point='land' id="land" data-dojo-attach-event="onChange: _changeGemeenten">
+    <label for="land-${id}">Land</label>
+    <select data-dojo-attach-point='land' id="land-${id}" data-dojo-attach-event="onChange: _changeGemeenten">
     </select>
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='gemeenteCrabNode' style="width:60%;">
     <label>Gemeente</label>
-    <input data-dojo-attach-point='gemeenteCrab' type="text" />
-    <input id="gemeenteCrabValidation" data-dojo-attach-point='gemeenteCrabValidation' type="text" style="margin: -37px 0px 0px 0px;"/>
+    <input data-dojo-attach-point='gemeenteCrab' type="text"/>
+    <input id="gemeenteCrabValidation-${id}" data-dojo-attach-point='gemeenteCrabValidation' type="text" style="margin: -37px 0px 0px 0px;"/>
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:60%;" data-dojo-attach-point='gemeenteNode'>
-    <label for="gemeente">Gemeente</label>
-    <input data-dojo-attach-point='gemeente' type="text" id="gemeente" pattern=".{1,50}"/>
+    <label for="gemeente-${id}">Gemeente</label>
+    <input data-dojo-attach-point='gemeente' type="text" id="gemeente-${id}" pattern=".{1,50}"/>
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='postcodeCrabNode' style="width:36%; float:right;">
     <label>Postcode</label>
     <input data-dojo-attach-point='postcodeCrab' type="text" />
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:36%; float:right;" data-dojo-attach-point='postcodeNode'>
-    <label for="postcode">Postcode</label>
-    <input id="postcode" data-dojo-attach-point='postcode' type="text" pattern=".{1,20}" />
+    <label for="postcode-${id}">Postcode</label>
+    <input id="postcode-${id}" data-dojo-attach-point='postcode' type="text" pattern=".{1,20}" />
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='straatCrabNode'>
     <label>Straat</label>
     <input data-dojo-attach-point='straatCrab' type="text" />
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point="straatNode">
-    <label for="straat">Straat</label>
-    <input data-dojo-attach-point='straat' type="text" id="straat" pattern=".{1,100}"/>
+    <label for="straat-${id}">Straat</label>
+    <input data-dojo-attach-point='straat' type="text" id="straat-${id}" pattern=".{1,100}"/>
   </div>
   <div class="placeholder-container" data-dojo-attach-point='huisnummerCrabNode' style="width:45%;">
     <label>Huisnummer</label>
     <input data-dojo-attach-point='huisnummerCrab' type="text"/>
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:48%;" data-dojo-attach-point="huisnummerNode">
-    <label for="huisnummer">Huisnummer</label>
-    <input id="huisnummer" data-dojo-attach-point='huisnummer' type="text" pattern=".{1,20}"/>
+    <label for="huisnummer-${id}">Huisnummer</label>
+    <input id="huisnummer-${id}" data-dojo-attach-point='huisnummer' type="text" pattern=".{1,20}"/>
   </div>
   <div class="placeholder-container" tabindex="-1" style="width:48%; float:right;" data-dojo-attach-point="subadresNode">
-    <label for="subadres">Postbus</label>
-    <input id="subadres" data-dojo-attach-point='subadres' type="text" pattern=".{1,20}"/>
+    <label for="subadres-${id}">Postbus</label>
+    <input id="subadres-${id}" data-dojo-attach-point='subadres' type="text" pattern=".{1,20}"/>
   </div>
   <div class="placeholder-container" tabindex="-1" data-dojo-attach-point="adrestypeNode">
-    <label for="adrestypes">Type adres</label>
-    <select id="adrestypes" data-dojo-attach-point='adrestypes' type="text" style="width: 90%; float:left;">
+    <label for="adrestypes-${id}">Type adres</label>
+    <select id="adrestypes-${id}" data-dojo-attach-point='adrestypes' type="text" style="width: 90%; float:left;">
     </select>
     <a href="#" data-dojo-attach-event="onClick: _addAddress" data-dojo-attach-point="addAddressIconNode" class="plus-icon-link" title="Voeg adres toe"><i class="fa fa-plus plus-icon"></i></a>
   </div>
