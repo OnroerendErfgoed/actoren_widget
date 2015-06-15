@@ -12,6 +12,7 @@ define([
 
     actorStore: null,
     actorWijStore: null,
+    ssoToken: null,
     _adresParameter: '/adressen',
 
     /**
@@ -64,7 +65,7 @@ define([
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'OpenAmSSOID': this.ssoToken
+          'OpenAmSSOID':this.ssoToken
         }
       })
     },
@@ -77,7 +78,11 @@ define([
         handleAs: "json",
         method:"PUT",
         data: JSON.stringify(adres),
-        headers:{'Content-Type': 'application/json', "Accept": "application/json"}
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'OpenAmSSOID':this.ssoToken
+        }
       })
     },
 
@@ -87,7 +92,10 @@ define([
         withCredentials: true,
         handleAs: "json",
         method:"DELETE",
-        headers:{"Accept": "application/json"}
+        headers: {
+          'Accept': 'application/json',
+          'OpenAmSSOID':this.ssoToken
+        }
       })
     },
 
