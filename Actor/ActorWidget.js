@@ -43,6 +43,7 @@ define([
     crabHost: null,
     permissionToAdd: false,
     permissionToEdit: false,
+    ssoToken: null,
     // default values
     actorCategories: {
       actoren: true,
@@ -70,7 +71,8 @@ define([
 
       this.actorController = new ActorController({
         actorWijStore: this.actorWijStore,
-        actorStore: this.actorStore
+        actorStore: this.actorStore,
+        ssoToken: this.ssoToken
       });
       this.crabController = new CrabController({crabHost: this.crabHost});
       this._setupLayout();
