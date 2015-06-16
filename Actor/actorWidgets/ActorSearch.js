@@ -222,7 +222,7 @@ define([
 						this._grid.refresh();
 					}
 					else {
-						this._grid.set("query", {"omschrijving": newValue});
+						this._grid.set("query", {"naam": newValue});
 						this._grid.refresh();
 					}
 				}
