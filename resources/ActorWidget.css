@@ -155,3 +155,13 @@
 .actor-widget .placeholder-input-border {
   border-left: 1px dotted #d3d3d3 !important;
 }
+
+.actor-widget .addLinkContainer {
+  margin-top: 10px;
+  font-size: 14px;
+  float: right;
+}
+
+.actor-widget .refreshLink {
+  margin-left: 15px;
+}
