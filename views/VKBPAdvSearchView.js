@@ -1,6 +1,6 @@
 /**
  * Widget om een actor uitgebreid op te zoeken.
- * @module Actor/actorWidgets/actorAdvSearch/ActorAdvSearchVKBP
+ * @module views/VKBPAdvSearchView
  */
 define([
 	'dojo/text!./templates/VKBPAdvSearchView.html',
@@ -28,7 +28,7 @@ define([
 
 		/**
 		 * Widget om een actor uitgebreid op te zoeken.
-		 * @module Actor/actorWidgets/actorAdvSearch/ActorAdvSearchVKBO
+		 * @module views/VKBPAdvSearchView
 		 */
 		postCreate: function() {
 			console.log('...VKBPAdvSearchView::postCreate', arguments);

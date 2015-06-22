@@ -10,7 +10,7 @@ define([
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
 	'../widgets/CrabWidget',
-	"dojo/dom-construct"
+	'dojo/dom-construct'
 ], function(
 	template,
 	declare,

@@ -13,7 +13,7 @@ define([
 	'dijit/form/ComboBox',
 	'../widgets/CrabWidget',
 	'dojo/dom-class',
-	"dojo/dom-construct",
+	'dojo/dom-construct',
   'dojo/_base/array',
   'dojo/promise/all'
 ], function(

@@ -1,6 +1,6 @@
 /**
  * Widget om een actor uitgebreid op te zoeken.
- * @module Actor/actorWidgets/actorAdvSearch/ActorAdvSearchVKBO
+ * @module views/VKBOAdvSearchView
  */
 define([
 	'dojo/text!./templates/VKBOAdvSearchView.html',
