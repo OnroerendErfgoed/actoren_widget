@@ -54,6 +54,7 @@ define([
 
     templateString: template,
     baseClass: 'actor-widget',
+    widgetsInTemplate: true,
     actorWijStore: null,
     actorStore: null,
     actorController: null,
@@ -114,6 +115,7 @@ define([
       this.inherited(arguments);
       console.log('ActorWidget::startup', arguments);
       this._setupLayout();
+      this.resize();
     },
 
     _setupLayout: function () {
@@ -128,6 +130,10 @@ define([
       if (this.isLoading()) {
         this.hideLoading();
       }
+    },
+
+    resize: function() {
+       this.actorTabContainer.resize();
     },
 
     /**
@@ -301,99 +307,6 @@ define([
       }
     },
 
-    ///**
-    // * Functie om de zoek widget te tonen.
-    // */
-    //showSearch: function () {
-    //  this._actorSearch.removeSort();
-    //  this.actorStackContainer.selectChild(this._actorSearch);
-    //},
-    //
-    ///**
-    // * Functie om de detail widget te tonen met informatie over de meegegeven actor.
-    // * @param {Object} actor
-    // */
-    //showDetail: function (actor) {
-    //  this._actorSearch.addSort();
-    //  this._actorDetail.setActor(actor);
-    //  this.actorStackContainer.selectChild(this._actorDetail);
-    //},
-    //
-    ///**
-    // * Functie om de bewerk widget te tonen met informatie over de meegegeven actor.
-    // * @param {Object} actor
-    // */
-    //showEdit: function (actor) {
-    //  this._actorSearch.addSort();
-    //  this._actorEdit.setActor(actor);
-    //  this.actorStackContainer.selectChild(this._actorEdit);
-    //},
-    //
-    ///**
-    // * Functie om de uitgebreide actor zoek widget te tonen.
-    // */
-    //showActorSearch: function () {
-    //  this._actorSearch.removeSort();
-    //  this.actorStackContainer.selectChild(this._ActorAdvSearchUI);
-    //},
-    //
-    ///**
-    // * Functie om de vkbo zoek widget te tonen.
-    // */
-    //showVKBOSearch: function () {
-    //  this.actorStackContainer.selectChild(this._actorSearchVKBO);
-    //},
-    //
-    ///**
-    // * Functie om de uitgebreide vkbp zoek widget te tonen.
-    // */
-    //showVKBPSearch: function () {
-    //  this.actorStackContainer.selectChild(this._actorSearchVKBP);
-    //},
-    //
-    ///**
-    // * De content van de widget toevoegen (afhankelijk welke toegelaten zijn voor de gebruiker)
-    // * @private
-    // */
-    //_setupLayout: function() {
-    //  this._actorSearch = new ActorSearch({actorWidget: this});
-    //  this._actorDetail = new ActorDetail({actorWidget: this});
-    //
-    //  this.actorStackContainer.addChild(this._actorSearch);
-    //  this.actorStackContainer.addChild(this._actorDetail);
-    //
-    //  if (this.actorCategories.actoren) {
-    //    this._ActorAdvSearchUI =  new ActorAdvSearchUI({actorWidget: this});
-    //    this.actorStackContainer.addChild(this._ActorAdvSearchUI);
-    //  }
-    //  else {
-    //    this._actorSearch.advSearchActor.style.display = 'none';
-    //  }
-    //  if (this.actorCategories.vkbo) {
-    //    this._actorSearchVKBO =  new ActorAdvSearchVKBO({actorWidget: this});
-    //    this.actorStackContainer.addChild(this._actorSearchVKBO);
-    //  }
-    //  else {
-    //    this._actorSearch.advSearchVKBO.style.display = 'none';
-    //  }
-    //  if (this.actorCategories.vkbp) {
-    //    this._actorSearchVKBP =  new ActorAdvSearchVKBP({actorWidget: this});
-    //    this.actorStackContainer.addChild(this._actorSearchVKBP);
-    //  }
-    //  else {
-    //    this._actorSearch.advSearchVKBP.style.display = 'none';
-    //  }
-    //
-    //  if (this.permissionToEdit) {
-    //    this._actorEdit = new ActorEdit({actorWidget: this});
-    //    this.actorStackContainer.addChild(this._actorEdit);
-    //  }
-    //  else {
-    //    this._actorDetail.headerButtons.style.display = 'none';
-    //    this._actorDetail.headerText.innerHTML = 'Actor detail';
-    //  }
-    //},
-
     /**
     * Een event toevoegen aan deze widget waaraan een actor wordt meegeven.
     * @param {Object} actor
@@ -402,13 +315,13 @@ define([
       this.emit('send.actor', {actor: actor});
     },
 
-    ///**
-    // * Geeft de geselecteerde actor.
-    // * @returns {Deferred.promise|*}
-    // */
-    //getSelectedActor: function() {
-    //  return this._actorSearch.getSelectedActor();
-    //},
+    /**
+    * Geeft de geselecteerde actor.
+    * @returns {Deferred.promise|*}
+    */
+    getSelectedActor: function() {
+      return this.getActorSearch().getSelectedActor();
+    },
 
     /**
     * Een event toevoegen aan deze widget waaraan een error wordt meegeven.

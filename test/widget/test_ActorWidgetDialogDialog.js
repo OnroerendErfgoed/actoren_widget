@@ -3,14 +3,15 @@ define([
   'dojo/_base/lang',
   'dijit/_Widget',
   'dijit/_TemplatedMixin',
+  'dijit/_WidgetsInTemplateMixin',
   'dijit/Dialog',
   'dojo/on',
   'dojo/store/Observable',
   'actorwidget/test/util/JsonRestCors',
-  'actorwidget/Actor/ActorWidget',
+  'actorwidget/widgets/ActorWidget',
   'dojo/text!./test_ActorWidgetDialogDialog.html'
-], function (declare, lang, _Widget, _TemplatedMixin, Dialog, on, Observable, JsonRestCors, ActorWidget, template) {
-  return declare([_Widget, _TemplatedMixin], {
+], function (declare, lang, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, Dialog, on, Observable, JsonRestCors, ActorWidget, template) {
+  return declare([_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
     templateString: template,
     actorWidget: null,
@@ -20,20 +21,26 @@ define([
 
     postCreate: function () {
       this.inherited(arguments);
+      console.debug("dialog postcreate");
       var self = this;
-      self.dialog = new Dialog({title: 'Dialog title', style: "width: 1200px" });
+      self.dialog = new Dialog({title: 'Dialog title', style: "width: 1200px;" });
       self.dialog.set('content', self);
     },
 
     startup: function () {
       this.inherited(arguments);
+      console.debug("dialog startup");
+
+      // first show dialog, than create actorwidget, and finally resize dialog.
+      // widget needs the dialog to be active before he adds the tabs.. otherwise no tabs shown.
+      this.dialog.show();
       this._createActorWidget();
       this.actorWidget.startup();
-      this.dialog.show();
+      this.dialog.resize();
     },
 
     _createActorWidget: function () {
-      var baseUrl= "http://localhost:6543";
+      var baseUrl= "http://localhost:6565";
 
       this.actorWijStore = new Observable(new JsonRestCors({
         target: baseUrl + '/actoren/wij/',
@@ -60,14 +67,14 @@ define([
       this.actorWidget = new ActorWidget({
         actorWijStore: this.actorWijStore,
         actorStore: this.actorStore,
-        permissionToAdd: true,
-        permissionToEdit: true,
+        canCreateActor: true,
+        canEditActor: true,
         actorCategories: {
           actoren: true,
           vkbo: false,
           vkbp: false
         },
-        crabHost: "http://localhost:6543/",
+        crabHost: "http://localhost:6565/",
         typeLists: {
           emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}], // get <actorenHost>/email_types
           telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}], // get <actorenHost>/telephone_types
@@ -76,6 +83,7 @@ define([
           adresTypes: [{"naam": "post", "id": 1}, {"naam": "primair", "id": 2}]
         }
       }, this.actorWidgetNode);
+      //this.actorWidget.startup();
     }
 
   });

@@ -35,6 +35,7 @@ define([
 
 		templateString: template,
 		baseClass: 'actor-widget',
+    widgetsInTemplate: true,
 		actor: null,
 		actorWidget: null,
 		actorAdvancedSearch : null,

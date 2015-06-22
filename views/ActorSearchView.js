@@ -214,12 +214,12 @@ define([
 		_filterGrid: function (evt) {
 			evt.preventDefault();
 			this.removeSort();
-			/*if (this._store != 'wij') {
-				this._grid.set('store', this.actorController.actorWijStore);
-				this._store = 'wij';
-			}*/
-     this._grid.set("store", this.actorStore);
-			//this._store = 'all';
+      /*if (this._store != 'wij') {
+       this._grid.set('store', this.actorController.actorWijStore);
+       this._store = 'wij';
+       }*/
+      //this._grid.set("store", this.actorStore);
+      //this._store = 'all';
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
 				clearTimeout(this._timeoutId);
@@ -247,7 +247,7 @@ define([
 		advSearchFilterGrid: function(query) {
 			this.removeSort();
 			this.actorenFilter.value = "";
-			this._grid.set("store", this.actorStore);
+			//this._grid.set("store", this.actorStore);
 			//this._store = 'all';
 			this._grid.set("query", query);
 			//this._grid.refresh();
