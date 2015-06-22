@@ -2,7 +2,7 @@
  * @module controllers/ActorController
  */
 define([
-  'dojo/_base/declare',
+  '../dojo/_base/declare',
   'dojo/request/xhr'
 ], function(
   declare,

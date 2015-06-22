@@ -41,7 +41,14 @@ define([
 			console.log('..ActorDetail::startup', arguments);
 			this.inherited(arguments);
 			this._setCrabWidget();
+      this._setSecurity();
 		},
+
+    _setSecurity: function() {
+      if (!this.actorWidget.canEditActor) {
+        this.editButton.style.display = 'none';
+      }
+    },
 
 		/**
 		 * CrabWidget opstarten.

@@ -3,13 +3,13 @@
  * @module Actor/actorWidgets/actorAdvSearch/ActorAdvSearchVKBO
  */
 define([
-	'dojo/text!./templates/ActorAdvSearchVKBO.html',
+	'dojo/text!./templates/VKBOAdvSearchView.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
-	'../CrabWidget'
+	'../widgets/CrabWidget'
 ], function(
 	template,
 	declare,
@@ -30,7 +30,7 @@ define([
 		 * Standaard widget functie.
 		 */
 		postCreate: function() {
-			console.log('...ActorAdvSearchVKBO::postCreate', arguments);
+			console.log('...VKBOAdvSearchView::postCreate', arguments);
 			this.inherited(arguments);
 		},
 
@@ -39,7 +39,7 @@ define([
 		 * Opstarten CrabWidget.
 		 */
 		startup: function () {
-			console.log('...ActorAdvSearchVKBO::startup', arguments);
+			console.log('...VKBOAdvSearchView::startup', arguments);
 			this.inherited(arguments);
 			this._setCrabWidget();
 		},
@@ -63,7 +63,6 @@ define([
 			evt? evt.preventDefault() : null;
 			var query = this._getSearchParams();
 			this._filterGrid(query);
-			this._openSearch();
 			this._reset();
 		},
 
@@ -83,7 +82,7 @@ define([
 					query[param] = this[param].value;
 				}
 			}));
-			var crabParams = this._crabWidget.getInput().values;
+			var crabParams = this._crabWidget.getInputValues().values;
 			Object.keys(crabParams).forEach(function(param){
 				if(crabParams[param]) {
 					query[param] = crabParams[param];
@@ -98,18 +97,7 @@ define([
 		 * @private
 		 */
 		_filterGrid: function (query) {
-			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
-		},
-
-		/**
-		 * Event functie waarbij de zoek widget geopend wordt.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_openSearch: function(evt) {
-			evt? evt.preventDefault() : null;
-			this.actorWidget.showSearch();
-			this._reset();
+			this.actorWidget.advSearchFilterGrid(query);
 		},
 
 		/**

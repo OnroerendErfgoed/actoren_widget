@@ -1,15 +1,14 @@
 <div>
   <div class="large-12 columns">
-      <div class="placeholder-container">
-        <label>Zoeken in actoren</label>
-        <input type="text"
-               name="actorenFilter"
-               title="Zoek een actor"
-               class="searchBox"
-               data-dojo-attach-event="onInput: _filterGrid"
-               data-dojo-attach-point="actorenFilter"
-               tabindex="1" />
-      </div>
+    <input type="text"
+           name="actorenFilter"
+           title="Zoek een actor"
+           class="searchBox"
+           placeholder='Zoeken in actoren..'
+           data-dojo-attach-event="onInput: _filterGrid"
+           data-dojo-attach-point="actorenFilter"
+           tabindex="1" />
+    <span class="fa fa-search searchBoxIcon"></span>
   </div>
   <div class="large-12 columns">
     <div class="gridContainer">
@@ -18,7 +17,7 @@
   </div>
   <div class=" small-12 columns">
     <div class="addLinkContainer">
-      <a href="#" class="refreshLink" data-dojo-attach-event="onClick: _createNewActor">
+      <a href="#" class="refreshLink" data-dojo-attach-point="addActorLink" data-dojo-attach-event="onClick: _createNewActor">
         Toevoegen <i class="fa fa-plus-circle" ></i>
       </a>
       <a href="#" class="refreshLink" data-dojo-attach-event="onClick: _refresh">

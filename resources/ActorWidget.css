@@ -5,7 +5,7 @@
 
 /* Restore dgrid css*/
 .actor-widget .dgrid {
-    height: 300px;
+  height: 230px;
 }
 
 .actor-widget .dgrid .dgrid-row-table {
@@ -26,52 +26,52 @@
 }
 
 .actor-widget .dgrid-column-check, .dgrid-column-id {
-    width: 50px !important;
+  width: 50px !important;
 }
 
 .actor-widget .input-label-left {
-    display: inline-block;
-    margin: 0;
-    float: left !important;
+  display: inline-block;
+  margin: 0;
+  float: left !important;
 }
 
 .actor-widget .input-label-right {
-    display: inline-block;
-    margin: 0;
-    float: right !important;
+  display: inline-block;
+  margin: 0;
+  float: right !important;
 }
 
 .actor-widget .inline-inputs {
-    width: 100%;
-    display: inline-block;
-    margin: 0;
+  width: 100%;
+  display: inline-block;
+  margin: 0;
 }
 
 .actor-widget .tabs-content {
-    border: 1px solid rgba(117, 63, 127, 0.3) !important;
+  border: 1px solid rgba(117, 63, 127, 0.3) !important;
 }
 
 .actor-widget .search-combobox {
-    height: 2.3125rem;
-    border: none;
-    width: 100%;
-    margin-bottom: 1rem;
+  height: 2.3125rem;
+  border: none;
+  width: 100%;
+  margin-bottom: 1rem;
 }
 
 .actor-widget .search-combobox input[type="text"] {
-    background-color: white !important;
-    border: 1px solid #cccccc !important;
-    margin: 0 0 1rem 0 !important;
-    padding: 0.5rem !important;
+  background-color: white !important;
+  border: 1px solid #cccccc !important;
+  margin: 0 0 1rem 0 !important;
+  padding: 0.5rem !important;
 }
 
 .actor-widget .dijitMenu {
-    border: 1px solid #cccccc !important;
-    color: #616161;
+  border: 1px solid #cccccc !important;
+  color: #616161;
 }
 
 .actor-widget .dijitMenuItemHover {
-    background-color: #CBD6F5 !important;
+  background-color: #CBD6F5 !important;
 }
 
 /*country flags*/
@@ -164,4 +164,21 @@
 
 .actor-widget .refreshLink {
   margin-left: 15px;
+}
+
+.actor-widget .searchBoxIcon {
+  float: right;
+  font-size: 22px;
+  margin-right: 20px;
+  margin-top: -45px;
+  position: relative;
+  z-index: 2;
+  color: #d3d3d3;
+}
+
+.actor-widget .editActorIcon {
+  float: right;
+  font-size: 20px;
+  margin-bottom: 10px;
+  margin-right: 5px;
 }

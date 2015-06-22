@@ -3,34 +3,49 @@
  * @module Actor/ActorWidget
  */
 define([
-  'dojo/text!./templates/ActorWidget2.html',
-  'dojo/_base/declare',
+  'dojo/text!./templates/ActorWidget.html',
+  '../dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
+  'dojo/_base/fx',
+  'dojo/dom-style',
+  'dojo/dom-construct',
+  'dojo/query',
   'dijit/_WidgetsInTemplateMixin',
-  './controllers/ActorController',
-  './controllers/CrabController',
-  './views/ActorSearchView',
-  './views/ActorAdvSearchView',
-  './views/ActorDetailView',
-  './views/ActorEditView',
+  '../controllers/ActorController',
+  '../controllers/CrabController',
+  '../views/ActorSearchView',
+  '../views/ActorAdvSearchView',
+  '../views/ActorDetailView',
+  '../views/ActorEditView',
+  '../views/ActorCreateView',
+  '../views/VKBOAdvSearchView',
+  '../views/VKBPAdvSearchView',
   //'./ActorAdvSearchUI',
   //'./actorWidgets/actorAdvSearch/ActorAdvSearchVKBO',
   //'./actorWidgets/actorAdvSearch/ActorAdvSearchVKBP',
   'dijit/layout/TabContainer',
-  'dijit/layout/ContentPane'
+  'dijit/layout/ContentPane',
+  'dojo/NodeList-manipulate'
 ], function (
   template,
   declare,
   _WidgetBase,
   _TemplatedMixin,
+  fx,
+  domStyle,
+  domConstruct,
+  query,
   _WidgetsInTemplateMixin,
   ActorController,
   CrabController,
   ActorSearchView,
   ActorAdvSearchView,
   ActorDetailView,
-  ActorEditView
+  ActorEditView,
+  ActorCreateView,
+  VKBOAdvSearchView,
+  VKBPAdvSearchView
   //ActorAdvSearchUI,
   //ActorAdvSearchVKBO,
   //ActorAdvSearchVKBP,
@@ -44,6 +59,8 @@ define([
     actorController: null,
     crabHost: null,
     ssoToken: null,
+    canCreateActor: false,
+    canEditActor: false,
     // default values
     actorCategories: {
       actoren: true,
@@ -59,6 +76,7 @@ define([
     },
     _actorSearch: null,
     _tabList: null,
+    overlayContainer: null,
 
     /**
      * Standaard widget functie.
@@ -76,6 +94,7 @@ define([
         ssoToken: this.ssoToken
       });
       this.crabController = new CrabController({crabHost: this.crabHost});
+      this.overlayContainer = this.loadingOverlay;
 
       this._tabList = {};
 
@@ -103,6 +122,12 @@ define([
       this._createActorAdvSearchView();
       this._createActorDetailView();
       this._createActorEditView();
+      this._createActorCreateView();
+      this._createVKBOSearchView();
+      this._createVKBPSearchView();
+      if (this.isLoading()) {
+        this.hideLoading();
+      }
     },
 
     /**
@@ -114,8 +139,8 @@ define([
     },
 
     advSearchFilterGrid: function(query) {
-      this._tabList.overzicht.advSearchFilterGrid(query);
       this._openTab(this.tabOverzicht);
+      this._tabList.overzicht.advSearchFilterGrid(query);
     },
 
     showActorDetail: function(actor) {
@@ -130,6 +155,59 @@ define([
       if (actor) {
         this._tabList.actorEdit.setActor(actor);
       }
+    },
+
+    showActorCreate: function() {
+      this._openTab(this.tabActorCreate);
+      this._tabList.actorCreate._reset();
+    },
+
+    showActorSearch: function() {
+      this._openTab(this.tabOverzicht);
+    },
+
+    getActorSearch: function() {
+      return this._tabList.overzicht;
+    },
+
+    /**
+     * Geeft aan of de 'Loading'-overlay zichtbaar is.
+     * @public
+     */
+    isLoading: function () {
+      var node = this.overlayContainer;
+      return (domStyle.get(node, 'display') == 'block');
+    },
+
+    /**
+     * Verbergt de 'Loading'-overlay.
+     * @public
+     */
+    hideLoading: function () {
+      var node = this.overlayContainer;
+      fx.fadeOut({
+        node: node,
+        onEnd: function (node) {
+          domStyle.set(node, 'display', 'none');
+        },
+        duration: 1000
+      }).play();
+    },
+
+    /**
+     * Toont de 'Loading'-overlay.
+     * @public
+     */
+    showLoading: function (message) {
+      if (!message) message = "";
+      var node = this.overlayContainer;
+      query(".loadingMessage", node).innerHTML(message);
+
+      domStyle.set(node, 'display', 'block');
+      fx.fadeIn({
+        node: node,
+        duration: 1
+      }).play();
     },
 
     _createActorSearchView: function() {
@@ -168,14 +246,59 @@ define([
     },
 
     _createActorEditView: function() {
-      console.debug('ActorWidget::_createActorEditView');
-      var actorEditView = new ActorEditView({
-        actorWidget: this
-      }, this.actorEditNode);
-      this._tabList.actorEdit = actorEditView;
-      this.tabActorEdit.controlButton.domNode.style.display =  'none'; // HIDE TAB BUTTON
-      //this._tabList.onFocus = lang.hitch(actorDetailView, actorDetailView.initialize);
-      actorEditView.startup();
+      if (this.canEditActor) {
+        console.debug('ActorWidget::_createActorEditView');
+        var actorEditView = new ActorEditView({
+          actorWidget: this
+        }, this.actorEditNode);
+        this._tabList.actorEdit = actorEditView;
+        //this._tabList.onFocus = lang.hitch(actorDetailView, actorDetailView.initialize);
+        actorEditView.startup();
+      }
+      this.tabActorEdit.controlButton.domNode.style.display = 'none'; // HIDE TAB BUTTON
+    },
+
+    _createActorCreateView: function() {
+      if (this.canCreateActor) {
+        console.debug('ActorWidget::_createActorCreateView');
+        var actorCreateView = new ActorCreateView({
+          actorWidget: this
+        }, this.actorCreateNode);
+        this._tabList.actorCreate = actorCreateView;
+        this.tabActorCreate.controlButton.domNode.style.display = 'none'; // HIDE TAB BUTTON
+        //this._tabList.onFocus = lang.hitch(actorDetailView, actorDetailView.initialize);
+        actorCreateView.startup();
+      }
+      this.tabActorCreate.controlButton.domNode.style.display = 'none'; // HIDE TAB BUTTON
+    },
+
+    _createVKBOSearchView: function() {
+      if (this.actorCategories.vkbo) {
+        console.debug('ActorWidget::_createVKBOSearchView');
+        var advSearchVKBOView = new VKBOAdvSearchView({
+          actorWidget: this
+        }, this.VKBOSearchNode);
+        this._tabList.vkboSearch = advSearchVKBOView;
+        //this._tabList.onFocus = lang.hitch(actorDetailView, actorDetailView.initialize);
+        advSearchVKBOView.startup();
+      }
+      else {
+        this.tabVKBOSearch.controlButton.domNode.style.display =  'none'; // HIDE TAB BUTTON
+      }
+    },
+
+    _createVKBPSearchView: function() {
+      if (this.actorCategories.vkbp) {
+        console.debug('ActorWidget::_createVKBPSearchView');
+        var advSearchVKBPView = new VKBPAdvSearchView({
+          actorWidget: this
+        }, this.VKBPSearchNode);
+        this._tabList.vkbpSearch = advSearchVKBPView;
+        //this._tabList.onFocus = lang.hitch(actorDetailView, actorDetailView.initialize);
+        advSearchVKBPView.startup();
+      } else {
+        this.tabVKBPSearch.controlButton.domNode.style.display =  'none'; // HIDE TAB BUTTON
+      }
     },
 
     ///**
@@ -270,15 +393,15 @@ define([
     //    this._actorDetail.headerText.innerHTML = 'Actor detail';
     //  }
     //},
-    //
-    ///**
-    // * Een event toevoegen aan deze widget waaraan een actor wordt meegeven.
-    // * @param {Object} actor
-    // */
-    //emitActor: function(actor) {
-    //  this.emit('send.actor', {actor: actor});
-    //},
-    //
+
+    /**
+    * Een event toevoegen aan deze widget waaraan een actor wordt meegeven.
+    * @param {Object} actor
+    */
+    emitActor: function(actor) {
+      this.emit('send.actor', {actor: actor});
+    },
+
     ///**
     // * Geeft de geselecteerde actor.
     // * @returns {Deferred.promise|*}

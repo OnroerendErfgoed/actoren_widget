@@ -3,7 +3,7 @@
  * @module Actor/actorWidgets/ActorSearch
  */
 define([
-	'dojo/text!./templates/ActorSearch.html',
+	'dojo/text!./templates/ActorSearchView.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dojo/Deferred',
@@ -35,7 +35,7 @@ define([
 
 		templateString: template,
 		baseClass: 'actor-widget',
-		widgetsInTemplate: true,
+    widgetsInTemplate: true,
 		actorStore: null,
 		baseUrl: null,
 		_previousSearchValue:'',
@@ -50,7 +50,7 @@ define([
 		 * Standaard widget functie.
 		 */
 		postCreate: function() {
-			console.log('..ActorSearch::postCreate', arguments);
+			console.log('..ActorSearchView::postCreate', arguments);
 			this.inherited(arguments);
 		},
 
@@ -60,17 +60,28 @@ define([
 		 * Aanmaken van het resultaten grid.
 		 */
 		startup: function () {
-			console.log('..ActorSearch::startup', arguments);
+			console.log('..ActorSearchView::startup', arguments);
 			this.inherited(arguments);
-			this.actorController = this.actorWidget.actorController;
 			this._createGrid();
+      this._setSecurity();
 		},
+
+    _createNewActor: function() {
+      this.actorWidget.showActorCreate();
+    },
+
+    _setSecurity: function() {
+      if (!this.actorWidget.canCreateActor) {
+        this.addActorLink.style.display = 'none';
+      }
+    },
 
 		/**
 		 * Opbouwen van grid: kolommen, store, 'on click event' en 'on dlb click event'
 		 * @private
 		 */
 		_createGrid: function () {
+      console.debug('create grid');
 			var columns = {
 				id: {
 					label:'#',
@@ -105,7 +116,7 @@ define([
 
 			this._grid = new (declare([OnDemandGrid, Selection, Keyboard, DijitRegistry]))({
 				selectionMode: 'single',
-				store: this.actorController.actorStore,
+				store: this.actorStore,
 				columns: columns,
 				sort: [
 					{ attribute: 'naam' }
@@ -117,24 +128,23 @@ define([
 			var contextMenu = this._createContextMenu();
       //bridge between contextMenu and grid
       this._grid.on('.dgrid-row:contextmenu', lang.hitch(this, function(evt){
-        evt.preventDefault(); // prevent default browser context menu
-        contextMenu.selectedGridItem = this._grid.row(evt).data;
-        contextMenu._scheduleOpen(this, null, { x: evt.pageX, y: evt.pageY });
+       evt.preventDefault(); // prevent default browser context menu
+       contextMenu.selectedGridItem = this._grid.row(evt).data;
+       contextMenu._scheduleOpen(this, null, { x: evt.pageX, y: evt.pageY });
       }));
 
-			this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
-				evt.preventDefault();
-				var cell = this._grid.cell(evt);
-				if (cell.column.field == 'id' && this._grid.row(evt)) {
-					var id = this._grid.row(evt).id;
-					this.actorController.getActor(id).
-						then(lang.hitch(this, function(actor){
-							this._showDetail(actor);
-						}));
-				}
+      this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
+        evt.preventDefault();
+        var cell = this._grid.cell(evt);
+        if (cell.column.field == 'id' && this._grid.row(evt)) {
+          var id = this._grid.row(evt).id;
+          this.actorController.getActor(id).
+            then(lang.hitch(this, function(actor){
+              this.actorWidget.showActorDetail(actor);
+            }));
+        }
+      }));
 
-
-			}));
 			this._grid.on(".dgrid-row:dblclick", lang.hitch(this, function(evt){
 				evt.preventDefault();
 				var id = this._grid.row(evt).id;
@@ -143,6 +153,7 @@ define([
 						this._emitActor(actor);
 					}));
 			}));
+
 			this._grid.on('dgrid-error', lang.hitch(this, function(evt){
 				evt.preventDefault();
 				this._emitError(evt)
@@ -152,10 +163,10 @@ define([
 		},
 
 		/**
-		 * Maak context menu om actoren uit het grid te bekijken, toe te voegen of te bewerken indien toegelaten.
-		 * @returns {Menu}
-		 * @private
-		 */
+		* Maak context menu om actoren uit het grid te bekijken, toe te voegen of te bewerken indien toegelaten.
+		* @returns {Menu}
+		* @private
+		*/
 		_createContextMenu: function () {
 			var contextMenu = new Menu({});
 
@@ -164,18 +175,18 @@ define([
 				onClick: lang.hitch(this, function () {
 					this.actorController.getActor(contextMenu.selectedGridItem.id).
 						then(lang.hitch(this, function(actor){
-							this._showDetail(actor);
+							this.actorWidget.showActorDetail(actor);
 						}));
 				})
 			}));
 
-			if (this.actorWidget.permissionToEdit) {
+			if (this.actorWidget.canEditActor) {
 				contextMenu.addChild(new MenuItem({
 					label: 'Bewerken',
 					onClick: lang.hitch(this, function () {
 						this.actorController.getActor(contextMenu.selectedGridItem.id).
 							then(lang.hitch(this, function(actor){
-								this._showEdit(actor);
+								this.actorWidget.showActorEdit(actor);
 							}));
 					})
 				}));
@@ -195,11 +206,11 @@ define([
 		},
 
 		/**
-		 * Een event functie die na input in html element een filtering het grid zal toepassen.
-		 * De filtering gebeurt op actoren van het agentschap. De sort moet overgenomen worden vanuit elastic search
-		 * @param {event} evt
-		 * @private
-		 */
+		* Een event functie die na input in html element een filtering het grid zal toepassen.
+		* De filtering gebeurt op actoren van het agentschap. De sort moet overgenomen worden vanuit elastic search
+		* @param {event} evt
+		* @private
+		*/
 		_filterGrid: function (evt) {
 			evt.preventDefault();
 			this.removeSort();
@@ -207,8 +218,8 @@ define([
 				this._grid.set('store', this.actorController.actorWijStore);
 				this._store = 'wij';
 			}*/
-      this._grid.set("store", this.actorController.actorStore);
-			this._store = 'all';
+     this._grid.set("store", this.actorStore);
+			//this._store = 'all';
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
 				clearTimeout(this._timeoutId);
@@ -230,99 +241,50 @@ define([
 		},
 
 		/**
-		 * Het grid zal actoren filteren worden op meegegeven query
-		 * @param {object} query bv {naam: 'testpersoon'}
-		 */
-		AdvSearchFilterGrid: function(query) {
+		* Het grid zal actoren filteren worden op meegegeven query
+		* @param {object} query bv {naam: 'testpersoon'}
+		*/
+		advSearchFilterGrid: function(query) {
 			this.removeSort();
 			this.actorenFilter.value = "";
-			this._grid.set("store", this.actorController.actorStore);
-			this._store = 'all';
+			this._grid.set("store", this.actorStore);
+			//this._store = 'all';
 			this._grid.set("query", query);
-			this._grid.refresh();
+			//this._grid.refresh();
 		},
 
 		/**
-		 * Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
-		 */
+		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
+		*/
 		removeSort: function() {
 			this._grid.set('sort', []);
 		},
 
 		/**
-		 * Functie om sort parameter toe te voegen aan het grid, belangrijk bij bewerken een aanpassen
-		 */
+		* Functie om sort parameter toe te voegen aan het grid, belangrijk bij bewerken een aanpassen
+		*/
 		addSort: function() {
 			this._grid.set('sort', [{ attribute: 'naam' }]);
 		},
 
 		/**
-		 * Tonen van de detail widget waarbij een actor wordt meegegeven.
-		 * @param {Object} actor
-		 * @private
-		 */
-		_showDetail: function(actor) {
-			this.actorWidget.showDetail(actor);
-		},
-
-		/**
-		 * Tonen van de bewerk widget waarbij een actor wordt meegegeven.
-		 * @param {Object} actor
-		 * @private
-		 */
-		_showEdit: function(actor) {
-			this.addSort();
-			this.actorWidget.showEdit(actor);
-		},
-
-		/**
-		 * Event functie waarbij de uitgebreide actor zoek widget getoond wordt.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_showActorSearch: function(evt) {
-			evt? evt.preventDefault() : null;
-			this.actorWidget.showActorSearch();
-		},
-
-		/**
-		 * Event functie waarbij de uitgebreide vkbo zoek widget getoond wordt.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_showVKBOSearch: function(evt) {
-			evt.preventDefault();
-			this.actorWidget.showVKBOSearch();
-		},
-
-		/**
-		 * Event functie waarbij de uitgebreide vkbp zoek widget getoond wordt.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_showVKBPSearch: function(evt) {
-			evt.preventDefault();
-			this.actorWidget.showVKBPSearch();
-		},
-
-		/**
-		 * Event refresh functie van de widget.
-		 * @param evt
-		 * @private
-		 */
+		* Event refresh functie van de widget.
+		* @param evt
+		* @private
+		*/
 		_refresh: function (evt) {
 			evt.preventDefault();
 			this.addSort();
-			this._grid.set("store", this.actorController.actorStore);
+			this._grid.set("store", this.actorStore);
 			this._grid.set("query", {});
 			this.actorenFilter.value = '';
 			this._grid.refresh();
 		},
 
 		/**
-		 * Geeft de geselecteerde actor.
-		 * @returns {Deferred.promise|*}
-		 */
+		* Geeft de geselecteerde actor.
+		* @returns {Deferred.promise|*}
+		*/
 		getSelectedActor: function() {
 			var deffered = new Deferred();
 			for(var id in this._grid.selection){
@@ -341,10 +303,10 @@ define([
 		},
 
 		/**
-		 * Een event functie die de geselecteerde actor in het grid meegeeft aan een private emit functie.
-		 * @param {Event} evt
-		 * @private
-		 */
+		* Een event functie die de geselecteerde actor in het grid meegeeft aan een private emit functie.
+		* @param {Event} evt
+		* @private
+		*/
 		_emitSelectedActoren: function(evt) {
 			evt? evt.preventDefault() : null;
 			this.getSelectedActor().
@@ -354,17 +316,17 @@ define([
 		},
 
 		/**
-		 * Een event uitsturen aan de actorwidget waaraan een actor wordt meegeven.
-		 * @param {Object} actor
-		 */
+		* Een event uitsturen aan de actorwidget waaraan een actor wordt meegeven.
+		* @param {Object} actor
+		*/
 		_emitActor: function(actor) {
 			this.actorWidget.emitActor(actor);
 		},
 
 		/**
-		 * Een event uitsturen aan de actorwidget waaraan een error wordt meegeven.
-		 * @param {Event} evt
-		 */
+		* Een event uitsturen aan de actorwidget waaraan een error wordt meegeven.
+		* @param {Event} evt
+		*/
 		_emitError: function(evt) {
 			this.actorWidget.emitError(evt);
 		}
