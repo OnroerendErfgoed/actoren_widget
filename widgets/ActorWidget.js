@@ -4,7 +4,7 @@
  */
 define([
   'dojo/text!./templates/ActorWidget.html',
-  '../dojo/_base/declare',
+  'dojo/_base/declare',
   'dijit/_WidgetBase',
   'dijit/_TemplatedMixin',
   'dojo/_base/fx',
