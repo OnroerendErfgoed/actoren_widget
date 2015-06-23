@@ -182,3 +182,7 @@
   margin-bottom: 10px;
   margin-right: 5px;
 }
+
+.actor-widget .dijitTabContainerTop-container {
+  height: 350px;
+}
