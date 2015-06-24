@@ -15,7 +15,8 @@ define([
 	'dgrid/Keyboard',
 	'dgrid/extensions/DijitRegistry',
 	'dgrid/OnDemandGrid',
-	'dgrid/Selection'
+	'dgrid/Selection',
+    "dstore/legacy/StoreAdapter"
 ], function(
 	template,
 	declare,
@@ -29,7 +30,8 @@ define([
 	Keyboard,
 	DijitRegistry,
 	OnDemandGrid,
-	Selection
+	Selection,
+    StoreAdapter
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -116,11 +118,9 @@ define([
 
 			this._grid = new (declare([OnDemandGrid, Selection, Keyboard, DijitRegistry]))({
 				selectionMode: 'single',
-				store: this.actorStore,
+				collection: new StoreAdapter({objectStore: this.actorController.actorStore}),
 				columns: columns,
-				sort: [
-					{ attribute: 'naam' }
-				],
+                sort: 'naam',
 				loadingMessage: 'laden...',
 				noDataMessage: 'geen resultaten beschikbaar'
 			}, this.gridNode);
@@ -229,11 +229,11 @@ define([
 				if (newValue != this._previousSearchValue) {
 					this._previousSearchValue = newValue;
 					if (newValue === '') {
-						this._grid.set("query", {});
+                        this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
 						this._grid.refresh();
 					}
 					else {
-						this._grid.set("query", {"naam": newValue});
+						this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}).filter({"naam": newValue}));
 						this._grid.refresh();
 					}
 				}
@@ -244,12 +244,12 @@ define([
 		* Het grid zal actoren filteren worden op meegegeven query
 		* @param {object} query bv {naam: 'testpersoon'}
 		*/
-		advSearchFilterGrid: function(query) {
+		advSearchFilterGrid: function(filter) {
 			this.removeSort();
 			this.actorenFilter.value = "";
 			//this._grid.set("store", this.actorStore);
 			//this._store = 'all';
-			this._grid.set("query", query);
+            this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}).filter(filter));
 			//this._grid.refresh();
 		},
 
@@ -257,7 +257,7 @@ define([
 		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
 		*/
 		removeSort: function() {
-			this._grid.set('sort', []);
+			this._grid.set('sort', "");
 		},
 
 		/**
@@ -275,8 +275,7 @@ define([
 		_refresh: function (evt) {
 			evt.preventDefault();
 			this.addSort();
-			this._grid.set("store", this.actorStore);
-			this._grid.set("query", {});
+            this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
 			this.actorenFilter.value = '';
 			this._grid.refresh();
 		},
