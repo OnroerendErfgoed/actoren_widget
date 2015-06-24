@@ -12,8 +12,8 @@
   "dependencies": {
     "dojo": "~1.10.4",
     "dijit": "~1.10.4",
-    "dgrid": "~0.3.17",
+    "dgrid": "~0.4",
     "put-selector": "~0.3.6",
-    "xstyle": "~0.2.1"
+    "xstyle": "~0.3.1"
   }
 }
