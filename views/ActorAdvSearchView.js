@@ -3,14 +3,14 @@
  * @module Actor/actorWidgets/actorAdvSearch/ActorAdvSearchActor
  */
 define([
-	'dojo/text!./templates/ActorAdvSearchActor.html',
+	'dojo/text!./templates/ActorAdvSearchView.html',
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
-	'../CrabWidget',
-	"dojo/dom-construct"
+	'../widgets/CrabWidget',
+	'dojo/dom-construct'
 ], function(
 	template,
 	declare,
@@ -78,7 +78,6 @@ define([
 			evt? evt.preventDefault() : null;
 			var query = this._getSearchParams();
 			this._filterGrid(query);
-			this._openSearch();
 			this._reset();
 		},
 
@@ -132,30 +131,7 @@ define([
 		 * @private
 		 */
 		_filterGrid: function (query) {
-			this.actorWidget._actorSearch.AdvSearchFilterGrid(query);
-		},
-
-		/**
-		 * Event functie waarbij de zoek widget geopend wordt.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_openSearch: function(evt) {
-			evt? evt.preventDefault() : null;
-			this.actorWidget._actorSearch.removeSort();
-			this.actorAdvancedSearch._showSearch();
-			this._reset();
-		},
-
-		/**
-		 * Event functie waarbij de widget geopend wordt om een actor aan te maken.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_showActorCreate: function(evt) {
-			evt.preventDefault();
-			this.actorWidget._actorSearch.addSort();
-			this.actorAdvancedSearch._showActorCreate();
+			this.actorWidget.advSearchFilterGrid(query);
 		},
 
 		/**

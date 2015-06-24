@@ -1,13 +1,4 @@
-<div class="row">
-  <div class="large-12 columns">
-    <header class="clearfix">
-      <h3 class="left " style="margin:6px 20px 0 0">Zoeken in
-        <span data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Verrijkte Kruispunt Bank voor Ondernemingen"></span>VKBO</h3>
-    </header>
-  </div>
-  <div class="large-12 columns">
-    <small class="right">&lsaquo; <a href="#" data-dojo-attach-event="onClick: _openSearch">Terug naar zoeken</a> </small>
-  </div>
+<div>
   <div class="large-12 columns">
     <div class="tabs-content">
       <div class="row">
@@ -28,14 +19,17 @@
                 <label for="persid-${id}">Persoon ID</label>
                 <input data-dojo-attach-point='persid' type="text" id="persid-${id}"/>
               </div>
+              <div class="placeholder-container" tabindex="-1">
+                <label for="rrn-${id}">Rijksregisternummer</label>
+                <input data-dojo-attach-point='rrn' type="text" id="rrn-${id}" />
+              </div>
             </div>
           </form>
         </div>
       </div>
-    </div>
-    <div class="row text-center">
-      <a href="#" class="button tiny" data-dojo-attach-event="onClick: _findVKBO">ZOEKEN</a>
+      <div class="row text-center">
+        <a href="#" class="button tiny" data-dojo-attach-event="onClick: _findVKBP">ZOEKEN</a>
+      </div>
     </div>
   </div>
 </div>
-

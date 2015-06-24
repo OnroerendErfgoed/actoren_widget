@@ -3,12 +3,12 @@
  * @module Actor/actorWidgets/actorDetail/ActorDetail
  */
 define([
-	'dojo/text!./templates/ActorDetail.html',
+	'dojo/text!./templates/ActorDetailView.html',
 	'dojo/_base/declare',
 	'dijit/_WidgetBase',
 	'dijit/_TemplatedMixin',
 	'dijit/_WidgetsInTemplateMixin',
-	'../CrabWidget'
+	'../widgets/CrabWidget'
 ], function(
 	template,
 	declare,
@@ -41,7 +41,14 @@ define([
 			console.log('..ActorDetail::startup', arguments);
 			this.inherited(arguments);
 			this._setCrabWidget();
+      this._setSecurity();
 		},
+
+    _setSecurity: function() {
+      if (!this.actorWidget.canEditActor) {
+        this.editButton.style.display = 'none';
+      }
+    },
 
 		/**
 		 * CrabWidget opstarten.
@@ -80,28 +87,9 @@ define([
 			this.actor = actor;
 		},
 
-		/**
-		 * Event functie waarbij de zoek widget geopend wordt.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_openSearch: function(evt) {
-			evt.preventDefault();
-			this.actorWidget.showSearch();
-			this._reset();
-		},
-
-		/**
-		 * Event functie waarbij de bewerk widget geopend wordt.
-		 * @param {Event} evt
-		 * @private
-		 */
-		_openEdit: function(evt) {
-			evt.preventDefault();
-			this.actorWidget._actorSearch.addSort();
-			this.actorWidget.showEdit(this.actor);
-			this._reset();
-		},
+    _openActorEdit: function() {
+      this.actorWidget.showActorEdit(this.actor);
+    },
 
 		/**
 		 * Reset functie van de detail widget.
@@ -114,7 +102,8 @@ define([
 			this.telefoon.value = '';
 			this.telefoonLandcode.value = '';
 			this._crabWidget.resetValues();
-			this.actortype.value = "1";
+			this.actortype.value = '';
+      this.actor = null;
 		}
 	});
 });

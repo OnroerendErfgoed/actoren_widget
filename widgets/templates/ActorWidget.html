@@ -1,0 +1,54 @@
+<div>
+  <div data-dojo-type="dijit/layout/TabContainer"
+       data-dojo-attach-point="actorTabContainer"
+       data-dojo-props="doLayout:false"
+       class="row viewBody">
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="Overzicht"
+         data-dojo-attach-point="tabOverzicht"
+         data-dojo-props="selected:true">
+      <div data-dojo-attach-point="overzichtNode"></div>
+    </div>
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="Uitgebreid zoeken"
+         data-dojo-attach-point="tabAdvSearch">
+      <div data-dojo-attach-point="advSearchNode"></div>
+    </div>
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="VKBO"
+         data-dojo-attach-point="tabVKBOSearch">
+      <div data-dojo-attach-point="VKBOSearchNode"></div>
+    </div>
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="VKBP"
+         data-dojo-attach-point="tabVKBPSearch">
+      <div data-dojo-attach-point="VKBPSearchNode"></div>
+    </div>
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="Actor Detail"
+         data-dojo-attach-point="tabActorDetail">
+      <div data-dojo-attach-point="actorDetailNode"></div>
+    </div>
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="Actor Edit"
+         data-dojo-attach-point="tabActorEdit">
+      <div data-dojo-attach-point="actorEditNode"></div>
+    </div>
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="Actor Create"
+         data-dojo-attach-point="tabActorCreate">
+      <div data-dojo-attach-point="actorCreateNode"></div>
+    </div>
+  </div>
+  <div data-dojo-attach-point="loadingOverlay" class="pageOverlay">
+    <div class="loadingMessage"></div>
+    <div><i class="fa fa-4x fa-spinner fa-pulse"></i></div>
+  </div>
+</div>
