@@ -224,6 +224,7 @@ define([
         actorStore: this.actorStore
       }, this.overzichtNode);
       this._tabList.overzicht = actorSearchView;
+      this._actorSearch = actorSearchView;
       //this._tabList.onFocus = lang.hitch(actorSearchView, actorSearchView.initialize);
       actorSearchView.startup();
     },
