@@ -87,7 +87,8 @@ define([
 			this.actor = actor;
 		},
 
-    _openActorEdit: function() {
+    _openActorEdit: function(evt) {
+			evt.preventDefault();
       this.actorWidget.showActorEdit(this.actor);
     },
 
