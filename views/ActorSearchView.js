@@ -68,7 +68,8 @@ define([
       this._setSecurity();
 		},
 
-    _createNewActor: function() {
+    _createNewActor: function(evt) {
+			evt.preventDefault();
       this.actorWidget.showActorCreate();
     },
 
