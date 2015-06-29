@@ -522,8 +522,8 @@ define([
 		 * @private
 		 */
 		_save: function(evt) {
+			evt? evt.preventDefault() : null;
 			if (!this._isValid()) {
-				evt? evt.preventDefault() : null;
 				this.actorWidget.emitError({
 					widget: 'ActorCreate',
 					message: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.',
