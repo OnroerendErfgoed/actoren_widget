@@ -601,7 +601,8 @@ define([
 			}
 		},
 
-    _cancel: function () {
+    _cancel: function (evt) {
+			evt.preventDefault();
       this.actorWidget.showActorDetail(null);
       this._reset();
     },
