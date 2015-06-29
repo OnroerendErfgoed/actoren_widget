@@ -294,7 +294,8 @@ define([
 			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController, actorWidget: this.actorWidget}, this.crabWidget);
 		},
 
-    _cancel: function() {
+    _cancel: function(evt) {
+			evt? evt.preventDefault() : null;
       this.actorWidget.showActorSearch();
       this._reset();
     },
