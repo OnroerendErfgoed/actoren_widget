@@ -158,7 +158,7 @@ define([
 				evt.preventDefault();
 				this._emitError(evt)
 			}));
-			this._grid.refresh();
+			//this._grid.refresh();
 
 		},
 
@@ -230,11 +230,11 @@ define([
 					this._previousSearchValue = newValue;
 					if (newValue === '') {
                         this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
-						this._grid.refresh();
+						//this._grid.refresh();
 					}
 					else {
 						this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}).filter({"naam": newValue}));
-						this._grid.refresh();
+						//this._grid.refresh();
 					}
 				}
 			}, 30));
@@ -277,7 +277,7 @@ define([
 			this.addSort();
             this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
 			this.actorenFilter.value = '';
-			this._grid.refresh();
+			//this._grid.refresh();
 		},
 
 		/**
