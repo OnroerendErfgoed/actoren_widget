@@ -608,6 +608,10 @@ define([
       this._clearHighlights();
 		},
 
+    setZoekenWidget: function() {
+      this.adrestypeNode.style.display = "none";
+    },
+
 		/**
 		 * reset functie naar default waarden, land niet meegerekend.
 		 * @private
