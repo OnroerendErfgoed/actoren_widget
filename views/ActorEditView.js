@@ -603,7 +603,7 @@ define([
 
     _cancel: function (evt) {
 			evt.preventDefault();
-      this.actorWidget.showActorDetail(null);
+      this.actorWidget.showActorDetail(this.actor);
       this._reset();
     },
 

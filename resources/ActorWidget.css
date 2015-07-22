@@ -186,3 +186,11 @@
 .actor-widget .dijitTabContainerTop-container {
   height: 420px;
 }
+
+.actorExistsDialog .dgrid {
+  height: 150px;
+}
+
+.actorExistsDialog .viewFooter {
+  margin-top: 20px;
+}
