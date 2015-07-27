@@ -40,7 +40,7 @@ define([
     },
 
     _createActorWidget: function () {
-      var baseUrl= "localhost:6565";
+      var baseUrl= "http://localhost:6565";
 
       this.actorWijStore = new Observable(new JsonRestCors({
         target: baseUrl + '/actoren/wij/',
