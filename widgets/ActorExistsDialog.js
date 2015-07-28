@@ -167,57 +167,72 @@ define([
           // compare emails
           var selectedEmails = selectedActor.emails;
           var newEmailList = [];
-          array.forEach(actorNew.emails, function(newEmail) {
-            array.forEach(selectedEmails, function(selectedEmail) {
-              if ((selectedEmail.email != newEmail.email) || (selectedEmail.type.id != newEmail.type.id)) {
-                newEmailList.push(newEmail);
-              }
+          if (selectedEmails.length > 0) {
+            array.forEach(actorNew.emails, function (newEmail) {
+              array.forEach(selectedEmails, function (selectedEmail) {
+                if ((selectedEmail.email != newEmail.email) || (selectedEmail.type.id != newEmail.type.id)) {
+                  newEmailList.push(newEmail);
+                }
+              });
             });
-          });
-          selectedEmails.push.apply(selectedEmails, newEmailList);
-          selectedActor.emails = selectedEmails;
+            selectedEmails.push.apply(selectedEmails, newEmailList);
+            selectedActor.emails = selectedEmails;
+          } else {
+            selectedActor.emails = actorNew.emails;
+          }
 
           // compare telnr
           var selectedTels = selectedActor.telefoons;
           var newTelList = [];
-          array.forEach(actorNew.telefoons, function(newTel) {
-            array.forEach(selectedTels, function(selectedTel) {
-              if ((selectedTel.landcode != newTel.landcode) || (selectedTel.nummer != newTel.nummer) || (selectedTel.type.id != newTel.type.id)) {
-                newTelList.push(newTel);
-              }
+          if (selectedTels.length > 0) {
+            array.forEach(actorNew.telefoons, function (newTel) {
+              array.forEach(selectedTels, function (selectedTel) {
+                if ((selectedTel.landcode != newTel.landcode) || (selectedTel.nummer != newTel.nummer) || (selectedTel.type.id != newTel.type.id)) {
+                  newTelList.push(newTel);
+                }
+              });
             });
-          });
-          selectedTels.push.apply(selectedTels, newTelList);
-          selectedActor.telefoons = selectedTels;
+            selectedTels.push.apply(selectedTels, newTelList);
+            selectedActor.telefoons = selectedTels;
+          } else {
+            selectedActor.telefoons = actorNew.telefoons;
+          }
 
           // compare websites
           var selectedSites = selectedActor.urls;
           var newUrlList = [];
-          array.forEach(actorNew.urls, function(newUrl) {
-            array.forEach(selectedSites, function(selectedUrl) {
-              if ((selectedUrl.url != newUrl.url) || (selectedUrl.type.id != newUrl.type.id)) {
-                newUrlList.push(newUrl);
-              }
+          if (selectedSites.length > 0) {
+            array.forEach(actorNew.urls, function (newUrl) {
+              array.forEach(selectedSites, function (selectedUrl) {
+                if ((selectedUrl.url != newUrl.url) || (selectedUrl.type.id != newUrl.type.id)) {
+                  newUrlList.push(newUrl);
+                }
+              });
             });
-          });
-          selectedSites.push.apply(selectedSites, newUrlList);
-          selectedActor.urls = selectedSites;
+            selectedSites.push.apply(selectedSites, newUrlList);
+            selectedActor.urls = selectedSites;
+          } else {
+            selectedActor.url = actorNew.urls;
+          }
 
           // compare addresses
           var selectedAddresses = selectedActor.adressen;
           var newAddressList = [];
-          array.forEach(adresNew, function(newAdres) {
-            array.forEach(selectedAddresses, function(selectedAdres) {
-              if ((selectedAdres.gemeente_id != newAdres.gemeente_id) || (selectedAdres.adrestype.id != newAdres.adrestype.id)
+          if (selectedAddresses.length > 0) {
+            array.forEach(adresNew, function (newAdres) {
+              array.forEach(selectedAddresses, function (selectedAdres) {
+                if ((selectedAdres.gemeente_id != newAdres.gemeente_id) || (selectedAdres.adrestype.id != newAdres.adrestype.id)
                   || (selectedAdres.huisnummer_id != newAdres.huisnummer_id) || (selectedAdres.straat_id != newAdres.straat_id)
                   || (selectedAdres.postcode != newAdres.postcode) || (selectedAdres.land != newAdres.land)) {
-                newAddressList.push(newAdres);
-              }
+                  newAddressList.push(newAdres);
+                }
+              });
             });
-          });
-          selectedAddresses.push.apply(selectedAddresses, newAddressList);
-          console.log(selectedAddresses);
-          selectedActor.adressen = selectedAddresses;
+            selectedAddresses.push.apply(selectedAddresses, newAddressList);
+            selectedActor.adressen = selectedAddresses;
+          } else {
+            selectedActor.adressen = adresNew;
+          }
 
           console.debug('merged actor', selectedActor);
           return selectedActor;

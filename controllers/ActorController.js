@@ -116,7 +116,7 @@ define([
       searchParameter += ('&voornaam=' + actor.voornaam);
       searchParameter += ('&email=' + actor.emails[0].email);
       searchParameter += ('&telefoon=' + actor.telefoons[0].landcode + actor.telefoons[0].nummer);
-      searchParameter += ('&gemeente=' + adres.gemeente);
+      searchParameter += ('&gemeente=' + adres[0].gemeente);
       var target = this.actorStore.target + 'gelijkaardig' + searchParameter;
       console.log("check gelijkaardige", target);
       return xhr(target,{

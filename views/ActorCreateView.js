@@ -540,10 +540,10 @@ define([
 			} else {
         this.actorWidget.showLoading("Actor wordt opgeslagen. Even geduld aub..");
 				var actorNew = {};
-				actorNew['naam'] = this.naam.value;
-				actorNew['voornaam'] = this.voornaam.value;
-				actorNew['rrn'] = this.rrn.value;
-				actorNew['kbo'] = this.kbo.value;
+				actorNew['naam'] = this.naam.value.trim();
+				actorNew['voornaam'] = this.voornaam.value.trim();
+				actorNew['rrn'] = this.rrn.value.trim();
+				actorNew['kbo'] = this.kbo.value.trim();
 				actorNew['type'] = {id: this.type.value};
 				//this._addEmail();
 				actorNew['emails'] = this._actorEmails;
