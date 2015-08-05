@@ -338,6 +338,8 @@ define([
 		 */
 		_setValidationMessageMapping: function () {
 			this._validationMessageMapping = {
+				naam: "Naam is verplicht. Gelieve een geldige naam in te vullen.",
+				voornaam: "Naam is verplicht. Gelieve een geldige voornaam in te vullen.",
 				email: "De waarde is niet volgens het geldig email formaat.",
 				telefoon: "De waarde is niet volgens het geldig telefoon formaat.",
 				url: "De waarde is niet volgens het geldig url formaat.",
@@ -436,7 +438,7 @@ define([
 		 * @private
 		 */
 		_resetValidity: function () {
-			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation];
 			inputs.forEach(lang.hitch(this, function(input){
 				input.setCustomValidity('');
@@ -450,7 +452,7 @@ define([
 		 */
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
