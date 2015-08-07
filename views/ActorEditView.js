@@ -100,6 +100,7 @@ define([
 		 * @param {Object} actor
 		 */
 		setActor: function(actor) {
+            this._reset();
 			this.naam.value = actor.naam;
 			this.voornaam.value = actor.voornaam;
 
