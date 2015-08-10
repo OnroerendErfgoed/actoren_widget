@@ -59,7 +59,7 @@ define([
       var target = this.actorStore.target + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
       return xhr(target,{
-        withCredentials: true,
+        withCredentials: false,
         handleAs: "json",
         method:"POST",
         data: JSON.stringify(adres),
@@ -75,7 +75,7 @@ define([
     editActorAdres:function(adres,actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter;
       return xhr(target,{
-        withCredentials: true,
+        withCredentials: false,
         handleAs: "json",
         method:"PUT",
         data: JSON.stringify(adres),
@@ -90,7 +90,7 @@ define([
     deleteActorAdres:function(adresId, actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter + "/" + adresId;
       return xhr(target,{
-        withCredentials: true,
+        withCredentials: false,
         handleAs: "json",
         method:"DELETE",
         headers: {
