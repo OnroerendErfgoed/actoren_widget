@@ -9,6 +9,7 @@ require([
 	JsonRestCors
 ) {
 	var baseUrl= "http://localhost:6565";
+	var ssoToken = 'u2_654897';
 
 	var actorWijStore = new Observable(new JsonRestCors({
 		target: baseUrl + '/actoren/wij/',
@@ -16,7 +17,8 @@ require([
 		idProperty: 'id',
 		headers: {
 			"X-Requested-With": "",
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+			"OpenAmSSOID": ssoToken
 		}
 	}));
 
@@ -26,7 +28,8 @@ require([
 		idProperty: 'id',
 		headers: {
 			"X-Requested-With": "",
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+			"OpenAmSSOID": ssoToken
 		}
 	}));
 

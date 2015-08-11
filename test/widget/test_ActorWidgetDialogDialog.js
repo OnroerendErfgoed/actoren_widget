@@ -41,6 +41,7 @@ define([
 
     _createActorWidget: function () {
       var baseUrl= "http://localhost:6565";
+      var ssoToken = 'u2_654897';
 
       this.actorWijStore = new Observable(new JsonRestCors({
         target: baseUrl + '/actoren/wij/',
@@ -48,7 +49,8 @@ define([
         idProperty: 'id',
         headers: {
           "X-Requested-With": "",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "OpenAmSSOID": ssoToken
         }
       }));
 
@@ -58,7 +60,8 @@ define([
         idProperty: 'id',
         headers: {
           "X-Requested-With": "",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "OpenAmSSOID": ssoToken
         }
       }));
 
