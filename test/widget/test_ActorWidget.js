@@ -14,7 +14,6 @@ require([
 		target: baseUrl + '/actoren/wij/',
 		sortParam: 'sort',
 		idProperty: 'id',
-		withCredentials: true,
 		headers: {
 			"X-Requested-With": "",
 			"Content-Type": "application/json"
@@ -25,7 +24,6 @@ require([
 		target: baseUrl + '/actoren/',
 		sortParam: 'sort',
 		idProperty: 'id',
-		withCredentials: true,
 		headers: {
 			"X-Requested-With": "",
 			"Content-Type": "application/json"

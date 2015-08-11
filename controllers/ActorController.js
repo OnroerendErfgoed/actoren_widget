@@ -59,7 +59,6 @@ define([
       var target = this.actorStore.target + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
       return xhr(target,{
-        withCredentials: true,
         handleAs: "json",
         method:"POST",
         data: JSON.stringify(adres),
@@ -75,7 +74,6 @@ define([
     editActorAdres:function(adres,actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter;
       return xhr(target,{
-        withCredentials: true,
         handleAs: "json",
         method:"PUT",
         data: JSON.stringify(adres),
@@ -90,7 +88,6 @@ define([
     deleteActorAdres:function(adresId, actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter + "/" + adresId;
       return xhr(target,{
-        withCredentials: true,
         handleAs: "json",
         method:"DELETE",
         headers: {
@@ -120,7 +117,6 @@ define([
       var target = this.actorStore.target + 'gelijkaardig' + searchParameter;
       console.log("check gelijkaardige", target);
       return xhr(target,{
-        withCredentials: true,
         handleAs: "json",
         method:"GET",
         headers: {
