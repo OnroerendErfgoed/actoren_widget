@@ -6,13 +6,13 @@
           <form style="padding-top:10px">
             <input type="submit" data-dojo-attach-point="reportValidity" style="display:none">
             <div class="large-4 columns">
-              <div class="placeholder-container placeholder-disabled" tabindex="-1">
+              <div class="placeholder-container" tabindex="-1">
                 <label for="naam-${id}">Naam</label>
-                <input data-dojo-attach-point='naam' id="naam-${id}" type="text" disabled/>
+                <input data-dojo-attach-point='naam' id="naam-${id}" type="text" pattern=".{1,255}" required/>
               </div>
-              <div class="placeholder-container placeholder-disabled" tabindex="-1">
+              <div class="placeholder-container" tabindex="-1">
                 <label for="voornaam-${id}">Voornaam</label>
-                <input data-dojo-attach-point='voornaam' id="voornaam-${id}" type="text" disabled/>
+                <input data-dojo-attach-point='voornaam' id="voornaam-${id}" pattern=".{1,100}" type="text" required/>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="email-${id}">Email</label>
@@ -39,9 +39,9 @@
             </div>
 
             <div class="large-4 columns">
-              <div class="placeholder-container placeholder-disabled" tabindex="-1">
+              <div class="placeholder-container" tabindex="-1">
                 <label for="actortype-${id}">Actortype</label>
-                <input data-dojo-attach-point='actortype' id="actortype-${id}" type="text" disabled/>
+                <input data-dojo-attach-point='actortype' id="actortype-${id}" type="text"/>
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="url-${id}">URL</label>
