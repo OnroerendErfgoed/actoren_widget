@@ -38,6 +38,7 @@ require([
 		actorStore: actorStore,
     canCreateActor: true,
     canEditActor: true,
+		ssoToken: this.ssoToken,
 		actorCategories: {
 			actoren: true,
 			vkbo: false,
