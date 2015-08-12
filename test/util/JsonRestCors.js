@@ -106,7 +106,7 @@ return declare("dojo.store.JsonRestCors", base, {
 			url: this._getTarget(id),
 			handleAs: "json",
 			headers: headers,
-            withCredentials:this.withCredentials
+            //withCredentials:this.withCredentials
 		});
 	},
 
@@ -135,7 +135,7 @@ return declare("dojo.store.JsonRestCors", base, {
 		var headers = lang.mixin({ Accept: this.accepts }, this.headers, options.headers || options);
 		return xhr("PUT", {
 				url: this.target,
-                withCredentials:this.withCredentials,
+                //withCredentials:this.withCredentials,
 				postData: JSON.stringify(object),
 				handleAs: "json",
 				headers:headers
@@ -154,7 +154,7 @@ return declare("dojo.store.JsonRestCors", base, {
 		var headers = lang.mixin({ Accept: this.accepts }, this.headers, options.headers || options);
 		return xhr("POST", {
 				url: this.target,
-                withCredentials:this.withCredentials,
+                //withCredentials:this.withCredentials,
 				postData: JSON.stringify(object),
 				handleAs: "json",
 				headers:headers
@@ -176,7 +176,7 @@ return declare("dojo.store.JsonRestCors", base, {
 		var hasId = typeof id != "undefined";
 		return xhr(hasId && !options.incremental ? "PUT" : "POST", {
 				url: this._getTarget(id),
-                withCredentials:this.withCredentials,
+                //withCredentials:this.withCredentials,
 				postData: JSON.stringify(object),
 				handleAs: "json",
 				headers: lang.mixin({
@@ -212,7 +212,7 @@ return declare("dojo.store.JsonRestCors", base, {
 		options = options || {};
 		return xhr("DELETE", {
 			url: this._getTarget(id),
-            withCredentials:this.withCredentials,
+            //withCredentials:this.withCredentials,
 			headers: lang.mixin({}, this.headers, options.headers)
 		});
 	},
@@ -260,7 +260,7 @@ return declare("dojo.store.JsonRestCors", base, {
 		}
 		var results = xhr("GET", {
 			url: this.target + (query || ""),
-            withCredentials:this.withCredentials,
+            //withCredentials:this.withCredentials,
 			handleAs: "json",
 			headers: headers
 		});

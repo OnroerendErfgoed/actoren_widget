@@ -100,6 +100,7 @@ define([
 		 * @param {Object} actor
 		 */
 		setActor: function(actor) {
+            this._reset();
 			this.naam.value = actor.naam;
 			this.voornaam.value = actor.voornaam;
 
@@ -107,15 +108,21 @@ define([
 				this._index++;
 				email['id'] = this._index.toString();
 				this._actorEmails.push(email);
-				this._createListItem(this._index, email.email, email.type.naam, this.emaillist, this._removeEmail);
+				var type = this.actorWidget.typeLists.emailTypes.filter(lang.hitch(this, function(type) {
+					return (type.id == email.type.id);
+        }));
+				this._createListItem(this._index, email.email, type[0].naam, this.emaillist, this._removeEmail);
 			}));
 
 			actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
 				this._index++;
 				telefoon['id'] = this._index.toString();
 				this._actorTelefoons.push(telefoon);
+				var type = this.actorWidget.typeLists.telephoneTypes.filter(lang.hitch(this, function(type) {
+					return (type.id == telefoon.type.id);
+        }));
 				var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
-				this._createListItem(this._index, telefoonvalue, telefoon.type.naam, this.telefoonlist, this._removeTelefoon);
+				this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlist, this._removeTelefoon);
 			}));
 
 			/*if (actor.adres) {
@@ -130,7 +137,10 @@ define([
 				this._index++;
 				url['id'] = this._index.toString();
 				this._actorUrls.push(url);
-				this._createListItem(this._index, url.url, url.type.naam, this.urllist, this._removeUrl);
+				var type = this.actorWidget.typeLists.urlTypes.filter(lang.hitch(this, function(type) {
+					return (type.id == url.type.id);
+        }));
+				this._createListItem(this._index, url.url, type[0].naam, this.urllist, this._removeUrl);
 			}));
 			this.actor = actor;
 		},
@@ -605,7 +615,7 @@ define([
 
     _cancel: function (evt) {
 			evt.preventDefault();
-      this.actorWidget.showActorDetail(null);
+      this.actorWidget.showActorDetail(this.actor);
       this._reset();
     },
 

@@ -15,7 +15,8 @@ define([
 	'dojo/dom-class',
 	'dojo/dom-construct',
   'dojo/_base/array',
-  'dojo/promise/all'
+  'dojo/promise/all',
+  '../widgets/ActorExistsDialog'
 ], function(
 	dojo,
 	template,
@@ -29,7 +30,8 @@ define([
 	domClass,
 	domConstruct,
   array,
-  all
+  all,
+	ActorExistsDialog
 ) {
 	return declare([_WidgetBase, _TemplatedMixin], {
 
@@ -524,6 +526,11 @@ define([
 		 */
 		_save: function(evt) {
 			evt? evt.preventDefault() : null;
+
+			this._addEmail();
+			this._addTelefoon();
+			this._addUrl();
+
 			if (!this._isValid()) {
 				this.actorWidget.emitError({
 					widget: 'ActorCreate',
@@ -533,58 +540,91 @@ define([
 			} else {
         this.actorWidget.showLoading("Actor wordt opgeslagen. Even geduld aub..");
 				var actorNew = {};
-				actorNew['naam'] = this.naam.value;
-				actorNew['voornaam'] = this.voornaam.value;
-				actorNew['rrn'] = this.rrn.value;
-				actorNew['kbo'] = this.kbo.value;
+				actorNew['naam'] = this.naam.value.trim();
+				actorNew['voornaam'] = this.voornaam.value.trim();
+				actorNew['rrn'] = this.rrn.value.trim();
+				actorNew['kbo'] = this.kbo.value.trim();
 				actorNew['type'] = {id: this.type.value};
-				this._addEmail();
+				//this._addEmail();
 				actorNew['emails'] = this._actorEmails;
-				this._addTelefoon();
+				//this._addTelefoon();
 				actorNew['telefoons'] = this._actorTelefoons;
-				this._addUrl();
+				//this._addUrl();
 				actorNew['urls'] = this._actorUrls;
 
+				//this._crabWidget._addAddress();
 				var crabWidgetValues = this._crabWidget.getInputNew();
 
-				this.actorWidget.actorController.saveActor(actorNew).then(
-					lang.hitch(this, function(response) {
-						var actor = response;
-            var promises = [];
-            array.forEach(crabWidgetValues, lang.hitch(this, function(adres) {
-              adres.id = null;
-              var prom = this.actorWidget.actorController.saveActorAdres(adres, actor.id);
-              promises.push(prom);
-            }));
-						all(promises).then(
-              lang.hitch(this, function (response) {
-								actor.adres = response[0];
-								this._addNewTag(actor.id);
-								this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
-                this.actorWidget.hideLoading();
-							}),
-							lang.hitch(this, function (error) {
-                  console.log("error: ", error);
-                  this.actorWidget.hideLoading();
-									this.actorWidget.emitError({
-										widget: 'ActorCreate',
-										message: 'Bewaren van het adres van de nieuwe actor is mislukt',
-										error: error
-									})
-								}
-							));
-					}),
-					lang.hitch(this, function(error) {
-            this.actorWidget.hideLoading();
-						this.actorWidget.emitError({
-							widget: 'ActorCreate',
-							message: 'Bewaren van de nieuwe actor is mislukt',
-							error: error
-						})
-					})
-				);
+				if(this._checkActorExists(actorNew, crabWidgetValues)){
+					this.actorWidget.hideLoading();
+				} else {
+					this._doSave(actorNew, crabWidgetValues);
+				};
 			}
 		},
+
+		_doSave: function(actorNew, crabWidgetValues) {
+			console.log('do save')
+			this.actorWidget.actorController.saveActor(actorNew).then(
+				lang.hitch(this, function (response) {
+					var actor = response;
+					var promises = [];
+					array.forEach(crabWidgetValues, lang.hitch(this, function (adres) {
+						adres.id = null;
+						var prom = this.actorWidget.actorController.saveActorAdres(adres, actor.id);
+						promises.push(prom);
+					}));
+					all(promises).then(
+						lang.hitch(this, function (response) {
+							actor.adres = response[0];
+							console.log("saved?", actor);
+							this._addNewTag(actor.id);
+							this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
+							this.actorWidget.hideLoading();
+						}),
+						lang.hitch(this, function (error) {
+								console.log("error: ", error);
+								this.actorWidget.hideLoading();
+								this.actorWidget.emitError({
+									widget: 'ActorCreate',
+									message: 'Bewaren van het adres van de nieuwe actor is mislukt',
+									error: error
+								})
+							}
+						));
+				}),
+				lang.hitch(this, function (error) {
+					this.actorWidget.hideLoading();
+					this.actorWidget.emitError({
+						widget: 'ActorCreate',
+						message: 'Bewaren van de nieuwe actor is mislukt',
+						error: error
+					})
+				})
+			);
+		},
+
+		_checkActorExists: function(actor, adressen) {
+      var actorExists = true;
+			this.actorWidget.actorController.gelijkaardigeActors(actor, adressen).then(lang.hitch(this, function(data) {
+        if (data.length == 0) {
+          actorExists = false;
+        }
+        else {
+          console.log('new dialog');
+          this.existsDialog = new ActorExistsDialog({
+						actorWidget: this.actorWidget,
+            actoren: data,
+						parent: this,
+						checkActor: actor,
+						checkAdressen: adressen,
+						canSelect: true
+          });
+          this.existsDialog.startup();
+        }
+      }));
+      return actorExists;
+    },
 
 		/**
 		 * De nieuw toegevoegde actor weergeven in de detail widget.
@@ -593,8 +633,9 @@ define([
 		 * @private
 		 */
 		_findNewActor: function(actor) {
-			var query = {query:'id:' +actor.id};
+			var query = {query:'id:' + actor.id};
 			this._filterGrid(query);
+			console.log('filtered', query, actor);
 			this._reset();
 			this.actorWidget.showActorDetail(actor);
 		},
