@@ -70,7 +70,7 @@ define([
         actorStore: this.actorStore,
         canCreateActor: true,
         canEditActor: true,
-        ssoToken: this.ssoToken,
+        ssoToken: ssoToken,
         actorCategories: {
           actoren: true,
           vkbo: false,

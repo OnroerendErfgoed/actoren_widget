@@ -35,7 +35,7 @@ require([
     actorWijStore: actorWijStore,
     actorStore: actorStore,
 		crabHost: "http://localhost:6543/",
-    ssoToken: this.ssoToken
+    ssoToken: ssoToken
   }, 'widgetNode');
   actorWidget.startup();
 
