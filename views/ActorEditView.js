@@ -38,9 +38,9 @@ define([
 		actorWidget: null,
 		_telefoonLandcodeSelect: null,
 
-		_actorTelefoons: [],
-		_actorEmails: [],
-		_actorUrls: [],
+		_actorTelefoons: null,
+		_actorEmails: null,
+		_actorUrls: null,
 		_index: 0,
 
 		/**
@@ -49,6 +49,9 @@ define([
 		postCreate: function() {
 			console.log('..ActorEdit::postCreate', arguments);
 			this.inherited(arguments);
+      this._actorTelefoons = [];
+      this._actorEmails = [];
+      this._actorUrls = [];
 		},
 
 		/**
