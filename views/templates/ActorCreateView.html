@@ -7,17 +7,17 @@
             <input type="submit" data-dojo-attach-point="reportValidity" style="display:none">
             <div class="large-4 columns">
               <div class="placeholder-container" tabindex="-1">
-                <label for="naam-${id}">*Naam</label>
+                <label for="naam-${id}">* Naam</label>
                 <input data-dojo-attach-point='naam' id="naam-${id}" type="text" pattern=".{1,255}" required />
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="voornaam-${id}">Voornaam</label>
-                <input data-dojo-attach-point='voornaam' id="voornaam-${id}" pattern=".{1,100}" type="text" required/>
+                <input data-dojo-attach-point='voornaam' id="voornaam-${id}" pattern=".{1,100}" type="text" />
               </div>
               <div class="placeholder-container" tabindex="-1">
                 <label for="email-${id}">Email</label>
                 <input data-dojo-attach-point='email' id="email-${id}" type="text" style="width:60%; float:left;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
-                <select id="emailtype" data-dojo-attach-point='emailtypes' style="width:30%; float:left" class="placeholder-input-border">
+                <select id="emailtype-${id}" data-dojo-attach-point='emailtypes' style="width:30%; float:left" class="placeholder-input-border">
                 </select>
                 <a href="#" data-dojo-attach-event="onClick: _addEmail" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
               </div>
@@ -49,7 +49,7 @@
               </div>
               <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='rrnNode'>
                 <label for="rrn-${id}">Rijksregisternummer</label>
-                <input data-dojo-attach-point='rrn' type="text" id="rrn-${id}" required/>
+                <input data-dojo-attach-point='rrn' type="text" id="rrn-${id}" />
               </div>
               <div class="placeholder-container placeholder-disabled" tabindex="-1" data-dojo-attach-point='kboNode'>
                 <label for="kbo-${id}" data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Kruispuntbank voor Ondernemingen">KBO</label>

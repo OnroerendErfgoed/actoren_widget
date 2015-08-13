@@ -14,9 +14,9 @@ define([
 	'../widgets/CrabWidget',
 	'dojo/dom-class',
 	'dojo/dom-construct',
-  'dojo/_base/array',
-  'dojo/promise/all',
-  '../widgets/ActorExistsDialog'
+	'dojo/_base/array',
+	'dojo/promise/all',
+	'../widgets/ActorExistsDialog'
 ], function(
 	dojo,
 	template,
@@ -29,23 +29,23 @@ define([
 	CrabWidget,
 	domClass,
 	domConstruct,
-  array,
-  all,
+	array,
+	all,
 	ActorExistsDialog
 ) {
 	return declare([_WidgetBase, _TemplatedMixin], {
 
 		templateString: template,
 		baseClass: 'actor-widget',
-    widgetsInTemplate: true,
+		widgetsInTemplate: true,
 		actor: null,
 		actorWidget: null,
 		actorAdvancedSearch : null,
 		_telefoonLandcodeSelect: null,
 
-		_actorTelefoons: [],
-		_actorEmails: [],
-		_actorUrls: [],
+		_actorTelefoons: null,
+		_actorEmails: null,
+		_actorUrls: null,
 		_index: 0,
 
 		/**
@@ -53,6 +53,9 @@ define([
 		 */
 		postCreate: function() {
 			console.log('...ActorCreateActor::postCreate', arguments);
+      this._actorTelefoons = [];
+      this._actorEmails = [];
+      this._actorUrls = [];
 			this.inherited(arguments);
 		},
 
@@ -296,11 +299,11 @@ define([
 			this._crabWidget = new CrabWidget({crabController: this.actorWidget.crabController, actorWidget: this.actorWidget}, this.crabWidget);
 		},
 
-    _cancel: function(evt) {
+		_cancel: function(evt) {
 			evt? evt.preventDefault() : null;
-      this.actorWidget.showActorSearch();
-      this._reset();
-    },
+			this.actorWidget.showActorSearch();
+			this._reset();
+		},
 
 		/**
 		 * Reset functie van de aanmaak actor widget.
@@ -501,7 +504,7 @@ define([
 		 */
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.naam, this.voornaam, this.email, this.url];
+			var inputs = [this.naam, this.email, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
 					valid = lang.hitch(this, this._setCustomValidity)(input, valid);
@@ -510,9 +513,6 @@ define([
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.kbo, valid, this._kboValidation());
 			valid = lang.hitch(this, this._setCustomValidity)(this.rrn, valid, this._rrnValidation());
-      if (this._crabWidget.getInput().length <= 0) {
-        valid = false;
-      }
 
 			return valid
 
@@ -527,6 +527,11 @@ define([
 		_save: function(evt) {
 			evt? evt.preventDefault() : null;
 
+			this.naam.value = this.naam.value.trim();
+			this.voornaam.value = this.voornaam.value.trim();
+			this.rrn.value = this.rrn.value.trim();
+			this.kbo.value = this.kbo.value.trim();
+
 			this._addEmail();
 			this._addTelefoon();
 			this._addUrl();
@@ -538,33 +543,28 @@ define([
 					error: 'Input waarden om een nieuwe actor aan te maken, zijn incorrect.'
 				})
 			} else {
-        this.actorWidget.showLoading("Actor wordt opgeslagen. Even geduld aub..");
+				this.actorWidget.showLoading("Actor wordt opgeslagen. Even geduld aub..");
 				var actorNew = {};
-				actorNew['naam'] = this.naam.value.trim();
-				actorNew['voornaam'] = this.voornaam.value.trim();
-				actorNew['rrn'] = this.rrn.value.trim();
-				actorNew['kbo'] = this.kbo.value.trim();
-				actorNew['type'] = {id: this.type.value};
-				//this._addEmail();
-				actorNew['emails'] = this._actorEmails;
-				//this._addTelefoon();
-				actorNew['telefoons'] = this._actorTelefoons;
-				//this._addUrl();
-				actorNew['urls'] = this._actorUrls;
 
-				//this._crabWidget._addAddress();
+				actorNew['naam'] = this.naam.value;
+				actorNew['voornaam'] = this.voornaam.value;
+				actorNew['rrn'] = this.rrn.value;
+				actorNew['kbo'] = this.kbo.value;
+        actorNew['type'] = {id: this.type.value};
+				actorNew['emails'] = this._actorEmails;
+				actorNew['telefoons'] = this._actorTelefoons;
+				actorNew['urls'] = this._actorUrls;
 				var crabWidgetValues = this._crabWidget.getInputNew();
 
 				if(this._checkActorExists(actorNew, crabWidgetValues)){
 					this.actorWidget.hideLoading();
 				} else {
 					this._doSave(actorNew, crabWidgetValues);
-				};
+				}
 			}
 		},
 
 		_doSave: function(actorNew, crabWidgetValues) {
-			console.log('do save')
 			this.actorWidget.actorController.saveActor(actorNew).then(
 				lang.hitch(this, function (response) {
 					var actor = response;
@@ -605,26 +605,26 @@ define([
 		},
 
 		_checkActorExists: function(actor, adressen) {
-      var actorExists = true;
+			var actorExists = true;
 			this.actorWidget.actorController.gelijkaardigeActors(actor, adressen).then(lang.hitch(this, function(data) {
-        if (data.length == 0) {
-          actorExists = false;
-        }
-        else {
-          console.log('new dialog');
-          this.existsDialog = new ActorExistsDialog({
+				if (data.length == 0) {
+					actorExists = false;
+				}
+				else {
+					console.log('new dialog');
+					this.existsDialog = new ActorExistsDialog({
 						actorWidget: this.actorWidget,
-            actoren: data,
+						actoren: data,
 						parent: this,
 						checkActor: actor,
 						checkAdressen: adressen,
 						canSelect: true
-          });
-          this.existsDialog.startup();
-        }
-      }));
-      return actorExists;
-    },
+					});
+					this.existsDialog.startup();
+				}
+			}));
+			return actorExists;
+		},
 
 		/**
 		 * De nieuw toegevoegde actor weergeven in de detail widget.

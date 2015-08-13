@@ -109,11 +109,11 @@ define([
 
     gelijkaardigeActors: function (actor, adres) {
       var searchParameter = '?';
-      searchParameter += ('naam=' + actor.naam);
-      searchParameter += ('&voornaam=' + actor.voornaam);
-      searchParameter += ('&email=' + actor.emails[0].email);
-      searchParameter += ('&telefoon=' + actor.telefoons[0].landcode + actor.telefoons[0].nummer);
-      searchParameter += ('&gemeente=' + adres[0].gemeente);
+      if (actor.naam) searchParameter += ('naam=' + actor.naam);
+      if (actor.voornaam) searchParameter += ('&voornaam=' + actor.voornaam);
+      if (actor.emails && actor.emails.length > 0) searchParameter += ('&email=' + actor.emails[0].email);
+      if (actor.telefoons && actor.telefoons.length > 0) searchParameter += ('&telefoon=' + actor.telefoons[0].landcode + actor.telefoons[0].nummer);
+      if (actor.adres && actor.adres.length > 0) searchParameter += ('&gemeente=' + adres[0].gemeente);
       var target = this.actorStore.target + 'gelijkaardig' + searchParameter;
       console.log("check gelijkaardige", target);
       return xhr(target,{
