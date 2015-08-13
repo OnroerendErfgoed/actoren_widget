@@ -43,9 +43,9 @@ define([
 		actorAdvancedSearch : null,
 		_telefoonLandcodeSelect: null,
 
-		_actorTelefoons: [],
-		_actorEmails: [],
-		_actorUrls: [],
+		_actorTelefoons: null,
+		_actorEmails: null,
+		_actorUrls: null,
 		_index: 0,
 
 		/**
@@ -53,6 +53,9 @@ define([
 		 */
 		postCreate: function() {
 			console.log('...ActorCreateActor::postCreate', arguments);
+      this._actorTelefoons = [];
+      this._actorEmails = [];
+      this._actorUrls = [];
 			this.inherited(arguments);
 		},
 
@@ -524,6 +527,11 @@ define([
 		_save: function(evt) {
 			evt? evt.preventDefault() : null;
 
+			this.naam.value = this.naam.value.trim();
+			this.voornaam.value = this.voornaam.value.trim();
+			this.rrn.value = this.rrn.value.trim();
+			this.kbo.value = this.kbo.value.trim();
+
 			this._addEmail();
 			this._addTelefoon();
 			this._addUrl();
@@ -537,31 +545,26 @@ define([
 			} else {
 				this.actorWidget.showLoading("Actor wordt opgeslagen. Even geduld aub..");
 				var actorNew = {};
-				actorNew['naam'] = this.naam.value.trim();
-				actorNew['voornaam'] = this.voornaam.value.trim();
-				actorNew['rrn'] = this.rrn.value.trim();
-				actorNew['kbo'] = this.kbo.value.trim();
-				actorNew['type'] = {id: this.type.value};
-				//this._addEmail();
-				actorNew['emails'] = this._actorEmails;
-				//this._addTelefoon();
-				actorNew['telefoons'] = this._actorTelefoons;
-				//this._addUrl();
-				actorNew['urls'] = this._actorUrls;
 
-				//this._crabWidget._addAddress();
+				actorNew['naam'] = this.naam.value;
+				actorNew['voornaam'] = this.voornaam.value;
+				actorNew['rrn'] = this.rrn.value;
+				actorNew['kbo'] = this.kbo.value;
+        actorNew['type'] = {id: this.type.value};
+				actorNew['emails'] = this._actorEmails;
+				actorNew['telefoons'] = this._actorTelefoons;
+				actorNew['urls'] = this._actorUrls;
 				var crabWidgetValues = this._crabWidget.getInputNew();
 
 				if(this._checkActorExists(actorNew, crabWidgetValues)){
 					this.actorWidget.hideLoading();
 				} else {
 					this._doSave(actorNew, crabWidgetValues);
-				};
+				}
 			}
 		},
 
 		_doSave: function(actorNew, crabWidgetValues) {
-			console.log('do save')
 			this.actorWidget.actorController.saveActor(actorNew).then(
 				lang.hitch(this, function (response) {
 					var actor = response;
