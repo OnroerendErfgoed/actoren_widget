@@ -85,6 +85,10 @@ define([
 				selected = type.naam === 'website' ? '" selected': '"';
 				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.urltypes);
 			}));
+			this.actorWidget.typeLists.actorTypes.forEach(lang.hitch(this, function(type){
+				selected = type.naam === 'persoon' ? '" selected': '"';
+				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.actortype);
+			}));
 		},
 
 		/**
@@ -131,7 +135,7 @@ define([
       if (actor.adressen) {
         this._crabWidget.setValuesList(actor.adressen);
       }
-			this.actortype.value  = actor.type.naam;
+			this.actortype.value  = actor.type.id;
 
 			actor.urls.forEach(lang.hitch(this, function(url) {
 				this._index++;
