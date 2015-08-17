@@ -28,7 +28,7 @@ define([
     widgetsInTemplate: true,
     actor: null,
     actorWidget: null,
-    _index: 0,
+    _index: 100,
 
     /**
      * Standaard widget functie.
@@ -69,10 +69,9 @@ define([
      */
     setActor: function(actor) {
       // clear list of url/mail/tel
-      domConstruct.empty(this.emaillist);
-      domConstruct.empty(this.telefoonlist);
-      domConstruct.empty(this.urllist);
-      console.log(actor);
+      domConstruct.empty(this.emaillistDetail);
+      domConstruct.empty(this.telefoonlistDetail);
+      domConstruct.empty(this.urllistDetail);
       this.naam.value = actor.naam;
       this.voornaam.value = actor.voornaam;
       var email = actor.emails.filter(function(email){
@@ -95,7 +94,7 @@ define([
         var type = this.actorWidget.typeLists.emailTypes.filter(lang.hitch(this, function(type) {
           return (type.id == email.type.id);
         }));
-        this._createListItem(this._index, email.email, type[0].naam, this.emaillist);
+        this._createListItem(this._index, email.email, type[0].naam, this.emaillistDetail);
       }));
 
       actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
@@ -105,7 +104,7 @@ define([
           return (type.id == telefoon.type.id);
         }));
         var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
-        this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlist);
+        this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlistDetail);
       }));
 
       actor.urls.forEach(lang.hitch(this, function(url) {
@@ -114,7 +113,7 @@ define([
         var type = this.actorWidget.typeLists.urlTypes.filter(lang.hitch(this, function(type) {
           return (type.id == url.type.id);
         }));
-        this._createListItem(this._index, url.url, type[0].naam, this.urllist);
+        this._createListItem(this._index, url.url, type[0].naam, this.urllistDetail);
       }));
 
       this.telefoon.value  = telefoon.length ? telefoon[0].nummer : null;
