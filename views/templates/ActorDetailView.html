@@ -17,11 +17,15 @@
                 <label for="email-${id}">Email</label>
                 <input data-dojo-attach-point='email' id="email-${id}" type="text" disabled/>
               </div>
+              <ul data-dojo-attach-point="emaillistDetail" class="nodisk list-selected-items">
+              </ul>
               <div class="placeholder-container placeholder-disabled" tabindex="-1">
                 <label for="telefoonlandcode-${id}">Telefoon</label>
                 <input style="width: 30%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode-${id}" type="text" disabled />
                 <input style="width: 70%" data-dojo-attach-point='telefoon' id="telefoon-${id}" type="text" disabled />
               </div>
+              <ul data-dojo-attach-point="telefoonlistDetail" class="nodisk list-selected-items">
+              </ul>
             </div>
 
             <div class="large-4 columns">
@@ -37,6 +41,8 @@
                 <label for="url-${id}">URL</label>
                 <input data-dojo-attach-point='url' id="url-${id}" type="text" disabled/>
               </div>
+              <ul data-dojo-attach-point="urllistDetail" class="nodisk list-selected-items">
+              </ul>
             </div>
 
           </form>

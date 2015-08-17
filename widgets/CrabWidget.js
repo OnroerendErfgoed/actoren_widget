@@ -51,9 +51,9 @@ define([
 		_gemeentePrev: null,
 		_straatPrev: null,
 
-    _crabAddresses: [],
-    _crabAddressesRemove: [],
-    _crabAddressesNew: [],
+    _crabAddresses: null,
+    _crabAddressesRemove: null,
+    _crabAddressesNew: null,
     _adresIndex: 100,
 
 		/**
@@ -63,8 +63,11 @@ define([
 		postCreate: function() {
 			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
+			_crabAddresses = [];
+			_crabAddressesRemove = [];
+			_crabAddressesNew = [];
 			this._setLandenList();
-      this._setSelectLists();
+			this._setSelectLists();
 			this._setGemeentenCombo();
 			this._setPostcodesCombo();
 			this._setStratenCombo();
