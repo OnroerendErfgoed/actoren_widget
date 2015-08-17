@@ -107,7 +107,7 @@ define([
 		 * @param {Object} actor
 		 */
 		setActor: function(actor) {
-            this._reset();
+      this._reset();
 			this.naam.value = actor.naam;
 			this.voornaam.value = actor.voornaam;
 
@@ -323,6 +323,9 @@ define([
 		 * @private
 		 */
 		_reset: function() {
+			domConstruct.empty(this.emaillist);
+      domConstruct.empty(this.telefoonlist);
+      domConstruct.empty(this.urllist);
 			this.naam.value = '';
 			this.voornaam.value = '';
 			this.email.value=  '';
@@ -506,7 +509,6 @@ define([
 			} else {
         this.actorWidget.showLoading("Actor wordt opgeslagen. Even geduld aub..");
 				var actorEdit = this.actor;
-
 				actorEdit['naam'] = this.naam.value;
 				actorEdit['voornaam'] = this.voornaam.value;
         actorEdit['type'] = {id: this.actortype.value};
@@ -517,17 +519,20 @@ define([
 				var crabWidgetValuesNew = this._crabWidget.getInputNew();
         var crabWidgetValuesRemove = this._crabWidget.getInputRemove();
         var crabWidgetValues = this._crabWidget.getInput();
+        actorEdit['adres'] = crabWidgetValues[0];
 
         crabWidgetValuesRemove = crabWidgetValuesRemove.filter(lang.hitch(this, function(object){
           return (array.indexOf(crabWidgetValuesNew, object) < 0);
         }));
 
 				var actorId = actorEdit.id;
+        console.log(actorEdit);
         this.actorWidget.actorController.saveActor(actorEdit).then(
           lang.hitch(this, function(response) {
             var actor = response;
             if (crabWidgetValues.length > 0) {
               actor.adressen = crabWidgetValues;
+              actor.adres = crabWidgetValues[0];
             }
             if (crabWidgetValuesRemove.length > 0) { // first remove addresses, then add new
               var promises = [];
@@ -546,9 +551,9 @@ define([
                     }));
                     all(promisesNew).then( // when new ones added handle redirect and stuff
                       lang.hitch(this, function (response) {
-                        //if (!actor.adres) {
+                        if (!actor.adres) {
                           actor.adres = response[0];
-                        //}
+                        }
                         this._addUpdatedTag(actor.id);
                         this.actorWidget.hideLoading();
                         this.actorWidget.showActorDetail(actor);
@@ -590,9 +595,9 @@ define([
               }));
               all(promisesOnlyNew).then( // when new ones added handle redirect and stuff
                 lang.hitch(this, function (response) {
-                  actor.adres = response[0];
                   if (crabWidgetValues.length > 0) {
                     actor.adressen = crabWidgetValues;
+                    actor.adres = crabWidgetValues[0];
                   }
                   this._addUpdatedTag(actor.id);
                   this.actorWidget.hideLoading();
