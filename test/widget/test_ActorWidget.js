@@ -9,15 +9,16 @@ require([
 	JsonRestCors
 ) {
 	var baseUrl= "http://localhost:6565";
+	var ssoToken = 'u2_654897';
 
 	var actorWijStore = new Observable(new JsonRestCors({
 		target: baseUrl + '/actoren/wij/',
 		sortParam: 'sort',
 		idProperty: 'id',
-		withCredentials: true,
 		headers: {
 			"X-Requested-With": "",
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+			"OpenAmSSOID": ssoToken
 		}
 	}));
 
@@ -25,10 +26,10 @@ require([
 		target: baseUrl + '/actoren/',
 		sortParam: 'sort',
 		idProperty: 'id',
-		withCredentials: true,
 		headers: {
 			"X-Requested-With": "",
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
+			"OpenAmSSOID": ssoToken
 		}
 	}));
 
@@ -37,6 +38,7 @@ require([
 		actorStore: actorStore,
     canCreateActor: true,
     canEditActor: true,
+		ssoToken: ssoToken,
 		actorCategories: {
 			actoren: true,
 			vkbo: false,

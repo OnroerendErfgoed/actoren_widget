@@ -345,7 +345,7 @@ define([
           nummer_id: this._getNummerIdFromCombo(),
           subadres: adresInputs.values.subadres,
           subadres_id: null,
-          type: {"id": adresInputs.values.adrestypes}
+          adrestype: {"id": adresInputs.values.adrestypes}
         };
         this._crabAddresses.push(adres);
         this._crabAddressesNew.push(adres);

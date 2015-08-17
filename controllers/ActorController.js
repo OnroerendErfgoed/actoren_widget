@@ -14,6 +14,7 @@ define([
     actorWijStore: null,
     ssoToken: null,
     _adresParameter: '/adressen',
+    existsDialog: null,
 
     /**
      * Module die instaat voor de 'ajax calls' die naar de server gemaakt worden voor het ophalen van de Actoren.
@@ -58,7 +59,6 @@ define([
       var target = this.actorStore.target + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
       return xhr(target,{
-        withCredentials: true,
         handleAs: "json",
         method:"POST",
         data: JSON.stringify(adres),
@@ -67,14 +67,13 @@ define([
           'Accept': 'application/json',
           'OpenAmSSOID':this.ssoToken
         }
-      })
+      });
     },
 
-    // todo: fix function
+    // todo: fix function => PUT endpoint in service does not exist
     editActorAdres:function(adres,actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter;
       return xhr(target,{
-        withCredentials: true,
         handleAs: "json",
         method:"PUT",
         data: JSON.stringify(adres),
@@ -83,20 +82,19 @@ define([
           'Accept': 'application/json',
           'OpenAmSSOID':this.ssoToken
         }
-      })
+      });
     },
 
     deleteActorAdres:function(adresId, actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter + "/" + adresId;
       return xhr(target,{
-        withCredentials: true,
         handleAs: "json",
         method:"DELETE",
         headers: {
           'Accept': 'application/json',
           'OpenAmSSOID':this.ssoToken
         }
-      })
+      });
     },
 
     /**
@@ -106,8 +104,27 @@ define([
      */
     checkActorInES: function(id)
     {
-      return this.actorStore.query({'query': 'id:' + id})
-    }
+      return this.actorStore.query({'query': 'id:' + id});
+    },
 
+    gelijkaardigeActors: function (actor, adres) {
+      var searchParameter = '?';
+      if (actor.naam) searchParameter += ('naam=' + actor.naam);
+      if (actor.voornaam) searchParameter += ('&voornaam=' + actor.voornaam);
+      if (actor.emails && actor.emails.length > 0) searchParameter += ('&email=' + actor.emails[0].email);
+      if (actor.telefoons && actor.telefoons.length > 0) searchParameter += ('&telefoon=' + actor.telefoons[0].landcode + actor.telefoons[0].nummer);
+      if (actor.adres && actor.adres.length > 0) searchParameter += ('&gemeente=' + adres[0].gemeente);
+      var target = this.actorStore.target + 'gelijkaardig' + searchParameter;
+      console.log("check gelijkaardige", target);
+      return xhr(target,{
+        handleAs: "json",
+        method:"GET",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'OpenAmSSOID':this.ssoToken
+        }
+      });
+    }
   });
 });

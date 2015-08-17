@@ -15,7 +15,6 @@ require([
     target: baseUrl + '/actoren/wij/',
     sortParam: 'sort',
     idProperty: 'id',
-    withCredentials: true,
     headers: {
       "X-Requested-With": "",
       "Content-Type": "application/json"
@@ -26,7 +25,6 @@ require([
     target: baseUrl + '/actoren/',
     sortParam: 'sort',
     idProperty: 'id',
-    withCredentials: true,
     headers: {
       "X-Requested-With": "",
       "Content-Type": "application/json"
@@ -36,7 +34,8 @@ require([
   var actorWidget = new AgentschapActorWidget({
     actorWijStore: actorWijStore,
     actorStore: actorStore,
-		crabHost: "http://localhost:6543/"
+		crabHost: "http://localhost:6543/",
+    ssoToken: ssoToken
   }, 'widgetNode');
   actorWidget.startup();
 

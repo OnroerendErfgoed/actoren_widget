@@ -38,9 +38,9 @@ define([
 		actorWidget: null,
 		_telefoonLandcodeSelect: null,
 
-		_actorTelefoons: [],
-		_actorEmails: [],
-		_actorUrls: [],
+		_actorTelefoons: null,
+		_actorEmails: null,
+		_actorUrls: null,
 		_index: 0,
 
 		/**
@@ -49,6 +49,9 @@ define([
 		postCreate: function() {
 			console.log('..ActorEdit::postCreate', arguments);
 			this.inherited(arguments);
+      this._actorTelefoons = [];
+      this._actorEmails = [];
+      this._actorUrls = [];
 		},
 
 		/**
@@ -85,6 +88,10 @@ define([
 				selected = type.naam === 'website' ? '" selected': '"';
 				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.urltypes);
 			}));
+			this.actorWidget.typeLists.actorTypes.forEach(lang.hitch(this, function(type){
+				selected = type.naam === 'persoon' ? '" selected': '"';
+				domConstruct.place('<option value="' + type.id + selected + '>' + type.naam + '</option>', this.actortype);
+			}));
 		},
 
 		/**
@@ -100,6 +107,7 @@ define([
 		 * @param {Object} actor
 		 */
 		setActor: function(actor) {
+            this._reset();
 			this.naam.value = actor.naam;
 			this.voornaam.value = actor.voornaam;
 
@@ -107,15 +115,21 @@ define([
 				this._index++;
 				email['id'] = this._index.toString();
 				this._actorEmails.push(email);
-				this._createListItem(this._index, email.email, email.type.naam, this.emaillist, this._removeEmail);
+				var type = this.actorWidget.typeLists.emailTypes.filter(lang.hitch(this, function(type) {
+					return (type.id == email.type.id);
+        }));
+				this._createListItem(this._index, email.email, type[0].naam, this.emaillist, this._removeEmail);
 			}));
 
 			actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
 				this._index++;
 				telefoon['id'] = this._index.toString();
 				this._actorTelefoons.push(telefoon);
+				var type = this.actorWidget.typeLists.telephoneTypes.filter(lang.hitch(this, function(type) {
+					return (type.id == telefoon.type.id);
+        }));
 				var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
-				this._createListItem(this._index, telefoonvalue, telefoon.type.naam, this.telefoonlist, this._removeTelefoon);
+				this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlist, this._removeTelefoon);
 			}));
 
 			/*if (actor.adres) {
@@ -124,13 +138,16 @@ define([
       if (actor.adressen) {
         this._crabWidget.setValuesList(actor.adressen);
       }
-			this.actortype.value  = actor.type.naam;
+			this.actortype.value  = actor.type.id;
 
 			actor.urls.forEach(lang.hitch(this, function(url) {
 				this._index++;
 				url['id'] = this._index.toString();
 				this._actorUrls.push(url);
-				this._createListItem(this._index, url.url, url.type.naam, this.urllist, this._removeUrl);
+				var type = this.actorWidget.typeLists.urlTypes.filter(lang.hitch(this, function(type) {
+					return (type.id == url.type.id);
+        }));
+				this._createListItem(this._index, url.url, type[0].naam, this.urllist, this._removeUrl);
 			}));
 			this.actor = actor;
 		},
@@ -338,6 +355,8 @@ define([
 		 */
 		_setValidationMessageMapping: function () {
 			this._validationMessageMapping = {
+				naam: "Naam is verplicht. Gelieve een geldige naam in te vullen.",
+				voornaam: "Naam is verplicht. Gelieve een geldige voornaam in te vullen.",
 				email: "De waarde is niet volgens het geldig email formaat.",
 				telefoon: "De waarde is niet volgens het geldig telefoon formaat.",
 				url: "De waarde is niet volgens het geldig url formaat.",
@@ -436,7 +455,7 @@ define([
 		 * @private
 		 */
 		_resetValidity: function () {
-			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
+			var inputs = [this.naam, this.voornaam, this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
 				this._crabWidget.postcode, this._crabWidget.gemeente, this.url, this.telefoon, this._crabWidget.gemeenteCrabValidation];
 			inputs.forEach(lang.hitch(this, function(input){
 				input.setCustomValidity('');
@@ -450,20 +469,15 @@ define([
 		 */
 		_isValid: function() {
 			var valid = true;
-			var inputs = [this.email, this._crabWidget.straat, this._crabWidget.huisnummer, this._crabWidget.subadres,
-				this._crabWidget.postcode, this._crabWidget.gemeente, this.url];
+			var inputs = [this.naam, this.email, this.url];
 			inputs.forEach(lang.hitch(this, function(input){
 				if (input.validity) {
 					valid = lang.hitch(this, this._setCustomValidity)(input, valid);
 				}
 			}));
 			valid = lang.hitch(this, this._setCustomValidity)(this.telefoon, valid, this._telefoonValidation());
-			//valid = lang.hitch(this, this._setCustomValidity)(this._crabWidget.gemeenteCrabValidation, valid, this._gemeenteValidation());
-      if (this._crabWidget.getInput().length <= 0) {
-        valid = false;
-      }
-			return valid
 
+			return valid;
 		},
 
 		/**
@@ -475,6 +489,14 @@ define([
 		 */
 		_save: function(evt) {
 			evt? evt.preventDefault() : null;
+
+			this.naam.value = this.naam.value.trim();
+			this.voornaam.value = this.voornaam.value.trim();
+
+			this._addEmail();
+			this._addTelefoon();
+			this._addUrl();
+
 			if (!this._isValid()) {
 				this.actorWidget.emitError({
 					widget: 'ActorEdit',
@@ -485,13 +507,11 @@ define([
         this.actorWidget.showLoading("Actor wordt opgeslagen. Even geduld aub..");
 				var actorEdit = this.actor;
 
-				this._addEmail();
+				actorEdit['naam'] = this.naam.value;
+				actorEdit['voornaam'] = this.voornaam.value;
+        actorEdit['type'] = {id: this.actortype.value};
 				actorEdit['emails'] = this._actorEmails;
-
-				this._addTelefoon();
 				actorEdit['telefoons'] = this._actorTelefoons;
-
-				this._addUrl();
 				actorEdit['urls'] = this._actorUrls;
 
 				var crabWidgetValuesNew = this._crabWidget.getInputNew();
@@ -603,7 +623,7 @@ define([
 
     _cancel: function (evt) {
 			evt.preventDefault();
-      this.actorWidget.showActorDetail(null);
+      this.actorWidget.showActorDetail(this.actor);
       this._reset();
     },
 

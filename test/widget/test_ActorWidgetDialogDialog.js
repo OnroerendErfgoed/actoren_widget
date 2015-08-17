@@ -40,16 +40,17 @@ define([
     },
 
     _createActorWidget: function () {
-      var baseUrl= "localhost:6565";
+      var baseUrl= "http://localhost:6565";
+      var ssoToken = 'u2_654897';
 
       this.actorWijStore = new Observable(new JsonRestCors({
         target: baseUrl + '/actoren/wij/',
         sortParam: 'sort',
         idProperty: 'id',
-        withCredentials: true,
         headers: {
           "X-Requested-With": "",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "OpenAmSSOID": ssoToken
         }
       }));
 
@@ -57,10 +58,10 @@ define([
         target: baseUrl + '/actoren/',
         sortParam: 'sort',
         idProperty: 'id',
-        withCredentials: true,
         headers: {
           "X-Requested-With": "",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "OpenAmSSOID": ssoToken
         }
       }));
 
@@ -69,12 +70,13 @@ define([
         actorStore: this.actorStore,
         canCreateActor: true,
         canEditActor: true,
+        ssoToken: ssoToken,
         actorCategories: {
           actoren: true,
           vkbo: false,
           vkbp: false
         },
-        crabHost: "http://localhost:6565",
+        crabHost: "http://localhost:6565/",
         typeLists: {
           emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}], // get <actorenHost>/email_types
           telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}], // get <actorenHost>/telephone_types
