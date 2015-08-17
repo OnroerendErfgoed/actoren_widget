@@ -68,10 +68,7 @@ define([
      * @param {Object} actor
      */
     setActor: function(actor) {
-      // clear list of url/mail/tel
-      domConstruct.empty(this.emaillistDetail);
-      domConstruct.empty(this.telefoonlistDetail);
-      domConstruct.empty(this.urllistDetail);
+      this._reset();
       this.naam.value = actor.naam;
       this.voornaam.value = actor.voornaam;
       var email = actor.emails.filter(function(email){
@@ -149,6 +146,9 @@ define([
      * @private
      */
     _reset: function() {
+      domConstruct.empty(this.emaillistDetail);
+      domConstruct.empty(this.telefoonlistDetail);
+      domConstruct.empty(this.urllistDetail);
       this.naam.value = '';
       this.voornaam.value = '';
       this.email.value=  '';
