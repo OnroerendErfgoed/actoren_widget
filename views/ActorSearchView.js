@@ -43,8 +43,8 @@ define([
 		actorController: null,
 		_store: 'all',
 
-		actoren_updated: [],
-		actoren_new: [],
+		actoren_updated: null,
+		actoren_new: null,
 
 		/**
 		 * Standaard widget functie.
@@ -52,6 +52,8 @@ define([
 		postCreate: function() {
 			console.log('..ActorSearchView::postCreate', arguments);
 			this.inherited(arguments);
+      this.actoren_updated = [];
+		  this.actoren_new = [];
 		},
 
 		/**
@@ -215,6 +217,7 @@ define([
 		_filterGrid: function (evt) {
 			evt.preventDefault();
 			this.removeSort();
+      this._grid.refresh();
       /*if (this._store != 'wij') {
        this._grid.set('store', this.actorController.actorWijStore);
        this._store = 'wij';
@@ -239,6 +242,7 @@ define([
 					}
 				}
 			}, 30));
+      this._grid.refresh();
 		},
 
 		/**
@@ -258,7 +262,9 @@ define([
 		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
 		*/
 		removeSort: function() {
-			this._grid.set('sort', []);
+      if (this._grid.get('sort') != []) {
+        this._grid.set('sort', []);
+      }
 		},
 
 		/**
