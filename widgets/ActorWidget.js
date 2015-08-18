@@ -75,14 +75,7 @@ define([
       vkbo: false,
       vkbp: false
     },
-    typeLists: {
-      //  emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}],
-      //  telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}],
-      //  urlTypes: [{"naam": "website", "id": 1}, {"naam": "blog", "id": 2}, {"naam": "webapplicatie", "id": 3}],
-      //  actorTypes: [{"naam": "persoon", "id": 1}, {"naam": "organisatie", "id": 2}],
-      //  adresTypes: [{"naam": "post", "id": 1}, {"naam": "primair", "id": 2}]
-    },
-    //typeLists: null,
+    typeLists: null,
     _actorSearch: null,
     _tabList: null,
     overlayContainer: null,
@@ -96,6 +89,7 @@ define([
     postCreate: function () {
       this.inherited(arguments);
       console.log('ActorWidget::postCreate', arguments);
+      this.typeLists = {};
       this.listController = new ListController({
         actorUrl: this.crabHost,
         ssoToken: this.ssoToken
