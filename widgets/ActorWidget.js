@@ -11,9 +11,12 @@ define([
   'dojo/dom-style',
   'dojo/dom-construct',
   'dojo/query',
+  "dojo/promise/all",
+  'dojo/_base/lang',
   'dijit/_WidgetsInTemplateMixin',
   '../controllers/ActorController',
   '../controllers/CrabController',
+  '../controllers/ListController',
   '../views/ActorSearchView',
   '../views/ActorAdvSearchView',
   '../views/ActorDetailView',
@@ -36,9 +39,12 @@ define([
   domStyle,
   domConstruct,
   query,
+  all,
+  lang,
   _WidgetsInTemplateMixin,
   ActorController,
   CrabController,
+  ListController,
   ActorSearchView,
   ActorAdvSearchView,
   ActorDetailView,
@@ -58,6 +64,7 @@ define([
     actorWijStore: null,
     actorStore: null,
     actorController: null,
+    listController: null,
     crabHost: null,
     ssoToken: null,
     canCreateActor: false,
@@ -68,13 +75,7 @@ define([
       vkbo: false,
       vkbp: false
     },
-    typeLists: {
-      emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}],
-      telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}],
-      urlTypes: [{"naam": "website", "id": 1}, {"naam": "blog", "id": 2}, {"naam": "webapplicatie", "id": 3}],
-      actorTypes: [{"naam": "persoon", "id": 1}, {"naam": "organisatie", "id": 2}],
-      adresTypes: [{"naam": "post", "id": 1}, {"naam": "primair", "id": 2}]
-    },
+    typeLists: null,
     _actorSearch: null,
     _tabList: null,
     overlayContainer: null,
@@ -88,20 +89,12 @@ define([
     postCreate: function () {
       this.inherited(arguments);
       console.log('ActorWidget::postCreate', arguments);
-
-      this.actorController = new ActorController({
-        actorWijStore: this.actorWijStore,
-        actorStore: this.actorStore,
+      this.typeLists = {};
+      this.listController = new ListController({
+        actorUrl: this.crabHost,
         ssoToken: this.ssoToken
       });
-      this.crabController = new CrabController({crabHost: this.crabHost});
-      this.overlayContainer = this.loadingOverlay;
 
-      this._tabList = {};
-
-      //this.on('send.actor', function(evt){
-      //  console.log('send.actor', evt.actor);
-      //});
       this.on('error', function(evt){
         console.log('error', evt.error);
       });
@@ -114,8 +107,32 @@ define([
     startup: function () {
       this.inherited(arguments);
       console.log('ActorWidget::startup', arguments);
-      this._setupLayout();
-      this.resize();
+      all({
+        email: this.listController.getStore('emailtypes'),
+        tel: this.listController.getStore('telefoontypes'),
+        url: this.listController.getStore('urltypes'),
+        actor: this.listController.getStore('actortypes'),
+        adres: this.listController.getStore('adrestypes')
+      }).then(lang.hitch(this, function(results) {
+        this.typeLists.emailTypes = results.email.data;
+        this.typeLists.telephoneTypes = results.tel.data;
+        this.typeLists.urlTypes = results.url.data;
+        this.typeLists.actorTypes = results.actor.data;
+        this.typeLists.adresTypes = results.adres.data;
+
+        this.actorController = new ActorController({
+          actorWijStore: this.actorWijStore,
+          actorStore: this.actorStore,
+          ssoToken: this.ssoToken
+        });
+        this.crabController = new CrabController({crabHost: this.crabHost});
+        this.overlayContainer = this.loadingOverlay;
+
+        this._tabList = {};
+
+        this._setupLayout();
+        this.resize();
+      }));
     },
 
     _setupLayout: function () {
@@ -133,7 +150,7 @@ define([
     },
 
     resize: function() {
-       this.actorTabContainer.resize();
+      this.actorTabContainer.resize();
     },
 
     /**
@@ -309,25 +326,25 @@ define([
     },
 
     /**
-    * Een event toevoegen aan deze widget waaraan een actor wordt meegeven.
-    * @param {Object} actor
-    */
+     * Een event toevoegen aan deze widget waaraan een actor wordt meegeven.
+     * @param {Object} actor
+     */
     emitActor: function(actor) {
       this.emit('send.actor', {actor: actor});
     },
 
     /**
-    * Geeft de geselecteerde actor.
-    * @returns {Deferred.promise|*}
-    */
+     * Geeft de geselecteerde actor.
+     * @returns {Deferred.promise|*}
+     */
     getSelectedActor: function() {
       return this.getActorSearch().getSelectedActor();
     },
 
     /**
-    * Een event toevoegen aan deze widget waaraan een error wordt meegeven.
-    * @param {Event} evt met error attribuut.
-    */
+     * Een event toevoegen aan deze widget waaraan een error wordt meegeven.
+     * @param {Event} evt met error attribuut.
+     */
     emitError: function(evt) {
       this.emit('error', evt);
     }
