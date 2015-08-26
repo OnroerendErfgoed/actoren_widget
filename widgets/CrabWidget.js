@@ -63,9 +63,9 @@ define([
 		postCreate: function() {
 			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
-			_crabAddresses = [];
-			_crabAddressesRemove = [];
-			_crabAddressesNew = [];
+			this._crabAddresses = [];
+			this._crabAddressesRemove = [];
+			this._crabAddressesNew = [];
 			this._setLandenList();
 			this._setSelectLists();
 			this._setGemeentenCombo();
