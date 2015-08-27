@@ -146,8 +146,11 @@ define([
           }));
           if (selected) {
             console.debug('emit actor', selected);
-            this.actorWidget.emitActor(selected);
-            this.dialog.hide();
+            this.actorWidget.actorController.getActor(selected.id).then(lang.hitch(this, function (actor) {
+              this.actorWidget.setSelectedActor(actor);
+              this.actorWidget.showActorDetail(actor);
+              this.dialog.hide();
+            }));
           }
         },
 
