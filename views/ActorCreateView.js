@@ -557,10 +557,6 @@ define([
 				var crabWidgetValues = this._crabWidget.getInputNew();
 
 				this._checkActorExists(actorNew, crabWidgetValues);
-				//	this.actorWidget.hideLoading();
-				//} else {
-				//	this._doSave(actorNew, crabWidgetValues);
-				//}
 			}
 		},
 
