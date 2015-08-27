@@ -623,6 +623,7 @@ define([
 			this._crabAddresses = [];
 			this._crabAddressesRemove = [];
 			this._crabAddressesNew = [];
+			domConstruct.empty(this.adreslist);
 			this._gemeenteCombobox.set("value", '');
 			this._straatCombobox.set("value", '');
 			this._postcodeCombobox.set("value", '');
@@ -648,6 +649,7 @@ define([
 			this.subadres.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
+
 		},
 
     /**
