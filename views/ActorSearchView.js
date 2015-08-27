@@ -262,6 +262,7 @@ define([
 			this._grid.select(row);
 			var list = [];
 			list.push(this._grid.selection[row]);
+			console.log(list);
 			this.actorWidget.emit('select.actors', {actors: list });
 		},
 
