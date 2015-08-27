@@ -258,6 +258,10 @@ define([
 			//this._grid.refresh();
 		},
 
+		setSelectedActor: function(row) {
+			this._grid.select(row);
+		},
+
 		/**
 		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
 		*/
