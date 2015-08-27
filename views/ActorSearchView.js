@@ -260,7 +260,9 @@ define([
 
 		setSelectedActor: function(row) {
 			this._grid.select(row);
-			this.actorWidget.emit('select.actors', {actors: this._grid.selection});
+			var list = [];
+			list.push(this._grid.selection[row]);
+			this.actorWidget.emit('select.actors', {actors: list });
 		},
 
 		/**
