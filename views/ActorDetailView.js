@@ -71,28 +71,24 @@ define([
       this._reset();
       this.naam.value = actor.naam;
       this.voornaam.value = actor.voornaam;
-      var email = actor.emails.filter(function(email){
-        return email.type.naam == "werk";
-      });
-      if (!email.length && actor.emails.length > 0) {
-        email = actor.emails.slice(0, 1);
-      }
-      this.email.value  = email.length ? email[0].email : null;
-      var telefoon = actor.telefoons.filter(function(telefoon) {
-        return telefoon.type.naam == "werk"
-      });
-      if (!telefoon.length && actor.telefoons.length > 0) {
-        telefoon = actor.telefoons.slice(0, 1);
+      if (actor.emails) {
+        var email = actor.emails.filter(function (email) {
+          return email.type.naam == "werk";
+        });
+        if (!email.length && actor.emails.length > 0) {
+          email = actor.emails.slice(0, 1);
+        }
+        this.email.value = email.length ? email[0].email : null;
       }
 
-      actor.emails.forEach(lang.hitch(this, function(email) {
-        this._index++;
-        email['id'] = this._index.toString();
-        var type = this.actorWidget.typeLists.emailTypes.filter(lang.hitch(this, function(type) {
-          return (type.id == email.type.id);
-        }));
-        this._createListItem(this._index, email.email, type[0].naam, this.emaillistDetail);
-      }));
+      if (actor.telefoons) {
+        var telefoon = actor.telefoons.filter(function (telefoon) {
+          return telefoon.type.naam == "werk"
+        });
+        if (!telefoon.length && actor.telefoons.length > 0) {
+          telefoon = actor.telefoons.slice(0, 1);
+        }
+      }
 
       actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
         this._index++;
