@@ -101,7 +101,8 @@ define([
 		 */
 		_setLandenList: function(){
 			// default lijst van landen
-			domConstruct.place('<option value="BE" selected>België</option>', this.land);
+			domConstruct.place('<option value="" selected>Kies land</option>', this.land);
+			domConstruct.place('<option value="BE" >België</option>', this.land);
 			domConstruct.place('<option value="DE">Duitsland</option>', this.land);
 			domConstruct.place('<option value="FR">Frankrijk</option>', this.land);
 			domConstruct.place('<option value="GB">Groot-Brittanië</option>', this.land);
