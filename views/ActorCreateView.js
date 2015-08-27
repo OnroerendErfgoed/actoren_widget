@@ -576,7 +576,6 @@ define([
 							console.log("saved?", actor);
 							this._addNewTag(actor.id);
 							this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
-							this.actorWidget.hideLoading();
 						}),
 						lang.hitch(this, function (error) {
 								console.log("error: ", error);
@@ -632,6 +631,7 @@ define([
 			this._filterGrid(query);
 			console.log('filtered', query, actor);
 			this._reset();
+			this.actorWidget.hideLoading();
 			this.actorWidget.showActorDetail(actor);
 		},
 
@@ -664,6 +664,7 @@ define([
 					params.callback(params.actor);
 				}
 			},  function(error) {
+				this.actorWidget.hideLoading();
 				context.actorWidget.emitError({
 					widget: 'ActorCreate',
 					error: error
