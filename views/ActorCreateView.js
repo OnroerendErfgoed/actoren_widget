@@ -556,11 +556,11 @@ define([
 				actorNew['urls'] = this._actorUrls;
 				var crabWidgetValues = this._crabWidget.getInputNew();
 
-				if(this._checkActorExists(actorNew, crabWidgetValues)){
-					this.actorWidget.hideLoading();
-				} else {
-					this._doSave(actorNew, crabWidgetValues);
-				}
+				this._checkActorExists(actorNew, crabWidgetValues);
+				//	this.actorWidget.hideLoading();
+				//} else {
+				//	this._doSave(actorNew, crabWidgetValues);
+				//}
 			}
 		},
 
@@ -605,13 +605,13 @@ define([
 		},
 
 		_checkActorExists: function(actor, adressen) {
-			var actorExists = true;
 			this.actorWidget.actorController.gelijkaardigeActors(actor, adressen).then(lang.hitch(this, function(data) {
 				if (data.length == 0) {
-					actorExists = false;
+					this._doSave(actor, adressen);
 				}
 				else {
 					console.log('new dialog');
+					this.actorWidget.hideLoading();
 					this.existsDialog = new ActorExistsDialog({
 						actorWidget: this.actorWidget,
 						actoren: data,
@@ -623,7 +623,6 @@ define([
 					this.existsDialog.startup();
 				}
 			}));
-			return actorExists;
 		},
 
 		/**
