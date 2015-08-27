@@ -147,6 +147,7 @@ define([
           if (selected) {
             console.debug('emit actor', selected);
             this.actorWidget.setSelectedActor(selected);
+            this.actorWidget.showActorDetail(selected);
             this.dialog.hide();
           }
         },
