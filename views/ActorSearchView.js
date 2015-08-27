@@ -260,6 +260,7 @@ define([
 
 		setSelectedActor: function(row) {
 			this._grid.select(row);
+			this._emitSelectedActoren();
 		},
 
 		/**
