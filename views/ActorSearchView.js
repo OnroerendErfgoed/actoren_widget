@@ -258,6 +258,14 @@ define([
 			//this._grid.refresh();
 		},
 
+		setSelectedActor: function(actor) {
+			this._grid.select(actor.id);
+			var list = [];
+			list.push(actor);
+			console.log(list);
+			this.actorWidget.emit('select.actors', {actors: list });
+		},
+
 		/**
 		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
 		*/
@@ -315,7 +323,7 @@ define([
 		* @private
 		*/
 		_emitSelectedActoren: function(evt) {
-			evt? evt.preventDefault() : null;
+			evt ? evt.preventDefault() : null;
 			this.getSelectedActor().
 				then(lang.hitch(this, function(actor){
 							this._emitActor(actor);

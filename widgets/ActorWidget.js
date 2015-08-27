@@ -166,6 +166,10 @@ define([
       this._tabList.overzicht.advSearchFilterGrid(query);
     },
 
+    setSelectedActor: function(actor) {
+      this._tabList.overzicht.setSelectedActor(actor);
+    },
+
     showActorDetail: function(actor) {
       this._openTab(this.tabActorDetail);
       if (actor) {

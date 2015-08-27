@@ -547,6 +547,7 @@ define([
       this._crabAddressesRemove = [];
       this._crabAddressesNew = [];
       this._clearHighlights();
+			domConstruct.empty(this.adreslist);
 			this.land.value = adres.land;
 			if (adres.land == 'BE') {
 				this._gemeenteCombobox.set('value', adres.gemeente, false);
@@ -645,6 +646,7 @@ define([
 			this.subadres.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
+
 		},
 
     /**
