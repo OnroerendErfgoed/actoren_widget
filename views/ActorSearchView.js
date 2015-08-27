@@ -94,7 +94,7 @@ define([
 				},
 				naam: {
 					label:'Naam',
-					sortable: false
+					sortable: true
 				},
 				voornaam: {
 					label: 'Voornaam',
@@ -288,12 +288,9 @@ define([
 		* @private
 		*/
 		_refresh: function (evt) {
-			evt.preventDefault();
-			this.addSort();
-			this._grid.set("store", this.actorStore);
-			this._grid.set("query", {});
+			evt ? evt.preventDefault() : null;
+			this._grid.set("store", this.actorStore, {});
 			this.actorenFilter.value = '';
-			this._grid.refresh();
 		},
 
 		/**
