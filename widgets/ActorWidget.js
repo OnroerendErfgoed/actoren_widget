@@ -335,9 +335,6 @@ define([
      */
     emitActor: function(actor) {
       this.emit('send.actor', {actor: actor});
-      var list = [];
-      list.push(actor);
-      this.emit('select.actors', {actor: list});
     },
 
     /**
