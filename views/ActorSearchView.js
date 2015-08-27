@@ -258,10 +258,10 @@ define([
 			//this._grid.refresh();
 		},
 
-		setSelectedActor: function(row) {
-			this._grid.select(row);
+		setSelectedActor: function(actor) {
+			this._grid.select(actor.id);
 			var list = [];
-			list.push(this._grid.selection[row]);
+			list.push(actor);
 			console.log(list);
 			this.actorWidget.emit('select.actors', {actors: list });
 		},

@@ -631,7 +631,7 @@ define([
 			var query = {query:'id:' + actor.id};
 			this._filterGrid(query);
 			console.log('filtered', query, actor);
-			this.actorWidget.setSelectedActor(actor.id);
+			this.actorWidget.setSelectedActor(actor);
 			this._reset();
 			this.actorWidget.hideLoading();
 			this.actorWidget.showActorDetail(actor);

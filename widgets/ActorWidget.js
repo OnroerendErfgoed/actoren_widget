@@ -166,8 +166,8 @@ define([
       this._tabList.overzicht.advSearchFilterGrid(query);
     },
 
-    setSelectedActor: function(id) {
-      this._tabList.overzicht.setSelectedActor(id);
+    setSelectedActor: function(actor) {
+      this._tabList.overzicht.setSelectedActor(actor);
     },
 
     showActorDetail: function(actor) {
