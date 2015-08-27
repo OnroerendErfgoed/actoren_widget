@@ -234,6 +234,11 @@ define([
             selectedActor.adressen = adresNew;
           }
 
+          // compare voornaam
+          if (selectedActor.voornaam == null || selectedActor.voornaam == "") {
+            selectedActor.voornaam = actorNew.voornaam;
+          }
+
           console.debug('merged actor', selectedActor);
           return selectedActor;
         }
