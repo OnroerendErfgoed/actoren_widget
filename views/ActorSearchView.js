@@ -260,7 +260,7 @@ define([
 
 		setSelectedActor: function(row) {
 			this._grid.select(row);
-			this._grid.emit("dgrid-select", this._grid.selection);
+			this.emit("dgrid-select", this._grid.selection);
 		},
 
 		/**
