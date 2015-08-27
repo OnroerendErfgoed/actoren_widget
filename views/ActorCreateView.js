@@ -561,6 +561,7 @@ define([
 		},
 
 		_doSave: function(actorNew, crabWidgetValues) {
+			console.log(actorNew, crabWidgetValues);
 			this.actorWidget.actorController.saveActor(actorNew).then(
 				lang.hitch(this, function (response) {
 					var actor = response;
