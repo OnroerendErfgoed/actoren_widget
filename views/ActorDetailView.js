@@ -79,6 +79,15 @@ define([
           email = actor.emails.slice(0, 1);
         }
         this.email.value = email.length ? email[0].email : null;
+
+        actor.emails.forEach(lang.hitch(this, function(email) {
+          this._index++;
+          email['id'] = this._index.toString();
+          var type = this.actorWidget.typeLists.emailTypes.filter(lang.hitch(this, function(type) {
+            return (type.id == email.type.id);
+          }));
+          this._createListItem(this._index, email.email, type[0].naam, this.emaillistDetail);
+        }));
       }
 
       if (actor.telefoons) {
@@ -88,26 +97,27 @@ define([
         if (!telefoon.length && actor.telefoons.length > 0) {
           telefoon = actor.telefoons.slice(0, 1);
         }
+        actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
+          this._index++;
+          telefoon['id'] = this._index.toString();
+          var type = this.actorWidget.typeLists.telephoneTypes.filter(lang.hitch(this, function(type) {
+            return (type.id == telefoon.type.id);
+          }));
+          var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
+          this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlistDetail);
+        }));
       }
 
-      actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
-        this._index++;
-        telefoon['id'] = this._index.toString();
-        var type = this.actorWidget.typeLists.telephoneTypes.filter(lang.hitch(this, function(type) {
-          return (type.id == telefoon.type.id);
+      if (actor.urls) {
+        actor.urls.forEach(lang.hitch(this, function (url) {
+          this._index++;
+          url['id'] = this._index.toString();
+          var type = this.actorWidget.typeLists.urlTypes.filter(lang.hitch(this, function (type) {
+            return (type.id == url.type.id);
+          }));
+          this._createListItem(this._index, url.url, type[0].naam, this.urllistDetail);
         }));
-        var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
-        this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlistDetail);
-      }));
-
-      actor.urls.forEach(lang.hitch(this, function(url) {
-        this._index++;
-        url['id'] = this._index.toString();
-        var type = this.actorWidget.typeLists.urlTypes.filter(lang.hitch(this, function(type) {
-          return (type.id == url.type.id);
-        }));
-        this._createListItem(this._index, url.url, type[0].naam, this.urllistDetail);
-      }));
+      }
 
       this.telefoon.value  = telefoon.length ? telefoon[0].nummer : null;
       this.telefoonLandcode.value  = telefoon.length ? telefoon[0].landcode ? telefoon[0].landcode : null : null;
