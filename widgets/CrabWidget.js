@@ -621,9 +621,6 @@ define([
 		 * @private
 		 */
 		_resetExceptLand: function() {
-			this._crabAddresses = [];
-			this._crabAddressesRemove = [];
-			this._crabAddressesNew = [];
 			this._gemeenteCombobox.set("value", '');
 			this._straatCombobox.set("value", '');
 			this._postcodeCombobox.set("value", '');
