@@ -260,7 +260,7 @@ define([
 
 		setSelectedActor: function(row) {
 			this._grid.select(row);
-			this._emitSelectedActoren();
+			this._emitSelectedActoren(null);
 		},
 
 		/**
@@ -320,7 +320,7 @@ define([
 		* @private
 		*/
 		_emitSelectedActoren: function(evt) {
-			evt? evt.preventDefault() : null;
+			evt ? evt.preventDefault() : null;
 			this.getSelectedActor().
 				then(lang.hitch(this, function(actor){
 							this._emitActor(actor);
