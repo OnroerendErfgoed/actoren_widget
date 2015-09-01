@@ -217,13 +217,7 @@ define([
 		_filterGrid: function (evt) {
 			evt.preventDefault();
 			this.removeSort();
-      //this._grid.refresh();
-      /*if (this._store != 'wij') {
-       this._grid.set('store', this.actorController.actorWijStore);
-       this._store = 'wij';
-       }*/
-      //this._grid.set("store", this.actorStore);
-      //this._store = 'all';
+
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
 				clearTimeout(this._timeoutId);
@@ -234,15 +228,12 @@ define([
 					this._previousSearchValue = newValue;
 					if (newValue === '') {
 						this._grid.set("query", {});
-						//this._grid.refresh();
 					}
 					else {
 						this._grid.set("query", {"naam": newValue});
-						//this._grid.refresh();
 					}
 				}
 			}, 300));
-      //this._grid.refresh();
 		},
 
 		/**
@@ -252,10 +243,8 @@ define([
 		advSearchFilterGrid: function(query) {
 			this.removeSort();
 			this.actorenFilter.value = "";
-			//this._grid.set("store", this.actorStore);
-			//this._store = 'all';
+
 			this._grid.set("query", query);
-			//this._grid.refresh();
 		},
 
 		setSelectedActor: function(actor) {
