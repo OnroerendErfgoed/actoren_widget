@@ -168,7 +168,6 @@ define([
 
     setSelectedActor: function(actor) {
       this._tabList.overzicht.setSelectedActor(actor);
-      this._emitActor(actor);
     },
 
     showActorDetail: function(actor) {
