@@ -51,9 +51,9 @@ define([
 		_gemeentePrev: null,
 		_straatPrev: null,
 
-    _crabAddresses: [],
-    _crabAddressesRemove: [],
-    _crabAddressesNew: [],
+    _crabAddresses: null,
+    _crabAddressesRemove: null,
+    _crabAddressesNew: null,
     _adresIndex: 100,
 
 		/**
@@ -63,8 +63,11 @@ define([
 		postCreate: function() {
 			console.log('....CrabWidget::postCreate', arguments);
 			this.inherited(arguments);
+			this._crabAddresses = [];
+			this._crabAddressesRemove = [];
+			this._crabAddressesNew = [];
 			this._setLandenList();
-      this._setSelectLists();
+			this._setSelectLists();
 			this._setGemeentenCombo();
 			this._setPostcodesCombo();
 			this._setStratenCombo();
@@ -98,7 +101,8 @@ define([
 		 */
 		_setLandenList: function(){
 			// default lijst van landen
-			domConstruct.place('<option value="BE" selected>België</option>', this.land);
+			domConstruct.place('<option value="" selected>Kies land</option>', this.land);
+			domConstruct.place('<option value="BE" >België</option>', this.land);
 			domConstruct.place('<option value="DE">Duitsland</option>', this.land);
 			domConstruct.place('<option value="FR">Frankrijk</option>', this.land);
 			domConstruct.place('<option value="GB">Groot-Brittanië</option>', this.land);
@@ -544,6 +548,7 @@ define([
       this._crabAddressesRemove = [];
       this._crabAddressesNew = [];
       this._clearHighlights();
+			domConstruct.empty(this.adreslist);
 			this.land.value = adres.land;
 			if (adres.land == 'BE') {
 				this._gemeenteCombobox.set('value', adres.gemeente, false);
@@ -642,6 +647,7 @@ define([
 			this.subadres.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
+
 		},
 
     /**

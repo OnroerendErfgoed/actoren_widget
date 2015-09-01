@@ -556,15 +556,12 @@ define([
 				actorNew['urls'] = this._actorUrls;
 				var crabWidgetValues = this._crabWidget.getInputNew();
 
-				if(this._checkActorExists(actorNew, crabWidgetValues)){
-					this.actorWidget.hideLoading();
-				} else {
-					this._doSave(actorNew, crabWidgetValues);
-				}
+				this._checkActorExists(actorNew, crabWidgetValues);
 			}
 		},
 
 		_doSave: function(actorNew, crabWidgetValues) {
+			console.log(actorNew, crabWidgetValues);
 			this.actorWidget.actorController.saveActor(actorNew).then(
 				lang.hitch(this, function (response) {
 					var actor = response;
@@ -580,7 +577,6 @@ define([
 							console.log("saved?", actor);
 							this._addNewTag(actor.id);
 							this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
-							this.actorWidget.hideLoading();
 						}),
 						lang.hitch(this, function (error) {
 								console.log("error: ", error);
@@ -605,13 +601,13 @@ define([
 		},
 
 		_checkActorExists: function(actor, adressen) {
-			var actorExists = true;
 			this.actorWidget.actorController.gelijkaardigeActors(actor, adressen).then(lang.hitch(this, function(data) {
 				if (data.length == 0) {
-					actorExists = false;
+					this._doSave(actor, adressen);
 				}
 				else {
 					console.log('new dialog');
+					this.actorWidget.hideLoading();
 					this.existsDialog = new ActorExistsDialog({
 						actorWidget: this.actorWidget,
 						actoren: data,
@@ -623,7 +619,6 @@ define([
 					this.existsDialog.startup();
 				}
 			}));
-			return actorExists;
 		},
 
 		/**
@@ -636,7 +631,9 @@ define([
 			var query = {query:'id:' + actor.id};
 			this._filterGrid(query);
 			console.log('filtered', query, actor);
+			this.actorWidget.setSelectedActor(actor);
 			this._reset();
+			this.actorWidget.hideLoading();
 			this.actorWidget.showActorDetail(actor);
 		},
 
@@ -669,6 +666,7 @@ define([
 					params.callback(params.actor);
 				}
 			},  function(error) {
+				this.actorWidget.hideLoading();
 				context.actorWidget.emitError({
 					widget: 'ActorCreate',
 					error: error

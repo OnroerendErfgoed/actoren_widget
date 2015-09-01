@@ -45,8 +45,8 @@ define([
 		actorController: null,
 		_store: 'all',
 
-		actoren_updated: [],
-		actoren_new: [],
+		actoren_updated: null,
+		actoren_new: null,
 
 		/**
 		 * Standaard widget functie.
@@ -54,6 +54,8 @@ define([
 		postCreate: function() {
 			console.log('..ActorSearchView::postCreate', arguments);
 			this.inherited(arguments);
+      this.actoren_updated = [];
+		  this.actoren_new = [];
 		},
 
 		/**
@@ -94,7 +96,7 @@ define([
 				},
 				naam: {
 					label:'Naam',
-					sortable: false
+					sortable: true
 				},
 				voornaam: {
 					label: 'Voornaam',
@@ -159,7 +161,7 @@ define([
 				evt.preventDefault();
 				this._emitError(evt)
 			}));
-			//this._grid.refresh();
+			this._grid.refresh();
 
 		},
 
@@ -215,12 +217,7 @@ define([
 		_filterGrid: function (evt) {
 			evt.preventDefault();
 			this.removeSort();
-      /*if (this._store != 'wij') {
-       this._grid.set('store', this.actorController.actorWijStore);
-       this._store = 'wij';
-       }*/
-      //this._grid.set("store", this.actorStore);
-      //this._store = 'all';
+
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
 				clearTimeout(this._timeoutId);
@@ -231,14 +228,12 @@ define([
 					this._previousSearchValue = newValue;
 					if (newValue === '') {
                         this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
-						//this._grid.refresh();
 					}
 					else {
 						this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}).filter({"naam": newValue}));
-						//this._grid.refresh();
 					}
 				}
-			}, 30));
+			}, 300));
 		},
 
 		/**
@@ -248,10 +243,14 @@ define([
 		advSearchFilterGrid: function(filter) {
 			this.removeSort();
 			this.actorenFilter.value = "";
-			//this._grid.set("store", this.actorStore);
-			//this._store = 'all';
             this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}).filter(filter));
-			//this._grid.refresh();
+		},
+
+		setSelectedActor: function(actor) {
+			this._grid.select(actor.id);
+			var list = [];
+			list.push(actor);
+			this.actorWidget.emit('select.actors', {actors: list });
 		},
 
 		/**
@@ -274,11 +273,10 @@ define([
 		* @private
 		*/
 		_refresh: function (evt) {
-			evt.preventDefault();
+            evt ? evt.preventDefault() : null;
 			this.addSort();
             this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
-			this.actorenFilter.value = '';
-			//this._grid.refresh();
+            this.actorenFilter.value = '';
 		},
 
 		/**
@@ -308,7 +306,7 @@ define([
 		* @private
 		*/
 		_emitSelectedActoren: function(evt) {
-			evt? evt.preventDefault() : null;
+			evt ? evt.preventDefault() : null;
 			this.getSelectedActor().
 				then(lang.hitch(this, function(actor){
 							this._emitActor(actor);

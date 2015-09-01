@@ -83,7 +83,10 @@ define([
         _createGrid: function() {
           var columns = {
             id: {
-              label:'#'
+              label:'#',
+              formatter: function (id) {
+                return '<a href="#" >' + id + '</a>'
+					}
             },
             naam: {
               label:'Naam',
@@ -111,6 +114,18 @@ define([
           }, this.gridNode);
 
           this._grid.on("dgrid-sort", this._onSort);
+          this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
+            evt.preventDefault();
+            var cell = this._grid.cell(evt);
+            if (cell.column.field == 'id' && this._grid.row(evt)) {
+              var id = this._grid.row(evt).id;
+              this.actorWidget.actorController.getActor(id).
+                then(lang.hitch(this, function(actor){
+                  //this.actorWidget.showActorDetail(actor);
+                  window.open(actor.uri,'plain');
+                }));
+            }
+          }));
         },
 
         _onSort: function(event) {
@@ -131,8 +146,11 @@ define([
           }));
           if (selected) {
             console.debug('emit actor', selected);
-            this.actorWidget.emitActor(selected);
-            this.dialog.hide();
+            this.actorWidget.actorController.getActor(selected.id).then(lang.hitch(this, function (actor) {
+              this.actorWidget.setSelectedActor(actor);
+              this.actorWidget.showActorDetail(actor);
+              this.dialog.hide();
+            }));
           }
         },
 
@@ -232,6 +250,11 @@ define([
             selectedActor.adressen = selectedAddresses;
           } else {
             selectedActor.adressen = adresNew;
+          }
+
+          // compare voornaam
+          if (selectedActor.voornaam == null || selectedActor.voornaam == "") {
+            selectedActor.voornaam = actorNew.voornaam;
           }
 
           console.debug('merged actor', selectedActor);

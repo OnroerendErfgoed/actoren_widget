@@ -15,7 +15,7 @@ define([
             this.inherited(arguments);
         },
 
-        startup: function () {
+        _createActorSearchView: function () {
             console.log('..ActorSelection::startup', arguments);
             this.inherited(arguments);
 
