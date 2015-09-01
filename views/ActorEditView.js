@@ -555,8 +555,9 @@ define([
                           actor.adres = response[0];
                         }
                         this._addUpdatedTag(actor.id);
-                        this.actorWidget.hideLoading();
+												this.actorWidget.setSelectedActor(actor);
                         this.actorWidget.showActorDetail(actor);
+												this.actorWidget.hideLoading();
                         this._reset();
                       }),
                       lang.hitch(this, function (error) {
@@ -571,12 +572,13 @@ define([
                     if (crabWidgetValues.length > 0) {
                       actor.adressen = crabWidgetValues;
                       actor.adres = crabWidgetValues[0];
-                    }
-                    this._addUpdatedTag(actor.id);
-                    this.actorWidget.hideLoading();
-                    this.actorWidget.showActorDetail(actor);
-                    this._reset();
-                  }
+										}
+										this._addUpdatedTag(actor.id);
+										this.actorWidget.setSelectedActor(actor);
+										this.actorWidget.showActorDetail(actor);
+										this.actorWidget.hideLoading();
+										this._reset();
+									}
                 }),
                 lang.hitch(this, function (error) {
                   this.actorWidget.hideLoading();
@@ -599,9 +601,10 @@ define([
                     actor.adressen = crabWidgetValues;
                     actor.adres = crabWidgetValues[0];
                   }
-                  this._addUpdatedTag(actor.id);
-                  this.actorWidget.hideLoading();
-                  this.actorWidget.showActorDetail(actor);
+									this._addUpdatedTag(actor.id);
+									this.actorWidget.setSelectedActor(actor);
+									this.actorWidget.showActorDetail(actor);
+									this.actorWidget.hideLoading();
                   this._reset();
                 }),
                 lang.hitch(this, function (error) {
@@ -630,6 +633,7 @@ define([
 			evt.preventDefault();
       this._reset();
       this.actorWidget.showActorDetail(this.actor);
+			this.actorWidget.setSelectedActor(this.actor);
     },
 
 		/**
