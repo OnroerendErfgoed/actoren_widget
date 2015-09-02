@@ -80,6 +80,7 @@ define([
             this.selectActorButton.style.display = 'none';
           }
           this.dialog.show();
+          this._grid.startup();
           this._grid.refresh();
         },
 
