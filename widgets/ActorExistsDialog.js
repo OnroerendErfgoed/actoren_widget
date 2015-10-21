@@ -17,7 +17,9 @@ define([
     'dgrid/OnDemandGrid',
     'dgrid/Selection',
     'dgrid/Keyboard',
-    'dgrid/extensions/DijitRegistry'
+    'dgrid/extensions/DijitRegistry',
+        "dstore/legacy/StoreAdapter"
+
   ],
   function (
     declare,
@@ -34,7 +36,8 @@ define([
     OnDemandGrid,
     Selection,
     Keyboard,
-    DijitRegistry
+    DijitRegistry,
+    StoreAdapter
   ) {
     return declare(
       [_WidgetBase, _TemplatedMixin], {
@@ -77,6 +80,7 @@ define([
             this.selectActorButton.style.display = 'none';
           }
           this.dialog.show();
+          this._grid.startup();
           this._grid.refresh();
         },
 
@@ -107,7 +111,7 @@ define([
 
           this._grid = new (declare([OnDemandGrid, Selection, Keyboard, DijitRegistry]))({
             selectionMode: 'single',
-            store: this.existsStore,
+            collection: new StoreAdapter({objectStore: this.existsStore}),
             columns: columns,
             loadingMessage: 'laden...',
             noDataMessage: 'geen resultaten beschikbaar'
