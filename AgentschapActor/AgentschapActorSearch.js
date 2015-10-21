@@ -16,7 +16,7 @@ define([
 	'dgrid/extensions/DijitRegistry',
 	'dgrid/OnDemandGrid',
 	'dgrid/Selection',
-    "dstore/legacy/StoreAdapter"
+	'dstore/legacy/StoreAdapter'
 ], function(
 	template,
 	declare,
@@ -31,7 +31,7 @@ define([
 	DijitRegistry,
 	OnDemandGrid,
 	Selection,
-    StoreAdapter
+	StoreAdapter
 ) {
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
@@ -96,7 +96,7 @@ define([
 			this._grid = new (declare([OnDemandGrid, Selection, Keyboard, DijitRegistry]))({
 				selectionMode: 'single',
 				collection: new StoreAdapter({objectStore: this.actorController.actorWijStore}),
-                sort: 'naam',
+				sort: 'naam',
 				columns: columns,
 				loadingMessage: 'laden...',
 				noDataMessage: 'geen resultaten beschikbaar'
@@ -175,7 +175,7 @@ define([
 		 * @private
 		 */
 		_filterGrid: function (evt) {
-			this._grid.set('sort', "");
+			this._grid.set('sort', '');
 			var newValue = evt.target.value;
 			if (this._timeoutId) {
 				clearTimeout(this._timeoutId);
@@ -185,11 +185,11 @@ define([
 				if (newValue != this._previousSearchValue) {
 					this._previousSearchValue = newValue;
 					if (newValue === '') {
-                        this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorWijStore}));
+            this._grid.set('collection', new StoreAdapter({objectStore: this.actorController.actorWijStore}));
 						this._grid.refresh();
 					}
 					else {
-                        this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorWijStore}).filter({"naam": newValue}));
+            this._grid.set('collection', new StoreAdapter({objectStore: this.actorController.actorWijStore}).filter({'naam': newValue}));
 						this._grid.refresh();
 					}
 				}
