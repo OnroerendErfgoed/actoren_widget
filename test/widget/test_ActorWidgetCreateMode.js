@@ -2,11 +2,13 @@ require([
 	'actorwidget/widgets/ActorWidget',
 	'dojo/store/Observable',
 	'dojo/store/JsonRest',
+	'dojo/on',
 	'dojo/domReady!'
 ], function (
 	ActorWidget,
 	Observable,
-	JsonRest
+	JsonRest,
+  on
 ) {
 	var baseUrl= 'https://dev-actoren.onroerenderfgoed.be';
 	var ssoToken = 'AQIC5wM2LY4SfcxBiA0_fpFhmsmyCzZ5fa2CXq8TmNS-3ow.*AAJTSQACMDIAAlNLABEyNjUwMjMxNjk0MjkyNDM2OQACUzEAAjAx*';
@@ -55,5 +57,9 @@ require([
 		hideTabButtons: true
 	}, 'widgetNode');
 	actorWidget.startup();
+
+  on(actorWidget, 'create.cancel', function () {
+    console.debug('catch cancel create');
+  });
 
 });

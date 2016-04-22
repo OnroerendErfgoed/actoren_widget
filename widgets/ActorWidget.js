@@ -156,7 +156,14 @@ define([
         this.tabAdvSearch.controlButton.domNode.style.display =  'none';
       }
       if (this.startMode === 'create') {
-        this.showActorEdit(this.actorToCreate);
+        this._openTab(this.tabActorCreate);
+        var widget = this._tabList.actorCreate;
+        widget._cancel = lang.hitch(this, function(evt) {
+          evt? evt.preventDefault() : null;
+          widget._reset();
+          this.emit('create.cancel');
+        });
+
       }
     },
 
