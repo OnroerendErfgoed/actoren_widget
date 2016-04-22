@@ -139,12 +139,12 @@ define([
     _setupLayout: function () {
       console.log("layout");
       this._createActorSearchView();
-      //this._createActorAdvSearchView();
-      //this._createActorDetailView();
-      //this._createActorEditView();
-      //this._createActorCreateView();
-      //this._createVKBOSearchView();
-      //this._createVKBPSearchView();
+      this._createActorAdvSearchView();
+      this._createActorDetailView();
+      this._createActorEditView();
+      this._createActorCreateView();
+      this._createVKBOSearchView();
+      this._createVKBPSearchView();
       if (this.isLoading()) {
         this.hideLoading();
       }
