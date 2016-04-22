@@ -33,6 +33,11 @@ require([
 		}
 	}));
 
+  var testActor = {
+    naam: 'testnaam',
+    voornaam: 'testvoornaam'
+  };
+
 	var actorWidget = new ActorWidget({
 		actorWijStore: actorWijStore,
 		actorStore: actorStore,
@@ -44,7 +49,10 @@ require([
 			vkbo: false,
 			vkbp: false
 		},
-		crabHost: baseUrl
+		crabHost: baseUrl,
+		startMode: 'create',
+    actorToCreate: testActor,
+		hideTabButtons: true
 	}, 'widgetNode');
 	actorWidget.startup();
 

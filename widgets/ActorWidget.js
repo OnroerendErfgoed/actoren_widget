@@ -69,12 +69,15 @@ define([
     ssoToken: null,
     canCreateActor: false,
     canEditActor: false,
+    hideTabButtons: false,
     // default values
     actorCategories: {
       actoren: true,
       vkbo: false,
       vkbp: false
     },
+    startMode: null,
+    actorToCreate: null,
     typeLists: null,
     _actorSearch: null,
     _tabList: null,
@@ -147,6 +150,13 @@ define([
       this._createVKBPSearchView();
       if (this.isLoading()) {
         this.hideLoading();
+      }
+      if (this.hideTabButtons) {
+        this.tabOverzicht.controlButton.domNode.style.display =  'none';
+        this.tabAdvSearch.controlButton.domNode.style.display =  'none';
+      }
+      if (this.startMode === 'create') {
+        this.showActorEdit(this.actorToCreate);
       }
     },
 
