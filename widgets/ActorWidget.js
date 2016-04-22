@@ -163,6 +163,7 @@ define([
           widget._reset();
           this.emit('create.cancel');
         });
+        widget.setActor(this.actorToCreate);
 
       }
     },

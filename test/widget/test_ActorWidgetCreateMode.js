@@ -37,7 +37,42 @@ require([
 
   var testActor = {
     naam: 'testnaam',
-    voornaam: 'testvoornaam'
+    voornaam: 'testvoornaam',
+    emails: [
+      {
+        type: {id: 1},
+        email: 'test.test@test.be'
+      }
+    ],
+    telefoons: [
+      {
+        "type": {
+          "id": 1
+        },
+        "nummer": "123456789",
+        "landcode": "+32"
+      }
+    ],
+    "adres": {
+      "omschrijving_straat": "Liersesteenweg 107",
+      "adrestype": {
+        "id": 1
+      },
+      "straat": "Liersesteenweg",
+      "straat_id": 10769,
+      "huisnummer_id": 2133160,
+      "subadres_id": null,
+      "huisnummer": "107",
+      "gemeente_id": 37,
+      "subadres": null,
+      "postcode": "2800",
+      "id": 86,
+      "gemeente": "Mechelen",
+      "land": "BE"
+    },
+    "type": {
+      "id": 1
+    }
   };
 
 	var actorWidget = new ActorWidget({

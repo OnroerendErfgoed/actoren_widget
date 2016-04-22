@@ -685,6 +685,40 @@ define([
      */
     _addNewTag: function (id) {
       this.actorWidget.getActorSearch().actoren_new.push(id);
+    },
+
+
+    /**
+     * Prefill de detail data van de actor
+     * @param {Object} actor
+     */
+    setActor: function(actor) {
+      this._reset();
+      this.naam.value = actor.naam || '';
+      this.voornaam.value = actor.voornaam || '';
+
+      array.forEach(actor.emails, lang.hitch(this, function(email) {
+        this.email.value = email.email;
+        this.emailtypes.value = email.type.id;
+        this._addEmail();
+      }));
+
+      array.forEach(actor.telefoons, lang.hitch(this, function(telefoon) {
+        this.telefoon.telefoonLandcode = telefoon.telefoonLandcode;
+        this.telefoon.value = telefoon.nummer;
+        this.telefoon.telefoontypes = telefoon.type.id;
+        this._addTelefoon();
+      }));
+
+      if (actor.adres) {
+       this._crabWidget.setValuesList([actor.adres]);
+      }
+
+      if (actor.type && actor.type.id) {
+        this.type.value  = actor.type.id;
+      }
+
+      //todo rrn & kbo nr
     }
   });
 });
