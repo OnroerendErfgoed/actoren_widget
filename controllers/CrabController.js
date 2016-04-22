@@ -5,16 +5,20 @@ define([
 	'dojo/_base/declare',
 	'dojo/_base/lang',
 	'dojo/Deferred',
-	'dojo/request/xhr'
+	'dojo/request/xhr',
+	'dojo/promise/all',
 ], function(
 	declare,
 	lang,
 	Deferred,
-	xhr
+	xhr,
+	all
 ) {
 	return declare(null, /** @lends module:controllers/ActorController# */ {
 
 		crabHost: null,
+		_landen: null,
+		_gemeenten: null,
 
 		/**
 		 * Module die instaat voor de 'ajax calls' die naar de server gemaakt worden voor het ophalen van de crab adres gegevens.
@@ -23,6 +27,10 @@ define([
 		 */
 		constructor: function (args) {
 			declare.safeMixin(this, args);
+
+			//preload data
+			this.getLanden();
+			this.getGemeenten();
 		},
 
 		/**
@@ -32,7 +40,7 @@ define([
 		 * @private
 		 */
 		_crabGet: function(endpoint){
-			return xhr(this.crabHost + endpoint, {
+			return xhr(this.crabHost + '/' + endpoint, {
 				methode: "GET",
 				handleAs: "json",
 				headers: {
@@ -48,11 +56,17 @@ define([
 		 */
 		getLanden: function(){
 			var deferred = new Deferred();
-			this._crabGet('crab/landen').
-				then(lang.hitch(this, function(landen) {
+			if (!this._landen) {
+				this._crabGet('crab/landen').then(lang.hitch(this, function (landen) {
+					this._landen = landen;
 					landen.sort(this._compare);
 					deferred.resolve(landen);
 				}));
+			}
+			else {
+				this._landen.sort(this._compare);
+				deferred.resolve(this._landen);
+			}
 			return deferred.promise;
 		},
 
@@ -77,20 +91,31 @@ define([
 		 */
 		getGemeenten: function(){
 			var deferred = new Deferred();
-			this._crabGet('crab/gewesten/1/gemeenten').
-				then(lang.hitch(this, function(data) {
-					var gemeenten = data;
-					this._crabGet('crab/gewesten/2/gemeenten').
-						then(lang.hitch(this, function(data) {
-							gemeenten = gemeenten.concat(data);
-							this._crabGet('crab/gewesten/3/gemeenten').
-								then(lang.hitch(this, function(data) {
-									gemeenten = gemeenten.concat(data);
-									gemeenten.sort(this._compare);
-									deferred.resolve(gemeenten);
-								}))
-						}))
-				}));
+
+			if (!this._gemeenten) {
+				var gemeenten1promise = this._crabGet('crab/gewesten/1/gemeenten');
+				var gemeenten2promise = this._crabGet('crab/gewesten/2/gemeenten');
+				var gemeenten3promise = this._crabGet('crab/gewesten/3/gemeenten');
+				all({
+					gemeenten1: gemeenten1promise,
+					gemeenten2: gemeenten2promise,
+					gemeenten3: gemeenten3promise
+				}).then(
+					lang.hitch(this, function(results) {
+						var gemeenten = results.gemeenten1.concat(results.gemeenten2).concat(results.gemeenten3);
+						this._gemeenten = gemeenten;
+						gemeenten.sort(this._compare);
+						deferred.resolve(gemeenten);
+					}),
+					function (error) {
+						deferred.reject(error);
+					}
+				);
+			}
+			else {
+				this._gemeenten.sort(this._compare);
+				deferred.resolve(this._gemeenten);
+			}
 			return deferred.promise;
 		},
 
