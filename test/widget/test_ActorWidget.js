@@ -8,8 +8,9 @@ require([
 	Observable,
 	JsonRestCors
 ) {
-	var baseUrl= "http://localhost:6565";
-	var ssoToken = 'u2_654897';
+	//var baseUrl= "http://localhost:6565/";
+	var baseUrl= "https://dev-actoren.onroerenderfgoed.be";
+	var ssoToken = 'AQIC5wM2LY4SfcxBiA0_fpFhmsmyCzZ5fa2CXq8TmNS-3ow.*AAJTSQACMDIAAlNLABEyNjUwMjMxNjk0MjkyNDM2OQACUzEAAjAx*';
 
 	var actorWijStore = new Observable(new JsonRestCors({
 		target: baseUrl + '/actoren/wij/',
@@ -44,7 +45,8 @@ require([
 			vkbo: false,
 			vkbp: false
 		},
-		crabHost: "http://localhost:6565/"
+		//crabHost: "http://localhost:6565/"
+		crabHost: baseUrl
 		//typeLists: {
 		//	emailTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}], // get <actorenHost>/email_types
 		//	telephoneTypes: [{"naam": "thuis", "id": 1}, {"naam": "werk", "id": 2}, {"naam": "mobiel", "id": 3}, {"naam": "fax thuis", "id": 4}, {"naam": "fax werk", "id": 5}], // get <actorenHost>/telephone_types
