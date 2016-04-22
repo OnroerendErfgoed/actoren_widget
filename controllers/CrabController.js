@@ -6,7 +6,7 @@ define([
 	'dojo/_base/lang',
 	'dojo/Deferred',
 	'dojo/request/xhr',
-	'dojo/promise/all',
+	'dojo/promise/all'
 ], function(
 	declare,
 	lang,
