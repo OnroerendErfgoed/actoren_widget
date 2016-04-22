@@ -94,6 +94,16 @@ define([
         actorUrl: this.crabHost,
         ssoToken: this.ssoToken
       });
+      this.actorController = new ActorController({
+        actorWijStore: this.actorWijStore,
+        actorStore: this.actorStore,
+        ssoToken: this.ssoToken
+      });
+      this.crabController = new CrabController({
+        crabHost: this.crabHost
+      });
+
+      this.overlayContainer = this.loadingOverlay;
 
       this.on('error', function(evt){
         console.log('error', evt.error);
@@ -119,15 +129,6 @@ define([
         this.typeLists.urlTypes = results.url.data;
         this.typeLists.actorTypes = results.actor.data;
         this.typeLists.adresTypes = results.adres.data;
-
-        this.actorController = new ActorController({
-          actorWijStore: this.actorWijStore,
-          actorStore: this.actorStore,
-          ssoToken: this.ssoToken
-        });
-        this.crabController = new CrabController({crabHost: this.crabHost});
-        this.overlayContainer = this.loadingOverlay;
-
         this._tabList = {};
 
         this._setupLayout();
@@ -138,12 +139,12 @@ define([
     _setupLayout: function () {
       console.log("layout");
       this._createActorSearchView();
-      this._createActorAdvSearchView();
-      this._createActorDetailView();
-      this._createActorEditView();
-      this._createActorCreateView();
-      this._createVKBOSearchView();
-      this._createVKBPSearchView();
+      //this._createActorAdvSearchView();
+      //this._createActorDetailView();
+      //this._createActorEditView();
+      //this._createActorCreateView();
+      //this._createVKBOSearchView();
+      //this._createVKBPSearchView();
       if (this.isLoading()) {
         this.hideLoading();
       }
