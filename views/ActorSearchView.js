@@ -161,8 +161,6 @@ define([
 				evt.preventDefault();
 				this._emitError(evt)
 			}));
-			this._grid.refresh();
-
 		},
 
 		/**
