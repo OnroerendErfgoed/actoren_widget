@@ -143,7 +143,7 @@ define([
         _useSelectedActor: function(evt) {
           evt ? evt.preventDefault() : null;
           var selected = null;
-          array.forEach(this._grid.store.data, lang.hitch(this, function (item) {
+          array.forEach(this.existsStore.data, lang.hitch(this, function (item) {
             if (this._grid.selection[item.id]) {
               selected = item;
             }
@@ -161,7 +161,7 @@ define([
         _mergeSelectedActor: function(evt) {
           evt ? evt.preventDefault() : null;
           var selected = null;
-          array.forEach(this._grid.store.data, lang.hitch(this, function (item) {
+          array.forEach(this.existsStore.data, lang.hitch(this, function (item) {
             if (this._grid.selection[item.id]) {
               selected = item.id;
             }
