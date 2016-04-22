@@ -41,11 +41,11 @@ define([
 		 */
 		_crabGet: function(endpoint){
 			return xhr(this.crabHost + '/' + endpoint, {
-				methode: "GET",
-				handleAs: "json",
+				methode: 'GET',
+				handleAs: 'json',
 				headers: {
-					"X-Requested-With": "",
-					"Content-Type": "application/json"
+					'X-Requested-With': '',
+					'Content-Type': 'application/json'
 				}
 			})
 		},
@@ -78,9 +78,9 @@ define([
 		getLandNaam: function(landId){
 			var deferred = new Deferred();
 			this._crabGet('crab/landen/' + landId).
-				then(function(land){
-					deferred.resolve(land.naam)
-				});
+			then(function(land){
+				deferred.resolve(land.naam)
+			});
 			return deferred.promise;
 		},
 
@@ -125,7 +125,7 @@ define([
 		 * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
 		 */
 		getPostkantons: function(gemeente_id) {
-			return this._crabGet("crab/gemeenten/" + gemeente_id + "/postkantons");
+			return this._crabGet('crab/gemeenten/' + gemeente_id + '/postkantons');
 		},
 
 		/**
@@ -134,7 +134,7 @@ define([
 		 * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
 		 */
 		getStraten: function(gemeente_id) {
-			return this._crabGet("crab/gemeenten/" + gemeente_id + "/straten");
+			return this._crabGet('crab/gemeenten/' + gemeente_id + '/straten');
 		},
 
 		/**
@@ -143,7 +143,7 @@ define([
 		 * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
 		 */
 		getNummers: function(straat_id) {
-			return this._crabGet("crab/straten/" + straat_id + "/huisnummers");
+			return this._crabGet('crab/straten/' + straat_id + '/huisnummers');
 		},
 
 		/**
