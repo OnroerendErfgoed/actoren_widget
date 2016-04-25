@@ -387,6 +387,16 @@ define([
           this.emit('error', {message: 'Fout bij ophalen bestaande actor.'});
         })
       );
+    },
+
+    /**
+     * Zet een actor objectg in de create view
+     * @param {actor} actor de actor die moet gezet worden
+     */
+    setActorToCreate: function (actor){
+      this.actorToCreate = actor;
+      this._openTab(this.tabActorCreate);
+      this._tabList.actorCreate.setActor(this.actorToCreate);
     }
 
   });
