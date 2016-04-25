@@ -577,6 +577,7 @@ define([
               console.log("saved?", actor);
               this._addNewTag(actor.id);
               this._waitForAdd(actor, lang.hitch(this, this._findNewActor));
+              this.actorWidget.emit('create.new' , {actor: actor});
             }),
             lang.hitch(this, function (error) {
                 console.log("error: ", error);
