@@ -374,7 +374,7 @@ define([
 
     _useExistingActor: function (selected) {
       this.showLoading('De bestaande actor wordt opgehaald');
-      this.actorController.getActor(666).then(
+      this.actorController.getActor(selected.id).then(
         lang.hitch(this, function (actor) {
           this.hideLoading();
           this.emit('create.existing', {actor: actor});
