@@ -370,6 +370,23 @@ define([
      */
     emitError: function(evt) {
       this.emit('error', evt);
+    },
+
+    _useExistingActor: function (selected) {
+      this.showLoading('De bestaande actor wordt opgehaald');
+      this.actorController.getActor(666).then(
+        lang.hitch(this, function (actor) {
+          this.hideLoading();
+          this.emit('create.existing', {actor: actor});
+          this.setSelectedActor(actor);
+          this.showActorDetail(actor);
+        }),
+        lang.hitch(this, function (error) {
+          console.error('Error getting existing actor', error);
+          this.hideLoading();
+          this.emit('error', {message: 'Fout bij ophalen bestaande actor.'});
+        })
+      );
     }
 
   });

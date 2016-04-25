@@ -11,7 +11,7 @@ require([
   on
 ) {
 	var baseUrl= 'https://dev-actoren.onroerenderfgoed.be';
-	var ssoToken = 'AQIC5wM2LY4SfcxBiA0_fpFhmsmyCzZ5fa2CXq8TmNS-3ow.*AAJTSQACMDIAAlNLABEyNjUwMjMxNjk0MjkyNDM2OQACUzEAAjAx*';
+	var ssoToken = 'AQIC5wM2LY4SfcynJEFeMpWiagZ1fRAGdOoYChnYvVqiNOg.*AAJTSQACMDIAAlNLABM4NzUzOTU1NTI4NDc3MDc0MjgwAAJTMQACMDE.*';
 
 	var actorWijStore = new Observable(new JsonRest({
 		target: baseUrl + '/actoren/wij/',
@@ -95,6 +95,14 @@ require([
 
   on(actorWidget, 'create.cancel', function () {
     console.debug('catch cancel create');
+  });
+
+  on(actorWidget, 'create.existing', function (evt) {
+    console.debug('catch create existing', evt.actor);
+  });
+
+  on(actorWidget, 'error', function (evt) {
+    console.debug('catch error', evt.message);
   });
 
 });
