@@ -157,14 +157,20 @@ define([
       }
       if (this.startMode === 'create') {
         this._openTab(this.tabActorCreate);
-        var widget = this._tabList.actorCreate;
-        widget._cancel = lang.hitch(this, function(evt) {
+        var createTab = this._tabList.actorCreate;
+        createTab._cancel = lang.hitch(this, function(evt) {
           evt? evt.preventDefault() : null;
-          widget._reset();
+          createTab._reset();
           this.emit('create.cancel');
         });
-        widget.setActor(this.actorToCreate);
+        var editTab = this._tabList.actorEdit;
+        editTab._cancel = lang.hitch(this, function(evt) {
+          evt? evt.preventDefault() : null;
+          editTab._reset();
+          this.emit('create.cancel');
+        });
 
+        createTab.setActor(this.actorToCreate);
       }
     },
 

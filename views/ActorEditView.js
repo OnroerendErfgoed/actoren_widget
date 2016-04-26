@@ -559,6 +559,7 @@ define([
                         this.actorWidget.showActorDetail(actor);
                         this.actorWidget.hideLoading();
                         this._reset();
+                        this.actorWidget.emit('create.update' , {actor: actor});
                       }),
                       lang.hitch(this, function (error) {
                         this.actorWidget.hideLoading();
@@ -578,6 +579,7 @@ define([
                     this.actorWidget.showActorDetail(actor);
                     this.actorWidget.hideLoading();
                     this._reset();
+                    this.actorWidget.emit('create.update' , {actor: actor});
                   }
                 }),
                 lang.hitch(this, function (error) {
@@ -606,6 +608,7 @@ define([
                   this.actorWidget.showActorDetail(actor);
                   this.actorWidget.hideLoading();
                   this._reset();
+                  this.actorWidget.emit('create.update' , {actor: actor});
                 }),
                 lang.hitch(this, function (error) {
                   this.actorWidget.hideLoading();

@@ -11,7 +11,7 @@ require([
   on
 ) {
 	var baseUrl= 'https://dev-actoren.onroerenderfgoed.be';
-	var ssoToken = 'AQIC5wM2LY4SfczNq6YvcXhvl8BALLFc5fOtMbl5zMmH_fk.*AAJTSQACMDIAAlNLABQtOTAyNzY1ODUzMzg5MjYyMjQwMgACUzEAAjAx*';
+	var ssoToken = 'AQIC5wM2LY4SfczcF5xbKlqhnzOrPre7au1326YcUxOUZ1o.*AAJTSQACMDIAAlNLABMyODczNTM0ODU4ODYwMTUyNDMwAAJTMQACMDM.*';
 
 	var actorWijStore = new Observable(new JsonRest({
 		target: baseUrl + '/actoren/wij/',
