@@ -225,10 +225,14 @@ define([
 				if (newValue != this._previousSearchValue) {
 					this._previousSearchValue = newValue;
 					if (newValue === '') {
-                        this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
+						this._grid.set({
+							collection: new StoreAdapter({objectStore: this.actorController.actorStore})
+						});
 					}
 					else {
-						this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}).filter({"naam": newValue}));
+						this._grid.set({
+							collection: new StoreAdapter({objectStore: this.actorController.actorStore}).filter({'omschrijving': newValue})
+						});
 					}
 				}
 			}, 300));
@@ -236,7 +240,7 @@ define([
 
 		/**
 		* Het grid zal actoren filteren worden op meegegeven query
-		* @param {object} query bv {naam: 'testpersoon'}
+		* @param {object} filter bv {omschrijving: 'testpersoon'}
 		*/
 		advSearchFilterGrid: function(filter) {
 			this.removeSort();
@@ -255,7 +259,8 @@ define([
 		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
 		*/
 		removeSort: function() {
-			this._grid.set('sort', "");
+			this._grid.set('collection', '');
+			this._grid.set('sort', '');
 		},
 
 		/**
