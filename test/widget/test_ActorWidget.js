@@ -1,18 +1,18 @@
 require([
 	'actorwidget/widgets/ActorWidget',
 	'dojo/store/Observable',
-	'actorwidget/test/util/JsonRestCors',
+	'dojo/store/JsonRest',
 	'dojo/domReady!'
 ], function (
 	ActorWidget,
 	Observable,
-	JsonRestCors
+	JsonRest
 ) {
 	//var baseUrl= "http://localhost:6565/";
 	var baseUrl= "https://dev-actoren.onroerenderfgoed.be";
-	var ssoToken = 'AQIC5wM2LY4SfcxBiA0_fpFhmsmyCzZ5fa2CXq8TmNS-3ow.*AAJTSQACMDIAAlNLABEyNjUwMjMxNjk0MjkyNDM2OQACUzEAAjAx*';
+	var ssoToken = 'AQIC5wM2LY4SfczcF5xbKlqhnzOrPre7au1326YcUxOUZ1o.*AAJTSQACMDIAAlNLABMyODczNTM0ODU4ODYwMTUyNDMwAAJTMQACMDM.*';
 
-	var actorWijStore = new Observable(new JsonRestCors({
+	var actorWijStore = new Observable(new JsonRest({
 		target: baseUrl + '/actoren/wij/',
 		sortParam: 'sort',
 		idProperty: 'id',
@@ -23,7 +23,7 @@ require([
 		}
 	}));
 
-	var actorStore = new Observable(new JsonRestCors({
+	var actorStore = new Observable(new JsonRest({
 		target: baseUrl + '/actoren/',
 		sortParam: 'sort',
 		idProperty: 'id',
