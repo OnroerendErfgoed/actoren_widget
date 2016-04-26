@@ -33,6 +33,15 @@ define([
 	Selection,
     StoreAdapter
 ) {
+
+	var delay = (function(){
+		var timer = 0;
+		return function(callback, ms){
+			clearTimeout (timer);
+			timer = setTimeout(callback, ms);
+		};
+	})();
+
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
 		templateString: template,
@@ -40,7 +49,6 @@ define([
     widgetsInTemplate: true,
 		actorStore: null,
 		baseUrl: null,
-		_previousSearchValue:'',
 		actorWidget: null,
 		actorController: null,
 		_store: 'all',
@@ -214,29 +222,29 @@ define([
 		*/
 		_filterGrid: function (evt) {
 			evt.preventDefault();
-			this.removeSort();
 
-			var newValue = evt.target.value;
-			if (this._timeoutId) {
-				clearTimeout(this._timeoutId);
-				this._timeoutId = null;
-			}
-			this._timeoutId = setTimeout(lang.hitch(this, function () {
-				if (newValue != this._previousSearchValue) {
-					this._previousSearchValue = newValue;
-					if (newValue === '') {
-                        this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}));
-					}
-					else {
-						this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorStore}).filter({"naam": newValue}));
-					}
+	 		var newValue = evt.target.value;
+			var scope = this;
+			delay(function() {
+				scope.removeSort();
+				if (newValue === '') {
+					scope._grid.set({
+						collection: new StoreAdapter({objectStore: scope.actorController.actorStore})
+					});
 				}
-			}, 300));
+				else {
+					scope._grid.set({
+						collection: new StoreAdapter({objectStore: scope.actorController.actorStore}).filter({'omschrijving': newValue})
+					});
+				}
+			}, 250 );
+
+
 		},
 
 		/**
 		* Het grid zal actoren filteren worden op meegegeven query
-		* @param {object} query bv {naam: 'testpersoon'}
+		* @param {object} filter bv {omschrijving: 'testpersoon'}
 		*/
 		advSearchFilterGrid: function(filter) {
 			this.removeSort();
@@ -255,7 +263,8 @@ define([
 		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
 		*/
 		removeSort: function() {
-			this._grid.set('sort', "");
+			this._grid.set('collection', '');
+			this._grid.set('sort', '');
 		},
 
 		/**
