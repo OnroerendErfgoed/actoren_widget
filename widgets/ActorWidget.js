@@ -69,12 +69,15 @@ define([
     ssoToken: null,
     canCreateActor: false,
     canEditActor: false,
+    hideTabButtons: false,
     // default values
     actorCategories: {
       actoren: true,
       vkbo: false,
       vkbp: false
     },
+    startMode: null,
+    actorToCreate: null,
     typeLists: null,
     _actorSearch: null,
     _tabList: null,
@@ -94,6 +97,16 @@ define([
         actorUrl: this.crabHost,
         ssoToken: this.ssoToken
       });
+      this.actorController = new ActorController({
+        actorWijStore: this.actorWijStore,
+        actorStore: this.actorStore,
+        ssoToken: this.ssoToken
+      });
+      this.crabController = new CrabController({
+        crabHost: this.crabHost
+      });
+
+      this.overlayContainer = this.loadingOverlay;
 
       this.on('error', function(evt){
         console.log('error', evt.error);
@@ -119,15 +132,6 @@ define([
         this.typeLists.urlTypes = results.url.data;
         this.typeLists.actorTypes = results.actor.data;
         this.typeLists.adresTypes = results.adres.data;
-
-        this.actorController = new ActorController({
-          actorWijStore: this.actorWijStore,
-          actorStore: this.actorStore,
-          ssoToken: this.ssoToken
-        });
-        this.crabController = new CrabController({crabHost: this.crabHost});
-        this.overlayContainer = this.loadingOverlay;
-
         this._tabList = {};
 
         this._setupLayout();
@@ -146,6 +150,27 @@ define([
       this._createVKBPSearchView();
       if (this.isLoading()) {
         this.hideLoading();
+      }
+      if (this.hideTabButtons) {
+        this.tabOverzicht.controlButton.domNode.style.display =  'none';
+        this.tabAdvSearch.controlButton.domNode.style.display =  'none';
+      }
+      if (this.startMode === 'create') {
+        this._openTab(this.tabActorCreate);
+        var createTab = this._tabList.actorCreate;
+        createTab._cancel = lang.hitch(this, function(evt) {
+          evt? evt.preventDefault() : null;
+          createTab._reset();
+          this.emit('create.cancel');
+        });
+        var editTab = this._tabList.actorEdit;
+        editTab._cancel = lang.hitch(this, function(evt) {
+          evt? evt.preventDefault() : null;
+          editTab._reset();
+          this.emit('create.cancel');
+        });
+
+        createTab.setActor(this.actorToCreate);
       }
     },
 
@@ -351,6 +376,33 @@ define([
      */
     emitError: function(evt) {
       this.emit('error', evt);
+    },
+
+    _useExistingActor: function (selected) {
+      this.showLoading('De bestaande actor wordt opgehaald');
+      this.actorController.getActor(selected.id).then(
+        lang.hitch(this, function (actor) {
+          this.hideLoading();
+          this.emit('create.existing', {actor: actor});
+          this.setSelectedActor(actor);
+          this.showActorDetail(actor);
+        }),
+        lang.hitch(this, function (error) {
+          console.error('Error getting existing actor', error);
+          this.hideLoading();
+          this.emit('error', {message: 'Fout bij ophalen bestaande actor.'});
+        })
+      );
+    },
+
+    /**
+     * Zet een actor objectg in de create view
+     * @param {actor} actor de actor die moet gezet worden
+     */
+    setActorToCreate: function (actor){
+      this.actorToCreate = actor;
+      this._openTab(this.tabActorCreate);
+      this._tabList.actorCreate.setActor(this.actorToCreate);
     }
 
   });

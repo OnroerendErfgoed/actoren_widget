@@ -48,7 +48,7 @@ define([
       if(schemeId in this._stores){
         deferred.resolve(this._stores[schemeId]);
       } else {
-        xhr.get(this.actorUrl + this.schemeIds[schemeId], {
+        xhr.get(this.actorUrl + '/' + this.schemeIds[schemeId], {
           handleAs: 'json',
           headers:{'Content-Type': 'application/json', 'Accept': 'application/json', 'OpenAmSSOID': this.ssoToken }
         }).then(

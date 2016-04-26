@@ -647,6 +647,10 @@ define([
 			this.subadres.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
+      this._crabAddresses = [];
+      this._crabAddressesRemove = [];
+      this._crabAddressesNew = [];
+			domConstruct.empty(this.adreslist);
 
 		},
 

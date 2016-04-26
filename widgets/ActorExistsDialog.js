@@ -143,25 +143,21 @@ define([
         _useSelectedActor: function(evt) {
           evt ? evt.preventDefault() : null;
           var selected = null;
-          array.forEach(this._grid.store.data, lang.hitch(this, function (item) {
+          array.forEach(this.existsStore.data, lang.hitch(this, function (item) {
             if (this._grid.selection[item.id]) {
               selected = item;
             }
           }));
           if (selected) {
-            console.debug('emit actor', selected);
-            this.actorWidget.actorController.getActor(selected.id).then(lang.hitch(this, function (actor) {
-              this.actorWidget.setSelectedActor(actor);
-              this.actorWidget.showActorDetail(actor);
-              this.dialog.hide();
-            }));
+            this.actorWidget._useExistingActor(selected);
+            this.dialog.hide();
           }
         },
 
         _mergeSelectedActor: function(evt) {
           evt ? evt.preventDefault() : null;
           var selected = null;
-          array.forEach(this._grid.store.data, lang.hitch(this, function (item) {
+          array.forEach(this.existsStore.data, lang.hitch(this, function (item) {
             if (this._grid.selection[item.id]) {
               selected = item.id;
             }
