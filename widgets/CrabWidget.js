@@ -256,12 +256,12 @@ define([
 		 */
 		_changeGemeenten: function() {
 			if (this.land.value != 'BE') {
-				this._resetExceptLand();
+				this._resetExceptLand(true);
 				this.gemeenteCrabNode.style.display="none";
 				this.gemeenteNode.style.display="inline-table";
 			}
 			else {
-				this._resetExceptLand();
+				this._resetExceptLand(true);
 			}
 		},
 
@@ -355,7 +355,7 @@ define([
         this._crabAddressesNew.push(adres);
         var fullAddress = adres.straat + " " + adres.huisnummer + ", " + adres.postcode + " " + adres.gemeente + ", " + adres.land;
         this._createListItem(this._adresIndex, fullAddress, this.adrestypes.selectedOptions[0].label, this.adreslist, this._removeAddress, false);
-        this.resetValues();
+        this.resetValues(false);
       }
     },
 
@@ -607,9 +607,9 @@ define([
 		/**
 		 * reset functie naar default waarden.
 		 */
-		resetValues: function() {
+		resetValues: function(full) {
 			this.land.value = 'BE';
-			this._resetExceptLand();
+			this._resetExceptLand(full);
       this._clearHighlights();
 		},
 
@@ -621,7 +621,7 @@ define([
 		 * reset functie naar default waarden, land niet meegerekend.
 		 * @private
 		 */
-		_resetExceptLand: function() {
+		_resetExceptLand: function(full) {
 			this._gemeenteCombobox.set("value", '');
 			this._straatCombobox.set("value", '');
 			this._postcodeCombobox.set("value", '');
@@ -647,10 +647,12 @@ define([
 			this.subadres.disabled=false;
 			this._gemeentePrev=null;
 			this._straatPrev=null;
-      this._crabAddresses = [];
-      this._crabAddressesRemove = [];
-      this._crabAddressesNew = [];
-			domConstruct.empty(this.adreslist);
+			if (full) {
+				this._crabAddresses = [];
+				this._crabAddressesRemove = [];
+				this._crabAddressesNew = [];
+				domConstruct.empty(this.adreslist);
+			}
 
 		},
 
