@@ -164,7 +164,7 @@ define([
       this.email.value=  '';
       this.telefoon.value = '';
       this.telefoonLandcode.value = '';
-      this._crabWidget.resetValues();
+      this._crabWidget.resetValues(true);
       this.actortype.value = '';
       this.actor = null;
     }

@@ -144,7 +144,7 @@ define([
 			this.voornaam.value = '';
 			this.email.value=  '';
 			this.telefoon.value = '';
-			this._crabWidget.resetValues();
+			this._crabWidget.resetValues(true);
 			this.type.value = "";
 			this.persid.value = "";
 			this.rrn.value = "";
