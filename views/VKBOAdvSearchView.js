@@ -106,7 +106,7 @@ define([
 		 */
 		_reset: function(){
 			this.naam.value = '';
-			this._crabWidget.resetValues();
+			this._crabWidget.resetValues(true);
 			this.persid.value = "";
 		}
 	});

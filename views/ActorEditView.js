@@ -341,7 +341,7 @@ define([
       this._actorTelefoons = [];
       this.telefoontypes.value = 2;
       this.telefoonLandcode.value = '';
-      this._crabWidget.resetValues();
+      this._crabWidget.resetValues(true);
       this.actortype.value = "1";
       this.url.value = "";
       this._actorUrls.forEach(lang.hitch(this, function(urlObject){

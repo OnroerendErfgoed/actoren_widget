@@ -333,7 +333,7 @@ define([
       this.type.value = "1";
       this.rrn.value = "";
       this.kbo.value = "";
-      this._crabWidget.resetValues();
+      this._crabWidget.resetValues(true);
     },
 
     /**
