@@ -1,0 +1,81 @@
+<div class="dijitDialog" role="dialog" aria-labelledby="viewActorDialog_title">
+  <div data-dojo-attach-point="titleBar" class="dijitDialogTitleBar">
+    <span data-dojo-attach-point="titleNode" class="dijitDialogTitle" role="heading"></span>
+		<span data-dojo-attach-point="closeButtonNode" class="dijitDialogCloseIcon"
+          data-dojo-attach-event="ondijitclick: onCancel" title="Annuleren" role="button" tabIndex="-1">
+			<span data-dojo-attach-point="closeText" class="closeText" title="Annuleren" tabIndex="-1">
+        <i class="fa fa-times"></i></span>
+		</span>
+  </div>
+
+  <div data-dojo-attach-point="containerNode" class="dijitDialogPaneContent row">
+    <div class="large-4 columns">
+      <div class="placeholder-container placeholder-disabled">
+        <label for="naam-${id}">Naam</label>
+        <input id="naam-${id}" type="text" data-dojo-attach-point="naamInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled">
+        <label for="voornaam-${id}">Voornaam</label>
+        <input id="voornaam-${id}" type="text" data-dojo-attach-point="voornaamInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled">
+        <label>Email</label>
+        <ul class="nodisk list-selected-items" data-dojo-attach-point="emailList"></ul>
+      </div>
+      <div class="placeholder-container placeholder-disabled">
+        <label>Telefoonnummer</label>
+        <ul class="nodisk list-selected-items" data-dojo-attach-point="telefoonList"></ul>
+      </div>
+    </div>
+
+    <div class="large-4 columns">
+      <div class="placeholder-container placeholder-disabled">
+        <label for="land-${id}">Land</label>
+        <input id="land-${id}" type="text" data-dojo-attach-point="landInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled" style="width:60%;">
+        <label for="gemeente-${id}">Gemeente</label>
+        <input id="gemeente-${id}" type="text" data-dojo-attach-point="gemeenteInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled" style="width:36%; float:right;">
+        <label for="postcode-${id}">Postcode</label>
+        <input id="postcode-${id}"  type="text" data-dojo-attach-point="postcodeInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled">
+        <label for="straat-${id}">Straat</label>
+        <input id="straat-${id}" type="text" data-dojo-attach-point="straatInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled" style="width:48%;">
+        <label for="huisnummer-${id}">Huisnummer</label>
+        <input id="huisnummer-${id}" type="text" data-dojo-attach-point="huisnummerInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled" style="width:48%; float:right;">
+        <label for="postbus-${id}">Postbus</label>
+        <input id="postbus-${id}"  type="text" data-dojo-attach-point="postbusInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled">
+        <label for="adres-type-${id}" style="width: 30%">Type adres</label>
+        <input id="adres-type-${id}"  type="text" data-dojo-attach-point="adresTypeInput" disabled />
+      </div>
+    </div>
+
+    <div class="large-4 columns">
+      <div class="placeholder-container placeholder-disabled">
+        <label for="actor-type-${id}" style="width: 30%">Type actor</label>
+        <input id="actor-type-${id}"  type="text" data-dojo-attach-point="actorTypeInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled hide" data-dojo-attach-point="kboContainer">
+        <label for="kbo-${id}" class="wide-label">KBO</label>
+        <input id="kbo-${id}"  type="text" data-dojo-attach-point="kboInput" disabled />
+      </div>
+      <div class="placeholder-container placeholder-disabled">
+        <label>URL</label>
+        <ul class="nodisk list-selected-items" data-dojo-attach-point="urlList"></ul>
+      </div>
+      <div class="bron-link">
+        <a data-dojo-attach-point="actorLink" href="#" target="_blank">Bekijk de volledige actor</a>
+      </div>
+    </div>
+
+  </div>
+</div>

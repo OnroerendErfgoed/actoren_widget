@@ -31,7 +31,7 @@ define([
   return declare([_LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
     templateString: template,
-    baseClass: 'actor-widget',
+    baseClass: 'search-actor-widget',
     actorStore: null,
     _gridSearch: null,
     _advSearch: null,
@@ -61,7 +61,6 @@ define([
     _buildInterface: function() {
       // create stackcontainer
       this._stackContainer = new StackContainer({
-        style: 'height: 400px'
       }, this.searchContainer);
 
       // gridSearch

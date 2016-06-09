@@ -28,11 +28,21 @@ define([
     title: 'Actor',
     style: 'width: 1000px; height: 600px;',
     actorStore: null,
+    actorenUrl: null,
+    ssoToken: null,
+    idserviceUrl: null,
+    agivgrburl: null,
+    crabpyurl: null,
 
     postCreate: function () {
       this.inherited(arguments);
       this.actorWidget = new ActorWidget({
-        actorStore: this.actorStore
+        actorStore: this.actorStore,
+        actorenUrl: this.actorenUrl,
+        ssoToken: this.ssoToken,
+        idserviceUrl: this.idserviceUrl,
+        agivGrbUrl: this.agivgrburl,
+        crabUrl: this.crabpyurl
       });
       this.actorWidget.startup();
     },
