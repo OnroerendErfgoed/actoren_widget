@@ -1,6 +1,7 @@
 define([
   'dojo/_base/declare',
   'dojo/_base/lang',
+  'dojo/_base/array',
   'dijit/_WidgetBase',
   'dojo/on',
   'dojo/promise/all',
@@ -13,6 +14,7 @@ define([
 ], function (
   declare,
   lang,
+  array,
   _WidgetBase,
   on,
   all,
@@ -44,7 +46,8 @@ define([
       this.actorController = new ActorController({
         actorStore: this.actorStore,
         ssoToken: this.ssoToken,
-        idserviceUrl: this.idserviceUrl
+        idserviceUrl: this.idserviceUrl,
+        actorenUrl: this.actorenUrl
       });
 
       this.crabController = new CrabController({
@@ -78,7 +81,7 @@ define([
         crabController: this.crabController
       });
       on(this._manageActorDialog, 'actor.save', lang.hitch(this, function(evt) {
-        this.saveActor(evt.actor, evt.method);
+        this._saveActor(evt.actor, evt.method);
       }));
       this.typeLists = {};
     },
@@ -154,9 +157,29 @@ define([
       this._manageActorDialog.show(actor, 'add');
     },
 
-    saveActor: function(actor, mode) {
-      console.log('SAVE ACTOR', actor, mode);
-      this.actorController.saveActor(actor);
+    _saveActor: function(data, mode) {
+      console.log('SAVE ACTOR', data, mode);
+      var actorToSave = data.actor;
+      this.actorController.saveActor(actorToSave).then(lang.hitch(this, function(resActor) {
+        actorToSave.id = resActor.id; // set id for new actors
+        this._saveAdressen(data.adressen, actorToSave.id).then(lang.hitch(this, function(saveAdressenResult) {
+          console.log('Alles gesaved', resActor, saveAdressenResult);
+        }));
+      }));
+    },
+
+    _saveAdressen: function(adressen, actorId) {
+      var promises = [];
+      array.forEach(adressen.add, function(adres) {
+        promises.push(this.actorController.saveActorAdres(adres, actorId));
+      }, this);
+      array.forEach(adressen.edit, function(adres) {
+        promises.push(this.actorController.editActorAdres(adres, actorId));
+      }, this);
+      array.forEach(adressen.remove, function(adres) {
+        promises.push(this.actorController.deleteActorAdres(adres, actorId));
+      }, this);
+      return all(promises);
     },
 
     getTypeLists: function() {

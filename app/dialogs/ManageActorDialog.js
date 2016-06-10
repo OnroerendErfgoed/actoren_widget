@@ -63,6 +63,9 @@ define([
     _mode: 'add',
     _index: 0,
     _adresIndex: 0,
+    _adressenAdd: null,
+    _adressenEdit: null,
+    _adressenRemove: null,
     actor: null,
 
     postCreate: function () {
@@ -78,6 +81,10 @@ define([
       this._actorEmails = [];
       this._actorUrls = [];
       this._actorTelefoons = [];
+
+      this._adressenAdd = [];
+      this._adressenEdit = [];
+      this._adressenRemove = [];
     },
 
     startup: function () {
@@ -107,6 +114,8 @@ define([
           this._changedActorType(actor.type.id);
         }
         this.setData(actor);
+      } else {
+        this.actor = null;
       }
       if (mode === 'edit') {
         domStyle.set(this.kboNode, 'display', 'none');
@@ -158,9 +167,13 @@ define([
 
     _addAdresRow: function(adres, type) {
       if (adres) {
-        adres.id = 'new_' + this._adresIndex++;
         adres.adrestype = { id: type };
+        adres.id = 'new_' + this._adresIndex++;
         this._adresStore.add(adres);
+        if (adres.id.indexOf('new') > -1) {
+          delete adres.id;
+        }
+        this._adressenAdd.push(adres);
       }
     },
 
@@ -168,10 +181,18 @@ define([
       adres.id = id;
       adres.adrestype = { id: type };
       this._adresStore.put(adres);
+      var found = array.filter(this._adressenEdit, function(existing) {
+        return (existing.id !== adres.id);
+      });
+      if (found && found.length > 0) {
+        this._adressenEdit.remove(found);
+      }
+      this._adressenEdit.push(adres);
     },
 
     _removeAdresRow: function(rowId) {
       this._adresStore.remove(rowId);
+      this._adressenRemove.push(rowId);
     },
 
     _createGrid: function(options, node) {
@@ -287,20 +308,18 @@ define([
         }
       }
 
-
       actor.email = this._actorEmails;
       actor.telefoons = this._actorTelefoons;
       actor.urls = this._actorUrls;
 
-      actor.adressen = array.map(this._adresStore.fetchSync(), function(adres) {
-        console.log(adres);
-        if (!adres.id || adres.id.toString().indexOf('new_') > -1) {
-          delete adres.id;
-        }
-        return adres;
-      });
-
-      return actor;
+      var data = {};
+      data.actor = actor;
+      data.adressen = {
+        add: this._adressenAdd,
+        edit: this._adressenEdit,
+        remove: this._adressenRemove
+      };
+      return data;
     },
 
     setData: function(actor) {
@@ -373,6 +392,10 @@ define([
       this._actorEmails = [];
       this._actorTelefoons = [];
       this._actorUrls = [];
+
+      this._adressenAdd = [];
+      this._adressenEdit = [];
+      this._adressenRemove = [];
 
       this.actortypes.selectedIndex = 0;
       this.emailtypes.selectedIndex = 0;

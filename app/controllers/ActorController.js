@@ -18,6 +18,7 @@ define([
     ssoToken: null,
     idserviceUrl: null,
     actorenUrl: null,
+    _actorenTarget: '/actoren',
     _adresParameter: '/adressen',
     existsDialog: null,
 
@@ -61,7 +62,7 @@ define([
      * @returns {Boolean} (Promise) 'True' als het adres van de actor opgeslagen is, anders 'False'.
      */
     saveActorAdres:function(adres, actorId) {
-      var target = this.actorenUrl + actorId + this._adresParameter;
+      var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
       return xhr(target,{
         handleAs: "json",
@@ -75,9 +76,9 @@ define([
       });
     },
 
-    // todo: fix function => PUT endpoint in service does not exist
+    // TODO check required fields datum_start, datum_einde!!!
     editActorAdres:function(adres, actorId) {
-      var target = this.actorenUrl + actorId + this._adresParameter;
+      var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + "/" + adres.id;
       return xhr(target,{
         handleAs: "json",
         method:"PUT",
@@ -91,7 +92,7 @@ define([
     },
 
     deleteActorAdres:function(adresId, actorId) {
-      var target = this.actorenUrl + actorId + this._adresParameter + "/" + adresId;
+      var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + "/" + adresId;
       return xhr(target,{
         handleAs: "json",
         method:"DELETE",
