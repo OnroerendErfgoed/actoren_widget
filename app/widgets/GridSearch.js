@@ -103,16 +103,27 @@ define([
             if (!object.id) {
               return null;
             }
-            var div = domConstruct.create('div', { 'class': 'dGridHyperlink'});
+            var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
             domConstruct.create('a', {
               href: '#',
-              title: 'View actor',
+              title: 'Actor bekijken',
               className: 'fa fa-eye',
               innerHTML: '',
               onclick: lang.hitch(this, function (evt) {
                 evt.preventDefault();
                 this._viewActor(object);
+              })
+            }, div);
 
+            domConstruct.create('a', {
+              href: '#',
+              title: 'Actor bewerken',
+              className: 'fa fa-pencil',
+              style: 'margin-left: 15px;',
+              innerHTML: '',
+              onclick: lang.hitch(this, function (evt) {
+                evt.preventDefault();
+                this._editActor(object);
               })
             }, div);
             return div;
@@ -153,7 +164,11 @@ define([
     },
 
     _editActor: function(actor) {
-
+       if (actor) {
+        this.emit('actor.open.edit', {
+          actor: actor
+        });
+      }
     },
 
     _viewActor: function(actor) {

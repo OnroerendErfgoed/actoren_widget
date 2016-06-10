@@ -28,7 +28,6 @@ define([
     actorStore: null,
     searchDomNode: null,
     actorenUrl: null,
-    agivGrbUrl: null,
     crabUrl: null,
     ssoToken: null,
     idserviceUrl: null,
@@ -49,8 +48,7 @@ define([
       });
 
       this.crabController = new CrabController({
-        agivGRBUrl: this.agivGrbUrl,
-        crabHost: this.crabUrl.replace(/\/?$/, '/'), // add trailing slash
+        crabHost: this.crabUrl.replace(/\/?$/, '/') // add trailing slash
       });
 
       this.listController = new ListController({
@@ -66,6 +64,9 @@ define([
       }));
       on(this._searchWidget, 'actor.open.create', lang.hitch(this, function() {
         this.createNewActor();
+      }));
+      on(this._searchWidget, 'actor.open.edit', lang.hitch(this, function(evt) {
+        this.editActorByUri(evt.actor.uri);
       }));
 
       this._viewActorDialog = new ViewActorDialog({
@@ -122,15 +123,28 @@ define([
 
     viewActorByUri: function(actorUri) {
       if (actorUri) {
-        this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(res) {
-          this._viewActorDialog.show(res);
+        this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(actor) {
+          this._viewActorDialog.show(actor);
+        }));
+      }
+    },
+
+    editActor: function(actor) {
+      if (actor) {
+        this._manageActorDialog.show(actor, 'edit');
+      }
+    },
+
+    editActorByUri: function(actorUri) {
+      if (actorUri) {
+        this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(actor) {
+          this._manageActorDialog.show(actor, 'edit');
         }));
       }
     },
 
     createNewActor: function() {
-      console.debug('create new actor');
-      this._manageActorDialog.show();
+      this._manageActorDialog.show(null, 'add');
     },
 
     getTypeLists: function() {

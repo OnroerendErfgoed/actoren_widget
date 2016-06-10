@@ -53,6 +53,7 @@ define([
     title: 'Actor aanmaken',
     actorenUrl: null,
     crabController: null,
+    typeLists: null,
     _adresDialog: null,
     _adresGrid: null,
     _adresStore: null,
@@ -73,15 +74,6 @@ define([
         collection: this._adresStore
       }, this.adresGridNode);
 
-      this._adresDialog = new ManageAdresDialog({
-        crabController: this.crabController
-      });
-      on(this._adresDialog, 'adres.add', lang.hitch(this, function(evt) {
-        this._addAdresRow(evt.adres, evt.adresType);
-      }));on(this._adresDialog, 'adres.edit', lang.hitch(this, function(evt) {
-        this._editAdresRow(evt.adres, evt.adresType, evt.id);
-      }));
-
       this._actorEmails = [];
       this._actorUrls = [];
       this._actorTelefoons = [];
@@ -91,55 +83,35 @@ define([
       this.inherited(arguments);
       this._setSelectLists();
       this._setTelefoonLandcodes();
+
+      this._adresDialog = new ManageAdresDialog({
+        crabController: this.crabController,
+        adresTypes: this.typeLists.adresTypes
+      });
+      on(this._adresDialog, 'adres.add', lang.hitch(this, function(evt) {
+        this._addAdresRow(evt.adres, evt.adresType);
+      }));on(this._adresDialog, 'adres.edit', lang.hitch(this, function(evt) {
+        this._editAdresRow(evt.adres, evt.adresType, evt.id);
+      }));
       this._adresDialog.startup();
     },
 
     show: function (actor, mode) {
-      ///* jshint maxcomplexity:15 */
-      //if (actor) {
-      //  console.debug('ActorBekijkenDialog::show', actor);
-      //  this.actor = actor;
-      //  this.set('title', 'Actor \\ ID ' + actor.id);
-      //  var href = this.actorenUrl + '/actoren/' + actor.id;
-      //  domAttr.set(this.actorLink, 'href', href);
-      //
-      //  this.naamInput.value = actor.naam || '';
-      //  this.voornaamInput.value = actor.voornaam || '';
-      //  array.forEach(actor.emails, function (email) {
-      //    this._createListItem(email.email, email.type.naam, this.emailList);
-      //  }, this);
-      //  array.forEach(actor.telefoons, function (telefoon) {
-      //    /* jshint -W106 */
-      //    this._createListItem(telefoon.volledig_nummer, telefoon.type.naam, this.telefoonList);
-      //    /* jshint +W106 */
-      //  }, this);
-      //
-      //  if (actor.adres) {
-      //    this.landInput.value = actor.adres.land || '';
-      //    this.gemeenteInput.value = actor.adres.gemeente || '';
-      //    this.postcodeInput.value = actor.adres.postcode || '';
-      //    this.straatInput.value = actor.adres.straat || '';
-      //    this.huisnummerInput.value = actor.adres.huisnummer || '';
-      //    this.postbusInput.value = actor.adres.postbus || '';
-      //    this.adresTypeInput.value = actor.adres.adrestype.naam || '';
-      //  }
-      //
-      //  this.actorTypeInput.value = actor.type.naam || '';
-      //  if (actor.type && actor.type.id === 2) {
-      //    domClass.remove(this.kboContainer, 'hide');
-      //    var kbos = array.filter(actor.ids, function (actorId) {
-      //      return actorId.type && actorId.type.id === 6;
-      //    });
-      //    if (kbos.length > 0) {
-      //      /* jshint -W106 */
-      //      this.kboInput.value = kbos[0].extra_id;
-      //      /* jshint +W106 */
-      //    }
-      //  }
-      //  array.forEach(actor.urls, function (url) {
-      //    this._createListItem(url.url, url.type.naam, this.urlList);
-      //  }, this);
-      //}
+      /* jshint maxcomplexity:15 */
+      this.mode = mode;
+      if (actor) {
+        console.debug('ManageActorDialog::show', actor);
+        this.actor = actor;
+        this._changedActorType(actor.type.id);
+        this.setData(actor);
+      }
+      if (mode === 'edit') {
+        domStyle.set(this.kboNode, 'display', 'none');
+        domStyle.set(this.rrnNode, 'display', 'none');
+      } else {
+        domStyle.set(this.kboNode, 'display', 'none');
+        domStyle.set(this.rrnNode, 'display', 'inline-table');
+      }
       this.inherited(arguments);
     },
 
@@ -160,12 +132,14 @@ define([
 
     _addAdresRow: function(adres, type) {
       if (adres) {
+        adres.adrestype = { id: type };
         this._adresStore.add(adres);
       }
     },
 
     _editAdresRow: function(adres, type, id) {
       adres.id = id;
+      adres.adrestype = { id: type };
       this._adresStore.put(adres);
     },
 
@@ -192,6 +166,19 @@ define([
         },
         land: {
           label: 'Land'
+        },
+        adrestype: {
+          label: 'Type',
+          formatter: lang.hitch(this, function(value) {
+            var type = array.filter(this.typeLists.adresTypes, function(type) {
+              return type.id === parseInt(value.id);
+            })[0];
+            if (type) {
+              return type.naam;
+            } else {
+              return 'onbekend type';
+            }
+          })
         },
         'edit_delete': {
           label: '',
@@ -232,11 +219,65 @@ define([
         className: 'actorAdresGrid',
         collection: options.collection,
         columns: columns,
-        noDataMessage: 'Er zijn geen adressen gevonden',
+        noDataMessage: 'Er zijn geen adressen toegevoegd',
         loadingMessage: 'data aan het ophalen...'
       }, node);
 
       return grid;
+    },
+
+    setData: function(actor) {
+      console.log(actor);
+
+      if (actor.type) {
+        this.actortypes.value = actor.type.id;
+      }
+
+      if (actor.naam) {
+        this.naamInput.value = actor.naam;
+      }
+      if (actor.voornaam) {
+        this.vnafkInput.value = actor.voornaam;
+      } else if (actor.afkorting) {
+        this.vnafkInput.value = actor.afkorting;
+      }
+
+      actor.emails.forEach(lang.hitch(this, function(email) {
+        this._index++;
+        email['id'] = this._index.toString();
+        this._actorEmails.push(email);
+        var type = this.typeLists.emailTypes.filter(lang.hitch(this, function(type) {
+          return (type.id == email.type.id);
+        }));
+        this._createListItem(this._index, email.email, type[0].naam, this.emaillist, this._removeEmail);
+      }));
+
+      actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
+        this._index++;
+        telefoon['id'] = this._index.toString();
+        this._actorTelefoons.push(telefoon);
+        var type = this.typeLists.telephoneTypes.filter(lang.hitch(this, function(type) {
+          return (type.id == telefoon.type.id);
+        }));
+        var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
+        this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlist, this._removeTelefoon);
+      }));
+
+      actor.urls.forEach(lang.hitch(this, function(url) {
+        this._index++;
+        url['id'] = this._index.toString();
+        this._actorUrls.push(url);
+        var type = this.typeLists.urlTypes.filter(lang.hitch(this, function(type) {
+          return (type.id == url.type.id);
+        }));
+        this._createListItem(this._index, url.url, type[0].naam, this.urllist, this._removeUrl);
+      }));
+
+      if (actor.adressen) {
+        this._adresStore.setData(actor.adressen);
+        this._adresGrid.refresh();
+      }
+
     },
 
     _reset: function () {
@@ -260,6 +301,10 @@ define([
       this.emailtypes.selectedIndex = 0;
       this.urltypes.selectedIndex = 0;
       this.telefoontypes.selectedIndex = 0;
+
+      // reset adres grid
+      this._adresStore.setData([]);
+      this._adresGrid.refresh();
     },
 
     _closeDialog: function(evt) {
@@ -483,7 +528,7 @@ define([
      * @private
      */
     _changedActorType: function(type) {
-      switch (type) {
+      switch (type.toString()) {
         case "1":
         case "3":
           this.kboInput.value = '';

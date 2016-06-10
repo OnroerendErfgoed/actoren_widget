@@ -218,6 +218,11 @@
   color: black;
 }
 
+.manage-actor-dialog .list-selected-items {
+  max-height: 80px;
+  overflow-y: auto;
+}
+
 .bron-link {
   border: 2px solid lightgrey;
   text-align: center;
@@ -254,6 +259,11 @@ a:focus {
 
 .manage-actor-dialog .dgrid.actorAdresGrid .dgrid-column-postcode {
   width: 65px;
+}
+
+.manage-actor-dialog .dgrid.actorAdresGrid .dgrid-column-land,
+.manage-actor-dialog .dgrid.actorAdresGrid .dgrid-column-adrestype {
+  width: 75px;
 }
 
 .manage-actor-dialog .viewFooter,

@@ -60,6 +60,10 @@ define([
         this._crabAdres.startup();
         this._crabAdres.enable();
       }));
+
+      array.forEach(this.adresTypes, function(type) {
+        domConstruct.place('<option value="' + type.id + '">' + type.naam + '</option>', this.adresTypeSelect);
+      }, this);
     },
 
     startup: function () {
@@ -95,28 +99,29 @@ define([
     _execute: function(evt) {
       evt ? evt.preventDefault() : null;
       var adres = this._crabAdres.getInputValues();
-      console.log(adres);
-      if (this.mode === 'add') {
 
+      if (this.mode === 'add') {
         this.emit('adres.add', {
           adres: adres,
-          adresType: ''
+          adresType: this.adresTypeSelect.value
         });
       }
 
       if (this.mode === 'edit') {
         this.emit('adres.edit', {
           adres: adres,
-          adresType: '',
+          adresType: this.adresTypeSelect.value,
           id: this._adresRowId
-        })
+        });
       }
-
       this.hide();
     },
 
     _setData: function(adres) {
       this._adresRowId = adres.id;
+      if (adres.adrestype) {
+        this.adresTypeSelect.value = adres.adrestype.id;
+      }
       this._crabAdres.setValues(adres);
     },
 
@@ -127,6 +132,7 @@ define([
 
     _reset: function () {
       this._crabAdres._resetExceptLand();
+      this.adresTypeSelect.selectedIndex = 0;
     }
   });
 });

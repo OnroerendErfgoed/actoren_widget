@@ -41,7 +41,6 @@ define([
         actorenUrl: this.actorenUrl,
         ssoToken: this.ssoToken,
         idserviceUrl: this.idserviceUrl,
-        agivGrbUrl: this.agivgrburl,
         crabUrl: this.crabpyurl
       });
       this.actorWidget.startup();
