@@ -15,9 +15,9 @@ define([
   return declare(null, /** @lends module:controllers/ActorController# */ {
 
     actorStore: null,
-    actorWijStore: null,
     ssoToken: null,
     idserviceUrl: null,
+    actorenUrl: null,
     _adresParameter: '/adressen',
     existsDialog: null,
 
@@ -61,7 +61,7 @@ define([
      * @returns {Boolean} (Promise) 'True' als het adres van de actor opgeslagen is, anders 'False'.
      */
     saveActorAdres:function(adres, actorId) {
-      var target = this.actorStore.target + actorId + this._adresParameter;
+      var target = this.actorenUrl + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
       return xhr(target,{
         handleAs: "json",
@@ -76,8 +76,8 @@ define([
     },
 
     // todo: fix function => PUT endpoint in service does not exist
-    editActorAdres:function(adres,actorId) {
-      var target = this.actorStore.target + actorId + this._adresParameter;
+    editActorAdres:function(adres, actorId) {
+      var target = this.actorenUrl + actorId + this._adresParameter;
       return xhr(target,{
         handleAs: "json",
         method:"PUT",
@@ -91,7 +91,7 @@ define([
     },
 
     deleteActorAdres:function(adresId, actorId) {
-      var target = this.actorStore.target + actorId + this._adresParameter + "/" + adresId;
+      var target = this.actorenUrl + actorId + this._adresParameter + "/" + adresId;
       return xhr(target,{
         handleAs: "json",
         method:"DELETE",

@@ -77,6 +77,9 @@ define([
         actorenUrl: this.actorenUrl,
         crabController: this.crabController
       });
+      on(this._manageActorDialog, 'actor.save', lang.hitch(this, function(evt) {
+        this.saveActor(evt.actor, evt.method);
+      }));
       this.typeLists = {};
     },
 
@@ -145,6 +148,15 @@ define([
 
     createNewActor: function() {
       this._manageActorDialog.show(null, 'add');
+    },
+
+    createActor: function(actor) {
+      this._manageActorDialog.show(actor, 'add');
+    },
+
+    saveActor: function(actor, mode) {
+      console.log('SAVE ACTOR', actor, mode);
+      this.actorController.saveActor(actor);
     },
 
     getTypeLists: function() {

@@ -62,6 +62,7 @@ define([
     _actorTelefoons: null,
     _mode: 'add',
     _index: 0,
+    _adresIndex: 0,
     actor: null,
 
     postCreate: function () {
@@ -102,23 +103,48 @@ define([
       if (actor) {
         console.debug('ManageActorDialog::show', actor);
         this.actor = actor;
-        this._changedActorType(actor.type.id);
+        if (actor.type) {
+          this._changedActorType(actor.type.id);
+        }
         this.setData(actor);
       }
       if (mode === 'edit') {
         domStyle.set(this.kboNode, 'display', 'none');
         domStyle.set(this.rrnNode, 'display', 'none');
+        this.set('title', 'Actor bewerken');
+        this.executeButton.innerHTML = 'Bewerken';
       } else {
         domStyle.set(this.kboNode, 'display', 'none');
         domStyle.set(this.rrnNode, 'display', 'inline-table');
+        this.set('title', 'Actor aanmaken');
+        this.executeButton.innerHTML = 'Aanmaken';
       }
       this.inherited(arguments);
     },
 
     hide: function () {
-      console.debug('ActorBekijkenDialog::hide');
+      console.debug('ManageActorDialog::hide');
       this._reset();
       this.inherited(arguments);
+    },
+
+    _execute: function(evt) {
+      evt ? evt.preventDefault() : null;
+      console.log('EXECUTE!!')
+
+      var actor = this.getData();
+
+      if (this.mode === 'edit') {
+        this.emit('actor.save', {
+          actor: actor,
+          method: 'PUT'
+        });
+      } else if (this.mode === 'add') {
+        this.emit('actor.save', {
+          actor: actor,
+          method: 'POST'
+        });
+      }
     },
 
     _showAddAdres: function(evt) {
@@ -132,6 +158,7 @@ define([
 
     _addAdresRow: function(adres, type) {
       if (adres) {
+        adres.id = 'new_' + this._adresIndex++;
         adres.adrestype = { id: type };
         this._adresStore.add(adres);
       }
@@ -226,6 +253,56 @@ define([
       return grid;
     },
 
+    getData: function() {
+      var actor = lang.clone(this.actor);
+      if (!actor) {
+        actor = {};
+      }
+      var actorType = this.actortypes.value;
+      actor.actortype = {id: actorType || undefined };
+      actor.naam = this.naamInput.value || undefined;
+
+      if (actorType === '1' || actorType === '3') {
+        actor.voornaam = this.vnafkInput.value || undefined;
+        if (!actor.id) {
+          actor.rrn = this.rrnInput.value || undefined;
+        }
+        if (actor.afkorting) {
+          delete actor.afkorting;
+        }
+      } else if (actorType === '2') {
+        actor.afkorting = this.vnafkInput.value || undefined;
+        if (!actor.id) {
+          actor.kbo = this.kboInput.value || undefined;
+        }
+        if (actor.voornaam) {
+          delete actor.voornaam;
+        }
+      } else {
+        if (actor.voornaam) {
+          delete actor.voornaam;
+        }
+        if (actor.afkorting) {
+          delete actor.afkorting;
+        }
+      }
+
+
+      actor.email = this._actorEmails;
+      actor.telefoons = this._actorTelefoons;
+      actor.urls = this._actorUrls;
+
+      actor.adressen = array.map(this._adresStore.fetchSync(), function(adres) {
+        console.log(adres);
+        if (!adres.id || adres.id.toString().indexOf('new_') > -1) {
+          delete adres.id;
+        }
+        return adres;
+      });
+
+      return actor;
+    },
+
     setData: function(actor) {
       console.log(actor);
 
@@ -242,7 +319,7 @@ define([
         this.vnafkInput.value = actor.afkorting;
       }
 
-      actor.emails.forEach(lang.hitch(this, function(email) {
+      array.forEach(actor.emails, lang.hitch(this, function(email) {
         this._index++;
         email['id'] = this._index.toString();
         this._actorEmails.push(email);
@@ -252,7 +329,7 @@ define([
         this._createListItem(this._index, email.email, type[0].naam, this.emaillist, this._removeEmail);
       }));
 
-      actor.telefoons.forEach(lang.hitch(this, function(telefoon) {
+      array.forEach(actor.telefoons, lang.hitch(this, function(telefoon) {
         this._index++;
         telefoon['id'] = this._index.toString();
         this._actorTelefoons.push(telefoon);
@@ -263,7 +340,7 @@ define([
         this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlist, this._removeTelefoon);
       }));
 
-      actor.urls.forEach(lang.hitch(this, function(url) {
+      array.forEach(actor.urls, lang.hitch(this, function(url) {
         this._index++;
         url['id'] = this._index.toString();
         this._actorUrls.push(url);
