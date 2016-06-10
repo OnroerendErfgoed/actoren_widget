@@ -11,68 +11,58 @@
   <div data-dojo-attach-point="containerNode" class="dijitDialogPaneContent">
     <div class="row">
       <div class="large-6 columns">
-        <div class="placeholder-container placeholder-disabled">
+        <div class="placeholder-container">
           <label for="naam-${id}">Naam</label>
-          <input id="naam-${id}" type="text" data-dojo-attach-point="naamInput" disabled />
+          <input id="naam-${id}" type="text" data-dojo-attach-point="naamInput" />
         </div>
-        <div class="placeholder-container placeholder-disabled">
-          <label for="voornaam-${id}">Voornaam</label>
-          <input id="voornaam-${id}" type="text" data-dojo-attach-point="voornaamInput" disabled />
+        <div class="placeholder-container" data-dojo-attach-point="vnafkNode">
+          <label for="vnafk-${id}" data-dojo-attach-point="vn_afk_label">Voornaam</label>
+          <input id="vnafk-${id}" type="text" data-dojo-attach-point="vnafkInput" />
         </div>
-        <div class="placeholder-container placeholder-disabled">
-          <label>Email</label>
-          <ul class="nodisk list-selected-items" data-dojo-attach-point="emailList"></ul>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="actortype-${id}">Actortype</label>
+          <select id="actortype-${id}" data-dojo-attach-point='actortypes'>
+          </select>
         </div>
-        <div class="placeholder-container placeholder-disabled">
-          <label>Telefoonnummer</label>
-          <ul class="nodisk list-selected-items" data-dojo-attach-point="telefoonList"></ul>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="email-${id}">Email</label>
+          <input data-dojo-attach-point='email' id="email-${id}" type="text" style="width:65%; float:left;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+          <select id="emailtype-${id}" data-dojo-attach-point='emailtypes' style="width:25%; float:left" class="placeholder-input-border">
+          </select>
+          <a href="#" data-dojo-attach-event="onClick: _addEmail" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
         </div>
+        <ul data-dojo-attach-point="emaillist" class="nodisk list-selected-items">
+        </ul>
       </div>
 
-      <!--<div class="large-6 columns">-->
-      <!--<div class="placeholder-container placeholder-disabled">-->
-      <!--<label for="land-${id}">Land</label>-->
-      <!--<input id="land-${id}" type="text" data-dojo-attach-point="landInput" disabled />-->
-      <!--</div>-->
-      <!--<div class="placeholder-container placeholder-disabled" style="width:60%;">-->
-      <!--<label for="gemeente-${id}">Gemeente</label>-->
-      <!--<input id="gemeente-${id}" type="text" data-dojo-attach-point="gemeenteInput" disabled />-->
-      <!--</div>-->
-      <!--<div class="placeholder-container placeholder-disabled" style="width:36%; float:right;">-->
-      <!--<label for="postcode-${id}">Postcode</label>-->
-      <!--<input id="postcode-${id}"  type="text" data-dojo-attach-point="postcodeInput" disabled />-->
-      <!--</div>-->
-      <!--<div class="placeholder-container placeholder-disabled">-->
-      <!--<label for="straat-${id}">Straat</label>-->
-      <!--<input id="straat-${id}" type="text" data-dojo-attach-point="straatInput" disabled />-->
-      <!--</div>-->
-      <!--<div class="placeholder-container placeholder-disabled" style="width:48%;">-->
-      <!--<label for="huisnummer-${id}">Huisnummer</label>-->
-      <!--<input id="huisnummer-${id}" type="text" data-dojo-attach-point="huisnummerInput" disabled />-->
-      <!--</div>-->
-      <!--<div class="placeholder-container placeholder-disabled" style="width:48%; float:right;">-->
-      <!--<label for="postbus-${id}">Postbus</label>-->
-      <!--<input id="postbus-${id}"  type="text" data-dojo-attach-point="postbusInput" disabled />-->
-      <!--</div>-->
-      <!--<div class="placeholder-container placeholder-disabled">-->
-      <!--<label for="adres-type-${id}" style="width: 30%">Type adres</label>-->
-      <!--<input id="adres-type-${id}"  type="text" data-dojo-attach-point="adresTypeInput" disabled />-->
-      <!--</div>-->
-      <!--</div>-->
-
       <div class="large-6 columns">
-        <div class="placeholder-container placeholder-disabled">
-          <label for="actor-type-${id}" style="width: 30%">Type actor</label>
-          <input id="actor-type-${id}"  type="text" data-dojo-attach-point="actorTypeInput" disabled />
+        <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='rrnNode'>
+          <label for="rrn-${id}">Rijksregisternummer</label>
+          <input data-dojo-attach-point='rrnInput' type="text" id="rrn-${id}" />
         </div>
-        <div class="placeholder-container placeholder-disabled hide" data-dojo-attach-point="kboContainer">
-          <label for="kbo-${id}" class="wide-label">KBO</label>
-          <input id="kbo-${id}"  type="text" data-dojo-attach-point="kboInput" disabled />
+        <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='kboNode' style="display: none;">
+          <label for="kbo-${id}" title="Kruispuntbank voor Ondernemingen">KBO</label>
+          <input data-dojo-attach-point='kboInput' type="text" id="kbo-${id}"/>
         </div>
-        <div class="placeholder-container placeholder-disabled">
-          <label>URL</label>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="url-${id}">URL</label>
+          <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url-${id}" pattern="^(https?:\/\/).{1,255}"/>
+          <select id="urltype-${id}" data-dojo-attach-point='urltypes' style="width:35%; float:left;" class="placeholder-input-border">
+          </select>
+          <a href="#" data-dojo-attach-event="onClick: _addUrl" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
         </div>
-        <ul class="nodisk list-selected-items" data-dojo-attach-point="urlList"></ul>
+        <ul data-dojo-attach-point="urllist" class="nodisk list-selected-items" style="margin-bottom: 10px;">
+        </ul>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="telefoonlandcode-${id}">Telefoon</label>
+          <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode-${id}" />
+          <input style="width: 40%; float: left;" data-dojo-attach-point='telefoon' id="telefoon-${id}" type="text"/>
+          <select id="telefoontype-${id}" data-dojo-attach-point='telefoontypes' style="width:30%; float:left;" class="placeholder-input-border">
+          </select>
+          <a href="#" data-dojo-attach-event="onClick: _addTelefoon" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
+        </div>
+        <ul data-dojo-attach-point="telefoonlist" class="nodisk list-selected-items">
+        </ul>
       </div>
     </div>
 

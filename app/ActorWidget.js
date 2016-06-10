@@ -3,8 +3,10 @@ define([
   'dojo/_base/lang',
   'dijit/_WidgetBase',
   'dojo/on',
+  'dojo/promise/all',
   './controllers/ActorController',
   './controllers/CrabController',
+  './controllers/ListController',
   './widgets/SearchWidget',
   './dialogs/ViewActorDialog',
   './dialogs/ManageActorDialog'
@@ -13,8 +15,10 @@ define([
   lang,
   _WidgetBase,
   on,
+  all,
   ActorController,
   CrabController,
+  ListController,
   SearchWidget,
   ViewActorDialog,
   ManageActorDialog
@@ -30,6 +34,8 @@ define([
     idserviceUrl: null,
     actorController: null,
     crabController: null,
+    typeLists: null,
+    _initialized: false,
     _searchWidget: null,
     _viewWidget: null,
 
@@ -45,6 +51,11 @@ define([
       this.crabController = new CrabController({
         agivGRBUrl: this.agivGrbUrl,
         crabHost: this.crabUrl.replace(/\/?$/, '/'), // add trailing slash
+      });
+
+      this.listController = new ListController({
+        ssoToken: this.ssoToken,
+        actorUrl: this.actorenUrl
       });
 
       this._searchWidget = new SearchWidget({
@@ -65,13 +76,32 @@ define([
         actorenUrl: this.actorenUrl,
         crabController: this.crabController
       });
+      this.typeLists = {};
     },
 
     startup: function() {
       this.inherited(arguments);
-      this._searchWidget.startup();
-      this._viewActorDialog.startup();
-      this._manageActorDialog.startup();
+
+      all({
+        email: this.listController.getStore('emailtypes'),
+        tel: this.listController.getStore('telefoontypes'),
+        url: this.listController.getStore('urltypes'),
+        actor: this.listController.getStore('actortypes'),
+        adres: this.listController.getStore('adrestypes')
+      }).then(lang.hitch(this, function(results) {
+        this.typeLists.emailTypes = results.email.data;
+        this.typeLists.telephoneTypes = results.tel.data;
+        this.typeLists.urlTypes = results.url.data;
+        this.typeLists.actorTypes = results.actor.data;
+        this.typeLists.adresTypes = results.adres.data;
+
+        this._searchWidget.startup();
+        this._viewActorDialog.startup();
+        this._manageActorDialog.typeLists = this.typeLists;
+        this._manageActorDialog.startup();
+        this._initialized = true;
+      }));
+
     },
 
     getSearchWidget: function(node, store) {
@@ -93,7 +123,6 @@ define([
     viewActorByUri: function(actorUri) {
       if (actorUri) {
         this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(res) {
-          console.log(res);
           this._viewActorDialog.show(res);
         }));
       }
@@ -102,6 +131,10 @@ define([
     createNewActor: function() {
       console.debug('create new actor');
       this._manageActorDialog.show();
+    },
+
+    getTypeLists: function() {
+      return this.typeLists;
     }
   });
 });

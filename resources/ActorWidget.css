@@ -102,34 +102,34 @@
   background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjYwMCI+CjxyZWN0IHdpZHRoPSIxMDAwIiBoZWlnaHQ9IjMwMCIgeT0iMzAwIiBmaWxsPSIjMDBBMURFCiIvPgo8cmVjdCB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIzMDAiIGZpbGw9IiNlZDI5MzkiLz4KPHJlY3Qgd2lkdGg9IjEwMDAiIGhlaWdodD0iMjAwIiB5PSIyMDAiIGZpbGw9IiNmZmYiLz4KPC9zdmc+);
 }
 
-/*.actor-widget .dijitComboBox.combo-dropdown {*/
-/*background: #FFFFFF none;*/
-/*height: 2.3125rem;*/
-/*width: auto;*/
-/*}*/
+.actor-widget .dijitComboBox.combo-dropdown {
+  background: #FFFFFF none;
+  height: 2.3125rem;
+  width: auto;
+}
 
-/*.actor-widget .dijitComboBoxFocused.combo-dropdown {*/
-/*border-color: #999999;*/
-/*}*/
+.actor-widget .dijitComboBoxFocused.combo-dropdown {
+  border-color: #999999;
+}
 
-/*.actor-widget .dijitComboBox.combo-dropdown .dijitInputContainer {*/
-/*height: 100%;*/
-/*}*/
+.actor-widget .dijitComboBox.combo-dropdown .dijitInputContainer {
+  height: 100%;
+}
 
-/*.actor-widget .dijitComboBox.combo-dropdown .dijitArrowButtonContainer {*/
-/*border: none !important;*/
-/*height: 100%;*/
-/*padding: 0!important;*/
-/*}*/
+.actor-widget .dijitComboBox.combo-dropdown .dijitArrowButtonContainer {
+  border: none !important;
+  height: 100%;
+  padding: 0!important;
+}
 
-/*.actor-widget .dijitComboBox.combo-dropdown input.dijitArrowButtonInner {*/
-/*border: none;*/
-/*padding-right: 0.5rem !important;*/
-/*margin: 0 !important;*/
-/*width: 1.25rem;*/
-/*height: 100% !important;*/
-/*background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+);*/
-/*}*/
+.actor-widget .dijitComboBox.combo-dropdown input.dijitArrowButtonInner {
+  border: none;
+  padding-right: 0.5rem !important;
+  margin: 0 !important;
+  width: 1.25rem;
+  height: 100% !important;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+);
+}
 
 .actor-widget .plus-icon {
   padding-top: 12px;
@@ -239,11 +239,21 @@ a:focus {
 }
 
 .manage-actor-dialog {
-  width: 800px;
+  width: 900px;
 }
 
-.manage-actor-dialog .dgrid {
+.manage-actor-dialog .dgrid.actorAdresGrid {
   max-height: 120px;
+}
+
+.manage-actor-dialog .dgrid.actorAdresGrid .dgrid-column-huisnummer,
+.manage-actor-dialog .dgrid.actorAdresGrid .dgrid-column-subadres,
+.manage-actor-dialog .dgrid.actorAdresGrid .dgrid-column-edit_delete {
+  width: 58px;
+}
+
+.manage-actor-dialog .dgrid.actorAdresGrid .dgrid-column-postcode {
+  width: 65px;
 }
 
 .manage-actor-dialog .viewFooter,
