@@ -10,7 +10,8 @@ define([
   './controllers/ListController',
   './widgets/SearchWidget',
   './dialogs/ViewActorDialog',
-  './dialogs/ManageActorDialog'
+  './dialogs/ManageActorDialog',
+  './dialogs/ActorExistsDialog'
 ], function (
   declare,
   lang,
@@ -23,7 +24,8 @@ define([
   ListController,
   SearchWidget,
   ViewActorDialog,
-  ManageActorDialog
+  ManageActorDialog,
+  ActorExistsDialog
 ) {
   return declare([_WidgetBase], {
 
@@ -39,6 +41,7 @@ define([
     _initialized: false,
     _searchWidget: null,
     _viewWidget: null,
+    _existsDialog: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -71,6 +74,13 @@ define([
       on(this._searchWidget, 'actor.open.edit', lang.hitch(this, function(evt) {
         this.editActorByUri(evt.actor.uri);
       }));
+      on(this._searchWidget, 'actor.selected', lang.hitch(this, function(evt) {
+        this.actorController.getActor(evt.actorId).then(lang.hitch(this, function(actor) {
+          this._actorSelected(actor);
+        }), lang.hitch(this, function(err) {
+          this._handleError(err);
+        }));
+      }));
 
       this._viewActorDialog = new ViewActorDialog({
         actorenUrl: this.actorenUrl
@@ -81,7 +91,7 @@ define([
         crabController: this.crabController
       });
       on(this._manageActorDialog, 'actor.save', lang.hitch(this, function(evt) {
-        this._saveActor(evt.actor, evt.method);
+        this._saveActor(evt.actor, evt.mode);
       }));
       this.typeLists = {};
     },
@@ -157,12 +167,55 @@ define([
       this._manageActorDialog.show(actor, 'add');
     },
 
+    _checkActorExists: function(actor, adressen) {
+      console.log(adressen);
+      this.actorController.gelijkaardigeActors(actor, adressen).then(lang.hitch(this, function(data) {
+        if (data.length == 0) {
+          this._doSave(actor, adressen);
+        }
+        else {
+          this._existsDialog = new ActorExistsDialog({
+            actorController: this.actorController,
+            actoren: data,
+            parent: this,
+            checkActor: actor,
+            checkAdressen: adressen,
+            canSelect: true
+          });
+          this._existsDialog.startup();
+        }
+      }));
+    },
+
+    _useExistingActor: function(selected) {
+      this.actorController.getActor(selected.id).then(
+        lang.hitch(this, function (actor) {
+          this.emit('create.existing', {actor: actor});
+          this._actorSelected(actor);
+        }),
+        lang.hitch(this, function (error) {
+          console.error('Error getting existing actor', error);
+          this.emit('error', {message: 'Fout bij ophalen bestaande actor.'});
+        })
+      );
+    },
+
     _saveActor: function(data, mode) {
       console.log('SAVE ACTOR', data, mode);
       var actorToSave = data.actor;
-      this.actorController.saveActor(actorToSave).then(lang.hitch(this, function(resActor) {
-        actorToSave.id = resActor.id; // set id for new actors
-        this._saveAdressen(data.adressen, actorToSave.id).then(lang.hitch(this, function(saveAdressenResult) {
+      if (mode === 'add') {
+        var adressen = data.adressen.add;
+        this._checkActorExists(actorToSave, adressen);
+      } else {
+        this._doSave(actorToSave, data.adressen);
+      }
+    },
+
+    _doSave: function(actor, adressen) {
+      console.log('SAVE ACTOR', actor, adressen);
+      this.actorController.saveActor(actor).then(lang.hitch(this, function(resActor) {
+        actor.id = resActor.id; // set id for new actors
+        this._saveAdressen(adressen, actor.id).then(lang.hitch(this, function(saveAdressenResult) {
           console.log('Alles gesaved', resActor, saveAdressenResult);
         }));
       }));
@@ -182,8 +235,19 @@ define([
       return all(promises);
     },
 
+    _actorSelected: function(actor) {
+      console.log('ACTOR SELECTED', actor);
+      this.emit('actor.selected', {
+        actor: actor
+      });
+    },
+
     getTypeLists: function() {
       return this.typeLists;
+    },
+
+    _handleError: function(error) {
+      console.log(error);
     }
   });
 });

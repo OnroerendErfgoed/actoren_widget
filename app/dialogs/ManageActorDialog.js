@@ -146,12 +146,12 @@ define([
       if (this.mode === 'edit') {
         this.emit('actor.save', {
           actor: actor,
-          method: 'PUT'
+          mode: 'edit'
         });
       } else if (this.mode === 'add') {
         this.emit('actor.save', {
           actor: actor,
-          method: 'POST'
+          mode: 'add'
         });
       }
     },

@@ -39,6 +39,7 @@ define([
   return declare([_LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
     templateString: template,
+    actorController: null,
     actorStore: null, //requires dstore!
     _actorGrid: null,
 
@@ -139,6 +140,12 @@ define([
         loadingMessage: 'data aan het ophalen...'
       }, node);
 
+      grid.on('.dgrid-row:click', lang.hitch(this, function(evt){
+        evt.preventDefault();
+        var id = grid.row(evt).id;
+        this._actorSelected(id);
+      }));
+
       return grid;
     },
 
@@ -164,7 +171,7 @@ define([
     },
 
     _editActor: function(actor) {
-       if (actor) {
+      if (actor) {
         this.emit('actor.open.edit', {
           actor: actor
         });
@@ -177,6 +184,12 @@ define([
           actor: actor
         });
       }
+    },
+
+    _actorSelected: function(actorId) {
+      this.emit('actor.selected', {
+        actorId: actorId
+      });
     },
 
     resize: function() {

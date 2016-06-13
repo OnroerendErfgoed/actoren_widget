@@ -90,6 +90,11 @@ define([
       this.inherited(arguments);
     },
 
+    _closeDialog: function(evt) {
+      evt ? evt.preventDefault() : null;
+      this.hide();
+    },
+
     _reset: function () {
       console.debug('ActorBekijkenDialog::_reset');
       this.naamInput.value = '';
