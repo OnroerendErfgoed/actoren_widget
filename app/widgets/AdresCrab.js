@@ -37,6 +37,7 @@ define([
     crabController: null,
     gemeenteStore: null,
     disabled: true,
+    adres: null,
 
     _gemeenteFilteringSelect: null,
     _postcodeFilteringSelect: null,
@@ -262,6 +263,7 @@ define([
      */
     setValues: function(adres) {
       console.log('AdresCrab::setValues', adres);
+      this.adres = adres;
       this.land.value = adres.land;
       if (adres.land === 'BE') {
         this._adresObject = adres;
@@ -288,6 +290,10 @@ define([
     getInputValues: function() {
       /* jshint maxcomplexity:20 */
       var data = {};
+      if (this.adres) {
+        data.einddatum = this.adres.einddatum;
+        data.startdatum = this.adres.startdatum;
+      }
       data.land = this.land.value;
 
       if (data.land === 'BE') {

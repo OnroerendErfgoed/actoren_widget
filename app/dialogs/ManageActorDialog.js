@@ -170,10 +170,12 @@ define([
         adres.adrestype = { id: type };
         adres.id = 'new_' + this._adresIndex++;
         this._adresStore.add(adres);
-        if (adres.id.indexOf('new') > -1) {
-          delete adres.id;
+
+        var cloneAdres = lang.clone(adres);
+        if (cloneAdres.id.indexOf('new') > -1) {
+          delete cloneAdres.id;
         }
-        this._adressenAdd.push(adres);
+        this._adressenAdd.push(cloneAdres);
       }
     },
 
@@ -191,6 +193,7 @@ define([
     },
 
     _removeAdresRow: function(rowId) {
+      console.log(rowId);
       this._adresStore.remove(rowId);
       this._adressenRemove.push(rowId);
     },
@@ -234,6 +237,7 @@ define([
             if (!object.id) {
               return null;
             }
+
             var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
             domConstruct.create('a', {
               href: '#',
@@ -243,7 +247,6 @@ define([
               onclick: lang.hitch(this, function (evt) {
                 evt.preventDefault();
                 this._showEditAdres(object);
-
               })
             }, div);
 
