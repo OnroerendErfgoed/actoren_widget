@@ -372,3 +372,15 @@ a:focus {
 .info-dialog .dijitTooltipContainer p {
   margin-bottom: 0;
 }
+
+.widgetPageOverlay {
+  top: 0;
+  left: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 1001;
+  display: block;
+  background: rgba(98, 98, 98, 1);
+  text-align: center;
+}

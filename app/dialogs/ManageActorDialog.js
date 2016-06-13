@@ -2,12 +2,14 @@ define([
   'dojo/_base/declare',
   'dojo/_base/array',
   'dojo/_base/lang',
+  'dojo/_base/fx',
   'dojo/on',
   'dojo/dom-class',
   'dojo/dom-construct',
   'dojo/dom-attr',
   'dojo/dom-style',
   'dojo/dom',
+  'dojo/query',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
   'dgrid/OnDemandGrid',
@@ -25,12 +27,14 @@ define([
   declare,
   array,
   lang,
+  fx,
   on,
   domClass,
   domConstruct,
   domAttr,
   domStyle,
   dom,
+  query,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
   OnDemandGrid,
@@ -133,6 +137,7 @@ define([
 
     hide: function () {
       console.debug('ManageActorDialog::hide');
+      this._clearHighlights();
       this._reset();
       this.inherited(arguments);
     },
@@ -142,6 +147,10 @@ define([
       console.log('EXECUTE!!')
 
       var actor = this.getData();
+
+      if (!this._isValid(actor)) {
+        return;
+      }
 
       if (this.mode === 'edit') {
         this.emit('actor.save', {
@@ -482,6 +491,41 @@ define([
       }
     },
 
+    _isValid: function(values) {
+      var valid = true;
+      var invalids = [];
+      var actor = values.actor;
+      if (!actor.naam || actor.naam === '') {
+        valid = false;
+        invalids.push(this.naamInput.parentNode);
+      }
+
+      if (actor.actortype) {
+        if (actor.kbo && actor.kbo !== '') {
+          if (parseInt(actor.actortype.id) === 2) {
+            if (!this._validateKBO(actor.kbo)) {
+              valid = false;
+              invalids.push(this.kboInput.parentNode);
+            }
+          }
+        }
+        if (actor.rrn && actor.rrn !== '') {
+          if (parseInt(actor.actortype.id) in [1, 3]) {
+            if (!this._validateRRN(actor.rrn)) {
+              valid = false;
+              invalids.push(this.rrnInput.parentNode);
+            }
+          }
+        }
+      }
+
+      if (!valid) {
+        this._highlightInvalids(invalids);
+      }
+
+      return valid;
+    },
+
     _validateEmail: function(email) {
       var valid = true;
       return valid;
@@ -656,6 +700,73 @@ define([
           domStyle.set(this.vnafkNode, 'display', 'none');
           break;
       }
+    },
+
+    /**
+     * Verbergt de 'Loading'-overlay.
+     * @public
+     */
+    hideLoading: function () {
+      var node = this.loadingOverlay;
+      fx.fadeOut({
+        node: node,
+        onEnd: function (node) {
+          domStyle.set(node, 'display', 'none');
+        },
+        duration: 1000
+      }).play();
+    },
+
+    /**
+     * Toont de 'Loading'-overlay.
+     * @public
+     */
+    showLoading: function (message) {
+      var node = this.loadingOverlay;
+      if (!message) {
+        message = '';
+      }
+      query('.loadingMessage', node).forEach(function(node){
+        node.innerHTML = message;
+      });
+
+      domStyle.set(node, 'display', 'block');
+      fx.fadeIn({
+        node: node,
+        duration: 1
+      }).play();
+    },
+
+    /**
+     * Verwijdert de highlights op invalid velden
+     * @private
+     */
+    _clearHighlights: function() {
+      // remove all highlights
+      query('.placeholder-container.error', this.containerNode).forEach(function(elem){
+        domClass.remove(elem, 'error');
+      });
+      query('small.error', this.containerNode).forEach(function(small) {
+        domConstruct.destroy(small);
+      });
+    },
+
+    /**
+     * Voegt highlights toe op de invalid velden
+     * @param invalids
+     * @private
+     */
+    _highlightInvalids: function(invalids) {
+      this._clearHighlights();
+      // add selected highlights
+      invalids.forEach(lang.hitch(this, function(invalid){
+        if  (invalid) {
+          domClass.add(invalid, 'error');
+          domConstruct.place('<small class="error" style="margin-top:-15px; margin-bottom: 0;">' +
+            'Gelieve bovenstaand veld correct in te vullen.</small>',
+            invalid, 'after');
+        }
+      }));
     }
 
   });

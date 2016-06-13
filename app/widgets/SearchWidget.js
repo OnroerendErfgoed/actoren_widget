@@ -10,6 +10,9 @@ define([
   'dijit/layout/LayoutContainer',
   'dijit/layout/ContentPane',
   'dojo/dom-class',
+  'dojo/dom-style',
+  'dojo/query',
+  'dojo/_base/fx',
   './GridSearch',
   './AdvSearch'
 ], function(
@@ -24,6 +27,9 @@ define([
   LayoutContainer,
   ContentPane,
   domClass,
+  domStyle,
+  query,
+  fx,
   GridSearch,
   AdvSearch
 ) {
@@ -75,7 +81,7 @@ define([
       this._stackContainer.addChild(this._gridSearchPane);
 
       // advSearch
-       this._advSearch = new AdvSearch({
+      this._advSearch = new AdvSearch({
         actorStore: this.actorStore
       });
       this._advSearchPane = new ContentPane({
@@ -99,6 +105,41 @@ define([
 
     showSearchWidget: function() {
       this._showGridSearch();
+    },
+
+    /**
+     * Verbergt de 'Loading'-overlay.
+     * @public
+     */
+    hideLoading: function () {
+      var node = this.loadingOverlay;
+      fx.fadeOut({
+        node: node,
+        onEnd: function (node) {
+          domStyle.set(node, 'display', 'none');
+        },
+        duration: 1000
+      }).play();
+    },
+
+    /**
+     * Toont de 'Loading'-overlay.
+     * @public
+     */
+    showLoading: function (message) {
+      var node = this.loadingOverlay;
+      if (!message) {
+        message = '';
+      }
+      query('.loadingMessage', node).forEach(function(node){
+        node.innerHTML = message;
+      });
+
+      domStyle.set(node, 'display', 'block');
+      fx.fadeIn({
+        node: node,
+        duration: 1
+      }).play();
     }
   });
 });

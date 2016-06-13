@@ -70,6 +70,7 @@ define([
           'class': 'actorExistsDialog'
         });
         this.dialog.set('content', this);
+        this.dialog.closeText.innerHTML = '<i class="fa fa-times"></i>';
         if (!this.canSelect) {
           this.selectActorButton.style.display = 'none';
         }

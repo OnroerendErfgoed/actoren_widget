@@ -139,8 +139,11 @@ define([
 
     viewActorByUri: function(actorUri) {
       if (actorUri) {
+        this.showLoading('Even geduld. Actor wordt opgehaald..');
         this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(actor) {
           this._viewActorDialog.show(actor);
+        })).always(lang.hitch(this, function() {
+          this.hideLoading();
         }));
       }
     },
@@ -153,8 +156,11 @@ define([
 
     editActorByUri: function(actorUri) {
       if (actorUri) {
+        this.showLoading('Even geduld. Actor wordt opgehaald..');
         this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(actor) {
           this._manageActorDialog.show(actor, 'edit');
+        })).always(lang.hitch(this, function() {
+          this.hideLoading();
         }));
       }
     },
@@ -190,12 +196,10 @@ define([
     _useExistingActor: function(selected) {
       this.actorController.getActor(selected.id).then(
         lang.hitch(this, function (actor) {
-          this.emit('create.existing', {actor: actor});
           this._actorSelected(actor);
         }),
         lang.hitch(this, function (error) {
           console.error('Error getting existing actor', error);
-          this.emit('error', {message: 'Fout bij ophalen bestaande actor.'});
         })
       );
     },
@@ -203,6 +207,9 @@ define([
     _saveActor: function(data, mode) {
       console.log('SAVE ACTOR', data, mode);
       var actorToSave = data.actor;
+      if (!this._isValid(data.actor)) {
+        return;
+      }
       if (mode === 'add') {
         var adressen = data.adressen.add;
         this._checkActorExists(actorToSave, adressen);
@@ -213,11 +220,19 @@ define([
 
     _doSave: function(actor, adressen) {
       console.log('SAVE ACTOR', actor, adressen);
+      this.showLoading('Even geduld. Actor wordt opgeslagen..');
       this.actorController.saveActor(actor).then(lang.hitch(this, function(resActor) {
         actor.id = resActor.id; // set id for new actors
         this._saveAdressen(adressen, actor.id).then(lang.hitch(this, function(saveAdressenResult) {
           console.log('Alles gesaved', resActor, saveAdressenResult);
+          this._manageActorDialog.hide();
+          this.emit('actor.saved', {actor: resActor});
+        })).always(lang.hitch(this, function() {
+          this.hideLoading();
         }));
+      }), lang.hitch(this, function(err) {
+        console.log(err);
+        this.hideLoading();
       }));
     },
 
@@ -248,6 +263,24 @@ define([
 
     _handleError: function(error) {
       console.log(error);
+    },
+
+    showLoading: function(message) {
+      if (this._searchWidget) {
+        this._searchWidget.showLoading(message);
+      }
+      if (this._manageActorDialog) {
+        this._manageActorDialog.showLoading(message);
+      }
+    },
+
+    hideLoading: function() {
+      if (this._searchWidget) {
+        this._searchWidget.hideLoading();
+      }
+      if (this._manageActorDialog) {
+        this._manageActorDialog.hideLoading();
+      }
     }
   });
 });
