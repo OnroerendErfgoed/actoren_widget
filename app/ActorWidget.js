@@ -207,9 +207,6 @@ define([
     _saveActor: function(data, mode) {
       console.log('SAVE ACTOR', data, mode);
       var actorToSave = data.actor;
-      if (!this._isValid(data.actor)) {
-        return;
-      }
       if (mode === 'add') {
         var adressen = data.adressen.add;
         this._checkActorExists(actorToSave, adressen);

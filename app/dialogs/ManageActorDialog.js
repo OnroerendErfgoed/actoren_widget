@@ -71,6 +71,7 @@ define([
     _adressenEdit: null,
     _adressenRemove: null,
     actor: null,
+    _invalids: null,
 
     postCreate: function () {
       this.inherited(arguments);
@@ -89,6 +90,8 @@ define([
       this._adressenAdd = [];
       this._adressenEdit = [];
       this._adressenRemove = [];
+
+      this._invalids = [];
     },
 
     startup: function () {
@@ -430,6 +433,7 @@ define([
         var actorEmail = this._actorEmails.filter(lang.hitch(this, function (emailObject) {
           return (emailObject.email === this.email.value && emailObject.type.id === this.emailtypes.value);
         }));
+        this._clearHighlights();
         if (actorEmail.length === 0 && this._validateEmail(this.email.value)) {
           this._index++;
           this._actorEmails.push({
@@ -441,8 +445,15 @@ define([
           });
           this._createListItem(this._index, this.email.value, this.emailtypes.selectedOptions[0].label, this.emaillist, this._removeEmail);
           this.email.value = '';
+        } else {
+          this._invalids.push(this.email.parentNode);
+          if (evt) {
+            this._highlightInvalids(this._invalids);
+          }
+          return false;
         }
       }
+      return true;
     },
 
     _addTelefoon: function(evt) {
@@ -453,7 +464,8 @@ define([
           telefoonObject.landcode === this._telefoonLandcodeSelect.get('value') &&
           telefoonObject.type.id === this.telefoontypes.value);
         }));
-        if (actorTelefoon.length === 0 && this._validateTelefoon(this.telefoon.value)) {
+        this._clearHighlights();
+        if (actorTelefoon.length === 0 && this._validateTelefoon(this.telefoon.value, this._telefoonLandcodeSelect.get('value'))) {
           this._index++;
           this._actorTelefoons.push({
             id: this._index.toString(),
@@ -466,8 +478,15 @@ define([
           var telefoonvalue = this._telefoonLandcodeSelect.get('value') ? this._telefoonLandcodeSelect.get('value') + this.telefoon.value : '+32' + this.telefoon.value;
           this._createListItem(this._index, telefoonvalue, this.telefoontypes.selectedOptions[0].label, this.telefoonlist, this._removeTelefoon);
           this.telefoon.value = '';
+        } else {
+          this._invalids.push(this.telefoon.parentNode);
+          if (evt) {
+            this._highlightInvalids(this._invalids);
+          }
+          return false;
         }
       }
+      return true;
     },
 
     _addUrl: function(evt) {
@@ -476,6 +495,7 @@ define([
         var actorUrl = this._actorUrls.filter(lang.hitch(this, function (urlObject) {
           return (urlObject.url === this.url.value && urlObject.type.id === this.urltypes.value);
         }));
+        this._clearHighlights();
         if (actorUrl.length === 0 && this._valideUrl(this.url.value)) {
           this._index++;
           this._actorUrls.push({
@@ -487,14 +507,28 @@ define([
           });
           this._createListItem(this._index, this.url.value, this.urltypes.selectedOptions[0].label, this.urllist, this._removeUrl);
           this.url.value = '';
+        } else {
+          this._invalids.push(this.url.parentNode);
+          if (evt) {
+            this._highlightInvalids(this._invalids);
+          }
+          return false;
         }
       }
+      return true;
     },
 
     _isValid: function(values) {
       var valid = true;
       var invalids = [];
       var actor = values.actor;
+
+      this._clearHighlights();
+
+      if (!this._addEmail() || !this._addTelefoon() || !this._addUrl()) {
+        valid = false;
+      }
+
       if (!actor.naam || actor.naam === '') {
         valid = false;
         invalids.push(this.naamInput.parentNode);
@@ -521,6 +555,8 @@ define([
 
       if (!valid) {
         this._highlightInvalids(invalids);
+        this._highlightInvalids(this._invalids);
+        this._invalids = [];
       }
 
       return valid;
@@ -528,26 +564,79 @@ define([
 
     _validateEmail: function(email) {
       var valid = true;
+      var regex =  new RegExp('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$');
+      if (!regex.test(email)) {
+        valid = false;
+      }
       return valid;
     },
 
-    _validateTelefoon: function(telefoon) {
+    _validateTelefoon: function(telefoon, landcode) {
       var valid = true;
+      String.prototype.ltrim0 = function() {
+        return this.replace(/^[0]+/,'');
+      };
+      console.log(landcode, telefoon);
+      var nummer = telefoon.ltrim0();
+      [' ', '.', '/', '-', ','].forEach(function(delimiter){
+        nummer = nummer.split(delimiter).join('');
+      });
+      if (nummer.length !== 0) {
+        var landcode = landcode.ltrim0();
+        [' ', '.', '/', '-', ','].forEach(function (delimiter) {
+          landcode = landcode.split(delimiter).join('');
+        });
+        landcode = landcode.indexOf('+') !== 0 ? '+' + landcode : landcode;
+        if (landcode.slice(0, 1) !== '+' || landcode.substring(1).length > 4 || isNaN(landcode.substring(1))) {
+          valid = false;
+        }
+        else if (landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
+          valid = false;
+
+        }
+        else if (landcode === '+32') {
+          if (nummer.length !== 8 && nummer.length !== 9) {
+            valid = false;
+          }
+        }
+      }
       return valid;
     },
 
     _valideUrl: function(url) {
       var valid = true;
+      var regex = new RegExp('^(https?:\/\/).{1,255}');
+      if (!regex.test(url)) {
+        valid = false;
+      }
       return valid;
     },
 
-    _validateRRN: function(rrn) {
+    _validateRRN: function(rrnInput) {
       var valid = true;
+      var rrn = rrnInput.split(' ').join('').split('.').join('').split('-').join('');
+      if (rrn.length > 0) {
+        if (isNaN(rrn) || rrn.length !== 11) {
+          valid = false;
+        }
+        else if (rrn.substring(0, 1) === '0' || rrn.substring(0, 1) === '1') {
+          rrn = '2' + rrn;
+        }
+        else {
+          var x = 97 - (parseInt(rrn.substring(0, rrn.length - 2)) - (parseInt(rrn.substring(0, rrn.length - 2) / 97))
+            * 97);
+          valid = parseInt(rrn.slice(-2)) === x;
+        }
+      }
       return valid;
     },
 
-    _validateKBO: function(kbo) {
+    _validateKBO: function(kboInput) {
       var valid = true;
+      var kbo = kboInput.split(' ').join('').split('.').join();
+      if (kbo.length >  0) {
+        valid = (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
+      }
       return valid;
     },
 
@@ -757,7 +846,6 @@ define([
      * @private
      */
     _highlightInvalids: function(invalids) {
-      this._clearHighlights();
       // add selected highlights
       invalids.forEach(lang.hitch(this, function(invalid){
         if  (invalid) {

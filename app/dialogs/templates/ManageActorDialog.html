@@ -30,7 +30,7 @@
         </div>
         <div class="placeholder-container" tabindex="-1">
           <label for="email-${id}">Email</label>
-          <input data-dojo-attach-point='email' id="email-${id}" type="text" style="width:65%; float:left;" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"/>
+          <input data-dojo-attach-point='email' id="email-${id}" type="text" style="width:65%; float:left;"/>
           <select id="emailtype-${id}" data-dojo-attach-point='emailtypes' style="width:25%; float:left" class="placeholder-input-border">
           </select>
           <a href="#" data-dojo-attach-event="onClick: _addEmail" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
@@ -50,7 +50,7 @@
         </div>
         <div class="placeholder-container" tabindex="-1">
           <label for="url-${id}">URL</label>
-          <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url-${id}" pattern="^(https?:\/\/).{1,255}"/>
+          <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url-${id}"/>
           <select id="urltype-${id}" data-dojo-attach-point='urltypes' style="width:35%; float:left;" class="placeholder-input-border">
           </select>
           <a href="#" data-dojo-attach-event="onClick: _addUrl" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
