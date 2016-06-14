@@ -75,11 +75,7 @@ define([
         this.editActorByUri(evt.actor.uri);
       }));
       on(this._searchWidget, 'actor.selected', lang.hitch(this, function(evt) {
-        this.actorController.getActor(evt.actorId).then(lang.hitch(this, function(actor) {
-          this._actorSelected(actor);
-        }), lang.hitch(this, function(err) {
-          this._handleError(err);
-        }));
+        this._actorSelected(evt.actor);
       }));
 
       this._viewActorDialog = new ViewActorDialog({
@@ -93,6 +89,7 @@ define([
       on(this._manageActorDialog, 'actor.save', lang.hitch(this, function(evt) {
         this._saveActor(evt.actor, evt.mode);
       }));
+
       this.typeLists = {};
     },
 
@@ -117,8 +114,9 @@ define([
         this._manageActorDialog.typeLists = this.typeLists;
         this._manageActorDialog.startup();
         this._initialized = true;
+      }), lang.hitch(this, function(err) {
+        this._emitError(err);
       }));
-
     },
 
     getSearchWidget: function(node, store) {
@@ -142,6 +140,8 @@ define([
         this.showLoading('Even geduld. Actor wordt opgehaald..');
         this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(actor) {
           this._viewActorDialog.show(actor);
+        }), lang.hitch(this, function(err) {
+          this._emitError(err);
         })).always(lang.hitch(this, function() {
           this.hideLoading();
         }));
@@ -159,6 +159,8 @@ define([
         this.showLoading('Even geduld. Actor wordt opgehaald..');
         this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(actor) {
           this._manageActorDialog.show(actor, 'edit');
+        }), lang.hitch(this, function(err) {
+          this._emitError(err);
         })).always(lang.hitch(this, function() {
           this.hideLoading();
         }));
@@ -190,6 +192,8 @@ define([
           });
           this._existsDialog.startup();
         }
+      }), lang.hitch(this, function(err) {
+        this._emitError(err);
       }));
     },
 
@@ -197,11 +201,10 @@ define([
       this.actorController.getActor(selected.id).then(
         lang.hitch(this, function (actor) {
           this._actorSelected(actor);
-        }),
-        lang.hitch(this, function (error) {
-          console.error('Error getting existing actor', error);
-        })
-      );
+          this._manageActorDialog.hide();
+        }), lang.hitch(this, function(err) {
+          this._emitError(err);
+        }));
     },
 
     _saveActor: function(data, mode) {
@@ -228,7 +231,7 @@ define([
           this.hideLoading();
         }));
       }), lang.hitch(this, function(err) {
-        console.log(err);
+        this._emitError(err);
         this.hideLoading();
       }));
     },
@@ -248,7 +251,7 @@ define([
     },
 
     _actorSelected: function(actor) {
-      console.log('ACTOR SELECTED', actor);
+      console.debug('ACTOR SELECTED', actor);
       this.emit('actor.selected', {
         actor: actor
       });
@@ -258,8 +261,10 @@ define([
       return this.typeLists;
     },
 
-    _handleError: function(error) {
-      console.log(error);
+    _emitError: function(error) {
+      this.emit('error', {
+        error: error
+      });
     },
 
     showLoading: function(message) {

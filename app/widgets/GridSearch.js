@@ -11,6 +11,7 @@ define([
   'dgrid/Selection',
   'dgrid/extensions/DijitRegistry',
   'dgrid/extensions/ColumnResizer',
+  'dgrid/extensions/ColumnHider',
   'dojo/text!./templates/GridSearch.html'
 ], function(
   declare,
@@ -25,6 +26,7 @@ define([
   Selection,
   DijitRegistry,
   ColumnResizer,
+  ColumnHider,
   template
 ) {
   /* used for 'search on input' delay */
@@ -85,6 +87,26 @@ define([
             return type.naam;
           }
         },
+        uri:  {
+          label: 'Uri',
+          hidden: true
+        },
+        status: {
+          label: 'Status',
+          hidden: true,
+          formatter: function(value) {
+            if (value && value.status) {
+              return value.status;
+            }
+            else {
+              return '-';
+            }
+          }
+        },
+        self: {
+          label: 'Self',
+          hidden: true
+        },
         //	formatter: lang.hitch(this, function (type, object) {
         //		if (this.actoren_updated.indexOf(object.id) > -1) {
         //			return type['naam'] + '<span class="success label right">bewerkt</span>';
@@ -132,7 +154,7 @@ define([
         }
       };
 
-      var grid = new (declare([OnDemandGrid, Keyboard, DijitRegistry, ColumnResizer, Selection]))({
+      var grid = new (declare([OnDemandGrid, Keyboard, DijitRegistry, ColumnResizer, Selection, ColumnHider]))({
         className: 'actorSearchGrid',
         collection: options.collection,
         columns: columns,
@@ -142,8 +164,8 @@ define([
 
       grid.on('.dgrid-row:click', lang.hitch(this, function(evt){
         evt.preventDefault();
-        var id = grid.row(evt).id;
-        this._actorSelected(id);
+        var actor = grid.row(evt).data;
+        this._actorSelected(actor);
       }));
 
       return grid;
@@ -186,9 +208,9 @@ define([
       }
     },
 
-    _actorSelected: function(actorId) {
+    _actorSelected: function(actor) {
       this.emit('actor.selected', {
-        actorId: actorId
+        actor: actor
       });
     },
 

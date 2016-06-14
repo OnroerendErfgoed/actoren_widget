@@ -160,6 +160,8 @@ define([
             var mergedActor = this._compareAndCompleteActor(actor, this.checkActor, this.checkAdressen);
             this.parent.editActor(mergedActor);
             this.dialog.hide();
+          }), lang.hitch(this, function(err) {
+            this.parent._emitError(err);
           }));
         } else {
           alert('Gelieve een actor te selecteren om te mergen.');
@@ -178,12 +180,12 @@ define([
         console.debug('comparing actors', selectedActor, actorNew);
 
         // compare emails
-        var selectedEmails = selectedActor.emails;
+        var selectedEmails = lang.clone(selectedActor.emails);
         var newEmailList = [];
         if (selectedEmails.length > 0) {
           array.forEach(actorNew.emails, function (newEmail) {
             array.forEach(selectedEmails, function (selectedEmail) {
-              if ((selectedEmail.email != newEmail.email) || (selectedEmail.type.id != newEmail.type.id)) {
+              if ((selectedEmail.email !== newEmail.email) || (selectedEmail.type.id !== newEmail.type.id)) {
                 newEmailList.push(newEmail);
               }
             });
@@ -195,12 +197,13 @@ define([
         }
 
         // compare telnr
-        var selectedTels = selectedActor.telefoons;
+        var selectedTels = lang.clone(selectedActor.telefoons);
         var newTelList = [];
         if (selectedTels.length > 0) {
           array.forEach(actorNew.telefoons, function (newTel) {
             array.forEach(selectedTels, function (selectedTel) {
-              if ((selectedTel.landcode != newTel.landcode) || (selectedTel.nummer != newTel.nummer) || (selectedTel.type.id != newTel.type.id)) {
+              if ((selectedTel.landcode !== newTel.landcode) || (selectedTel.nummer !== newTel.nummer) ||
+                (selectedTel.type.id !== newTel.type.id)) {
                 newTelList.push(newTel);
               }
             });
@@ -212,12 +215,12 @@ define([
         }
 
         // compare websites
-        var selectedSites = selectedActor.urls;
+        var selectedSites = lang.clone(selectedActor.urls);
         var newUrlList = [];
         if (selectedSites.length > 0) {
           array.forEach(actorNew.urls, function (newUrl) {
             array.forEach(selectedSites, function (selectedUrl) {
-              if ((selectedUrl.url != newUrl.url) || (selectedUrl.type.id != newUrl.type.id)) {
+              if ((selectedUrl.url !== newUrl.url) || (selectedUrl.type.id !== newUrl.type.id)) {
                 newUrlList.push(newUrl);
               }
             });
@@ -229,14 +232,16 @@ define([
         }
 
         // compare addresses
-        var selectedAddresses = selectedActor.adressen;
+        var selectedAddresses = lang.clone(selectedActor.adressen);
         var newAddressList = [];
         if (selectedAddresses.length > 0) {
           array.forEach(adresNew, function (newAdres) {
             array.forEach(selectedAddresses, function (selectedAdres) {
-              if ((selectedAdres.gemeente_id != newAdres.gemeente_id) || (selectedAdres.adrestype.id != newAdres.adrestype.id)
-                || (selectedAdres.huisnummer_id != newAdres.huisnummer_id) || (selectedAdres.straat_id != newAdres.straat_id)
-                || (selectedAdres.postcode != newAdres.postcode) || (selectedAdres.land != newAdres.land)) {
+              if ((selectedAdres.gemeente_id !== newAdres.gemeente_id) ||
+                (selectedAdres.adrestype.id !== newAdres.adrestype.id) ||
+                (selectedAdres.huisnummer_id !== newAdres.huisnummer_id) ||
+                (selectedAdres.straat_id !== newAdres.straat_id) ||
+                (selectedAdres.postcode !== newAdres.postcode) || (selectedAdres.land !== newAdres.land)) {
                 newAddressList.push(newAdres);
               }
             });
@@ -245,11 +250,6 @@ define([
           selectedActor.adressen = selectedAddresses;
         } else {
           selectedActor.adressen = adresNew;
-        }
-
-        // compare voornaam
-        if (selectedActor.voornaam == null || selectedActor.voornaam == "") {
-          selectedActor.voornaam = actorNew.voornaam;
         }
 
         console.debug('merged actor', selectedActor);

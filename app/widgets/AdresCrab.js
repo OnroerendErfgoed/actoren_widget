@@ -298,25 +298,25 @@ define([
 
       if (data.land === 'BE') {
         // get data from filteringselects
-        data.gemeente = this._gemeenteFilteringSelect.get('displayedValue') || undefined;
-        data.straat = this._straatFilteringSelect.get('displayedValue') || undefined;
-        data.postcode = this._postcodeFilteringSelect.get('displayedValue') || undefined;
-        data.huisnummer = this._nummerFilteringSelect.get('displayedValue') || undefined;
+        data.gemeente = this._gemeenteFilteringSelect.get('displayedValue') || null;
+        data.straat = this._straatFilteringSelect.get('displayedValue') || null;
+        data.postcode = this._postcodeFilteringSelect.get('displayedValue') || null;
+        data.huisnummer = this._nummerFilteringSelect.get('displayedValue') || null;
         data.subadres = this.subadres.value || undefined;
 
         /* jshint -W106 */
-        data.gemeente_id = this._gemeenteFilteringSelect.get('value') || undefined;
-        data.straat_id = this._straatFilteringSelect.get('value') || undefined;
-        data.huisnummer_id = this._nummerFilteringSelect.get('value') || undefined;
+        data.gemeente_id = parseInt(this._gemeenteFilteringSelect.get('value')) || null;
+        data.straat_id = parseInt(this._straatFilteringSelect.get('value')) || null;
+        data.huisnummer_id = parseInt(this._nummerFilteringSelect.get('value')) || null;
         /* jshint +W106 */
 
       } else {
         // get data from inputfields
-        data.gemeente = this.gemeente.value || undefined;
-        data.straat = this.straat.value || undefined;
-        data.postcode = this.postcode.value || undefined;
-        data.huisnummer = this.huisnummer.value || undefined;
-        data.subadres = this.subadres.value || undefined;
+        data.gemeente = this.gemeente.value || null;
+        data.straat = this.straat.value || null;
+        data.postcode = this.postcode.value || null;
+        data.huisnummer = this.huisnummer.value || null;
+        data.subadres = this.subadres.value || null;
 
         /* jshint -W106 */
         data.gemeente_id = null;

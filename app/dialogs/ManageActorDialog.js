@@ -113,6 +113,7 @@ define([
 
     show: function (actor, mode) {
       /* jshint maxcomplexity:15 */
+      this._reset();
       this.mode = mode;
       if (actor) {
         console.debug('ManageActorDialog::show', actor);
@@ -323,7 +324,7 @@ define([
         }
       }
 
-      actor.email = this._actorEmails;
+      actor.emails = this._actorEmails;
       actor.telefoons = this._actorTelefoons;
       actor.urls = this._actorUrls;
 
@@ -440,7 +441,7 @@ define([
             id: this._index.toString(),
             email: this.email.value,
             type: {
-              id: this.emailtypes.value
+              id: parseInt(this.emailtypes.value)
             }
           });
           this._createListItem(this._index, this.email.value, this.emailtypes.selectedOptions[0].label, this.emaillist, this._removeEmail);
@@ -472,7 +473,7 @@ define([
             nummer: this.telefoon.value,
             landcode: this._telefoonLandcodeSelect.get('value'),
             type: {
-              id: this.telefoontypes.value
+              id: parseInt(this.telefoontypes.value)
             }
           });
           var telefoonvalue = this._telefoonLandcodeSelect.get('value') ? this._telefoonLandcodeSelect.get('value') + this.telefoon.value : '+32' + this.telefoon.value;
@@ -502,7 +503,7 @@ define([
             id: this._index.toString(),
             url: this.url.value,
             type: {
-              id: this.urltypes.value
+              id: parseInt(this.urltypes.value)
             }
           });
           this._createListItem(this._index, this.url.value, this.urltypes.selectedOptions[0].label, this.urllist, this._removeUrl);

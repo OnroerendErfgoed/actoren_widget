@@ -108,14 +108,14 @@ define([
         if (this.mode === 'add') {
           this.emit('adres.add', {
             adres: adres,
-            adresType: this.adresTypeSelect.value
+            adresType: parseInt(this.adresTypeSelect.value)
           });
         }
 
         if (this.mode === 'edit') {
           this.emit('adres.edit', {
             adres: adres,
-            adresType: this.adresTypeSelect.value,
+            adresType: parseInt(this.adresTypeSelect.value),
             id: this._adresRowId
           });
         }

@@ -8,6 +8,10 @@
   height: 230px;
 }
 
+.search-actor-widget .dgrid .dgrid-hider-toggle {
+  display: none;
+}
+
 .search-actor-widget .dgrid .dgrid-row-table {
   margin: 0 !important;
   background: none;
