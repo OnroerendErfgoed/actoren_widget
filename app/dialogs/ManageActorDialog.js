@@ -386,7 +386,15 @@ define([
       }));
 
       if (actor.adressen) {
-        this._adresStore.setData(actor.adressen);
+        var checkedAdressen = array.map(actor.adressen, function(adres) {
+          if (!adres.id) {
+            var cloneAdres = lang.clone(adres);
+            this._adressenAdd.push(cloneAdres);
+            adres.id = 'new_' + this._adresIndex++;
+          }
+          return adres;
+        }, this);
+        this._adresStore.setData(checkedAdressen);
         this._adresGrid.refresh();
       }
 

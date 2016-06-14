@@ -181,56 +181,21 @@ define([
 
         // compare emails
         var selectedEmails = lang.clone(selectedActor.emails);
-        var newEmailList = [];
-        if (selectedEmails.length > 0) {
-          array.forEach(actorNew.emails, function (newEmail) {
-            array.forEach(selectedEmails, function (selectedEmail) {
-              if ((selectedEmail.email !== newEmail.email) || (selectedEmail.type.id !== newEmail.type.id)) {
-                newEmailList.push(newEmail);
-              }
-            });
-          });
-          selectedEmails.push.apply(selectedEmails, newEmailList);
-          selectedActor.emails = selectedEmails;
-        } else {
-          selectedActor.emails = actorNew.emails;
-        }
+        selectedEmails.push.apply(selectedEmails, actorNew.emails);
+        selectedActor.emails = this.makeEmailsUnique(selectedEmails);
 
         // compare telnr
         var selectedTels = lang.clone(selectedActor.telefoons);
-        var newTelList = [];
-        if (selectedTels.length > 0) {
-          array.forEach(actorNew.telefoons, function (newTel) {
-            array.forEach(selectedTels, function (selectedTel) {
-              if ((selectedTel.landcode !== newTel.landcode) || (selectedTel.nummer !== newTel.nummer) ||
-                (selectedTel.type.id !== newTel.type.id)) {
-                newTelList.push(newTel);
-              }
-            });
-          });
-          selectedTels.push.apply(selectedTels, newTelList);
-          selectedActor.telefoons = selectedTels;
-        } else {
-          selectedActor.telefoons = actorNew.telefoons;
-        }
+        selectedTels.push.apply(selectedTels, actorNew.telefoons);
+        selectedActor.telefoons = this.makeTelefoonsUnique(selectedTels);
 
         // compare websites
         var selectedSites = lang.clone(selectedActor.urls);
-        var newUrlList = [];
-        if (selectedSites.length > 0) {
-          array.forEach(actorNew.urls, function (newUrl) {
-            array.forEach(selectedSites, function (selectedUrl) {
-              if ((selectedUrl.url !== newUrl.url) || (selectedUrl.type.id !== newUrl.type.id)) {
-                newUrlList.push(newUrl);
-              }
-            });
-          });
-          selectedSites.push.apply(selectedSites, newUrlList);
-          selectedActor.urls = selectedSites;
-        } else {
-          selectedActor.url = actorNew.urls;
-        }
+        selectedSites.push.apply(selectedSites, actorNew.urls);
+        selectedActor.urls = this.makeUrlsUnique(selectedSites);
 
+
+        // TODO check adressen merge
         // compare addresses
         var selectedAddresses = lang.clone(selectedActor.adressen);
         var newAddressList = [];
@@ -254,6 +219,51 @@ define([
 
         console.debug('merged actor', selectedActor);
         return selectedActor;
+      },
+
+      makeEmailsUnique: function (nonUniqueArray) {
+        var unique = {};
+        var mappedArray = array.map(nonUniqueArray, function(email) {
+          return { email: email.email, type: { id: email.type.id }};
+        });
+        return array.filter(mappedArray, function(value) {
+          if (!unique[JSON.stringify(value)]) {
+            unique[JSON.stringify(value)] = true;
+            return true;
+          }
+          return false;
+
+        });
+      },
+
+       makeTelefoonsUnique: function (nonUniqueArray) {
+        var unique = {};
+        var mappedArray = array.map(nonUniqueArray, function(tel) {
+          return { landcode: tel.landcode, nummer: tel.nummer, type: { id: tel.type.id }};
+        });
+        return array.filter(mappedArray, function(value) {
+          if (!unique[JSON.stringify(value)]) {
+            unique[JSON.stringify(value)] = true;
+            return true;
+          }
+          return false;
+
+        });
+      },
+
+      makeUrlsUnique: function (nonUniqueArray) {
+        var unique = {};
+        var mappedArray = array.map(nonUniqueArray, function(url) {
+          return { url: url.url, type: { id: url.type.id }};
+        });
+        return array.filter(mappedArray, function(value) {
+          if (!unique[JSON.stringify(value)]) {
+            unique[JSON.stringify(value)] = true;
+            return true;
+          }
+          return false;
+
+        });
       }
     });
   });

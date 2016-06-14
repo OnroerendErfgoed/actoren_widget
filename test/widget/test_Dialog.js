@@ -41,7 +41,9 @@ define([
         actorenUrl: this.actorenUrl,
         ssoToken: this.ssoToken,
         idserviceUrl: this.idserviceUrl,
-        crabUrl: this.crabpyurl
+        crabUrl: this.crabpyurl,
+        canEditActor: true,
+        canCreateActor: true
       });
       this.actorWidget.startup();
     },

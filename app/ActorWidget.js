@@ -124,7 +124,7 @@ define([
         this._searchWidget.placeAt(node);
       }
       if (store) {
-
+        // TODO
       }
       return this._searchWidget;
     },
