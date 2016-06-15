@@ -76,7 +76,6 @@ define([
       });
     },
 
-    // TODO check required fields datum_start, datum_einde!!!
     editActorAdres:function(adres, actorId) {
       var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + "/" + adres.id;
       return xhr(target,{

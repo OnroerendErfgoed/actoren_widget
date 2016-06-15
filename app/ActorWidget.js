@@ -38,6 +38,8 @@ define([
     actorController: null,
     crabController: null,
     typeLists: null,
+    canEditActor: true,
+    canCreateActor: true,
     _initialized: false,
     _searchWidget: null,
     _viewWidget: null,
@@ -63,7 +65,9 @@ define([
       });
 
       this._searchWidget = new SearchWidget({
-        actorStore: this.actorStore
+        actorStore: this.actorStore,
+        canEdit: this.canEditActor,
+        canCreate: this.canCreateActor
       });
       on(this._searchWidget, 'actor.open.view', lang.hitch(this, function(evt) {
         this.viewActorByUri(evt.actor.uri);
@@ -119,12 +123,12 @@ define([
       }));
     },
 
-    getSearchWidget: function(node, store) {
+    getSearchWidget: function(options, node) {
       if (node) {
         this._searchWidget.placeAt(node);
       }
-      if (store) {
-        // TODO
+      if (options) {
+        this._searchWidget.setOptions(options);
       }
       return this._searchWidget;
     },

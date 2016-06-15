@@ -50,7 +50,7 @@ define([
 
     startup: function () {
       this.inherited(arguments);
-      this.widget = this.actorWidget.getSearchWidget(this.actorWidgetNode);
+      this.widget = this.actorWidget.getSearchWidget({ canEditActor: false }, this.actorWidgetNode);
     },
 
     show: function() {

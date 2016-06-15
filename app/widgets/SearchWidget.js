@@ -39,6 +39,8 @@ define([
     templateString: template,
     baseClass: 'search-actor-widget',
     actorStore: null,
+    canEdit: null,
+    canCreate: null,
     _gridSearch: null,
     _advSearch: null,
 
@@ -71,7 +73,9 @@ define([
 
       // gridSearch
       this._gridSearch = new GridSearch({
-        actorStore: this.actorStore
+        actorStore: this.actorStore,
+        _canEdit: this.canEdit,
+        _canCreate: this.canCreate
       });
 
       this._gridSearchPane = new ContentPane({
@@ -106,6 +110,15 @@ define([
     showSearchWidget: function() {
       this._showGridSearch();
     },
+
+    setOptions: function(options) {
+      if (options.store) {
+        this.actorStore = options.store;
+        this._gridSearch.setStore(this.actorStore);
+      }
+      this._gridSearch.setSecurityOptions(options.canEditActor, options.canCreateActor);
+    }
+    ,
 
     /**
      * Verbergt de 'Loading'-overlay.

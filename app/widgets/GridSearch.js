@@ -44,6 +44,8 @@ define([
     actorController: null,
     actorStore: null, //requires dstore!
     _actorGrid: null,
+    _canEdit: true,
+    _canCreate: true,
 
     /**
      * Standaard widget functie.
@@ -63,6 +65,12 @@ define([
     startup: function () {
       console.debug('...GridSearch::startup', arguments);
       this.inherited(arguments);
+
+      if (this._canCreate) {
+        this.addActorLink.style.display = 'inline-block';
+      } else {
+        this.addActorLink.style.display = 'none';
+      }
       this._actorGrid.startup();
       this._actorGrid.resize();
     },
@@ -138,17 +146,19 @@ define([
               })
             }, div);
 
-            domConstruct.create('a', {
-              href: '#',
-              title: 'Actor bewerken',
-              className: 'fa fa-pencil',
-              style: 'margin-left: 15px;',
-              innerHTML: '',
-              onclick: lang.hitch(this, function (evt) {
-                evt.preventDefault();
-                this._editActor(object);
-              })
-            }, div);
+            if (this._canEdit) {
+              domConstruct.create('a', {
+                href: '#',
+                title: 'Actor bewerken',
+                className: 'fa fa-pencil',
+                style: 'margin-left: 15px;',
+                innerHTML: '',
+                onclick: lang.hitch(this, function (evt) {
+                  evt.preventDefault();
+                  this._editActor(object);
+                })
+              }, div);
+            }
             return div;
           })
         }
@@ -214,9 +224,29 @@ define([
       });
     },
 
+    setStore: function(store) {
+      this.actorStore = store;
+      this._actorGrid.set('collection', this.actorStore);
+      this.resize();
+    },
+
+    setSecurityOptions: function(canEdit, canCreate) {
+      console.log(canEdit, canCreate);
+      if (typeof canEdit !== 'undefined' ) {
+        this._canEdit = canEdit;
+      }
+      if (typeof canCreate !== 'undefined' ) {
+        this._canCreate = canCreate;
+      }
+      if (this._canCreate) {
+        this.addActorLink.style.display = 'inline-block';
+      } else {
+        this.addActorLink.style.display = 'none';
+      }
+    },
+
     resize: function() {
       this.inherited(arguments);
-      console.log('RESIZE GRIDSEARCH');
       this._actorGrid.resize();
     },
 
