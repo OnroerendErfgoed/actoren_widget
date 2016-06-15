@@ -4,7 +4,9 @@ require([
 	'dstore/Trackable',
 	'dstore/Rest',
 	'dojo/_base/lang',
+	'dojo/promise/all',
 	'dijit/form/Button',
+	'actorwidget/controllers/ListController',
 	'dojo/domReady!'
 ], function (
 	declare,
@@ -12,7 +14,9 @@ require([
 	Trackable,
 	Rest,
 	lang,
-	Button
+	all,
+	Button,
+	ListController
 ) {
 	//var baseUrl= "http://localhost:6565";
 	var baseUrl= "https://dev-actoren.onroerenderfgoed.be";
@@ -35,48 +39,59 @@ require([
 		useRangeHeaders: true
 	});
 
-
-	var dialog = new test_Dialog({
-		actorStore: actorStore,
-		actorenUrl: baseUrl,
+	var typeLists = {};
+	var listController = new ListController({
 		ssoToken: ssoToken,
-		idserviceUrl: idservice,
-		crabpyurl: crabpyurl
+		actorUrl: baseUrl
 	});
-	dialog.startup();
+
+	all({
+		email: listController.getStore('emailtypes'),
+		tel: listController.getStore('telefoontypes'),
+		url: listController.getStore('urltypes'),
+		actor: listController.getStore('actortypes'),
+		adres: listController.getStore('adrestypes')
+	}).then(lang.hitch(this, function(results) {
+		typeLists.emailTypes = results.email.data;
+		typeLists.telephoneTypes = results.tel.data;
+		typeLists.urlTypes = results.url.data;
+		typeLists.actorTypes = results.actor.data;
+		typeLists.adresTypes = results.adres.data;
 
 
-	var myButton = new Button({
-		label: "show dialog",
-		onClick: lang.hitch(this, function () {
-			dialog.show();
-		})
-	}, 'openDialog');
-	myButton.startup();
-
-	var myButton2 = new Button({
-		label: "show actor",
-		onClick: lang.hitch(this, function () {
-			dialog.actorWidget.viewActor(actor);
-		})
-	}, 'viewActor');
-	myButton2.startup();
-
-	var myButton3 = new Button({
-		label: "edit actor",
-		onClick: lang.hitch(this, function () {
-			dialog.actorWidget.editActor(actor);
-		})
-	}, 'editActor');
-	myButton3.startup();
+		var dialog = new test_Dialog({
+			actorStore: actorStore,
+			actorenUrl: baseUrl,
+			ssoToken: ssoToken,
+			idserviceUrl: idservice,
+			crabpyurl: crabpyurl,
+			typeLists: typeLists
+		});
+		dialog.startup();
 
 
-	//actorWidget.createActor();
-	//on(actorWidget, 'created', function(){})
-	//actorWidget.showActor(uri);
-	//
-	//function _openDialog() {
-	//	console.log('test');
-	//	dialog.show();
-	//}
+		var myButton = new Button({
+			label: "show dialog",
+			onClick: lang.hitch(this, function () {
+				dialog.show();
+			})
+		}, 'openDialog');
+		myButton.startup();
+
+		var myButton2 = new Button({
+			label: "show actor",
+			onClick: lang.hitch(this, function () {
+				dialog.actorWidget.viewActor(actor);
+			})
+		}, 'viewActor');
+		myButton2.startup();
+
+		var myButton3 = new Button({
+			label: "edit actor",
+			onClick: lang.hitch(this, function () {
+				dialog.actorWidget.editActor(actor);
+			})
+		}, 'editActor');
+		myButton3.startup();
+	}));
 });

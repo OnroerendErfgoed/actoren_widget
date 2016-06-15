@@ -1,9 +1,11 @@
 define([
   'dojo/_base/declare',
   'dojo/_base/array',
+  'dojo/_base/lang',
   'dojo/dom-class',
   'dojo/dom-construct',
   'dojo/dom-attr',
+  'dojo/promise/all',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
   'dijit/Dialog',
@@ -12,9 +14,11 @@ define([
 ], function (
   declare,
   array,
+  lang,
   domClass,
   domConstruct,
   domAttr,
+  all,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
   Dialog,
@@ -29,6 +33,7 @@ define([
     style: 'width: 1000px; height: 600px;',
     actorStore: null,
     actorenUrl: null,
+    typeLists: null,
     ssoToken: null,
     idserviceUrl: null,
     agivgrburl: null,
@@ -36,20 +41,22 @@ define([
 
     postCreate: function () {
       this.inherited(arguments);
-      this.actorWidget = new ActorWidget({
-        actorStore: this.actorStore,
-        actorenUrl: this.actorenUrl,
-        ssoToken: this.ssoToken,
-        idserviceUrl: this.idserviceUrl,
-        crabUrl: this.crabpyurl,
-        canEditActor: true,
-        canCreateActor: true
-      });
-      this.actorWidget.startup();
+
+        this.actorWidget = new ActorWidget({
+          actorStore: this.actorStore,
+          actorenUrl: this.actorenUrl,
+          ssoToken: this.ssoToken,
+          idserviceUrl: this.idserviceUrl,
+          crabUrl: this.crabpyurl,
+          typeLists: this.typeLists,
+          canEditActor: true,
+          canCreateActor: true
+        });
     },
 
     startup: function () {
       this.inherited(arguments);
+      this.actorWidget.startup();
       this.widget = this.actorWidget.getSearchWidget({ canEditActor: false }, this.actorWidgetNode);
     },
 

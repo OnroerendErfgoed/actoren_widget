@@ -198,6 +198,11 @@ define([
       }), 250);
     },
 
+    advFilterGrid: function(query) {
+      this._actorGrid.set('collection', this.actorStore.filter(query));
+      this.resize();
+    },
+
     _createActor: function() {
       this.emit('actor.open.create');
     },
@@ -231,7 +236,6 @@ define([
     },
 
     setSecurityOptions: function(canEdit, canCreate) {
-      console.log(canEdit, canCreate);
       if (typeof canEdit !== 'undefined' ) {
         this._canEdit = canEdit;
       }

@@ -12,6 +12,7 @@ define([
   'dojo/dom-class',
   'dojo/dom-style',
   'dojo/query',
+  'dojo/on',
   'dojo/_base/fx',
   './GridSearch',
   './AdvSearch'
@@ -29,6 +30,7 @@ define([
   domClass,
   domStyle,
   query,
+  on,
   fx,
   GridSearch,
   AdvSearch
@@ -39,6 +41,7 @@ define([
     templateString: template,
     baseClass: 'search-actor-widget',
     actorStore: null,
+    actorTypes: null,
     canEdit: null,
     canCreate: null,
     _gridSearch: null,
@@ -60,9 +63,8 @@ define([
     startup: function () {
       console.debug('..SearchWidget::startup', arguments);
       this.inherited(arguments);
-      this._gridSearch.startup();
+      this._stackContainer.startup();
       this._gridSearch.resize();
-
       this._showAdvSearch();
     },
 
@@ -86,14 +88,17 @@ define([
 
       // advSearch
       this._advSearch = new AdvSearch({
-        actorStore: this.actorStore
+        actorStore: this.actorStore,
+        actorTypes: this.actorTypes
       });
+      on(this._advSearch, 'filter.grid', lang.hitch(this, function(evt) {
+        this._advFilterGrid(evt.query);
+      }));
       this._advSearchPane = new ContentPane({
         content: this._advSearch,
         title: 'advSearch'
       });
       this._stackContainer.addChild(this._advSearchPane);
-      this._stackContainer.startup();
     },
 
     _showGridSearch: function(evt) {
@@ -117,8 +122,12 @@ define([
         this._gridSearch.setStore(this.actorStore);
       }
       this._gridSearch.setSecurityOptions(options.canEditActor, options.canCreateActor);
-    }
-    ,
+    },
+
+    _advFilterGrid: function(query) {
+      this._gridSearch.advFilterGrid(query);
+      this.showSearchWidget();
+    },
 
     /**
      * Verbergt de 'Loading'-overlay.

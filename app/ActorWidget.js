@@ -46,6 +46,7 @@ define([
     _existsDialog: null,
 
     postCreate: function() {
+      console.debug('.ActorWidget::postCreate', arguments);
       this.inherited(arguments);
 
       this.actorController = new ActorController({
@@ -59,15 +60,11 @@ define([
         crabHost: this.crabUrl.replace(/\/?$/, '/') // add trailing slash
       });
 
-      this.listController = new ListController({
-        ssoToken: this.ssoToken,
-        actorUrl: this.actorenUrl
-      });
-
       this._searchWidget = new SearchWidget({
         actorStore: this.actorStore,
         canEdit: this.canEditActor,
-        canCreate: this.canCreateActor
+        canCreate: this.canCreateActor,
+        actorTypes: this.typeLists.actorTypes
       });
       on(this._searchWidget, 'actor.open.view', lang.hitch(this, function(evt) {
         this.viewActorByUri(evt.actor.uri);
@@ -88,6 +85,7 @@ define([
 
       this._manageActorDialog = new ManageActorDialog({
         actorenUrl: this.actorenUrl,
+        typeLists: this.typeLists,
         crabController: this.crabController
       });
       on(this._manageActorDialog, 'actor.save', lang.hitch(this, function(evt) {
@@ -98,29 +96,11 @@ define([
     },
 
     startup: function() {
+      console.debug('.ActorWidget::startup', arguments);
       this.inherited(arguments);
-
-      all({
-        email: this.listController.getStore('emailtypes'),
-        tel: this.listController.getStore('telefoontypes'),
-        url: this.listController.getStore('urltypes'),
-        actor: this.listController.getStore('actortypes'),
-        adres: this.listController.getStore('adrestypes')
-      }).then(lang.hitch(this, function(results) {
-        this.typeLists.emailTypes = results.email.data;
-        this.typeLists.telephoneTypes = results.tel.data;
-        this.typeLists.urlTypes = results.url.data;
-        this.typeLists.actorTypes = results.actor.data;
-        this.typeLists.adresTypes = results.adres.data;
-
-        this._searchWidget.startup();
-        this._viewActorDialog.startup();
-        this._manageActorDialog.typeLists = this.typeLists;
-        this._manageActorDialog.startup();
-        this._initialized = true;
-      }), lang.hitch(this, function(err) {
-        this._emitError(err);
-      }));
+      this._searchWidget.startup();
+      this._viewActorDialog.startup();
+      this._manageActorDialog.startup();
     },
 
     getSearchWidget: function(options, node) {

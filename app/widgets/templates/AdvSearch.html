@@ -1,58 +1,78 @@
 <div>
-  <div class="large-12 columns">
-    <div class="tabs-content">
-      <div class="row">
-        <div class="content active">
-          <form style="padding-top:10px">
-
-            <div class="large-4 columns">
-              <div class="placeholder-container" tabindex="-1">
-                <label for="naam-${id}">Naam</label>
-                <input data-dojo-attach-point='naam' id="naam-${id}" type="text"/>
-              </div>
-              <div class="placeholder-container" tabindex="-1">
-                <label for="voornaam-${id}">Voornaam</label>
-                <input data-dojo-attach-point='voornaam' id="voornaam-${id}" type="text"/>
-              </div>
-              <div class="placeholder-container" tabindex="-1">
-                <label for="email-${id}">Email</label>
-                <input data-dojo-attach-point='email' id="email-${id}" type="text"/>
-              </div>
-              <div class="placeholder-container" tabindex="-1">
-                <label for="telefoon-${id}">Telefoon</label>
-                <input data-dojo-attach-point='telefoon' id="telefoon-${id}" type="text" />
-              </div>
+  <div class="tabs-content">
+    <div class="row">
+      <div class="content active">
+        <form style="padding-top:10px">
+          <div class="large-4 columns">
+            <div class="placeholder-container" tabindex="-1">
+              <label for="naam-${id}">Naam</label>
+              <input data-dojo-attach-point='naamInput' id="naam-${id}" type="text"/>
             </div>
-
-            <div class="large-4 columns">
-              <div data-dojo-attach-point="crabWidget"></div>
+            <div class="placeholder-container" tabindex="-1">
+              <label for="voornaam-${id}">Voornaam</label>
+              <input data-dojo-attach-point='voornaamInput' id="voornaam-${id}" type="text"/>
             </div>
-
-            <div class="large-4 columns">
-              <div class="placeholder-container" tabindex="-1">
-                <label for="actortype-${id}">Actortype</label>
-                <select id="actortype-${id}" data-dojo-attach-point='type'>
-                </select>
-              </div>
-              <div class="placeholder-container" tabindex="-1">
-                <label for="persid-${id}">Persoon ID</label>
-                <input data-dojo-attach-point='persid' type="text" id="persid-${id}"/>
-              </div>
-              <div class="placeholder-container" tabindex="-1">
-                <label for="rrn-${id}">Rijksregisternummer</label>
-                <input data-dojo-attach-point='rrn' type="text" id="rrn-${id}" />
-              </div>
-              <div class="placeholder-container" tabindex="-1">
-                <label for="kbo-${id}" data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Kruispuntbank voor Ondernemingen">KBO</label>
-                <input data-dojo-attach-point='kbo' type="text" id="kbo-${id}" />
-              </div>
+            <div class="placeholder-container" tabindex="-1">
+              <label for="email-${id}">Email</label>
+              <input data-dojo-attach-point='emailInput' id="email-${id}" type="text"/>
             </div>
-          </form>
-        </div>
+            <div class="placeholder-container" tabindex="-1">
+              <label for="telefoon-${id}">Telefoon</label>
+              <input data-dojo-attach-point='telefoonInput' id="telefoon-${id}" type="text" />
+            </div>
+          </div>
+
+          <div class="large-4 columns">
+            <div class="placeholder-container">
+              <label for="land-${id}">Land</label>
+              <select id="land-${id}" data-dojo-attach-point="landList"></select>
+            </div>
+            <div class="placeholder-container" style="width: 60%; float: left;">
+              <label for="gemeente-${id}">Gemeente</label>
+              <input id="gemeente-${id}" type="text" data-dojo-attach-point="gemeenteInput" />
+            </div>
+            <div class="placeholder-container" style="width: 38%; float: right;">
+              <label for="postcode-${id}">Postcode</label>
+              <input type="text" id="postcode-${id}" data-dojo-attach-point="postcodeInput" />
+            </div>
+            <div class="placeholder-container">
+              <label for="straat-${id}">Straat</label>
+              <input type="text" id="straat-${id}" data-dojo-attach-point="straatInput" />
+            </div>
+            <div class="placeholder-container" style="width: 50%; float: left;">
+              <label for="huisnummer-${id}">Huisnr</label>
+              <input type="text" id="huisnummer-${id}" data-dojo-attach-point="huisnummerInput" />
+            </div>
+            <div class="placeholder-container" style="width: 48%; float: right;">
+              <label for="busnummer-${id}">Busnr</label>
+              <input type="text" id="busnummer-${id}" data-dojo-attach-point="busnummerInput" />
+            </div>
+          </div>
+
+          <div class="large-4 columns">
+            <div class="placeholder-container" tabindex="-1">
+              <label for="actortype-${id}">Actortype</label>
+              <select id="actortype-${id}" data-dojo-attach-point='typeInput'>
+              </select>
+            </div>
+            <div class="placeholder-container" tabindex="-1">
+              <label for="persid-${id}">Persoon ID</label>
+              <input data-dojo-attach-point='persidInput' type="text" id="persid-${id}"/>
+            </div>
+            <div class="placeholder-container" tabindex="-1">
+              <label for="rrn-${id}">Rijksregisternummer</label>
+              <input data-dojo-attach-point='rrnInput' type="text" id="rrn-${id}" />
+            </div>
+            <div class="placeholder-container" tabindex="-1">
+              <label for="kbo-${id}" data-tooltip aria-haspopup="true" class="has-tip tip-bottom radius" title="Kruispuntbank voor Ondernemingen">KBO</label>
+              <input data-dojo-attach-point='kboInput' type="text" id="kbo-${id}" />
+            </div>
+          </div>
+        </form>
       </div>
-      <div class="row text-center">
-        <a href="#" class="button tiny" data-dojo-attach-event="onClick: _findActoren">ZOEKEN</a>
-      </div>
+    </div>
+    <div class="row text-center">
+      <a href="#" class="button tiny" data-dojo-attach-event="onClick: _findActoren">ZOEKEN</a>
     </div>
   </div>
 </div>
