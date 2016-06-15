@@ -231,7 +231,8 @@ define([
 
     _actorSelected: function(actor) {
       this.emit('actor.selected', {
-        actor: actor
+        actor: actor,
+        bubbles: false
       });
     },
 
