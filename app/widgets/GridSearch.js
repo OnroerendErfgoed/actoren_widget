@@ -210,14 +210,13 @@ define([
     },
 
     _createActor: function() {
-      this.emit('actor.open.create', {bubbles: false});
+      this.emit('actor.open.create');
     },
 
     _editActor: function(actor) {
       if (actor) {
         this.emit('actor.open.edit', {
-          actor: actor,
-          bubbles: false
+          actor: actor
         });
       }
     },
@@ -225,8 +224,7 @@ define([
     _viewActor: function(actor) {
       if (actor) {
         this.emit('actor.open.view', {
-          actor: actor,
-          bubbles: false
+          actor: actor
         });
       }
     },

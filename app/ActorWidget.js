@@ -69,12 +69,15 @@ define([
       });
       on(this._searchWidget, 'actor.open.view', lang.hitch(this, function(evt) {
         this.viewActorByUri(evt.actor.uri);
+        evt.stopPropagation();
       }));
-      on(this._searchWidget, 'actor.open.create', lang.hitch(this, function() {
+      on(this._searchWidget, 'actor.open.create', lang.hitch(this, function(evt) {
         this.createNewActor();
+        evt.stopPropagation();
       }));
       on(this._searchWidget, 'actor.open.edit', lang.hitch(this, function(evt) {
         this.editActorByUri(evt.actor.uri);
+        evt.stopPropagation();
       }));
       on(this._searchWidget, 'actor.selected', lang.hitch(this, function(evt) {
         this._actorSelected(evt.actor);
