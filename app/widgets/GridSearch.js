@@ -12,6 +12,7 @@ define([
   'dgrid/extensions/DijitRegistry',
   'dgrid/extensions/ColumnResizer',
   'dgrid/extensions/ColumnHider',
+  'dstore/Memory',
   'dojo/text!./templates/GridSearch.html'
 ], function(
   declare,
@@ -27,6 +28,7 @@ define([
   DijitRegistry,
   ColumnResizer,
   ColumnHider,
+  Memory,
   template
 ) {
   /* used for 'search on input' delay */
@@ -210,7 +212,9 @@ define([
     },
 
     setSelectedGridActor: function(actor) {
-      console.log(actor);
+      var list = [];
+      list.push(actor);
+      this._actorGrid.set('collection', new Memory({ data: list }));
       this._actorGrid.select(this._actorGrid.row(actor.id));
     },
 
