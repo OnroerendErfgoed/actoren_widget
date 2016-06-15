@@ -209,6 +209,11 @@ define([
       this.resize();
     },
 
+    setSelectedGridActor: function(actor) {
+      console.log(actor);
+      this._actorGrid.select(this._actorGrid.row(actor.id));
+    },
+
     _createActor: function() {
       this.emit('actor.open.create');
     },

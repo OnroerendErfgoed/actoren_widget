@@ -120,6 +120,10 @@ define([
       this._stackContainer.selectChild(this._advSearchPane, false);
     },
 
+    setSelectedGridActor: function(actor) {
+      this._gridSearch.setSelectedGridActor(actor);
+    },
+
     showSearchWidget: function() {
       this._showGridSearch();
     },

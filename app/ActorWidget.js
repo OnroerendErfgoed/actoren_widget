@@ -189,6 +189,7 @@ define([
       this.actorController.getActor(selected.id).then(
         lang.hitch(this, function (actor) {
           this._actorSelected(actor);
+          this._searchWidget.setSelectedGridActor(actor);
           this._manageActorDialog.hide();
         }), lang.hitch(this, function(err) {
           this._emitError(err);
