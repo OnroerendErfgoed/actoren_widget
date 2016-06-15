@@ -2,7 +2,7 @@
   "name": "actoren_widget",
   "description": "A dojo widget to search for and administrate actoren",
   "version": "0.3.2",
-  "main": "widgets/ActorWidget.js",
+  "main": "app/ActorWidget.js",
   "ignore": [
     "test",
     ".bowerrc",
