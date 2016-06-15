@@ -90,7 +90,7 @@ define([
     },
 
     _filterGrid: function (query) {
-      this.emit('filter.grid', { query: query });
+      this.emit('filter.grid', { query: query, bubbles: false });
     },
 
     _getSearchParams: function() {

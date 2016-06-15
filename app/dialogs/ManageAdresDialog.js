@@ -108,7 +108,8 @@ define([
         if (this.mode === 'add') {
           this.emit('adres.add', {
             adres: adres,
-            adresType: parseInt(this.adresTypeSelect.value)
+            adresType: parseInt(this.adresTypeSelect.value),
+            bubbles: false
           });
         }
 
@@ -116,7 +117,8 @@ define([
           this.emit('adres.edit', {
             adres: adres,
             adresType: parseInt(this.adresTypeSelect.value),
-            id: this._adresRowId
+            id: this._adresRowId,
+            bubbles: false
           });
         }
         this.hide();

@@ -159,12 +159,14 @@ define([
       if (this.mode === 'edit') {
         this.emit('actor.save', {
           actor: actor,
-          mode: 'edit'
+          mode: 'edit',
+          bubbles: false
         });
       } else if (this.mode === 'add') {
         this.emit('actor.save', {
           actor: actor,
-          mode: 'add'
+          mode: 'add',
+          bubbles: false
         });
       }
     },

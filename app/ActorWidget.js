@@ -238,8 +238,7 @@ define([
     _actorSelected: function(actor) {
       console.debug('ACTOR SELECTED', actor);
       this.emit('actorwidget.selected', {
-        actor: actor,
-        bubbles: false
+        actor: actor
       });
     },
 

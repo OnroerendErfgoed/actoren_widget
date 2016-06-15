@@ -80,6 +80,12 @@ define([
         _canEdit: this.canEdit,
         _canCreate: this.canCreate
       });
+      on(this._gridSearch, 'actor.selected', lang.hitch(this, function(evt) {
+        this.emit('actor.selected', {
+          actor: evt.actor,
+          bubbles: false
+        });
+      }));
 
       this._gridSearchPane = new ContentPane({
         content: this._gridSearch,
