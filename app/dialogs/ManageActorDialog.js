@@ -361,7 +361,7 @@ define([
         email['id'] = this._index.toString();
         this._actorEmails.push(email);
         var type = this.typeLists.emailTypes.filter(lang.hitch(this, function(type) {
-          return (type.id == email.type.id);
+          return (parseInt(type.id) == parseInt(email.type.id));
         }));
         this._createListItem(this._index, email.email, type[0].naam, this.emaillist, this._removeEmail);
       }));
@@ -371,7 +371,7 @@ define([
         telefoon['id'] = this._index.toString();
         this._actorTelefoons.push(telefoon);
         var type = this.typeLists.telephoneTypes.filter(lang.hitch(this, function(type) {
-          return (type.id == telefoon.type.id);
+          return (parseInt(type.id) == parseInt(telefoon.type.id));
         }));
         var telefoonvalue = telefoon.landcode ? telefoon.landcode + telefoon.nummer : '+32' + telefoon.nummer;
         this._createListItem(this._index, telefoonvalue, type[0].naam, this.telefoonlist, this._removeTelefoon);
@@ -382,7 +382,7 @@ define([
         url['id'] = this._index.toString();
         this._actorUrls.push(url);
         var type = this.typeLists.urlTypes.filter(lang.hitch(this, function(type) {
-          return (type.id == url.type.id);
+          return (parseInt(type.id) == parseInt(url.type.id));
         }));
         this._createListItem(this._index, url.url, type[0].naam, this.urllist, this._removeUrl);
       }));
