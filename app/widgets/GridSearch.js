@@ -253,6 +253,7 @@ define([
       } else {
         this.addActorLink.style.display = 'none';
       }
+      this._refresh();
     },
 
     resize: function() {
