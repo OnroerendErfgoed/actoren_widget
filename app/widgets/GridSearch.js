@@ -198,6 +198,12 @@ define([
       }), 250);
     },
 
+    resetFilters: function(evt) {
+      evt ? evt.preventDefault() : null;
+      this.advFilterGrid({});
+      this.actorenFilter.value = '';
+    },
+
     advFilterGrid: function(query) {
       this._actorGrid.set('collection', this.actorStore.filter(query));
       this.resize();

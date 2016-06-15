@@ -44,6 +44,7 @@ define([
     actorTypes: null,
     canEdit: null,
     canCreate: null,
+    crabController: null,
     _gridSearch: null,
     _advSearch: null,
 
@@ -89,7 +90,8 @@ define([
       // advSearch
       this._advSearch = new AdvSearch({
         actorStore: this.actorStore,
-        actorTypes: this.actorTypes
+        actorTypes: this.actorTypes,
+        crabController: this.crabController
       });
       on(this._advSearch, 'filter.grid', lang.hitch(this, function(evt) {
         this._advFilterGrid(evt.query);

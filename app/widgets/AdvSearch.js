@@ -33,6 +33,7 @@ define([
 
     templateString: template,
     actorTypes: null,
+    crabController: null,
     _listSet: false,
 
     /**
@@ -56,6 +57,28 @@ define([
       domConstruct.place('<option value="" disabled selected>Selecteer Actortype</option>', this.typeInput);
       array.forEach(this.actorTypes, lang.hitch(this, function (type) {
         domConstruct.place('<option value="' + type.id + '">' + type.naam + '</option>', this.typeInput);
+      }));
+      this._setLandenList();
+    },
+
+    /**
+     * Selectielijsten aanvullen met opties
+     * @private
+     */
+    _setLandenList: function(){
+      // default lijst van landen
+      domConstruct.place('<option value="BE">België</option>', this.landList);
+      domConstruct.place('<option value="DE">Duitsland</option>', this.landList);
+      domConstruct.place('<option value="FR">Frankrijk</option>', this.landList);
+      domConstruct.place('<option value="GB">Groot-Brittanië</option>', this.landList);
+      domConstruct.place('<option value="NL">Nederland</option>', this.landList);
+      domConstruct.place('<option value="LU">Luxemburg</option>', this.landList);
+      domConstruct.place('<option disabled>─────────────────────────</option>', this.landList);
+      this.crabController.getLanden().
+      then(lang.hitch(this, function(landenLijst){
+        landenLijst.forEach(lang.hitch(this, function(land){
+          domConstruct.place('<option value="' + land.id + '">' + land.naam + '</option>', this.landList);
+        }));
       }));
     },
 

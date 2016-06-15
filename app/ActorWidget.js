@@ -64,7 +64,8 @@ define([
         actorStore: this.actorStore,
         canEdit: this.canEditActor,
         canCreate: this.canCreateActor,
-        actorTypes: this.typeLists.actorTypes
+        actorTypes: this.typeLists.actorTypes,
+        crabController: this.crabController
       });
       on(this._searchWidget, 'actor.open.view', lang.hitch(this, function(evt) {
         this.viewActorByUri(evt.actor.uri);

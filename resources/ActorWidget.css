@@ -33,42 +33,6 @@
   width: 50px !important;
 }
 
-/*.actor-widget .input-label-left {*/
-/*display: inline-block;*/
-/*margin: 0;*/
-/*float: left !important;*/
-/*}*/
-
-/*.actor-widget .input-label-right {*/
-/*display: inline-block;*/
-/*margin: 0;*/
-/*float: right !important;*/
-/*}*/
-
-/*.actor-widget .inline-inputs {*/
-/*width: 100%;*/
-/*display: inline-block;*/
-/*margin: 0;*/
-/*}*/
-
-/*.actor-widget .tabs-content {*/
-/*border: 1px solid rgba(117, 63, 127, 0.3) !important;*/
-/*}*/
-
-/*.actor-widget .search-combobox {*/
-/*height: 2.3125rem;*/
-/*border: none;*/
-/*width: 100%;*/
-/*margin-bottom: 1rem;*/
-/*}*/
-
-/*.actor-widget .search-combobox input[type="text"] {*/
-/*background-color: white !important;*/
-/*border: 1px solid #cccccc !important;*/
-/*margin: 0 0 1rem 0 !important;*/
-/*padding: 0.5rem !important;*/
-/*}*/
-
 .search-actor-widget .dijitMenu {
   border: 1px solid #cccccc !important;
   color: #616161;
