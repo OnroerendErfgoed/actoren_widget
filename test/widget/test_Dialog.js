@@ -42,22 +42,22 @@ define([
     postCreate: function () {
       this.inherited(arguments);
 
-        this.actorWidget = new ActorWidget({
-          actorStore: this.actorStore,
-          actorenUrl: this.actorenUrl,
-          ssoToken: this.ssoToken,
-          idserviceUrl: this.idserviceUrl,
-          crabUrl: this.crabpyurl,
-          typeLists: this.typeLists,
-          canEditActor: true,
-          canCreateActor: true
-        });
+      this.actorWidget = new ActorWidget({
+        actorStore: this.actorStore,
+        actorenUrl: this.actorenUrl,
+        ssoToken: this.ssoToken,
+        idserviceUrl: this.idserviceUrl,
+        crabUrl: this.crabpyurl,
+        typeLists: this.typeLists,
+        canEditActor: true,
+        canCreateActor: true
+      });
     },
 
     startup: function () {
       this.inherited(arguments);
       this.actorWidget.startup();
-      this.widget = this.actorWidget.getSearchWidget({ canEditActor: false }, this.actorWidgetNode);
+      this.widget = this.actorWidget.getSearchWidget({}, this.actorWidgetNode);
     },
 
     show: function() {
