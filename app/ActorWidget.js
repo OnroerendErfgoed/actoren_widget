@@ -211,7 +211,7 @@ define([
         this._saveAdressen(adressen, actor.id).then(lang.hitch(this, function(saveAdressenResult) {
           console.log('Alles gesaved', resActor, saveAdressenResult);
           this._manageActorDialog.hide();
-          this.emit('widget.actor.saved', {actor: resActor});
+          this.emit('actorwidget.saved', {actor: resActor});
         })).always(lang.hitch(this, function() {
           this.hideLoading();
         }));
@@ -237,7 +237,7 @@ define([
 
     _actorSelected: function(actor) {
       console.debug('ACTOR SELECTED', actor);
-      this.emit('widget.actor.selected', {
+      this.emit('actorwidget.selected', {
         actor: actor,
         bubbles: false
       });
