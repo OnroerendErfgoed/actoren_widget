@@ -1,0 +1,94 @@
+<div class="dijitDialog" role="dialog" aria-labelledby="manageActorDialog_title">
+  <div data-dojo-attach-point="titleBar" class="dijitDialogTitleBar">
+    <span data-dojo-attach-point="titleNode" class="dijitDialogTitle" role="heading"></span>
+		<span data-dojo-attach-point="closeButtonNode" class="dijitDialogCloseIcon"
+          data-dojo-attach-event="ondijitclick: onCancel" title="Annuleren" role="button" tabIndex="-1">
+			<span data-dojo-attach-point="closeText" class="closeText" title="Annuleren" tabIndex="-1">
+        <i class="fa fa-times"></i></span>
+		</span>
+  </div>
+
+  <div data-dojo-attach-point="containerNode" class="dijitDialogPaneContent">
+    <div data-dojo-attach-point="loadingOverlay" class="widgetPageOverlay" style="display: none;">
+      <div class="loadingMessage">Even geduld. De toepassing wordt geladen...</div>
+      <div><i class="fa fa-4x fa-spinner fa-pulse"></i></div>
+    </div>
+    <div class="row">
+      <div class="large-6 columns">
+        <div class="placeholder-container">
+          <label for="naam-${id}">Naam</label>
+          <input id="naam-${id}" type="text" data-dojo-attach-point="naamInput" />
+        </div>
+        <div class="placeholder-container" data-dojo-attach-point="vnafkNode">
+          <label for="vnafk-${id}" data-dojo-attach-point="vn_afk_label">Voornaam</label>
+          <input id="vnafk-${id}" type="text" data-dojo-attach-point="vnafkInput" />
+        </div>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="actortype-${id}">Actortype</label>
+          <select id="actortype-${id}" data-dojo-attach-point='actortypes'>
+          </select>
+        </div>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="email-${id}">Email</label>
+          <input data-dojo-attach-point='email' id="email-${id}" type="text" style="width:65%; float:left;"/>
+          <select id="emailtype-${id}" data-dojo-attach-point='emailtypes' style="width:25%; float:left" class="placeholder-input-border">
+          </select>
+          <a href="#" data-dojo-attach-event="onClick: _addEmail" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
+        </div>
+        <ul data-dojo-attach-point="emaillist" class="nodisk list-selected-items">
+        </ul>
+      </div>
+
+      <div class="large-6 columns">
+        <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='rrnNode'>
+          <label for="rrn-${id}">Rijksregisternummer</label>
+          <input data-dojo-attach-point='rrnInput' type="text" id="rrn-${id}" />
+        </div>
+        <div class="placeholder-container" tabindex="-1" data-dojo-attach-point='kboNode' style="display: none;">
+          <label for="kbo-${id}" title="Kruispuntbank voor Ondernemingen">KBO</label>
+          <input data-dojo-attach-point='kboInput' type="text" id="kbo-${id}"/>
+        </div>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="url-${id}">URL</label>
+          <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url-${id}"/>
+          <select id="urltype-${id}" data-dojo-attach-point='urltypes' style="width:35%; float:left;" class="placeholder-input-border">
+          </select>
+          <a href="#" data-dojo-attach-event="onClick: _addUrl" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
+        </div>
+        <ul data-dojo-attach-point="urllist" class="nodisk list-selected-items" style="margin-bottom: 10px;">
+        </ul>
+        <div class="placeholder-container" tabindex="-1">
+          <label for="telefoonlandcode-${id}">Telefoon</label>
+          <input style="width: 20%; float: left;" data-dojo-attach-point='telefoonLandcode' id="telefoonlandcode-${id}" />
+          <input style="width: 40%; float: left;" data-dojo-attach-point='telefoon' id="telefoon-${id}" type="text"/>
+          <select id="telefoontype-${id}" data-dojo-attach-point='telefoontypes' style="width:30%; float:left;" class="placeholder-input-border">
+          </select>
+          <a href="#" data-dojo-attach-event="onClick: _addTelefoon" class="plus-icon-link"><i class="fa fa-plus plus-icon"></i></a>
+        </div>
+        <ul data-dojo-attach-point="telefoonlist" class="nodisk list-selected-items">
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-6 columns" style="margin-left: 0;">
+        <h5>Adressen</h5>
+      </div>
+      <div class="large-6 columns" style="margin-right: 0;">
+        <div class="addLinkContainer right">
+          <a href="#" class="refreshLink" data-dojo-attach-point="addAdresLink" data-dojo-attach-event="onClick: _showAddAdres">
+            <small>Adres toevoegen <i class="fa fa-plus-circle" ></i></small>
+          </a>
+        </div>
+      </div>
+      <div class="large-12 columns">
+        <div data-dojo-attach-point="adresGridNode"></div>
+      </div>
+    </div>
+
+    <div class="row viewFooter">
+      <a class="button tiny" data-dojo-attach-event="onClick: _execute" data-dojo-attach-point="executeButton">add/edit</a>
+      <a class="button tiny" data-dojo-attach-event="onClick: _closeDialog">Annuleren</a>
+    </div>
+  </div>
+</div>

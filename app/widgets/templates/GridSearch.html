@@ -1,0 +1,31 @@
+<div>
+  <div class="large-12 columns">
+    <input type="text"
+           name="actorenFilter"
+           title="Zoek een actor"
+           class="searchBox"
+           placeholder='Zoeken in actoren..'
+           data-dojo-attach-event="onInput: _filterGrid"
+           data-dojo-attach-point="actorenFilter"
+           tabindex="1" />
+    <span class="fa fa-search searchBoxIcon"></span>
+  </div>
+  <div class="large-12 columns">
+    <div class="gridContainer">
+      <div data-dojo-attach-point="actorGridNode"></div>
+    </div>
+  </div>
+  <div class=" small-12 columns">
+    <div class="addLinkContainer">
+      <a href="#" class="refreshLink" data-dojo-attach-point="addActorLink" data-dojo-attach-event="onClick: _createActor">
+        Actor aanmaken <i class="fa fa-plus-circle" ></i>
+      </a>
+      <a href="#" class="refreshLink" data-dojo-attach-event="onClick: _refresh">
+        Vernieuwen <i class="fa fa-refresh" ></i>
+      </a>
+      <a href="#" class="refreshLink" data-dojo-attach-event="onClick: resetFilters">
+        Verwijder filters <i class="fa fa-filter"></i>
+      </a>
+    </div>
+  </div>
+</div>
