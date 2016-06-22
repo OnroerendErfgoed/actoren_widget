@@ -161,6 +161,6 @@ define([
           return new Deferred().reject('Er is een probleem opgetreden tijdens de redirect van: ' + actorUri);
         }
       );
-    },
+    }
   });
 });
