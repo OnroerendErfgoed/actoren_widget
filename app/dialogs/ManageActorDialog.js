@@ -304,6 +304,7 @@ define([
       if (actorType === '1' || actorType === '3') {
         actor.voornaam = this.vnafkInput.value || undefined;
         if (!actor.id) {
+          this.rrnInput.value = this.rrnInput.value.replace(/\./g,'' ).replace(/\s/g, '').replace(/\-/g, '');
           actor.rrn = this.rrnInput.value || undefined;
         }
         if (actor.afkorting) {
@@ -312,6 +313,8 @@ define([
       } else if (actorType === '2') {
         actor.afkorting = this.vnafkInput.value || undefined;
         if (!actor.id) {
+          this.kboInput.value = this.kboInput.value.replace(/\./g,'' ).replace(/\s/g, '')
+            .toUpperCase().replace('BE', '');
           actor.kbo = this.kboInput.value || undefined;
         }
         if (actor.voornaam) {
@@ -625,7 +628,7 @@ define([
 
     _validateRRN: function(rrnInput) {
       var valid = true;
-      var rrn = rrnInput.split(' ').join('').split('.').join('').split('-').join('');
+      var rrn = rrnInput;
       if (rrn.length > 0) {
         if (isNaN(rrn) || rrn.length !== 11) {
           valid = false;
@@ -644,9 +647,8 @@ define([
 
     _validateKBO: function(kboInput) {
       var valid = true;
-      var kbo = kboInput.split(' ').join('').split('.').join();
-      if (kbo.length >  0) {
-        valid = (!isNaN(kbo) && kbo.length >= 9 && kbo.length <= 10);
+      if (kboInput.length >  0) {
+        valid = (!isNaN(kboInput) && kboInput.length >= 9 && kboInput.length <= 10);
       }
       return valid;
     },
