@@ -137,7 +137,8 @@ define([
     _createActorDetailView: function() {
       console.debug('AgentschapActorWidget::_createActorDetailView');
       return new AgentschapActorDetail({
-        actorWidget: this
+        actorWidget: this,
+				actorController: this.actorController
       }, this.actorDetailNode);
     }
 

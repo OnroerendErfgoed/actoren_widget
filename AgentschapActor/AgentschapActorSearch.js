@@ -33,6 +33,15 @@ define([
   Selection,
   StoreAdapter
 ) {
+
+	var delay = (function(){
+		var timer = 0;
+		return function(callback, ms){
+			clearTimeout (timer);
+			timer = setTimeout(callback, ms);
+		};
+	})();
+
   return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
     templateString: template,
@@ -60,7 +69,6 @@ define([
     startup: function () {
       console.log('..ActorSearch::startup', arguments);
       this.inherited(arguments);
-      this.actorController = this.actorWidget.actorController;
       this._createGrid();
     },
 
@@ -107,10 +115,9 @@ define([
       this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
         evt.preventDefault();
         var cell = this._grid.cell(evt);
-        if (cell.column.field == 'id'&& this._grid.row(evt)) {
+        if (cell.column.field == 'id' && this._grid.row(evt)) {
           var id = this._grid.row(evt).id;
-          this.actorController.getActor(id).
-          then(lang.hitch(this, function(actor){
+          this.actorController.getActor(id).then(lang.hitch(this, function(actor){
             this._showDetail(actor);
           }));
         }
@@ -118,8 +125,7 @@ define([
       this._grid.on(".dgrid-row:dblclick", lang.hitch(this, function(evt){
         evt.preventDefault();
         var id = this._grid.row(evt).id;
-        this.actorController.getActor(id).
-        then(lang.hitch(this, function(actor){
+        this.actorController.getActor(id).then(lang.hitch(this, function(actor){
           this._emitActor(actor);
         }));
       }));
@@ -133,8 +139,6 @@ define([
         evt.preventDefault();
         this._emitError(evt)
       }));
-      this._grid.refresh();
-
     },
 
     /**
@@ -175,26 +179,31 @@ define([
      * @private
      */
     _filterGrid: function (evt) {
-      this._grid.set('sort', '');
-      var newValue = evt.target.value;
-      if (this._timeoutId) {
-        clearTimeout(this._timeoutId);
-        this._timeoutId = null;
-      }
-      this._timeoutId = setTimeout(lang.hitch(this, function () {
-        if (newValue != this._previousSearchValue) {
-          this._previousSearchValue = newValue;
-          if (newValue === '') {
-            this._grid.set('collection', new StoreAdapter({objectStore: this.actorController.actorWijStore}));
-            this._grid.refresh();
-          }
-          else {
-            this._grid.set('collection', new StoreAdapter({objectStore: this.actorController.actorWijStore}).filter({'naam': newValue}));
-            this._grid.refresh();
-          }
-        }
-      }, 30));
+      evt.preventDefault();
+
+	 		var newValue = evt.target.value;
+			delay(lang.hitch(this, function() {
+				this.removeSort();
+				if (newValue === '') {
+					this._grid.set({
+						collection: new StoreAdapter({objectStore: this.actorController.actorWijStore})
+					});
+				}
+				else {
+					this._grid.set({
+						collection: new StoreAdapter({objectStore: this.actorController.actorWijStore}).filter({'omschrijving': newValue})
+					});
+				}
+			}, 250 ));
     },
+
+		/**
+		* Functie om sort parameter te verwijderen bij grid, belangrijk bij zoeken in elastic search
+		*/
+		removeSort: function() {
+			this._grid.set('collection', '');
+			this._grid.set('sort', '');
+		},
 
     /**
      * Tonen van de detail widget waarbij een actor wordt meegegeven.
