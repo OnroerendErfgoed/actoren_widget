@@ -12,7 +12,8 @@ define([
 	'./../controllers/CrabController',
 	'./AgentschapActorSearch',
 	'./AgentschapActorDetail',
-	'dijit/layout/StackContainer'
+	'dijit/layout/StackContainer',
+	'dijit/layout/ContentPane'
 ], function (
 	template,
 	declare,
@@ -32,6 +33,9 @@ define([
 		actorWijStore: null,
 		actorStore: null,
 		actorController: null,
+    crabHost: null,
+    ssoToken: null,
+		_actorDetail: null,
 		_actorSearch: null,
 
 		/**
@@ -43,14 +47,16 @@ define([
 		 */
 		postCreate: function () {
 			this.inherited(arguments);
-			console.log('ActorWidget::postCreate', arguments);
+			console.log('AgentschapActorWidget::postCreate', arguments);
 
 			this.actorController = new ActorController({
 				actorWijStore: this.actorWijStore,
-				actorStore: this.actorStore
+				actorStore: this.actorStore,
+				ssoToken: this.ssoToken
 			});
-			this.crabController = new CrabController({crabHost: this.crabHost});
-			this._setupLayout();
+			this.crabController = new CrabController({
+				crabHost: this.crabHost
+			});
 
 			this.on('send.actor', function(evt){
 				console.log('send.actor');
@@ -67,15 +73,19 @@ define([
 		 */
 		startup: function () {
 			this.inherited(arguments);
-			console.log('ActorWidget::startup', arguments);
-			this.showSearch();
+			console.log('AgentschapActorWidget::startup', arguments);
+			this._actorSearch = this._createActorSearchView();
+			this._actorDetail = this._createActorDetailView();
+			this._actorSearch.startup();
+			this._actorDetail.startup();
+			this.resize();
 		},
 
 		/**
 		 * Functie om de zoek widget te tonen.
 		 */
 		showSearch: function () {
-			this.actorStackContainer.selectChild(this._actorSearch);
+			this.actorStackContainer.selectChild(this.tabActorSearch);
 		},
 
 		/**
@@ -84,19 +94,12 @@ define([
 		 */
 		showDetail: function (actor) {
 			this._actorDetail.setActor(actor);
-			this.actorStackContainer.selectChild(this._actorDetail);
+			this.actorStackContainer.selectChild(this.tabActorDetail);
 		},
 
-		/**
-		 * De content van de widget toevoegen
-		 * @private
-		 */
-		_setupLayout: function() {
-			this._actorSearch = new AgentschapActorSearch({actorWidget: this});
-			this._actorDetail = new AgentschapActorDetail({actorWidget: this});
-			this.actorStackContainer.addChild(this._actorSearch);
-			this.actorStackContainer.addChild(this._actorDetail);
-		},
+    resize: function() {
+      this.actorStackContainer.resize();
+    },
 
 		/**
 		 * Geeft de geselecteerde actor.
@@ -120,7 +123,23 @@ define([
 		 */
 		emitError: function(evt) {
 			this.emit('error', evt);
-		}
+		},
+
+		_createActorSearchView: function() {
+			console.debug('AgentschapActorWidget::_createActorSearchView');
+			return new AgentschapActorSearch({
+				actorWidget: this,
+				actorController: this.actorController,
+				actorStore: this.actorStore
+			}, this.searchNode);
+		},
+
+    _createActorDetailView: function() {
+      console.debug('AgentschapActorWidget::_createActorDetailView');
+      return new AgentschapActorDetail({
+        actorWidget: this
+      }, this.actorDetailNode);
+    }
 
 	});
 });

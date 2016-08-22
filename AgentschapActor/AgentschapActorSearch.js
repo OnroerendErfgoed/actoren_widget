@@ -78,7 +78,7 @@ define([
 				},
 				naam: {
 					label:'Naam',
-					sortable: false
+					sortable: true
 				},
 				voornaam: {
 					label: 'Voornaam',
@@ -203,6 +203,17 @@ define([
 		 */
 		_showDetail: function(actor) {
 			this.actorWidget.showDetail(actor);
+		},
+
+		/**
+		 * Event refresh functie van de widget.
+		 * @param evt
+		 * @private
+		 */
+		_refresh: function (evt) {
+			evt ? evt.preventDefault() : null;
+			this._grid.set("collection", new StoreAdapter({objectStore: this.actorController.actorWijStore}));
+			this.actorenFilter.value = '';
 		},
 
 		/**

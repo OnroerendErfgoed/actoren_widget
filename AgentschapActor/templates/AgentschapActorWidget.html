@@ -1,4 +1,20 @@
 <div class="row">
-  <div data-dojo-type="dijit/layout/StackContainer" data-dojo-attach-point="actorStackContainer" class="large-12 columns">
+  <div data-dojo-type="dijit/layout/StackContainer"
+       data-dojo-attach-point="actorStackContainer"
+       data-dojo-props="doLayout:false"
+       class="row viewBody">
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="Zoeken"
+         data-dojo-attach-point="tabActorSearch"
+         data-dojo-props="selected:true">
+      <div data-dojo-attach-point="searchNode"></div>
+    </div>
+
+    <div data-dojo-type="dijit/layout/ContentPane"
+         title="Actor bekijken"
+         data-dojo-attach-point="tabActorDetail">
+      <div data-dojo-attach-point="actorDetailNode"></div>
+    </div>
   </div>
 </div>
