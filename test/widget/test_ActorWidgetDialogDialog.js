@@ -7,10 +7,10 @@ define([
   'dijit/Dialog',
   'dojo/on',
   'dojo/store/Observable',
-  'actorwidget/test/util/JsonRestCors',
+  'dojo/store/JsonRest',
   'actorwidget/widgets/ActorWidget',
   'dojo/text!./test_ActorWidgetDialogDialog.html'
-], function (declare, lang, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, Dialog, on, Observable, JsonRestCors, ActorWidget, template) {
+], function (declare, lang, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin, Dialog, on, Observable, JsonRest, ActorWidget, template) {
   return declare([_Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
     templateString: template,
@@ -43,7 +43,7 @@ define([
       var baseUrl= "http://localhost:6565";
       var ssoToken = 'u2_654897';
 
-      this.actorWijStore = new Observable(new JsonRestCors({
+      this.actorWijStore = new Observable(new JsonRest({
         target: baseUrl + '/actoren/wij/',
         sortParam: 'sort',
         idProperty: 'id',
@@ -54,7 +54,7 @@ define([
         }
       }));
 
-      this.actorStore = new Observable(new JsonRestCors({
+      this.actorStore = new Observable(new JsonRest({
         target: baseUrl + '/actoren/',
         sortParam: 'sort',
         idProperty: 'id',
