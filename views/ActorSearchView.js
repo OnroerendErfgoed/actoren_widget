@@ -16,7 +16,7 @@ define([
 	'dgrid/extensions/DijitRegistry',
 	'dgrid/OnDemandGrid',
 	'dgrid/Selection',
-    "dstore/legacy/StoreAdapter"
+	'dstore/legacy/StoreAdapter'
 ], function(
 	template,
 	declare,
@@ -31,7 +31,7 @@ define([
 	DijitRegistry,
 	OnDemandGrid,
 	Selection,
-    StoreAdapter
+	StoreAdapter
 ) {
 
 	var delay = (function(){
