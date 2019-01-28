@@ -359,6 +359,10 @@ define([
         this.vnafkInput.value = actor.afkorting;
       }
 
+      if (actor.rrn) {
+        this.rrnInput.value = actor.rrn;
+      }
+
       array.forEach(actor.emails, lang.hitch(this, function(email) {
         this._index++;
         email['id'] = this._index.toString();
