@@ -163,6 +163,9 @@ define([
             }
           }));
           if (selected) {
+            array.forEach(this.checkAdressen, function (adres) {
+              adres.adrestype.id = 2;
+            });
             this.actorWidget.actorController.getActor(selected).then(lang.hitch(this, function (actor) {
               var mergedActor = this._compareAndCompleteActor(actor, this.checkActor, this.checkAdressen);
               this.actorWidget.showActorEdit(mergedActor);
