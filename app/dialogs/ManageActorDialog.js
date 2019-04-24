@@ -115,28 +115,30 @@ define([
       /* jshint maxcomplexity:15 */
       this._reset();
       this.mode = mode;
-      if (actor) {
-        console.debug('ManageActorDialog::show', actor);
-        this.actor = actor;
-        if (actor.type) {
-          this._changedActorType(actor.type.id);
+
+      this.inherited(arguments).then(lang.hitch(this, function() {
+        if (actor) {
+          console.debug('ManageActorDialog::show', actor, mode);
+          this.actor = actor;
+          if (actor.type) {
+            this._changedActorType(actor.type.id);
+          }
+          this.setData(actor);
+        } else {
+          this.actor = null;
         }
-        this.setData(actor);
-      } else {
-        this.actor = null;
-      }
-      if (mode === 'edit') {
-        domStyle.set(this.kboNode, 'display', 'none');
-        domStyle.set(this.rrnNode, 'display', 'none');
-        this.set('title', 'Actor bewerken');
-        this.executeButton.innerHTML = 'Bewerken';
-      } else {
-        domStyle.set(this.kboNode, 'display', 'none');
-        domStyle.set(this.rrnNode, 'display', 'inline-table');
-        this.set('title', 'Actor aanmaken');
-        this.executeButton.innerHTML = 'Aanmaken';
-      }
-      this.inherited(arguments);
+        if (mode === 'edit') {
+          // domStyle.set(this.kboNode, 'display', 'none');
+          // domStyle.set(this.rrnNode, 'display', 'none');
+          this.set('title', 'Actor bewerken');
+          this.executeButton.innerHTML = 'Bewerken';
+        } else {
+          // domStyle.set(this.kboNode, 'display', 'none');
+          // domStyle.set(this.rrnNode, 'display', 'inline-table');
+          this.set('title', 'Actor aanmaken');
+          this.executeButton.innerHTML = 'Aanmaken';
+        }
+      }));
     },
 
     hide: function () {
@@ -781,10 +783,11 @@ define([
     /**
      * Event functie waarbij de kbo input veld niet-bewerkbaan wordt als het over een persoon gaat.
      * Bij een organisatie zal het rrn input veld niet-bewerkbaar worden.
-     * @param evt
+     * @param type
      * @private
      */
     _changedActorType: function(type) {
+      console.debug('ManageActorDialog::_changedActorType', type);
       switch (type.toString()) {
         case "1":
         case "3":
