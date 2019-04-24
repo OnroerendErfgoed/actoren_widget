@@ -363,6 +363,10 @@ define([
         this.rrnInput.value = actor.rrn;
       }
 
+      if (actor.kbo) {
+        this.kboInput.value = actor.kbo;
+      }
+
       array.forEach(actor.emails, lang.hitch(this, function(email) {
         this._index++;
         email['id'] = this._index.toString();
