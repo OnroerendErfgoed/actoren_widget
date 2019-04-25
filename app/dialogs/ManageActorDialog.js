@@ -149,9 +149,8 @@ define([
     },
 
     _execute: function(evt) {
+      console.debug('ManageActorDialog::_execute');
       evt ? evt.preventDefault() : null;
-      console.log('EXECUTE!!')
-
       var actor = this.getData();
 
       if (!this._isValid(actor)) {
@@ -296,6 +295,9 @@ define([
 
     getData: function() {
       var actor = lang.clone(this.actor);
+      this.kboInput.value = this.kboInput.value.replace(/\./g,'' ).replace(/\s/g, '').toUpperCase().replace('BE', '');
+      this.rrnInput.value = this.rrnInput.value.replace(/\./g,'' ).replace(/\s/g, '').replace(/\-/g, '');
+
       if (!actor) {
         actor = {};
       }
@@ -305,19 +307,18 @@ define([
 
       if (actorType === '1' || actorType === '3') {
         actor.voornaam = this.vnafkInput.value || undefined;
-        if (!actor.id) {
-          this.rrnInput.value = this.rrnInput.value.replace(/\./g,'' ).replace(/\s/g, '').replace(/\-/g, '');
-          actor.rrn = this.rrnInput.value || undefined;
+        if (this.rrnInput.value) {
+          actor.rrn = this.rrnInput.value;
+          actor.ids = [{'extra_id': this.rrnInput.value, type: {naam: 'rrn', id: 4}}];
         }
         if (actor.afkorting) {
           delete actor.afkorting;
         }
       } else if (actorType === '2') {
         actor.afkorting = this.vnafkInput.value || undefined;
-        if (!actor.id) {
-          this.kboInput.value = this.kboInput.value.replace(/\./g,'' ).replace(/\s/g, '')
-            .toUpperCase().replace('BE', '');
-          actor.kbo = this.kboInput.value || undefined;
+        if (this.kboInput.value) {
+          actor.kbo = this.kboInput.value;
+          actor.ids = [{'extra_id': this.kboInput.value, type: {naam: 'kbo', id: 6}}];
         }
         if (actor.voornaam) {
           delete actor.voornaam;
