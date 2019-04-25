@@ -1,8 +1,7 @@
 {
   "name": "actoren_widget",
   "description": "A dojo widget to search for and administrate actoren",
-  "version": "0.3.3",
-  "main": "widgets/ActorWidget.js",
+  "main": "app/ActorWidget.js",
   "ignore": [
     "test",
     ".bowerrc",
@@ -10,8 +9,10 @@
     "README.md"
   ],
   "dependencies": {
-    "dojo": "~1.10.5",
     "dijit": "~1.10.5",
-    "dgrid": "~0.4.2"
+    "dojo": "~1.10.5",
+    "dgrid": "~1.0.0",
+    "dstore": "~1.1.1",
+    "util": "dojo-util#~1.10.5"
   }
 }
