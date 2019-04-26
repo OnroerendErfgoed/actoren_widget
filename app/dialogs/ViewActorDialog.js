@@ -150,6 +150,6 @@ define([
           domClass.add(this.vnafkNode, 'hide');
           break;
       }
-    },
+    }
   });
 });
