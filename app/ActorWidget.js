@@ -197,7 +197,7 @@ define([
     },
 
     _saveActor: function(data, mode) {
-      console.log('SAVE ACTOR', data, mode);
+      console.debug('ActorWidget::_saveActor', data, mode);
       var actorToSave = data.actor;
       if (mode === 'add') {
         var adressen = data.adressen.add;
@@ -208,7 +208,7 @@ define([
     },
 
     _doSave: function(actor, adressen) {
-      console.log('SAVE ACTOR', actor, adressen);
+      console.debug('ActorWidget::_doSave', actor, adressen);
       this.showLoading('Even geduld. Actor wordt opgeslagen..');
       this.actorController.saveActor(actor).then(lang.hitch(this, function(resActor) {
         actor.id = resActor.id; // set id for new actors

@@ -207,6 +207,7 @@ define([
                 (selectedAdres.huisnummer_id !== newAdres.huisnummer_id) ||
                 (selectedAdres.straat_id !== newAdres.straat_id) ||
                 (selectedAdres.postcode !== newAdres.postcode) || (selectedAdres.land !== newAdres.land)) {
+                newAdres.adrestype = {id:  2}; // nieuwe adressen = type extra
                 newAddressList.push(newAdres);
               }
             });

@@ -4,6 +4,7 @@ define([
   'dojo/dom-class',
   'dojo/dom-construct',
   'dojo/dom-attr',
+  'dojo/dom-style',
   'dijit/_TemplatedMixin',
   'dijit/_WidgetsInTemplateMixin',
   'dijit/Dialog',
@@ -14,6 +15,7 @@ define([
   domClass,
   domConstruct,
   domAttr,
+  domStyle,
   _TemplatedMixin,
   _WidgetsInTemplateMixin,
   Dialog,
@@ -44,8 +46,14 @@ define([
       var href = this. actorenUrl + '/actoren/' + actor.id;
       domAttr.set(this.actorLink, 'href', href);
 
+      this._changedActorType(actor.type);
+
       this.naamInput.value = actor.naam || '';
-      this.voornaamInput.value = actor.voornaam || '';
+      if (actor.voornaam) {
+        this.vnafkInput.value = actor.voornaam;
+      } else if (actor.afkorting) {
+        this.vnafkInput.value = actor.afkorting;
+      }
       array.forEach(actor.emails, function (email){
         this._createListItem(email.email, email.type.naam, this.emailList);
       }, this);
@@ -65,18 +73,15 @@ define([
         this.adresTypeInput.value = actor.adres.adrestype.naam || '';
       }
 
-      this.actorTypeInput.value = actor.type.naam || '';
-      if (actor.type && actor.type.id === 2) {
-        domClass.remove(this.kboContainer, 'hide');
-        var kbos = array.filter(actor.ids, function (actorId) {
-          return actorId.type && actorId.type.id === 6;
-        });
-        if (kbos.length > 0) {
-          /* jshint -W106 */
-          this.kboInput.value = kbos[0].extra_id;
-          /* jshint +W106 */
-        }
+      var kbos = array.filter(actor.ids, function (actorId) {
+        return actorId.type && actorId.type.id === 6;
+      });
+      if (kbos.length > 0) {
+        /* jshint -W106 */
+        this.kboInput.value = kbos[0].extra_id;
+        /* jshint +W106 */
       }
+
       array.forEach(actor.urls, function (url){
         this._createListItem(url.url, url.type.naam, this.urlList);
       }, this);
@@ -98,7 +103,7 @@ define([
     _reset: function () {
       console.debug('ActorBekijkenDialog::_reset');
       this.naamInput.value = '';
-      this.voornaamInput.value = '';
+      this.vnafkInput.value = '';
       domConstruct.empty(this.emailList);
       domConstruct.empty(this.telefoonList);
 
@@ -119,6 +124,32 @@ define([
       domConstruct.create('li', {
         innerHTML: value + ' (' + type + ')'
       }, ullist);
-    }
+    },
+
+    _changedActorType: function(type) {
+      console.debug('ViewActorDialog::_changedActorType', type);
+      this.actorTypeInput.value = type.naam || '';
+
+      switch (type.id.toString()) {
+        case "1":
+        case "3":
+          this.kboInput.value = '';
+          domClass.add(this.kboContainer, 'hide');
+          this.vn_afk_label.innerHTML = 'Voornaam';
+          domClass.remove(this.vnafkNode, 'hide');
+          break;
+        case "2":
+          domClass.remove(this.kboContainer, 'hide');
+          this.vn_afk_label.innerHTML = 'Afkorting';
+          domClass.remove(this.vnafkNode, 'hide');
+          break;
+        case "4":
+          this.kboInput.value = '';
+          domClass.add(this.kboContainer, 'hide');
+          this.vnafkInput.value = '';
+          domClass.add(this.vnafkNode, 'hide');
+          break;
+      }
+    },
   });
 });
