@@ -203,7 +203,6 @@ define([
           array.forEach(adresNew, function (newAdres) {
             array.forEach(selectedAddresses, function (selectedAdres) {
               if ((selectedAdres.gemeente_id !== newAdres.gemeente_id) ||
-                (selectedAdres.adrestype.id !== newAdres.adrestype.id) ||
                 (selectedAdres.huisnummer_id !== newAdres.huisnummer_id) ||
                 (selectedAdres.straat_id !== newAdres.straat_id) ||
                 (selectedAdres.postcode !== newAdres.postcode) || (selectedAdres.land !== newAdres.land)) {
