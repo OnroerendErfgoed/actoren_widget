@@ -211,7 +211,9 @@ define([
     _removeAdresRow: function(rowId) {
       console.log(rowId);
       this._adresStore.remove(rowId);
-      this._adressenRemove.push(rowId);
+      if (!rowId.includes('new_')) {
+        this._adressenRemove.push(rowId);
+      }
     },
 
     _createGrid: function(options, node) {
