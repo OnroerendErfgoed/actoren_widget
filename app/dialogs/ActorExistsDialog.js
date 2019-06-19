@@ -194,6 +194,33 @@ define([
         selectedSites.push.apply(selectedSites, actorNew.urls);
         selectedActor.urls = this.makeUrlsUnique(selectedSites);
 
+        // compare kbo
+        if (actorNew.kbo) {
+          selectedActor.kbo = actorNew.kbo;
+        } else {
+          var kbos = array.filter(selectedActor.ids, function (actorId) {
+            return actorId.type && actorId.type.id === 6;
+         });
+         if (kbos.length > 0) {
+           /* jshint -W106 */
+           selectedActor.kbo = kbos[0].extra_id;
+           /* jshint +W106 */
+         }
+        }
+
+        //compare rrn
+        if (actorNew.rrn) {
+          selectedActor.rrn = actorNew.rrn;
+        } else {
+          var rrns = array.filter(selectedActor.ids, function (actorId) {
+            return actorId.type && actorId.type.id === 6;
+         });
+         if (rrns.length > 0) {
+           /* jshint -W106 */
+           selectedActor.kbo = rrns[0].extra_id;
+           /* jshint +W106 */
+         }
+        }
 
         // TODO check adressen merge
         // compare addresses
