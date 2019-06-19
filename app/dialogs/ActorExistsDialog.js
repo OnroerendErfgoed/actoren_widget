@@ -208,16 +208,16 @@ define([
          }
         }
 
-        //compare rrn
+        // compare rrn
         if (actorNew.rrn) {
           selectedActor.rrn = actorNew.rrn;
         } else {
           var rrns = array.filter(selectedActor.ids, function (actorId) {
-            return actorId.type && actorId.type.id === 6;
+            return actorId.type && actorId.type.id === 4;
          });
          if (rrns.length > 0) {
            /* jshint -W106 */
-           selectedActor.kbo = rrns[0].extra_id;
+           selectedActor.rrn = rrns[0].extra_id;
            /* jshint +W106 */
          }
         }
