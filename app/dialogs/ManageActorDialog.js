@@ -208,10 +208,15 @@ define([
       this._adressenEdit.push(adres);
     },
 
-    _removeAdresRow: function(rowId) {
-      console.log(rowId);
-      this._adresStore.remove(rowId);
-      this._adressenRemove.push(rowId);
+    _removeAdresRow: function(adresToRemove) {
+      console.log(adresToRemove.id);
+      adresToRemove.einddatum = new Date(Date.now());
+      adresToRemove.adrestype = {
+        'id': 2,
+        'naam': 'Extra'
+      };
+      this._adresStore.remove(adresToRemove.id);
+      this._adressenRemove.push(adresToRemove);
     },
 
     _createGrid: function(options, node) {
@@ -274,7 +279,7 @@ define([
               innerHTML: '',
               onclick: lang.hitch(this, function(evt)  {
                 evt.preventDefault();
-                this._removeAdresRow(object.id);
+                this._removeAdresRow(object);
               })
             }, div);
             return div;
