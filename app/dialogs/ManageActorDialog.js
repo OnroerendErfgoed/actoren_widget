@@ -184,14 +184,23 @@ define([
     _addAdresRow: function(adres, type) {
       if (adres) {
         adres.adrestype = { id: type };
-        adres.id = 'new_' + this._adresIndex++;
-        this._adresStore.add(adres);
+        var isDuplicateAdres = array.some(this._adressenAdd, function (existingAdres) {
+         return (existingAdres.gemeente_id === adres.gemeente_id &&
+             existingAdres.huisnummer_id === adres.huisnummer_id &&
+             existingAdres.straat_id === adres.straat_id &&
+             existingAdres.postcode === adres.postcode &&
+             existingAdres.land === adres.land)
+        }, this);
+        if (!isDuplicateAdres) {
+          adres.id = 'new_' + this._adresIndex++;
+          this._adresStore.add(adres);
 
-        var cloneAdres = lang.clone(adres);
-        if (cloneAdres.id.indexOf('new') > -1) {
-          delete cloneAdres.id;
+          var cloneAdres = lang.clone(adres);
+          if (cloneAdres.id.indexOf('new') > -1) {
+            delete cloneAdres.id;
+          }
+          this._adressenAdd.push(cloneAdres);
         }
-        this._adressenAdd.push(cloneAdres);
       }
     },
 
