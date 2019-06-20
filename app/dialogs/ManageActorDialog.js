@@ -184,14 +184,23 @@ define([
     _addAdresRow: function(adres, type) {
       if (adres) {
         adres.adrestype = { id: type };
-        adres.id = 'new_' + this._adresIndex++;
-        this._adresStore.add(adres);
+        var isDuplicateAdres = array.some(this._adressenAdd, function (existingAdres) {
+         return (existingAdres.gemeente_id === adres.gemeente_id &&
+             existingAdres.huisnummer_id === adres.huisnummer_id &&
+             existingAdres.straat_id === adres.straat_id &&
+             existingAdres.postcode === adres.postcode &&
+             existingAdres.land === adres.land)
+        }, this);
+        if (!isDuplicateAdres) {
+          adres.id = 'new_' + this._adresIndex++;
+          this._adresStore.add(adres);
 
-        var cloneAdres = lang.clone(adres);
-        if (cloneAdres.id.indexOf('new') > -1) {
-          delete cloneAdres.id;
+          var cloneAdres = lang.clone(adres);
+          if (cloneAdres.id.indexOf('new') > -1) {
+            delete cloneAdres.id;
+          }
+          this._adressenAdd.push(cloneAdres);
         }
-        this._adressenAdd.push(cloneAdres);
       }
     },
 
@@ -207,13 +216,16 @@ define([
       }
       this._adressenEdit.push(adres);
     },
-
-    _removeAdresRow: function(rowId) {
-      console.log(rowId);
-      this._adresStore.remove(rowId);
-      if (!rowId.includes('new_')) {
-        this._adressenRemove.push(rowId);
-      }
+      
+    _removeAdresRow: function(adresToRemove) {
+      console.log(adresToRemove.id);
+      adresToRemove.einddatum = new Date(Date.now());
+      adresToRemove.adrestype = {
+        'id': 2,
+        'naam': 'Extra'
+      };
+      this._adresStore.remove(adresToRemove.id);
+      this._adressenRemove.push(adresToRemove);
     },
 
     _createGrid: function(options, node) {
@@ -276,7 +288,7 @@ define([
               innerHTML: '',
               onclick: lang.hitch(this, function(evt)  {
                 evt.preventDefault();
-                this._removeAdresRow(object.id);
+                this._removeAdresRow(object);
               })
             }, div);
             return div;
