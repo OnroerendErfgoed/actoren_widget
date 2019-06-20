@@ -225,6 +225,11 @@ define([
         // TODO check adressen merge
         // compare addresses
         var selectedAddresses = lang.clone(selectedActor.adressen);
+
+        selectedAddresses = array.filter(selectedAddresses, function (adres) {
+          return adres.einddatum === null;
+        });
+
         var newAddressList = [];
         if (selectedAddresses.length > 0) {
           array.forEach(adresNew, function (newAdres) {
