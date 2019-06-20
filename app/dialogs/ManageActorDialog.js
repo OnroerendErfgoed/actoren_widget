@@ -233,7 +233,7 @@ define([
       };
       this._adresStore.remove(adresToRemove.id);
       if (!adresToRemove.id.includes('new_')) {
-        this._adressenRemove.push(adresToRemove.id);
+        this._adressenRemove.push(adresToRemove);
       }
     },
 
