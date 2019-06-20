@@ -185,11 +185,11 @@ define([
       if (adres) {
         adres.adrestype = { id: type };
         var isDuplicateAdres = array.some(this._adressenAdd, function (existingAdres) {
-         return (existingAdres.gemeente_id == adres.gemeente_id &&
-             existingAdres.huisnummer_id == adres.huisnummer_id &&
-             existingAdres.straat_id == adres.straat_id &&
-             existingAdres.postcode == adres.postcode &&
-             existingAdres.land == adres.land)
+         return (existingAdres.gemeente_id === adres.gemeente_id &&
+             existingAdres.huisnummer_id === adres.huisnummer_id &&
+             existingAdres.straat_id === adres.straat_id &&
+             existingAdres.postcode === adres.postcode &&
+             existingAdres.land === adres.land)
         }, this);
         if (!isDuplicateAdres) {
           adres.id = 'new_' + this._adresIndex++;

@@ -202,11 +202,11 @@ define([
         if (selectedAddresses.length > 0) {
           array.forEach(adresNew, function (newAdres) {
             var isDuplicateAdres = array.some(selectedAddresses, function (selectedAddress) {
-              return (selectedAddress.gemeente_id == newAdres.gemeente_id &&
-                  selectedAddress.huisnummer_id == newAdres.huisnummer_id &&
-                  selectedAddress.straat_id == newAdres.straat_id &&
-                  selectedAddress.postcode == newAdres.postcode &&
-                  selectedAddress.land == newAdres.land)
+              return (selectedAddress.gemeente_id === newAdres.gemeente_id &&
+                  selectedAddress.huisnummer_id === newAdres.huisnummer_id &&
+                  selectedAddress.straat_id === newAdres.straat_id &&
+                  selectedAddress.postcode === newAdres.postcode &&
+                  selectedAddress.land === newAdres.land)
             }, this);
             if (!isDuplicateAdres) {
               newAdres.adrestype = {id:  2};
