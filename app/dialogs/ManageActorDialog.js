@@ -210,8 +210,16 @@ define([
 
     _removeAdresRow: function(rowId) {
       console.log(rowId);
+      var adresToRemove = array.filter(this._adresStore.fetchSync(), function (adres) {
+        return adres.id === rowId;
+      })[0];
+      adresToRemove.einddatum = new Date(Date.now());
+      adresToRemove.adrestype = {
+        'id': 2,
+        'naam': 'Extra'
+      };
       this._adresStore.remove(rowId);
-      this._adressenRemove.push(rowId);
+      this._adressenRemove.push(adresToRemove);
     },
 
     _createGrid: function(options, node) {
