@@ -194,23 +194,56 @@ define([
         selectedSites.push.apply(selectedSites, actorNew.urls);
         selectedActor.urls = this.makeUrlsUnique(selectedSites);
 
+        // compare kbo
+        if (actorNew.kbo) {
+          selectedActor.kbo = actorNew.kbo;
+        } else {
+          var kbos = array.filter(selectedActor.ids, function (actorId) {
+            return actorId.type && actorId.type.id === 6;
+         });
+         if (kbos.length > 0) {
+           /* jshint -W106 */
+           selectedActor.kbo = kbos[0].extra_id;
+           /* jshint +W106 */
+         }
+        }
+
+        // compare rrn
+        if (actorNew.rrn) {
+          selectedActor.rrn = actorNew.rrn;
+        } else {
+          var rrns = array.filter(selectedActor.ids, function (actorId) {
+            return actorId.type && actorId.type.id === 4;
+         });
+         if (rrns.length > 0) {
+           /* jshint -W106 */
+           selectedActor.rrn = rrns[0].extra_id;
+           /* jshint +W106 */
+         }
+        }
 
         // TODO check adressen merge
         // compare addresses
         var selectedAddresses = lang.clone(selectedActor.adressen);
+
+        selectedAddresses = array.filter(selectedAddresses, function (adres) {
+          return adres.einddatum === null;
+        });
+
         var newAddressList = [];
         if (selectedAddresses.length > 0) {
           array.forEach(adresNew, function (newAdres) {
-            array.forEach(selectedAddresses, function (selectedAdres) {
-              if ((selectedAdres.gemeente_id !== newAdres.gemeente_id) ||
-                (selectedAdres.adrestype.id !== newAdres.adrestype.id) ||
-                (selectedAdres.huisnummer_id !== newAdres.huisnummer_id) ||
-                (selectedAdres.straat_id !== newAdres.straat_id) ||
-                (selectedAdres.postcode !== newAdres.postcode) || (selectedAdres.land !== newAdres.land)) {
-                newAdres.adrestype = {id:  2}; // nieuwe adressen = type extra
-                newAddressList.push(newAdres);
-              }
-            });
+            var isDuplicateAdres = array.some(selectedAddresses, function (selectedAddress) {
+              return (selectedAddress.gemeente_id === newAdres.gemeente_id &&
+                  selectedAddress.huisnummer_id === newAdres.huisnummer_id &&
+                  selectedAddress.straat_id === newAdres.straat_id &&
+                  selectedAddress.postcode === newAdres.postcode &&
+                  selectedAddress.land === newAdres.land)
+            }, this);
+            if (!isDuplicateAdres) {
+              newAdres.adrestype = {id:  2};
+              newAddressList.push(newAdres);
+            }
           });
           selectedAddresses.push.apply(selectedAddresses, newAddressList);
           selectedActor.adressen = selectedAddresses;

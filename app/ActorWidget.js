@@ -234,7 +234,7 @@ define([
         promises.push(this.actorController.editActorAdres(adres, actorId));
       }, this);
       array.forEach(adressen.remove, function(adres) {
-        promises.push(this.actorController.deleteActorAdres(adres, actorId));
+        promises.push(this.actorController.editActorAdres(adres, actorId));
       }, this);
       return all(promises);
     },
