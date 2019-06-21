@@ -219,13 +219,22 @@ define([
 
     _removeAdresRow: function(adresToRemove) {
       console.log(adresToRemove.id);
+      this._adressenAdd = array.filter(this._adressenAdd, function (adres) {
+        return adres.gemeente_id !== adresToRemove.gemeente_id ||
+            adres.huisnummer_id !== adresToRemove.huisnummer_id ||
+            adres.straat_id !== adresToRemove.straat_id ||
+            adres.postcode !== adresToRemove.postcode ||
+            adres.land !== adresToRemove.land;
+      }, this);
       adresToRemove.einddatum = new Date(Date.now());
       adresToRemove.adrestype = {
         'id': 2,
         'naam': 'Extra'
       };
       this._adresStore.remove(adresToRemove.id);
-      this._adressenRemove.push(adresToRemove);
+      if (!adresToRemove.id.includes('new_')) {
+        this._adressenRemove.push(adresToRemove);
+      }
     },
 
     _createGrid: function(options, node) {
