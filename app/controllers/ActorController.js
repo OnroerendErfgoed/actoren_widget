@@ -131,6 +131,7 @@ define([
         searchParameters.push(this.createSearchparam('gemeente',  adres[0].gemeente));
       }
       var target =  this.actorStore.target + 'gelijkaardig' + '?' + searchParameters.join('&');
+      console.log("check gelijkaardige", target);
       return xhr(target,{
         handleAs: "json",
         method:"GET",
