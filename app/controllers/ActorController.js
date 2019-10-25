@@ -132,11 +132,12 @@ define([
       }
       var target =  this.actorStore.target + 'gelijkaardig' + '?' + searchParameters.join('&');
       return xhr(target,{
-        handleAs: 'json',
-        method:'GET',
+        handleAs: "json",
+        method:"GET",
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'OpenAmSSOID':this.ssoToken
         }
       });
     },
