@@ -412,7 +412,7 @@ define([
         }
         else if (landcode.substring(1).length + nummer.length > 15 || isNaN(nummer)) {
           valid = false;
-          this._validationMessageMapping['telefoon'] = "Een geldige nummer begint met een + gevolgd door maximaal 15 cijfers";
+          this._validationMessageMapping['telefoon'] = "Een geldig telefoonnummer moet ingegeven worden met een + gevolgd door maximaal 15 cijfers.";
         }
         else if (landcode === '+32') {
           if (nummer.length !== 8 && nummer.length !== 9) {
