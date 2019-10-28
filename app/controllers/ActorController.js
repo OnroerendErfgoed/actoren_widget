@@ -113,13 +113,24 @@ define([
     },
 
     gelijkaardigeActors: function (actor, adres) {
-      var searchParameter = '?';
-      if (actor.naam) searchParameter += ('naam=' + actor.naam);
-      if (actor.voornaam) searchParameter += ('&voornaam=' + actor.voornaam);
-      if (actor.emails && actor.emails.length > 0) searchParameter += ('&email=' + actor.emails[0].email);
-      if (actor.telefoons && actor.telefoons.length > 0) searchParameter += ('&telefoon=' + actor.telefoons[0].landcode + actor.telefoons[0].nummer);
-      if (actor.adres && actor.adres.length > 0) searchParameter += ('&gemeente=' + adres[0].gemeente);
-      var target = this.actorStore.target + 'gelijkaardig' + searchParameter;
+      var searchParameters = [];
+      if (actor.naam) {
+        searchParameters.push(this.createSearchparam('naam', actor.naam));
+      }
+      if (actor.voornaam) {
+        searchParameters.push(this.createSearchparam('voornaam', actor.voornaam));
+      }
+      if(actor.emails && actor.emails.length > 0){
+        searchParameters.push(this.createSearchparam('email', actor.emails[0].email));
+      }
+      if(actor.telefoons && actor.telefoons.length > 0){
+        searchParameters.push(this.createSearchparam('telefoon',
+          actor.telefoons[0].landcode + actor.telefoons[0].nummer));
+      }
+      if(adres && adres.length > 0){
+        searchParameters.push(this.createSearchparam('gemeente',  adres[0].gemeente));
+      }
+      var target =  this.actorStore.target + 'gelijkaardig' + '?' + searchParameters.join('&');
       console.log("check gelijkaardige", target);
       return xhr(target,{
         handleAs: "json",
@@ -130,6 +141,10 @@ define([
           'OpenAmSSOID':this.ssoToken
         }
       });
+    },
+
+    createSearchparam: function (name, value) {
+      return name + '=' + encodeURIComponent(value);
     },
 
     getActorByUri: function(actorUri) {
