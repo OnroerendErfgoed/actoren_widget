@@ -325,7 +325,7 @@ define([
         actor = {};
       }
       var actorType = this.actortypes.value;
-      actor.actortype = {id: actorType || undefined };
+      actor.type = {id: actorType || undefined };
       actor.naam = this.naamInput.value || undefined;
 
       if (actorType === '1' || actorType === '3') {
