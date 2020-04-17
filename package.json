@@ -1,15 +1,20 @@
 {
-    "name": "actoren_widget",
-    "description": "A dojo widget to search for and administrate actoren",
-    "keywords": ["JavaScript", "Dojo", "Widget", "Actoren"],
-    "version": "0.5.3",
-	"repository": {
-		"type":"git",
-		"url":"https://github.com/OnroerendErfgoed/actoren_widget"
-	},
-    "main": "./app/ActorWidget",
-    "dojoBuild": "package.js",
-    "directories": {
-		"lib": "."
-	}
+ "name": "actoren_widget",
+ "description": "A dojo widget to search for and administrate actoren",
+ "keywords": [
+  "JavaScript",
+  "Dojo",
+  "Widget",
+  "Actoren"
+ ],
+ "version": "0.5.4",
+ "repository": {
+  "type": "git",
+  "url": "https://github.com/OnroerendErfgoed/actoren_widget"
+ },
+ "main": "./app/ActorWidget",
+ "dojoBuild": "package.js",
+ "directories": {
+  "lib": "."
+ }
 }

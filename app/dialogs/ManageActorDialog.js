@@ -325,7 +325,7 @@ define([
         actor = {};
       }
       var actorType = this.actortypes.value;
-      actor.actortype = {id: actorType || undefined };
+      actor.type = {id: actorType || undefined };
       actor.naam = this.naamInput.value || undefined;
 
       if (actorType === '1' || actorType === '3') {
@@ -582,9 +582,9 @@ define([
         invalids.push(this.naamInput.parentNode);
       }
 
-      if (actor.actortype) {
+      if (actor.type) {
         if (actor.kbo && actor.kbo !== '') {
-          if (parseInt(actor.actortype.id) === 2) {
+          if (parseInt(actor.type.id) === 2) {
             if (!this._validateKBO(actor.kbo)) {
               valid = false;
               invalids.push(this.kboInput.parentNode);
@@ -592,7 +592,7 @@ define([
           }
         }
         if (actor.rrn && actor.rrn !== '') {
-          if (parseInt(actor.actortype.id) in [1, 3]) {
+          if (parseInt(actor.type.id) in [1, 3]) {
             if (!this._validateRRN(actor.rrn)) {
               valid = false;
               invalids.push(this.rrnInput.parentNode);
