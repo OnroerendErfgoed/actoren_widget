@@ -376,6 +376,10 @@ define([
         this.actortypes.value = actor.type.id;
       }
 
+      if (actor.zichtbaarheid) {
+        this.zichtbaarheidInput.value = actor.zichtbaarheid.naam;
+      }
+
       if (actor.naam) {
         this.naamInput.value = actor.naam;
       }
