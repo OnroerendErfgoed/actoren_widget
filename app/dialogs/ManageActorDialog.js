@@ -328,7 +328,7 @@ define([
       actor.type = {id: actorType || undefined };
       actor.naam = this.naamInput.value || undefined;
 
-      if (actorType === '1' || actorType === '3') {
+      if (actorType === '1') {
         actor.voornaam = this.vnafkInput.value || undefined;
         if (this.rrnInput.value) {
           actor.rrn = this.rrnInput.value;
@@ -448,6 +448,7 @@ define([
       this.email.value = '';
       this.url.value = '';
       this.telefoon.value = '';
+      this.zichtbaarheidInput.value = 'privaat';
 
       domConstruct.empty(this.emaillist);
       domConstruct.empty(this.telefoonlist);
@@ -814,12 +815,12 @@ define([
       console.debug('ManageActorDialog::_changedActorType', type);
       switch (type.toString()) {
         case "1":
-        case "3":
           this.kboInput.value = '';
           domStyle.set(this.kboNode, 'display', 'none');
           domStyle.set(this.rrnNode, 'display', 'inline-table');
           this.vn_afk_label.innerHTML = 'Voornaam';
           domStyle.set(this.vnafkNode, 'display', 'inline-table');
+          this.zichtbaarheidInput.value = 'privaat';
           break;
         case "2":
           this.rrnInput.value = '';
@@ -827,6 +828,7 @@ define([
           domStyle.set(this.rrnNode, 'display', 'none');
           this.vn_afk_label.innerHTML = 'Afkorting';
           domStyle.set(this.vnafkNode, 'display', 'inline-table');
+          this.zichtbaarheidInput.value = 'publiek';
           break;
         case "4":
           this.rrnInput.value = '';
@@ -835,6 +837,7 @@ define([
           domStyle.set(this.kboNode, 'display', 'none');
           this.vnafkInput.value = '';
           domStyle.set(this.vnafkNode, 'display', 'none');
+          this.zichtbaarheidInput.value = 'publiek';
           break;
       }
     },
