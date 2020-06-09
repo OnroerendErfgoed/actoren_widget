@@ -48,6 +48,10 @@
           <label for="kbo-${id}" title="Kruispuntbank voor Ondernemingen">KBO</label>
           <input data-dojo-attach-point='kboInput' type="text" id="kbo-${id}"/>
         </div>
+        <div class="placeholder-container placeholder-disabled placeholder-always-disabled" tabindex="-1" data-dojo-attach-point='zichtbaarheidNode'>
+          <label for="zichtbaarheid-${id}">Zichtbaarheid</label>
+          <input data-dojo-attach-point='zichtbaarheidInput' type="text" id="zichtbaarheid-${id}" disabled/>
+        </div>
         <div class="placeholder-container" tabindex="-1">
           <label for="url-${id}">URL</label>
           <input data-dojo-attach-point='url' style="width:55%; float:left;" type="text" id="url-${id}"/>
