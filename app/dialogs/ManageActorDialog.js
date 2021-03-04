@@ -324,11 +324,11 @@ define([
       if (!actor) {
         actor = {};
       }
-      var actorType = this.actortypes.value;
+      var actorType = parseInt(this.actortypes.value);
       actor.type = {id: actorType || undefined };
       actor.naam = this.naamInput.value || undefined;
 
-      if (actorType === '1') {
+      if (actorType === 1) {
         actor.voornaam = this.vnafkInput.value || undefined;
         if (this.rrnInput.value) {
           actor.rrn = this.rrnInput.value;
@@ -337,7 +337,7 @@ define([
         if (actor.afkorting) {
           delete actor.afkorting;
         }
-      } else if (actorType === '2') {
+      } else if (actorType === 2) {
         actor.afkorting = this.vnafkInput.value || undefined;
         if (this.kboInput.value) {
           actor.kbo = this.kboInput.value;
