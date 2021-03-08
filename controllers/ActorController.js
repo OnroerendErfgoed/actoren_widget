@@ -58,6 +58,9 @@ define([
     saveActorAdres:function(adres, actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
+      if (adres.id.indexOf('new') > -1) {
+        delete adres.id;
+      }
       return xhr(target,{
         handleAs: "json",
         method:"POST",
