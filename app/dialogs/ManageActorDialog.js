@@ -232,7 +232,7 @@ define([
         'naam': 'Extra'
       };
       this._adresStore.remove(adresToRemove.id);
-      if (!adresToRemove.id.includes('new_')) {
+      if (adresToRemove.id.indexOf('new') === -1 ) {
         this._adressenRemove.push(adresToRemove);
       }
     },
