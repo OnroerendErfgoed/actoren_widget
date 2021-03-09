@@ -280,12 +280,9 @@ define([
           console.debug('merged actor', selectedActor);
           return selectedActor;
         },
-
-        _viewActor: function(actor) {
-          if (actor) {
-            this.emit('actor.open.view', {
-              actor: actor
-            });
+        _viewActor: function (actor) {
+          if (actor && this.parent.viewActorByUri) {
+            this.parent.viewActorByUri(actor.uri);
           }
         },
       });
