@@ -101,6 +101,26 @@ define([
               return type['naam'];
             },
             sortable: false
+          },
+          'view_actor': {
+            label: '',
+            renderCell: lang.hitch(this, function (object) {
+              if (!object.id) {
+                return null;
+              }
+              var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
+              domConstruct.create('a', {
+                href: '#',
+                title: 'Actor bekijken',
+                className: 'fa fa-eye',
+                innerHTML: '',
+                onclick: lang.hitch(this, function (evt) {
+                  evt.preventDefault();
+                  this._viewActor(object);
+                })
+              }, div);
+              return div;
+            })
           }
         };
 
@@ -298,6 +318,13 @@ define([
           return false;
 
         });
-      }
+      },
+      _viewActor: function(actor) {
+        if (actor) {
+          this.emit('actor.open.view', {
+            actor: actor
+          });
+        }
+      },
     });
   });
