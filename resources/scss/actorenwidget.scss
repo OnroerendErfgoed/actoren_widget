@@ -287,8 +287,6 @@ a:focus {
   text-align: center;
 }
 
-.actor-exists-dialog {
-  & .dgrid .dgrid-column-edit_view {
-    width: 58px;
-  }
+.actor-exists-dialog .dgrid .dgrid-column-edit_view {
+  width: 58px;
 }
