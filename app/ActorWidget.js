@@ -176,7 +176,8 @@ define([
             parent: this,
             checkActor: actor,
             checkAdressen: adressen,
-            canSelect: true
+            canSelect: true,
+            viewActorDialog: this._viewActorDialog
           });
           this._existsDialog.startup();
         }
