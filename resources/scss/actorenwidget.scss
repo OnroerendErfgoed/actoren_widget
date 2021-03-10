@@ -288,35 +288,7 @@ a:focus {
 }
 
 .actor-exists-dialog {
-  &.dgrid {
-    height: 230px;
-    &.dgrid-hider-toggle {
-      display: none;
-    }
-    &.dgrid-row-table {
-      margin: 0 !important;
-      background: none;
-    }
-    &table th {
-      width: auto;
-    }
-    &[class*="column"] + [class*="column"]:last-child {
-      float: none;
-    }
-  }
-
-  &.dgrid-sort-arrow {
-    margin: 0;
-  }
-
-  &.dgrid-column-check, .dgrid-column-id {
-    width: 50px !important;
-  }
-  &.dijitMenu {
-    border: 1px solid #cccccc !important;
-    color: #616161;
-  }
-  &.dijitMenuItemHover {
-    background-color: #CBD6F5 !important;
+  &.dgrid .dgrid-column-edit-view {
+    width: 58px;
   }
 }
