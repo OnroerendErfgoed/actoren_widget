@@ -30,7 +30,7 @@ define([
   'dijit/layout/TabContainer',
   'dijit/layout/ContentPane',
   'dojo/NodeList-manipulate',
-  '../dialogs/ViewActorDialog'
+  '../app/dialogs/ViewActorDialog'
 ], function (
   template,
   declare,
