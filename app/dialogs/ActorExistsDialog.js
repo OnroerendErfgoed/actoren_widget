@@ -110,7 +110,7 @@ define([
             },
             sortable: false
           },
-          'view_actor': {
+          'edit_view': {
             label: '',
             renderCell: lang.hitch(this, function (object) {
               if (!object.id) {
