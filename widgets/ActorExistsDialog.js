@@ -50,6 +50,7 @@ define([
 
         dialog: null,
         templateString: template,
+        baseClass: 'actor-exists-dialog',
         actoren: null,
         existsStore: null,
         canSelect: false, //default
