@@ -39,6 +39,7 @@ define([
     baseClass: 'actor-widget',
     widgetsInTemplate: true,
     actor: null,
+    viewActorDialog: null,
     actorWidget: null,
     actorAdvancedSearch : null,
     _telefoonLandcodeSelect: null,
@@ -615,7 +616,8 @@ define([
             parent: this,
             checkActor: actor,
             checkAdressen: adressen,
-            canSelect: true
+            canSelect: true,
+            viewActorDialog: this.viewActorDialog
           });
           this.existsDialog.startup();
         }

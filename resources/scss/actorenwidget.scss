@@ -100,10 +100,6 @@
   height: 400px;
 }
 
-.search-actor-widget .dgrid .dgrid-column-edit_view {
-  width: 58px;
-}
-
 .search-actor-widget .dijitStackContainer {
   height: 320px;
 }
@@ -285,4 +281,11 @@ a:focus {
   display: block;
   background: rgba(98, 98, 98, 1);
   text-align: center;
+}
+
+.actor-exists-dialog,
+.search-actor-widget {
+  & .dgrid .dgrid-column-edit_view {
+    width: 58px;
+  }
 }

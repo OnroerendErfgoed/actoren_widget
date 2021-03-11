@@ -29,7 +29,8 @@ define([
   //'./actorWidgets/actorAdvSearch/ActorAdvSearchVKBP',
   'dijit/layout/TabContainer',
   'dijit/layout/ContentPane',
-  'dojo/NodeList-manipulate'
+  'dojo/NodeList-manipulate',
+  '../app/dialogs/ViewActorDialog'
 ], function (
   template,
   declare,
@@ -51,7 +52,8 @@ define([
   ActorEditView,
   ActorCreateView,
   VKBOAdvSearchView,
-  VKBPAdvSearchView
+  VKBPAdvSearchView,
+  ViewActorDialog
   //ActorAdvSearchUI,
   //ActorAdvSearchVKBO,
   //ActorAdvSearchVKBP,
@@ -107,6 +109,10 @@ define([
       });
 
       this.overlayContainer = this.loadingOverlay;
+
+      this._viewActorDialog = new ViewActorDialog({
+        actorenUrl: this.crabHost
+      });
 
       this.on('error', function(evt){
         console.log('error', evt.error);
@@ -315,7 +321,8 @@ define([
       if (this.canCreateActor) {
         console.debug('ActorWidget::_createActorCreateView');
         var actorCreateView = new ActorCreateView({
-          actorWidget: this
+          actorWidget: this,
+          viewActorDialog: this._viewActorDialog
         }, this.actorCreateNode);
         this._tabList.actorCreate = actorCreateView;
         this.tabActorCreate.controlButton.domNode.style.display = 'none'; // HIDE TAB BUTTON

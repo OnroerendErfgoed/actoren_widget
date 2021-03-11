@@ -6,8 +6,11 @@ define([
     'dojo/_base/declare',
     'dojo/_base/lang',
     'dojo/_base/array',
+    'dojo/_base/fx',
     "dojo/on",
     'dojo/topic',
+    'dojo/query',
+    'dojo/dom-style',
     "dojo/dom-construct",
     "dojo/text!./templates/ActorExistsDialog.html",
     "dijit/_TemplatedMixin",
@@ -25,8 +28,11 @@ define([
     declare,
     lang,
     array,
+    fx,
     on,
     topic,
+    query,
+    domStyle,
     domConstruct,
     template,
     _TemplatedMixin,
@@ -44,6 +50,7 @@ define([
 
         dialog: null,
         templateString: template,
+        baseClass: 'actor-exists-dialog',
         actoren: null,
         existsStore: null,
         canSelect: false, //default
@@ -106,6 +113,26 @@ define([
                 return type['naam'];
               },
               sortable: false
+            },
+            'edit_view': {
+              label: '',
+              renderCell: lang.hitch(this, function (object) {
+                if (!object.id) {
+                  return null;
+                }
+                var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
+                domConstruct.create('a', {
+                  href: '#',
+                  title: 'Actor bekijken',
+                  className: 'fa fa-eye',
+                  innerHTML: '',
+                  onclick: lang.hitch(this, function (evt) {
+                    evt.preventDefault();
+                    this._viewActor(object);
+                  })
+                }, div);
+                return div;
+              })
             }
           };
 
@@ -259,6 +286,59 @@ define([
 
           console.debug('merged actor', selectedActor);
           return selectedActor;
+        },
+
+        _viewActor: function (actor) {
+          if (actor) {
+            this._viewActorByUri(actor.uri);
+          }
+        },
+        _viewActorByUri: function (actorUri) {
+          if (actorUri) {
+            this._showLoading('Even geduld. Actor wordt opgehaald..');
+            this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function (actor) {
+              this.viewActorDialog.show(actor);
+            }), lang.hitch(this, function (err) {
+              this.parent._emitError(err);
+            })).always(lang.hitch(this, function () {
+              this._hideLoading();
+            }));
+          }
+        },
+  
+        /**
+       * Toont de 'Loading'-overlay.
+       * @public
+       */
+      _showLoading: function (message) {
+        var node = this.loadingOverlay;
+        if (!message) {
+          message = '';
         }
+        query('.loadingMessage', node).forEach(function(node){
+          node.innerHTML = message;
+        });
+  
+        domStyle.set(node, 'display', 'block');
+        fx.fadeIn({
+          node: node,
+          duration: 1
+        }).play();
+      },
+  
+      /**
+       * Verbergt de 'Loading'-overlay.
+       * @public
+       */
+      _hideLoading: function () {
+        var node = this.loadingOverlay;
+        fx.fadeOut({
+          node: node,
+          onEnd: function (node) {
+            domStyle.set(node, 'display', 'none');
+          },
+          duration: 1000
+        }).play();
+      },
       });
   });
