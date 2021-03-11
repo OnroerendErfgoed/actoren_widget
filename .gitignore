@@ -5,6 +5,8 @@
 dojo
 dijit
 put-selector
-xstyle
+dojox
+dojo-themes
+util
 dgrid
 dstore
