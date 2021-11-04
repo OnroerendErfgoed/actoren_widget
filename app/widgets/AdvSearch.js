@@ -56,7 +56,7 @@ define([
     _setSelectLists: function(){
       domConstruct.place('<option value="" disabled selected>Selecteer Actortype</option>', this.typeInput);
       array.forEach(this.actorTypes, lang.hitch(this, function (type) {
-        domConstruct.place('<option value="' + type.id + '">' + type.naam + '</option>', this.typeInput);
+        domConstruct.place('<option value="' + type.uri + '">' + type.naam + '</option>', this.typeInput);
       }));
       this._setLandenList();
     },

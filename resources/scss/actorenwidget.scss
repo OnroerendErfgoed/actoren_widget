@@ -84,10 +84,6 @@
   color: #d3d3d3;
 }
 
-.search-actor-widget .dijitTabContainerTop-container {
-  height: 420px;
-}
-
 .actorExistsDialog .dgrid {
   height: 150px;
 }
@@ -288,4 +284,9 @@ a:focus {
   & .dgrid .dgrid-column-edit_view {
     width: 58px;
   }
+}
+
+.actor-widget {
+  height: 420px;
+  display: flex;
 }
