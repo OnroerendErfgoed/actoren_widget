@@ -286,7 +286,29 @@ a:focus {
   }
 }
 
-.actor-widget-overview {
-  height: 420px;
-  display: flex;
+.actor-widget {
+  .searchBoxIcon {
+    float: right;
+    font-size: 22px;
+    margin-right: 12px;
+    margin-top: -45px;
+    position: relative;
+    z-index: 2;
+    color: #d3d3d3;
+  }
+
+  .addLinkContainer {
+    margin-top: 10px;
+    font-size: 14px;
+    float: right;
+  }
+  
+  .refreshLink {
+    margin-left: 15px;
+  }
+
+  &-overview {
+    height: 420px;
+    display: flex;
+  }
 }
