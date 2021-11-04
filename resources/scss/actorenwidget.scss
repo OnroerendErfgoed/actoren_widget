@@ -213,11 +213,6 @@ a:focus {
   padding: 0!important;
 }
 
-.placeholder-container .dijitComboBox .dijitArrowButtonContainer {
-  width: 27px;
-  border: none !important;
-}
-
 .placeholder-container .dijitComboBox input.dijitInputInner {
   padding-top: 8px;
 }
@@ -287,6 +282,28 @@ a:focus {
 }
 
 .actor-widget {
-  height: 420px;
-  display: flex;
+  .searchBoxIcon {
+    float: right;
+    font-size: 22px;
+    margin-right: 12px;
+    margin-top: -45px;
+    position: relative;
+    z-index: 2;
+    color: #d3d3d3;
+  }
+
+  .addLinkContainer {
+    margin-top: 10px;
+    font-size: 14px;
+    float: right;
+  }
+  
+  .refreshLink {
+    margin-left: 15px;
+  }
+
+  &-overview {
+    height: 420px;
+    display: flex;
+  }
 }
