@@ -45,7 +45,7 @@ define([
 	return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 
 		templateString: template,
-		baseClass: 'actor-widget-overview',
+		baseClass: 'actor-widget',
     widgetsInTemplate: true,
 		actorStore: null,
 		baseUrl: null,
