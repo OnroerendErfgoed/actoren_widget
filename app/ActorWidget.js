@@ -146,7 +146,7 @@ define([
     viewAuteurByUri: function(auteurUri) {
       if (auteurUri) {
         this.showLoading('Even geduld. Actor wordt opgehaald..');
-        this.auteurController.getActorByUri(auteurUri).then(lang.hitch(this, function(auteur) {
+        this.auteurController.getAuteurByUri(auteurUri).then(lang.hitch(this, function(auteur) {
           this._viewActorDialog.show(auteur);
         }), lang.hitch(this, function(err) {
           this._emitError(err);
