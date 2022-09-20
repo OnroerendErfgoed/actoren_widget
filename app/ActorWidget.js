@@ -40,6 +40,7 @@ define([
     typeLists: null,
     canEditActor: true,
     canCreateActor: true,
+    isAuteurs: false,
     _initialized: false,
     _searchWidget: null,
     _viewWidget: null,
@@ -64,6 +65,7 @@ define([
         actorStore: this.actorStore,
         canEdit: this.canEditActor,
         canCreate: this.canCreateActor,
+        isAuteurs: this.isAuteurs,
         actorTypes: this.typeLists.actorTypes,
         crabController: this.crabController
       });

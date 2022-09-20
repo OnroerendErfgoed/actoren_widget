@@ -44,6 +44,7 @@ define([
     actorTypes: null,
     canEdit: null,
     canCreate: null,
+    isAuteurs: null,
     crabController: null,
     _gridSearch: null,
     _advSearch: null,
@@ -78,7 +79,8 @@ define([
       this._gridSearch = new GridSearch({
         actorStore: this.actorStore,
         _canEdit: this.canEdit,
-        _canCreate: this.canCreate
+        _canCreate: this.canCreate,
+        _isAuteurs: this.isAuteurs
       });
       on(this._gridSearch, 'actor.selected', lang.hitch(this, function(evt) {
         this.emit('actor.selected', {
