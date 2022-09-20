@@ -71,7 +71,11 @@ define([
         crabController: this.crabController
       });
       on(this._searchWidget, 'actor.open.view', lang.hitch(this, function(evt) {
-        this.viewActorByUri(evt.actor.uri);
+        if(this.isAuteurs) {
+          this.viewAuteurByUri(evt.actor.uri);
+        } else {
+          this.viewActorByUri(evt.actor.uri);
+        }
         evt.stopPropagation();
       }));
       on(this._searchWidget, 'actor.open.create', lang.hitch(this, function(evt) {
