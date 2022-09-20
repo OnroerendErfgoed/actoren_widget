@@ -36,6 +36,7 @@ define([
     ssoToken: null,
     idserviceUrl: null,
     actorController: null,
+    auteurController: null,
     crabController: null,
     typeLists: null,
     canEditActor: true,
@@ -130,6 +131,19 @@ define([
         this.showLoading('Even geduld. Actor wordt opgehaald..');
         this.actorController.getActorByUri(actorUri).then(lang.hitch(this, function(actor) {
           this._viewActorDialog.show(actor);
+        }), lang.hitch(this, function(err) {
+          this._emitError(err);
+        })).always(lang.hitch(this, function() {
+          this.hideLoading();
+        }));
+      }
+    },
+
+    viewAuteurByUri: function(auteurUri) {
+      if (auteurUri) {
+        this.showLoading('Even geduld. Actor wordt opgehaald..');
+        this.auteurController.getActorByUri(auteurUri).then(lang.hitch(this, function(auteur) {
+          this._viewActorDialog.show(auteur);
         }), lang.hitch(this, function(err) {
           this._emitError(err);
         })).always(lang.hitch(this, function() {
