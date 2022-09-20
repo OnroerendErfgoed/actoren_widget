@@ -48,6 +48,7 @@ define([
     _actorGrid: null,
     _canEdit: true,
     _canCreate: true,
+    _isAuteurs: false,
 
     /**
      * Standaard widget functie.
@@ -55,6 +56,11 @@ define([
     postCreate: function () {
       console.debug('...GridSearch::postCreate', arguments);
       this.inherited(arguments);
+
+      if (this._isAuteurs) {
+        this.actorenFilter.placeholder = 'Zoeken in auteurs..'
+        this.actorenFilter.title = 'Zoek een auteur'
+      }
 
       this._actorGrid = this._createGrid({
         collection: this.actorStore
@@ -78,93 +84,94 @@ define([
     },
 
     _createGrid: function(options, node) {
-
       var columns = {
         id: {
-          label:'#'
-        },
-        naam: {
-          label:'Naam',
+          label: '#'
+        }
+      }
+
+      if (this._isAuteurs) {
+        columns.omschrijving = {
+          label: 'Omschrijving',
           sortable: true
-        },
-        voornaam: {
+        }
+      } else {
+        columns.naam = {
+          label: 'Naam',
+          sortable: true
+        }
+        columns.voornaam = {
           label: 'Voornaam',
           sortable: false
-        },
-        type: {
-          label: 'Type',
-          formatter: function(type) {
-            return type.naam;
+        }
+      }
+
+      columns. type = {
+        label: 'Type',
+        formatter: function(type) {
+          return type.naam;
+        }
+      },
+
+      columns.uri = {
+        label: 'Uri',
+        hidden: true
+      },
+
+      columns.status = {
+        label: 'Status',
+        hidden: true,
+        formatter: function(value) {
+          if (value && value.status) {
+            return value.status;
           }
-        },
-        uri:  {
-          label: 'Uri',
-          hidden: true
-        },
-        status: {
-          label: 'Status',
-          hidden: true,
-          formatter: function(value) {
-            if (value && value.status) {
-              return value.status;
-            }
-            else {
-              return '-';
-            }
+          else {
+            return '-';
           }
-        },
-        self: {
-          label: 'Self',
-          hidden: true
-        },
-        //	formatter: lang.hitch(this, function (type, object) {
-        //		if (this.actoren_updated.indexOf(object.id) > -1) {
-        //			return type['naam'] + '<span class="success label right">bewerkt</span>';
-        //		}
-        //		else if (this.actoren_new.indexOf(object.id) > -1) {
-        //			return type['naam'] + '<span class="success label right">nieuw</span>';
-        //		}
-        //		else {
-        //			return type['naam'];
-        //		}
-        //	}),
-        //	sortable: false
-        //}
-        'edit_view': {
-          label: '',
-          renderCell: lang.hitch(this, function (object) {
-            if (!object.id) {
-              return null;
-            }
-            var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
+        }
+      },
+
+      columns.self = {
+        label: 'Self',
+        hidden: true
+      },
+
+      columns.edit_view = {
+        label: '',
+        renderCell: lang.hitch(this, function (object) {
+          if (!object.id) {
+            return null;
+          }
+          var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
+          var viewTitle = this._isAuteurs ? 'Auteur bekijken' : 'Actor bekijken';
+          domConstruct.create('a', {
+            href: '#',
+            title: viewTitle,
+            className: 'fa fa-eye',
+            innerHTML: '',
+            onclick: lang.hitch(this, function (evt) {
+              evt.preventDefault();
+              this._viewActor(object);
+            })
+          }, div);
+
+          var editTitle = this._isAuteurs ? 'Auteur bewerken' : 'Actor bewerken';
+          if (this._canEdit) {
             domConstruct.create('a', {
               href: '#',
-              title: 'Actor bekijken',
-              className: 'fa fa-eye',
+              title: editTitle,
+              className: 'fa fa-pencil',
+              style: 'margin-left: 15px;',
               innerHTML: '',
               onclick: lang.hitch(this, function (evt) {
                 evt.preventDefault();
-                this._viewActor(object);
+                this._editActor(object);
               })
             }, div);
-
-            if (this._canEdit) {
-              domConstruct.create('a', {
-                href: '#',
-                title: 'Actor bewerken',
-                className: 'fa fa-pencil',
-                style: 'margin-left: 15px;',
-                innerHTML: '',
-                onclick: lang.hitch(this, function (evt) {
-                  evt.preventDefault();
-                  this._editActor(object);
-                })
-              }, div);
-            }
-            return div;
-          })
-        }
-      };
+          }
+          return div;
+        })
+      }
 
       var grid = new (declare([OnDemandGrid, Keyboard, DijitRegistry, ColumnResizer, Selection, ColumnHider]))({
         className: 'actorSearchGrid',
