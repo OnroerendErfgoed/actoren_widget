@@ -19,8 +19,30 @@ require([
 	ListController
 ) {
 	//var baseUrl= "http://localhost:6565";
-	var baseUrl= "https://dev-actoren.onroerenderfgoed.be";
-	var ssoToken = 'AQIC5wM2LY4SfczlO0oWawV7u0lozsyZOwwm_gw4-K8rWi0.*AAJTSQACMDIAAlNLABIyMzU0MzI3MzkzOTI5NTc4NDgAAlMxAAIwMw..*';
+	var baseUrl= 'https://dev-actoren.onroerenderfgoed.be';
+	var ssoToken = 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI4YktMaGdDMUZiTVd5ZFIxSkluQk54bUl' + 
+	'oNVJEekFsYWtZWG9wb0N6UFVJIn0.eyJleHAiOjE2NzYzNzIyNDYsImlhdCI6MTY3NjM3MTk0NiwiYXV0aF90aW1lIjoxNjc2M' +
+	'zcwNTIyLCJqdGkiOiJiNGNiNzI4NC00NzcxLTQ3YTktYmUwYS04MDJhNmI2MDcwZWMiLCJpc3MiOiJodHRwczovL3Nzb3YyLW9' +
+	'udHdpa2tlbC5vbWdldmluZy52bGFhbmRlcmVuLmJlL2F1dGgvcmVhbG1zL09tZ2V2aW5nIiwic3ViIjoiODg4NzExMzAtNjM3Z' +
+	'i00ZmJjLTk0ZGEtNzI4NzlmNmZhZmExIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoidmlvZS1wcm9jZXMtdG9ldmFsc3ZvbmRzdGV' +
+	'uIiwic2Vzc2lvbl9zdGF0ZSI6IjA0NjEwYzk2LWY2ZjMtNDYwYS1iYjJhLWY5YWU2YWUxZTFmZiIsImFjciI6IjEiLCJyZXNvd' +
+	'XJjZV9hY2Nlc3MiOnsidmlvZS1kb3NzaWVycyI6eyJyb2xlcyI6WyJ2aW9lLWRvc3NpZXJzOmJlaGVlcmRlciJdfSwidmlvZS1' +
+	'hY3RvcmVuIjp7InJvbGVzIjpbInZpb2UtYWN0b3JlbjphY3RvcmVuLmJlaGVlcmRlciJdfSwidmlvZS12b25kc3RtZWxkaW5nZ' + 
+	'W4iOnsicm9sZXMiOlsidmlvZS12b25kc3RtZWxkaW5nZW46dm9uZHN0bWVsZGluZ2VuLWJlaGVlcmRlciJdfSwidmlvZS1wb3N' +
+	'0Ijp7InJvbGVzIjpbInZpb2UtcG9zdDpiZWhlZXJkZXIiXX0sInZpb2UtdG9lbGF0aW5nZW4tYXJjaGVvbG9naWUiOnsicm9sZ' +
+	'XMiOlsidmlvZS10b2VsYXRpbmdlbi1hcmNoZW9sb2dpZTpiZWhlZXJkZXIiXX0sInZpb2UtaW52ZW50YXJpcyI6eyJyb2xlcyI' +
+	'6WyJ2aW9lLWludmVudGFyaXM6YmVoZWVyZGVyIl19LCJ2aW9lLWFsZ2VtZWVuIjp7InJvbGVzIjpbInZpb2UtYWxnZW1lZW46b' +
+	'WVkZXdlcmtlcl9pdCJdfSwidmlvZS1kZ2VuIjp7InJvbGVzIjpbInZpb2UtZGdlbjpiZWhlZXJkZXIiXX0sInZpb2UtcHJvY2V' +
+	'zLXRvZXZhbHN2b25kc3RlbiI6eyJyb2xlcyI6WyJ2aW9lLXByb2Nlcy10b2V2YWxzdm9uZHN0ZW46YmVoZWVyZGVyIl19fSwic' +
+	'2NvcGUiOiJvcGVuaWQiLCJzaWQiOiIwNDYxMGM5Ni1mNmYzLTQ2MGEtYmIyYS1mOWFlNmFlMWUxZmYiLCJvcmdjb2RlIjoiT1Z' +
+	'PMDAwMTA0Iiwib3JnbmFhbSI6Ik9ucm9lcmVuZCBFcmZnb2VkIiwicGVyc29vbmlkIjoiYjgyNjY0YTM2MDE0M2QwMTU0OGVlM' +
+	'zViYTY0ZWIxOGFmZTMyNTAyMjY1MDgzMTM0NWMxOGU4OGU0YTg2NjJmYSIsImRvZWxncm9lcGNvZGUiOiJHSUQiLCJwcmVmZXJ' +
+	'yZWRfdXNlcm5hbWUiOiJiODI2NjRhMzYwMTQzZDAxNTQ4ZWUzNWJhNjRlYjE4YWZlMzI1MDIyNjUwODMxMzQ1YzE4ZTg4ZTRhO' +
+	'DY2MmZhLW92bzAwMDEwNCIsIm92b2NvZGUiOiJPVk8wMDAxMDQifQ.AlrBF7cGKa4D2OtmJn1juDJfTKK-6wE_CFRTpbpGttCx' +
+	'TNxIYgEZXXJhH0rlElVdtyydf4Vysnl9nnQHqMcwXpdC0UDdRe8SKDFsx9X0deAHRqAGdpxQy18kNS1yW6rHzmpWKNULFshj1t' +
+	'ka-VckgH8tEY_o903PsacwVghUSR2JfDYXrJME1SqKBtXnYybAuauAhsZPJ997k_z2crwBeo_dY1h42whonm3Mh5xhO820h_aI' +
+	'rMKE5NE_o45LTdkVTwaGq2SlpPK1qiCENNInWggx-hQi6LJgS7Pl-bbBWqKb4p-8e4B8ZC_7zuvPOcJvBVqc16enx-eu4nyUY1' +
+	'x3TQ';
 	var actor = JSON.parse('{"status": {"status": {"status": "Actief", "id": 75},"opmerkingen": "", "datum": "2015-10-29T17:33:52.774966+01:00", "gebruiker": {"uri": "vandaeko", "omschrijving": "vandaeko"}},"ids": [{"extra_id": "vandaeko", "type": {"naam": "uid", "id": 7}, "actor_id": 1}, {"extra_id": "ejqXLMvSRNTGEtlaZCKeZA", "type": {"naam": "persid", "id": 5}, "actor_id": 1}], "erkenningen": [], "adres": {"huisnummer": "19", "huisnummer_id": 2779410, "subadres_id": 425604, "startdatum": "2015-05-08T00:00:00+02:00", "straat": "Koning Albert II-Laan", "straat_id": 139852, "postcode": "1210", "id": 60, "gemeente": "Sint-Joost-ten-Node", "adrestype": {"naam": "Primair", "id": 1},"land": "BE", "subadres": "5", "einddatum": null, "omschrijving": "Koning Albert II-Laan 19 bus 5, 1210 Sint-Joost-ten-Node", "gemeente_id": 84},"adressen": [{"huisnummer": "19", "huisnummer_id": 2779410, "subadres_id": 425604, "startdatum": "2015-05-08T00:00:00+02:00", "straat": "Koning Albert II-Laan", "straat_id": 139852, "postcode": "1210", "id": 60, "gemeente": "Sint-Joost-ten-Node", "adrestype": {"naam": "Primair", "id": 1}, "land": "BE", "subadres": "5", "einddatum": null, "omschrijving": "Koning Albert II-Laan 19 bus 5, 1210 Sint-Joost-ten-Node", "gemeente_id": 84}], "naam": "Van Daele", "self": "https://dev-actoren.onroerenderfgoed.be/actoren/1", "uri": "https://dev-id.erfgoed.net/actoren/1", "emails": [{"type": {"naam": "werk", "id": 2}, "email": "koen.vandaele@rwo.vlaanderen.be"}, {"type": {"naam": "thuis", "id": 1}, "email": "koen_van_daele@telenet.be"}], "voornaam": "Koen", "systemfields": {"created_at": "2007-10-05T00:14:12+02:00", "updated_at": "2016-04-20T15:05:42.601882+02:00", "created_by": {"uri": "https://id.erfgoed.net/actoren/501", "description": "Onroerend Erfgoed"},"updated_by": {"uri": "https://dev-id.erfgoed.net/actoren/10051", "description": "Millet, Klaas"}},"urls": [], "telefoons": [{"type": {"naam": "werk", "id": 2}, "nummer": "25531682", "landcode": "+32", "volledig_nummer": "+3225531682"}], "afkorting": null, "relaties": [{"einddatum": null, "type": {"naam": "is deel van", "id": 1, "inverse_id": 2}, "id": 501, "startdatum": null}], "type": {"naam": "publieke persoon", "id": 3},"id": 1, "omschrijving": "Van Daele, Koen"}');
 	var actorRp = JSON.parse('{"info": [], "status": {"status": {"status": "Actief", "id": 75}, "opmerkingen": "", "datum": "2018-02-20T02:09:34.683151+01:00", "gebruiker": {"uri": "https://dev-id.erfgoed.net/actoren/10038", "omschrijving": "Goessens, Bram"}}, "ids": [{"extra_id": "0456322543", "type": {"naam": "kbo", "id": 6}}], "erkenningen": [{"geldigheid": "Vanaf 01-06-2018 tot 28-06-2028", "reden_erkenning": {"id": 2, "reden_erkenning": "Van rechtswege erkend"}, "erkend_als": "Archeoloog type 1", "erkenningsnummer": "OE/ERK/Archeoloog/2018/00015", "erkend_voor": "Archeologie type 1", "type": "rechtspersoon", "uri": "https://dev-id.erfgoed.net/actoren/10052", "omschrijving": "ABO"}], "adres": {"adrestype": {"naam": "Primair", "id": 1}, "land": "BE", "huisnummer_id": 3043096, "straat_id": 20042, "subadres_id": null, "land_omschrijving": "Belgi\u00eb", "startdatum": "2016-02-11T00:00:00+01:00", "einddatum": null, "beschrijving": null, "huisnummer": "19", "straat": "Koning Albert II-laan", "postcode": "1000", "subadres": null, "omschrijving": "Koning Albert II-laan 19, 1000 Brussel", "id": 144, "gemeente": "Brussel", "gemeente_id": 74}, "adressen": [{"adrestype": {"naam": "Primair", "id": 1}, "land": "BE", "huisnummer_id": 3043096, "straat_id": 20042, "subadres_id": null, "land_omschrijving": "Belgi\u00eb", "startdatum": "2016-02-11T00:00:00+01:00", "einddatum": null, "beschrijving": null, "huisnummer": "19", "straat": "Koning Albert II-laan", "postcode": "1000", "subadres": null, "omschrijving": "Koning Albert II-laan 19, 1000 Brussel", "id": 144, "gemeente": "Brussel", "gemeente_id": 74}], "naam": "ABO", "self": "https://dev-actoren.onroerenderfgoed.be/actoren/10052", "uri": "https://dev-id.erfgoed.net/actoren/10052", "emails": [{"type": {"naam": "werk", "id": 2}, "email": "bram.goessens@rwo.vlaanderen.be"}], "voornaam": null, "systemfields": {"created_at": "2016-02-11T15:01:13.205660+01:00", "updated_at": "2018-06-06T16:12:13.184365+02:00", "created_by": {"uri": "https://id.erfgoed.net/actoren/10032", "description": "Saelen, Bart"}, "updated_by": {"uri": "https://dev-id.erfgoed.net/actoren/10051", "description": "Millet, Klaas"}}, "urls": [], "telefoons": [], "afkorting": "ABO", "relaties": [{"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10449, "startdatum": null}, {"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10092, "startdatum": null}, {"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10469, "startdatum": null}, {"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10038, "startdatum": null}, {"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10168, "startdatum": null}, {"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10175, "startdatum": null}, {"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10140, "startdatum": null}, {"einddatum": null, "type": {"naam": "heeft sleutelgebruiker", "id": 4, "inverse_id": 3}, "id": 10461, "startdatum": null}], "type": {"naam": "organisatie", "id": 2, "uri": "foaf:Organization"}, "id": 10052, "types": ["http://xmlns.com/foaf/0.1/Organization", "foaf:Organization", "https://www.w3.org/ns/prov#Organization", "prov:Organization", "https://id.erfgoed.net/vocab/ontology#ErkendArcheoloog", "oe:ErkendArcheoloog"], "omschrijving": "ABO"}');
 	var idservice= 'https://dev-id.erfgoed.net';
@@ -34,9 +56,9 @@ require([
 		sortParam: 'sort',
 		idProperty: 'id',
 		headers: {
-			"X-Requested-With": "",
-			"Content-Type": "application/json",
-			"OpenAmSSOID": ssoToken
+			'X-Requested-With': '',
+			'Content-Type': 'application/json',
+			'Authorization': 'Bearer ' + ssoToken
 		},
 		useRangeHeaders: true
 	});
