@@ -50,7 +50,11 @@ define([
       } else {
         xhr.get(this.actorUrl + '/' + this.schemeIds[schemeId], {
           handleAs: 'json',
-          headers:{'Content-Type': 'application/json', 'Accept': 'application/json', 'OpenAmSSOID': this.ssoToken }
+          headers:{
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer ' + this.ssoToken
+          }
         }).then(
           lang.hitch(this,function(data){
             this._stores[schemeId] = new Memory({data:data});
