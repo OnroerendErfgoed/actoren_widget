@@ -71,7 +71,7 @@ define([
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'OpenAmSSOID':this.ssoToken
+          'Authorization': 'Bearer ' + this.ssoToken
         }
       });
     },
@@ -85,7 +85,7 @@ define([
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'OpenAmSSOID':this.ssoToken
+          'Authorization': 'Bearer ' + this.ssoToken
         }
       });
     },
@@ -97,7 +97,7 @@ define([
         method:"DELETE",
         headers: {
           'Accept': 'application/json',
-          'OpenAmSSOID':this.ssoToken
+          'Authorization': 'Bearer ' + this.ssoToken
         }
       });
     },
@@ -138,7 +138,7 @@ define([
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'OpenAmSSOID':this.ssoToken
+          'Authorization': 'Bearer ' + this.ssoToken
         }
       });
     },
@@ -153,7 +153,7 @@ define([
         headers: {
           'X-Requested-With': null,
           'Accept': 'application/json',
-          'OpenAmSSOID': this.ssoToken
+          'Authorization': 'Bearer ' + this.ssoToken
         }
       }).then(
         lang.hitch(this, function (redirect) {
@@ -163,7 +163,7 @@ define([
               headers: {
                 'X-Requested-With': null,
                 'Accept': 'application/json',
-                'OpenAmSSOID': this.ssoToken
+                'Authorization': 'Bearer ' + this.ssoToken
               }
             });
           }
