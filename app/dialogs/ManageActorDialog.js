@@ -376,10 +376,6 @@ define([
         this.actortypes.value = actor.type.id;
       }
 
-      if (actor.zichtbaarheid) {
-        this.zichtbaarheidInput.value = actor.zichtbaarheid.naam;
-      }
-
       if (actor.naam) {
         this.naamInput.value = actor.naam;
       }
@@ -452,7 +448,6 @@ define([
       this.email.value = '';
       this.url.value = '';
       this.telefoon.value = '';
-      this.zichtbaarheidInput.value = 'privaat';
 
       domConstruct.empty(this.emaillist);
       domConstruct.empty(this.telefoonlist);
@@ -824,7 +819,6 @@ define([
           domStyle.set(this.rrnNode, 'display', 'inline-table');
           this.vn_afk_label.innerHTML = 'Voornaam';
           domStyle.set(this.vnafkNode, 'display', 'inline-table');
-          this.zichtbaarheidInput.value = 'privaat';
           break;
         case "2":
           this.rrnInput.value = '';
@@ -832,7 +826,6 @@ define([
           domStyle.set(this.rrnNode, 'display', 'none');
           this.vn_afk_label.innerHTML = 'Afkorting';
           domStyle.set(this.vnafkNode, 'display', 'inline-table');
-          this.zichtbaarheidInput.value = 'publiek';
           break;
         case "4":
           this.rrnInput.value = '';
@@ -841,7 +834,6 @@ define([
           domStyle.set(this.kboNode, 'display', 'none');
           this.vnafkInput.value = '';
           domStyle.set(this.vnafkNode, 'display', 'none');
-          this.zichtbaarheidInput.value = 'publiek';
           break;
       }
     },
