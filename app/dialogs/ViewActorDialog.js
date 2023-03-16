@@ -116,7 +116,6 @@ define([
       this.adresTypeInput.value = '';
 
       this.actorTypeInput.value = '';
-      this.zichtbaarheidInput.value = '';
       this.kboInput.value = '';
       domConstruct.empty(this.urlList);
     },
@@ -137,20 +136,17 @@ define([
           domClass.add(this.kboContainer, 'hide');
           this.vn_afk_label.innerHTML = 'Voornaam';
           domClass.remove(this.vnafkNode, 'hide');
-          this.zichtbaarheidInput.value = 'privaat';
           break;
         case "2":
           domClass.remove(this.kboContainer, 'hide');
           this.vn_afk_label.innerHTML = 'Afkorting';
           domClass.remove(this.vnafkNode, 'hide');
-          this.zichtbaarheidInput.value = 'publiek';
           break;
         case "4":
           this.kboInput.value = '';
           domClass.add(this.kboContainer, 'hide');
           this.vnafkInput.value = '';
           domClass.add(this.vnafkNode, 'hide');
-          this.zichtbaarheidInput.value = 'publiek';
           break;
       }
     }
