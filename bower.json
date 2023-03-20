@@ -9,10 +9,10 @@
     "README.md"
   ],
   "dependencies": {
-    "dijit": "~1.12.5",
-    "dojo": "~1.12.5",
+    "dijit": "~1.17.3",
+    "dojo": "~1.17.3",
     "dgrid": "~1.1.0",
     "dstore": "~1.1.1",
-    "util": "dojo-util#~1.12.5"
+    "util": "dojo-util#~1.17.3"
   }
 }
