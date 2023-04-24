@@ -18,7 +18,7 @@ define([
 
     _stores: null,
     actorUrl: null,
-    ssoToken: null,
+    getSsoToken: null,
 
     constructor:function(args) {
       declare.safeMixin(this, args);
@@ -33,7 +33,7 @@ define([
       };
     },
 
-    getStore: function (schemeId) {
+    getStore: async function (schemeId) {
       var deferred = new Deferred();
 
       //check if schemeid is valid
@@ -45,6 +45,8 @@ define([
 
       //check if store has been cached already
       if(schemeId in this._stores){
+        const token = await this.getSsoToken();
+        this._stores[schemeId].headers.Authorization = 'Bearer ' + token;
         deferred.resolve(this._stores[schemeId]);
       } else {
         xhr.get(this.actorUrl + '/' + this.schemeIds[schemeId], {
@@ -52,7 +54,7 @@ define([
           headers:{
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': 'Bearer ' + this.ssoToken
+            'Authorization': 'Bearer ' + await this.getSsoToken()
           }
         }).then(
           lang.hitch(this,function(data){

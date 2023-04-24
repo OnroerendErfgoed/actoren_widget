@@ -68,7 +68,7 @@ define([
     actorController: null,
     listController: null,
     crabHost: null,
-    ssoToken: null,
+    getSsoToken: null,
     canCreateActor: false,
     canEditActor: false,
     hideTabButtons: false,
@@ -97,12 +97,12 @@ define([
       this.typeLists = {};
       this.listController = new ListController({
         actorUrl: this.crabHost,
-        ssoToken: this.ssoToken
+        getSsoToken: this.getSsoToken
       });
       this.actorController = new ActorController({
         actorWijStore: this.actorWijStore,
         actorStore: this.actorStore,
-        ssoToken: this.ssoToken
+        getSsoToken: this.getSsoToken
       });
       this.crabController = new CrabController({
         crabHost: this.crabHost
