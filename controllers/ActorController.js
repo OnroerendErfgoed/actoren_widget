@@ -12,7 +12,7 @@ define([
 
     actorStore: null,
     actorWijStore: null,
-    ssoToken: null,
+    getSsoToken: null,
     _adresParameter: '/adressen',
     existsDialog: null,
 
@@ -30,7 +30,9 @@ define([
      * @param {number} id ID van de actor
      * @returns {Object} Actor met het meegegeven ID
      */
-    getActor: function(id) {
+    getActor: async function(id) {
+      const token = await this.getSsoToken();
+      this.actorStore.headers.Authorization = 'Bearer ' + token;
       return this.actorStore.get(id);
     },
 
@@ -39,7 +41,9 @@ define([
      * @param {Object} actor Actor dat moet worden opgeslagen
      * @returns {Boolean} (Promise) 'True' als de actor opgeslagen is, anders 'False'.
      */
-    saveActor: function(actor) {
+    saveActor: async function(actor) {
+      const token = await this.getSsoToken();
+      this.actorStore.headers.Authorization = 'Bearer ' + token;
       if (!actor.id || actor.id.length == 0) {
         delete actor.id;
         return this.actorStore.add(actor);
@@ -55,7 +59,7 @@ define([
      * @param {number} actorId id van de actor waarvan het adres moet worden opgeslagen
      * @returns {Boolean} (Promise) 'True' als het adres van de actor opgeslagen is, anders 'False'.
      */
-    saveActorAdres:function(adres, actorId) {
+    saveActorAdres: async function(adres, actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
       return xhr(target,{
@@ -65,13 +69,13 @@ define([
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + this.ssoToken
+          'Authorization': 'Bearer ' + await this.getSsoToken()
         }
       });
     },
 
     // todo: fix function => PUT endpoint in service does not exist
-    editActorAdres:function(adres,actorId) {
+    editActorAdres: async function(adres,actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter;
       return xhr(target,{
         handleAs: "json",
@@ -80,19 +84,19 @@ define([
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + this.ssoToken
+          'Authorization': 'Bearer ' + await this.getSsoToken()
         }
       });
     },
 
-    deleteActorAdres:function(adresId, actorId) {
+    deleteActorAdres: async function(adresId, actorId) {
       var target = this.actorStore.target + actorId + this._adresParameter + "/" + adresId;
       return xhr(target,{
         handleAs: "json",
         method:"DELETE",
         headers: {
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + this.ssoToken
+          'Authorization': 'Bearer ' + await this.getSsoToken()
         }
       });
     },
@@ -102,12 +106,14 @@ define([
      * @param {number} id ID van de actor
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
-    checkActorInES: function(id)
+    checkActorInES: async function(id)
     {
+      const token = await this.getSsoToken();
+      this.actorStore.headers.Authorization = 'Bearer ' + token;
       return this.actorStore.query({'query': 'id:' + id});
     },
 
-    gelijkaardigeActors: function (actor, adres) {
+    gelijkaardigeActors: async function (actor, adres) {
       var searchParameters = [];
       if (actor.naam) {
         searchParameters.push(this.createSearchparam('naam', actor.naam));
@@ -133,7 +139,7 @@ define([
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer ' + this.ssoToken
+          'Authorization': 'Bearer ' + await this.getSsoToken()
         }
       });
     },
