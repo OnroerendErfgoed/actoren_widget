@@ -33,7 +33,7 @@ define([
     searchDomNode: null,
     actorenUrl: null,
     crabUrl: null,
-    ssoToken: null,
+    getSsoToken: null,
     idserviceUrl: null,
     actorController: null,
     crabController: null,
@@ -51,7 +51,7 @@ define([
 
       this.actorController = new ActorController({
         actorStore: this.actorStore,
-        ssoToken: this.ssoToken,
+        getSsoToken: this.getSsoToken,
         idserviceUrl: this.idserviceUrl,
         actorenUrl: this.actorenUrl
       });
