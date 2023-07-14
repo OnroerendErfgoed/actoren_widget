@@ -339,7 +339,7 @@ define([
             this.viewActorDialog.show(actor);
           }), lang.hitch(this, function (err) {
             this.parent._emitError(err);
-          })).always(lang.hitch(this, function () {
+          })).finally(lang.hitch(this, function () {
             this._hideLoading();
           }));
         }
