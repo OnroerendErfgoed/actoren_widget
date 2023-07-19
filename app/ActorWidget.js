@@ -61,6 +61,7 @@ define([
       });
 
       this._searchWidget = new SearchWidget({
+        actorenUrl: this.actorenUrl.replace(/\/?$/, '/'), //add trailing slash
         actorStore: this.actorStore,
         canEdit: this.canEditActor,
         canCreate: this.canCreateActor,

@@ -65,7 +65,7 @@ require([
 
 	var typeLists = {};
 	var listController = new ListController({
-		ssoToken: ssoToken,
+		getSsoToken: () => { return this.ssoToken; },
 		actorUrl: baseUrl
 	});
 
