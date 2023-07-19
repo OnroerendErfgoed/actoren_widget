@@ -40,6 +40,7 @@ define([
 
     templateString: template,
     baseClass: 'search-actor-widget',
+    actorenUrl: null,
     actorStore: null,
     actorTypes: null,
     canEdit: null,
@@ -76,6 +77,7 @@ define([
 
       // gridSearch
       this._gridSearch = new GridSearch({
+        actorenUrl: this.actorenUrl,
         actorStore: this.actorStore,
         _canEdit: this.canEdit,
         _canCreate: this.canCreate

@@ -418,7 +418,7 @@ define([
             this._postcodeFilteringSelect.set('store', new Memory({data: postcodes}));
             domClass.remove(this.postcodeCrabNode, 'placeholder-disabled');
             this._postcodeFilteringSelect.set('disabled', false);
-          })).always(lang.hitch(this, function() {
+          })).finally(lang.hitch(this, function() {
             this.postcodeCrabLoader.style.display = 'none';
             if (this._adresObject && this._adresObject.postcode) {
               this._postcodeFilteringSelect.set('value', this._adresObject.postcode);
@@ -463,7 +463,7 @@ define([
             this._straatFilteringSelect.set('store', new Memory({data: straten}));
             domClass.remove(this.straatCrabNode, 'placeholder-disabled');
             this._straatFilteringSelect.set('disabled', false);
-          })).always(lang.hitch(this, function() {
+          })).finally(lang.hitch(this, function() {
             this.straatCrabLoader.style.display = 'none';
             /* jshint -W106 */
             if (this._adresObject && this._adresObject.straat_id) {
@@ -509,7 +509,7 @@ define([
             } else {
               this._huisnummersFound = false;
             }
-          })).always(lang.hitch(this, function() {
+          })).finally(lang.hitch(this, function() {
             this.huisnummerCrabLoader.style.display = 'none';
             /* jshint -W106 */
             if (this._adresObject && this._adresObject.huisnummer_id) {

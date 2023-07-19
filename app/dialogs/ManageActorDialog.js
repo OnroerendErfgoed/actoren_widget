@@ -21,7 +21,6 @@ define([
   'dstore/Memory',
   'dstore/legacy/DstoreAdapter', //to put dstore/memory in combobox
   'dijit/Dialog',
-  './ManageAdresDialog',
   'dojo/text!./templates/ManageActorDialog.html'
 ], function (
   declare,
@@ -46,7 +45,6 @@ define([
   Memory,
   DstoreAdapter,
   Dialog,
-  ManageAdresDialog,
   template
 ) {
   return declare([Dialog, _TemplatedMixin, _WidgetsInTemplateMixin], {
@@ -58,8 +56,6 @@ define([
     actorenUrl: null,
     crabController: null,
     typeLists: null,
-    _adresDialog: null,
-    _adresGrid: null,
     _adresStore: null,
     _actorEmails: null,
     _actorUrls: null,
@@ -79,10 +75,6 @@ define([
       var TrackableMemory = declare([Trackable, Memory]);
       this._adresStore = new TrackableMemory({data: []});
 
-      this._adresGrid = this._createGrid({
-        collection: this._adresStore
-      }, this.adresGridNode);
-
       this._actorEmails = [];
       this._actorUrls = [];
       this._actorTelefoons = [];
@@ -98,17 +90,6 @@ define([
       this.inherited(arguments);
       this._setSelectLists();
       this._setTelefoonLandcodes();
-
-      this._adresDialog = new ManageAdresDialog({
-        crabController: this.crabController,
-        adresTypes: this.typeLists.adresTypes
-      });
-      on(this._adresDialog, 'adres.add', lang.hitch(this, function(evt) {
-        this._addAdresRow(evt.adres, evt.adresType);
-      }));on(this._adresDialog, 'adres.edit', lang.hitch(this, function(evt) {
-        this._editAdresRow(evt.adres, evt.adresType, evt.id);
-      }));
-      this._adresDialog.startup();
     },
 
     show: function (actor, mode) {
@@ -170,150 +151,6 @@ define([
           bubbles: false
         });
       }
-    },
-
-    _showAddAdres: function(evt) {
-      evt ? evt.preventDefault() : null;
-      this._adresDialog.show(null, 'add');
-    },
-
-    _showEditAdres: function(adres) {
-      this._adresDialog.show(adres, 'edit');
-    },
-
-    _addAdresRow: function(adres, type) {
-      if (adres) {
-        adres.adrestype = { id: type };
-        var isDuplicateAdres = array.some(this._adressenAdd, function (existingAdres) {
-         return (existingAdres.gemeente_id === adres.gemeente_id &&
-             existingAdres.huisnummer_id === adres.huisnummer_id &&
-             existingAdres.straat_id === adres.straat_id &&
-             existingAdres.postcode === adres.postcode &&
-             existingAdres.land === adres.land)
-        }, this);
-        if (!isDuplicateAdres) {
-          adres.id = 'new_' + this._adresIndex++;
-          this._adresStore.add(adres);
-
-          var cloneAdres = lang.clone(adres);
-          if (cloneAdres.id.indexOf('new') > -1) {
-            delete cloneAdres.id;
-          }
-          this._adressenAdd.push(cloneAdres);
-        }
-      }
-    },
-
-    _editAdresRow: function(adres, type, id) {
-      adres.id = id;
-      adres.adrestype = { id: type };
-      this._adresStore.put(adres);
-      var found = array.filter(this._adressenEdit, function(existing) {
-        return (existing.id !== adres.id);
-      });
-      if (found && found.length > 0) {
-        this._adressenEdit.remove(found);
-      }
-      this._adressenEdit.push(adres);
-    },
-
-    _removeAdresRow: function(adresToRemove) {
-      console.log(adresToRemove.id);
-      this._adressenAdd = array.filter(this._adressenAdd, function (adres) {
-        return adres.gemeente_id !== adresToRemove.gemeente_id ||
-            adres.huisnummer_id !== adresToRemove.huisnummer_id ||
-            adres.straat_id !== adresToRemove.straat_id ||
-            adres.postcode !== adresToRemove.postcode ||
-            adres.land !== adresToRemove.land;
-      }, this);
-      adresToRemove.einddatum = new Date(Date.now());
-      adresToRemove.adrestype = {
-        'id': 2,
-        'naam': 'Extra'
-      };
-      this._adresStore.remove(adresToRemove.id);
-      if (!adresToRemove.id.includes('new_')) {
-        this._adressenRemove.push(adresToRemove);
-      }
-    },
-
-    _createGrid: function(options, node) {
-      var columns = {
-        straat: {
-          label:'Straat'
-        },
-        huisnummer: {
-          label: 'Huisnr.'
-        },
-        subadres: {
-          label:'Busnr.'
-        },
-        postcode: {
-          label: 'Postcode'
-        },
-        gemeente: {
-          label: 'Gemeente'
-        },
-        land: {
-          label: 'Land'
-        },
-        adrestype: {
-          label: 'Type',
-          formatter: lang.hitch(this, function(value) {
-            var type = array.filter(this.typeLists.adresTypes, function(type) {
-              return type.id === parseInt(value.id);
-            })[0];
-            if (type) {
-              return type.naam;
-            } else {
-              return 'onbekend type';
-            }
-          })
-        },
-        'edit_delete': {
-          label: '',
-          renderCell: lang.hitch(this, function (object) {
-            if (!object.id) {
-              return null;
-            }
-
-            var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
-            domConstruct.create('a', {
-              href: '#',
-              title: 'Adres bewerken',
-              className: 'fa fa-pencil',
-              innerHTML: '',
-              onclick: lang.hitch(this, function (evt) {
-                evt.preventDefault();
-                this._showEditAdres(object);
-              })
-            }, div);
-
-            domConstruct.create('a', {
-              href: '#',
-              title: 'Adres verwijderen',
-              className: 'fa fa-trash',
-              style: 'margin-left: 15px;',
-              innerHTML: '',
-              onclick: lang.hitch(this, function(evt)  {
-                evt.preventDefault();
-                this._removeAdresRow(object);
-              })
-            }, div);
-            return div;
-          })
-        }
-      };
-
-      var grid = new (declare([OnDemandGrid, Keyboard, DijitRegistry, ColumnResizer]))({
-        className: 'actorAdresGrid',
-        collection: options.collection,
-        columns: columns,
-        noDataMessage: 'Er zijn geen adressen toegevoegd',
-        loadingMessage: 'data aan het ophalen...'
-      }, node);
-
-      return grid;
     },
 
     getData: function() {
@@ -434,7 +271,6 @@ define([
           return adres;
         }, this);
         this._adresStore.setData(checkedAdressen);
-        this._adresGrid.refresh();
       }
 
     },
@@ -467,7 +303,6 @@ define([
 
       // reset adres grid
       this._adresStore.setData([]);
-      this._adresGrid.refresh();
     },
 
     _closeDialog: function(evt) {

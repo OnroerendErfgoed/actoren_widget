@@ -45,7 +45,7 @@ define([
       this.actorWidget = new ActorWidget({
         actorStore: this.actorStore,
         actorenUrl: this.actorenUrl,
-        ssoToken: this.ssoToken,
+        getSsoToken: () => { return this.ssoToken; },
         idserviceUrl: this.idserviceUrl,
         crabUrl: this.crabpyurl,
         typeLists: this.typeLists,
