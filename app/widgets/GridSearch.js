@@ -44,6 +44,7 @@ define([
 
     templateString: template,
     actorController: null,
+    actorenUrl: null,
     actorStore: null, //requires dstore!
     _actorGrid: null,
     _canEdit: true,
@@ -74,7 +75,6 @@ define([
       }
       this._actorGrid.startup();
       this._actorGrid.resize();
-      this.addActorLink.href = this.actorStore.target.replace(/actoren\/?$/, '/beheer#/actoren/aanmaken');
     },
 
     _createGrid: function (options, node) {
@@ -215,10 +215,6 @@ define([
       list.push(actor);
       this._actorGrid.set('collection', new Memory({data: list}));
       this._actorGrid.select(this._actorGrid.row(actor.id));
-    },
-
-    _createActor: function () {
-      this.emit('actor.open.create');
     },
 
     _editActor: function (actor) {
