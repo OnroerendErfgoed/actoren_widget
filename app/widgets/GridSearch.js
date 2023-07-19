@@ -14,7 +14,7 @@ define([
   'dgrid/extensions/ColumnHider',
   'dstore/Memory',
   'dojo/text!./templates/GridSearch.html'
-], function(
+], function (
   declare,
   lang,
   Deferred,
@@ -32,9 +32,9 @@ define([
   template
 ) {
   /* used for 'search on input' delay */
-  var delay = (function(){
+  var delay = (function () {
     var timer = 0;
-    return function(callback, ms){
+    return function (callback, ms) {
       clearTimeout(timer);
       timer = setTimeout(callback, ms);
     };
@@ -67,7 +67,6 @@ define([
     startup: function () {
       console.debug('...GridSearch::startup', arguments);
       this.inherited(arguments);
-
       if (this._canCreate) {
         this.addActorLink.style.display = 'inline-block';
       } else {
@@ -75,16 +74,17 @@ define([
       }
       this._actorGrid.startup();
       this._actorGrid.resize();
+      this.addActorLink.href = this.actorStore.target.replace('/actoren', '/beheer#/actoren/aanmaken');
     },
 
-    _createGrid: function(options, node) {
+    _createGrid: function (options, node) {
 
       var columns = {
         id: {
-          label:'#'
+          label: '#'
         },
         naam: {
-          label:'Naam',
+          label: 'Naam',
           sortable: true
         },
         voornaam: {
@@ -93,22 +93,21 @@ define([
         },
         type: {
           label: 'Type',
-          formatter: function(type) {
+          formatter: function (type) {
             return type.naam;
           }
         },
-        uri:  {
+        uri: {
           label: 'Uri',
           hidden: true
         },
         status: {
           label: 'Status',
           hidden: true,
-          formatter: function(value) {
+          formatter: function (value) {
             if (value && value.status) {
               return value.status;
-            }
-            else {
+            } else {
               return '-';
             }
           }
@@ -136,7 +135,7 @@ define([
             if (!object.id) {
               return null;
             }
-            var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
+            var div = domConstruct.create('div', {'class': 'dGridHyperlink text-center'});
             domConstruct.create('a', {
               href: '#',
               title: 'Actor bekijken',
@@ -174,7 +173,7 @@ define([
         loadingMessage: 'data aan het ophalen...'
       }, node);
 
-      grid.on('.dgrid-row:click', lang.hitch(this, function(evt){
+      grid.on('.dgrid-row:click', lang.hitch(this, function (evt) {
         evt.preventDefault();
         var actor = grid.row(evt).data;
         this._actorSelected(actor);
@@ -184,12 +183,12 @@ define([
     },
 
     // function triggered from template
-    _filterGrid: function(evt) {
+    _filterGrid: function (evt) {
       evt ? evt.preventDefault() : null;
 
       var searchValue = evt.target.value;
 
-      delay(lang.hitch(this, function() {
+      delay(lang.hitch(this, function () {
         this._removeSort(); // remove sort when searching (for ES)
         if (searchValue && searchValue !== '') {
           this._actorGrid.set('collection', this.actorStore.filter({omschrijving: searchValue}));
@@ -200,29 +199,29 @@ define([
       }), 250);
     },
 
-    resetFilters: function(evt) {
+    resetFilters: function (evt) {
       evt ? evt.preventDefault() : null;
       this.advFilterGrid({});
       this.actorenFilter.value = '';
     },
 
-    advFilterGrid: function(query) {
+    advFilterGrid: function (query) {
       this._actorGrid.set('collection', this.actorStore.filter(query));
       this.resize();
     },
 
-    setSelectedGridActor: function(actor) {
+    setSelectedGridActor: function (actor) {
       var list = [];
       list.push(actor);
-      this._actorGrid.set('collection', new Memory({ data: list }));
+      this._actorGrid.set('collection', new Memory({data: list}));
       this._actorGrid.select(this._actorGrid.row(actor.id));
     },
 
-    _createActor: function() {
+    _createActor: function () {
       this.emit('actor.open.create');
     },
 
-    _editActor: function(actor) {
+    _editActor: function (actor) {
       if (actor) {
         this.emit('actor.open.edit', {
           actor: actor
@@ -230,7 +229,7 @@ define([
       }
     },
 
-    _viewActor: function(actor) {
+    _viewActor: function (actor) {
       if (actor) {
         this.emit('actor.open.view', {
           actor: actor
@@ -238,24 +237,24 @@ define([
       }
     },
 
-    _actorSelected: function(actor) {
+    _actorSelected: function (actor) {
       this.emit('actor.selected', {
         actor: actor,
         bubbles: false
       });
     },
 
-    setStore: function(store) {
+    setStore: function (store) {
       this.actorStore = store;
       this._actorGrid.set('collection', this.actorStore);
       this.resize();
     },
 
-    setSecurityOptions: function(canEdit, canCreate) {
-      if (typeof canEdit !== 'undefined' ) {
+    setSecurityOptions: function (canEdit, canCreate) {
+      if (typeof canEdit !== 'undefined') {
         this._canEdit = canEdit;
       }
-      if (typeof canCreate !== 'undefined' ) {
+      if (typeof canCreate !== 'undefined') {
         this._canCreate = canCreate;
       }
       if (this._canCreate) {
@@ -266,17 +265,17 @@ define([
       this._refresh();
     },
 
-    resize: function() {
+    resize: function () {
       this.inherited(arguments);
       this._actorGrid.resize();
     },
 
-    _refresh: function() {
+    _refresh: function () {
       this._actorGrid.refresh();
       this._actorGrid.resize();
     },
 
-    _removeSort: function() {
+    _removeSort: function () {
       this._actorGrid.set('sort', '');
     }
   });
