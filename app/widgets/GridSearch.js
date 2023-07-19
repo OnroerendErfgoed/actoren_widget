@@ -148,15 +148,16 @@ define([
             }, div);
 
             if (this._canEdit) {
+              var editUrl = this.actorenUrl + 'beheer#/actoren/' + object.id + '/bewerken';
               domConstruct.create('a', {
-                href: '#',
+                href: editUrl,
                 title: 'Actor bewerken',
                 className: 'fa fa-pencil',
                 style: 'margin-left: 15px;',
                 innerHTML: '',
                 onclick: lang.hitch(this, function (evt) {
                   evt.preventDefault();
-                  this._editActor(object);
+                  window.open(editUrl);
                 })
               }, div);
             }
@@ -215,14 +216,6 @@ define([
       list.push(actor);
       this._actorGrid.set('collection', new Memory({data: list}));
       this._actorGrid.select(this._actorGrid.row(actor.id));
-    },
-
-    _editActor: function (actor) {
-      if (actor) {
-        this.emit('actor.open.edit', {
-          actor: actor
-        });
-      }
     },
 
     _viewActor: function (actor) {
