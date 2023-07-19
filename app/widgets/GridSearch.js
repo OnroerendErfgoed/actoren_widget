@@ -74,7 +74,7 @@ define([
       }
       this._actorGrid.startup();
       this._actorGrid.resize();
-      this.addActorLink.href = this.actorStore.target.replace('/actoren', '/beheer#/actoren/aanmaken');
+      this.addActorLink.href = this.actorStore.target.replace(/actoren\/?$/, '/beheer#/actoren/aanmaken');
     },
 
     _createGrid: function (options, node) {

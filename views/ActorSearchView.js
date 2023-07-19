@@ -76,7 +76,7 @@ define([
       this.inherited(arguments);
       this._createGrid();
       this._setSecurity();
-      this.addActorLink.href = this.actorStore.target.replace('/actoren', '/beheer#/actoren/aanmaken');
+      this.addActorLink.href = this.actorStore.target.replace(/actoren\/?$/, '/beheer#/actoren/aanmaken');
     },
 
     _createNewActor: function (evt) {
