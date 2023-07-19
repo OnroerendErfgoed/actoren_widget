@@ -130,7 +130,7 @@ define([
           this._viewActorDialog.show(actor);
         }), lang.hitch(this, function(err) {
           this._emitError(err);
-        })).always(lang.hitch(this, function() {
+        })).finally(lang.hitch(this, function() {
           this.hideLoading();
         }));
       }
@@ -149,7 +149,7 @@ define([
           this._manageActorDialog.show(actor, 'edit');
         }), lang.hitch(this, function(err) {
           this._emitError(err);
-        })).always(lang.hitch(this, function() {
+        })).finally(lang.hitch(this, function() {
           this.hideLoading();
         }));
       }
@@ -217,7 +217,7 @@ define([
           console.log('Alles gesaved', resActor, saveAdressenResult);
           this._manageActorDialog.hide();
           this.emit('actorwidget.saved', {actor: resActor});
-        })).always(lang.hitch(this, function() {
+        })).finally(lang.hitch(this, function() {
           this.hideLoading();
         }));
       }), lang.hitch(this, function(err) {
