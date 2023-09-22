@@ -189,7 +189,8 @@ define([
 
       var searchValue = evt.target.value;
 
-      delay(lang.hitch(this, function () {
+      delay(lang.hitch(this, function() {
+        this._actorGrid.set('collection', undefined); // Avoid unnecessary rendering and processing
         this._removeSort(); // remove sort when searching (for ES)
         if (searchValue && searchValue !== '') {
           this._actorGrid.set('collection', this.actorStore.filter({omschrijving: searchValue}));
@@ -251,7 +252,9 @@ define([
       } else {
         this.addActorLink.style.display = 'none';
       }
-      this._refresh();
+      setTimeout(function () {
+        this._refresh();
+      }.bind(this), 0);
     },
 
     resize: function () {
