@@ -251,7 +251,9 @@ define([
       } else {
         this.addActorLink.style.display = 'none';
       }
-      this._refresh();
+      setTimeout(function () {
+        this._refresh();
+      }.bind(this), 0);
     },
 
     resize: function () {
