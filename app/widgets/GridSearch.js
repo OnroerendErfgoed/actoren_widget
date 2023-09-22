@@ -190,9 +190,8 @@ define([
       var searchValue = evt.target.value;
 
       delay(lang.hitch(this, function() {
-        this._actorGrid.set('_started', false); // Avoid unnecessary rendering and processing
+        this._actorGrid.set('collection', undefined); // Avoid unnecessary rendering and processing
         this._removeSort(); // remove sort when searching (for ES)
-        this._actorGrid.set('_started', true);
         if (searchValue && searchValue !== '') {
           this._actorGrid.set('collection', this.actorStore.filter({omschrijving: searchValue}));
         } else {
