@@ -7,14 +7,14 @@ define([
   'dojo/Deferred',
   'dojo/request/xhr',
   'dojo/store/JsonRest'
-], function(
+], function (
   declare,
   lang,
   Deferred,
   xhr,
   JsonRest
 ) {
-  return declare(null,  {
+  return declare(null, {
 
     crabHost: null,
     baseUrl: null,
@@ -41,7 +41,7 @@ define([
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      * @private
      */
-    _crabGet: function(endpoint){
+    _crabGet: function (endpoint) {
       return xhr(this.crabHost + endpoint, {
         methode: 'GET',
         handleAs: 'json',
@@ -56,13 +56,12 @@ define([
      * Geeft landen terug.
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
-    getLanden: function(){
-      var deferred = new Deferred();
-      this._crabGet('crab/landen').
-        then(lang.hitch(this, function(landen) {
-          landen.sort(this._compare);
-          deferred.resolve(landen);
-        }));
+    getLanden: function () {
+      const deferred = new Deferred();
+      this._crabGet('adressenregister/landen').then(lang.hitch(this, function (landen) {
+        landen.sort(this._compare);
+        deferred.resolve(landen);
+      }));
       return deferred.promise;
     },
 
@@ -71,12 +70,11 @@ define([
      * @param landId
      * @returns {Deferred.promise|*} promise met string van de landnaam
      */
-    getLandNaam: function(landId){
-      var deferred = new Deferred();
-      this._crabGet('crab/landen/' + landId).
-        then(function(land){
-          deferred.resolve(land.naam);
-        });
+    getLandNaam: function (landId) {
+      const deferred = new Deferred();
+      this._crabGet('adressenregister/landen/' + landId).then(function (land) {
+        deferred.resolve(land.naam);
+      });
       return deferred.promise;
     },
 
@@ -85,50 +83,56 @@ define([
      * Per gewest worden de gemeenten opgehaald, samengevoegd en gesorteerd.
      * @returns {Boolean} (Promise) 'True' als de deferred een response met json body terug krijgt, anders 'False'.
      */
-    getGemeenten: function(){
-      var deferred = new Deferred();
-      this._crabGet('crab/gewesten/1/gemeenten').
-        then(lang.hitch(this, function(data) {
-          var gemeenten = data;
-          this._crabGet('crab/gewesten/2/gemeenten').
-            then(lang.hitch(this, function(data) {
-              gemeenten = gemeenten.concat(data);
-              this._crabGet('crab/gewesten/3/gemeenten').
-                then(lang.hitch(this, function(data) {
-                  gemeenten = gemeenten.concat(data);
-                  gemeenten.sort(this._compare);
-                  deferred.resolve(gemeenten);
-                }));
-            }));
-        }));
-      return deferred.promise;
+    getGemeenten: async function () {
+      const promises = [
+        this._getGemeentenPerGewest('2000'),
+        this._getGemeentenPerGewest('3000'),
+        this._getGemeentenPerGewest('4000')
+      ];
+      const promiseResult = await Promise.all(promises);
+      if (promiseResult.length === 0) {
+        return [];
+      }
+      let gemeenten = [];
+      gemeenten = gemeenten.concat(promiseResult[0], promiseResult[1], promiseResult[2]);
+      gemeenten.sort(this._compare);
+      return gemeenten;
     },
 
     /**
      * Geeft de postcodes van een bepaalde gemeente terug.
-     * @param {number} gemeente_id Crab id van de gemeente
+     * @param {string} gemeente Naam van de gemeente
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
-    getPostkantons: function(gemeenteId) {
-      return this._crabGet('crab/gemeenten/' + gemeenteId + '/postkantons');
+    getPostinfo: function (gemeente) {
+      return this._crabGet(`adressenregister/gemeenten/${gemeente}/postinfo`);
     },
-
     /**
      * Geeft de straten van een bepaalde gemeente terug.
-     * @param {number} gemeente_id Crab id van de gemeente
+     * @param {string} niscode Niscode id van de gemeente
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
-    getStraten: function(gemeenteId) {
-      return this._crabGet('crab/gemeenten/' + gemeenteId + '/straten');
+    getStraten: function (niscode) {
+      return this._crabGet(`adressenregister/gemeenten/${niscode}/straten`);
     },
 
     /**
      * Geeft de huisnummer van een bepaalde straat terug.
-     * @param {number} straat_id Crab id van de straat
+     * @param {number} straatId Id van de straat
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
-    getNummers: function(straatId) {
-      return this._crabGet('crab/straten/' + straatId + '/huisnummers');
+    getNummers: function (straatId) {
+      return this._crabGet(`adressenregister/straten/${straatId}/adressen`);
+    },
+
+    /**
+     * Geeft de huisnummer van een bepaalde straat terug.
+     * @param {number} straatId Id van de straat
+     * @param {number} huisnummer
+     * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
+     */
+    getBusnummers: function (straatId, huisnummer) {
+      return this._crabGet(`adressenregister/straten/${straatId}/huisnummers/${huisnummer}`);
     },
 
     /**
@@ -147,7 +151,7 @@ define([
      * alfabetisch voor naam a
      * @private
      */
-    _compare: function(a,b) {
+    _compare: function (a, b) {
       if (a.naam < b.naam) {
         return -1;
       } else if (a.naam > b.naam) {
@@ -155,6 +159,10 @@ define([
       } else {
         return 0;
       }
+    },
+
+    _getGemeentenPerGewest(niscode) {
+      return this._crabGet(`adressenregister/gewesten/${niscode}/gemeenten`);
     }
 
   });
