@@ -167,7 +167,7 @@ define([
     _checkActorExists: function(actor, adressen) {
       console.log(adressen);
       this.actorController.gelijkaardigeActors(actor, adressen).then(lang.hitch(this, function(data) {
-        if (data.length == 0) {
+        if (data.length === 0) {
           this._doSave(actor, adressen);
         }
         else {

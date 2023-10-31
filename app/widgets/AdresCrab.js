@@ -413,7 +413,7 @@ define([
           this.postcodeCrabLoader.style.display = 'block';
           this.postcodeNode.style.display = 'none';
           this.postcodeCrabNode.style.display = 'inline-table';
-          this.crabController.getPostkantons(gemeenteId).
+          this.crabController.getPostinfo(gemeenteId).
           then(lang.hitch(this, function (postcodes) {
             this._postcodeFilteringSelect.set('store', new Memory({data: postcodes}));
             domClass.remove(this.postcodeCrabNode, 'placeholder-disabled');
