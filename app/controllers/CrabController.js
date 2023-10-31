@@ -161,7 +161,7 @@ define([
       }
     },
 
-    _getGemeentenPerGewest(niscode) {
+    _getGemeentenPerGewest: function (niscode) {
       return this._crabGet(`adressenregister/gewesten/${niscode}/gemeenten`);
     }
 

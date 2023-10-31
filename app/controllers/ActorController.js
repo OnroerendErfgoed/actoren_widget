@@ -77,7 +77,7 @@ define([
       console.log(JSON.stringify(adres));
       return xhr(target,{
         handleAs: 'json',
-        method:'POST',
+        method: 'POST',
         data: JSON.stringify(adres),
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ define([
       var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + '/' + adres.id;
       return xhr(target,{
         handleAs: 'json',
-        method:'PUT',
+        method: 'PUT',
         data: JSON.stringify(adres),
         headers: {
           'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ define([
       var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + '/' + adresId;
       return xhr(target,{
         handleAs: 'json',
-        method:'DELETE',
+        method: 'DELETE',
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + await this.getSsoToken()
