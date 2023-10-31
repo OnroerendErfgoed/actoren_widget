@@ -88,11 +88,11 @@ define([
       },
 
       _createGrid: function() {
-        var columns = {
+        const columns = {
           id: {
             label:'#',
             formatter: function (id) {
-              return '<a href="#" >' + id + '</a>'
+              return '<a href="#" >' + id + '</a>';
             }
           },
           naam: {
@@ -106,7 +106,7 @@ define([
           type: {
             label: 'Type',
             formatter: function (type) {
-              return type['naam'];
+              return type.naam;
             },
             sortable: false
           },
@@ -116,7 +116,7 @@ define([
               if (!object.id) {
                 return null;
               }
-              var div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
+              const div = domConstruct.create('div', { 'class': 'dGridHyperlink text-center'});
               domConstruct.create('a', {
                 href: '#',
                 title: 'Actor bekijken',
@@ -140,12 +140,12 @@ define([
           noDataMessage: 'geen resultaten beschikbaar'
         }, this.gridNode);
 
-        this._grid.on("dgrid-sort", this._onSort);
-        this._grid.on(".dgrid-cell:click", lang.hitch(this, function(evt){
+        this._grid.on('dgrid-sort', this._onSort);
+        this._grid.on('.dgrid-cell:click', lang.hitch(this, function(evt){
           evt.preventDefault();
-          var cell = this._grid.cell(evt);
-          if (cell.column.field == 'id' && this._grid.row(evt)) {
-            var id = this._grid.row(evt).id;
+          const cell = this._grid.cell(evt);
+          if (cell.column.field ==='id' && this._grid.row(evt)) {
+            const id = this._grid.row(evt).id;
             this.actorController.getActor(id).
             then(lang.hitch(this, function(actor){
               window.open(actor.uri,'plain');
@@ -155,7 +155,7 @@ define([
       },
 
       _onSort: function(event) {
-        console.log("Sort invoked", event);
+        console.log('Sort invoked', event);
         // Stop the normal sort event/bubbling
         event.preventDefault();
         event.stopPropagation();
@@ -163,7 +163,7 @@ define([
 
       _useSelectedActor: function(evt) {
         evt ? evt.preventDefault() : null;
-        var selected = null;
+        let selected = null;
         array.forEach(this.existsStore.data, lang.hitch(this, function (item) {
           if (this._grid.selection[item.id]) {
             selected = item;
@@ -177,7 +177,7 @@ define([
 
       _mergeSelectedActor: function(evt) {
         evt ? evt.preventDefault() : null;
-        var selected = null;
+        let selected = null;
         array.forEach(this.existsStore.data, lang.hitch(this, function (item) {
           if (this._grid.selection[item.id]) {
             selected = item.id;
@@ -185,7 +185,7 @@ define([
         }));
         if (selected) {
           this.actorController.getActor(selected).then(lang.hitch(this, function (actor) {
-            var mergedActor = this._compareAndCompleteActor(actor, this.checkActor, this.checkAdressen);
+            const mergedActor = this._compareAndCompleteActor(actor, this.checkActor, this.checkAdressen);
             this.parent.editActor(mergedActor);
             this.dialog.hide();
           }), lang.hitch(this, function(err) {
@@ -198,7 +198,7 @@ define([
 
       _saveActor: function(evt) {
         evt ? evt.preventDefault() : null;
-        var adressen = {};
+        const adressen = {};
         adressen.add = this.checkAdressen;
         this.parent._doSave(this.checkActor, adressen);
         this.dialog.hide();
@@ -208,17 +208,17 @@ define([
         console.debug('comparing actors', selectedActor, actorNew);
 
         // compare emails
-        var selectedEmails = lang.clone(selectedActor.emails);
+        const selectedEmails = lang.clone(selectedActor.emails);
         selectedEmails.push.apply(selectedEmails, actorNew.emails);
         selectedActor.emails = this.makeEmailsUnique(selectedEmails);
 
         // compare telnr
-        var selectedTels = lang.clone(selectedActor.telefoons);
+        const selectedTels = lang.clone(selectedActor.telefoons);
         selectedTels.push.apply(selectedTels, actorNew.telefoons);
         selectedActor.telefoons = this.makeTelefoonsUnique(selectedTels);
 
         // compare websites
-        var selectedSites = lang.clone(selectedActor.urls);
+        const selectedSites = lang.clone(selectedActor.urls);
         selectedSites.push.apply(selectedSites, actorNew.urls);
         selectedActor.urls = this.makeUrlsUnique(selectedSites);
 
@@ -226,7 +226,7 @@ define([
         if (actorNew.kbo) {
           selectedActor.kbo = actorNew.kbo;
         } else {
-          var kbos = array.filter(selectedActor.ids, function (actorId) {
+          const kbos = array.filter(selectedActor.ids, function (actorId) {
             return actorId.type && actorId.type.id === 6;
          });
          if (kbos.length > 0) {
@@ -240,7 +240,7 @@ define([
         if (actorNew.rrn) {
           selectedActor.rrn = actorNew.rrn;
         } else {
-          var rrns = array.filter(selectedActor.ids, function (actorId) {
+          const rrns = array.filter(selectedActor.ids, function (actorId) {
             return actorId.type && actorId.type.id === 4;
          });
          if (rrns.length > 0) {
@@ -252,22 +252,24 @@ define([
 
         // TODO check adressen merge
         // compare addresses
-        var selectedAddresses = lang.clone(selectedActor.adressen);
+        let selectedAddresses = lang.clone(selectedActor.adressen);
 
         selectedAddresses = array.filter(selectedAddresses, function (adres) {
           return adres.einddatum === null;
         });
 
-        var newAddressList = [];
+        const newAddressList = [];
         if (selectedAddresses.length > 0) {
           array.forEach(adresNew, function (newAdres) {
-            var isDuplicateAdres = array.some(selectedAddresses, function (selectedAddress) {
+            /* jshint -W106 */
+            const isDuplicateAdres = array.some(selectedAddresses, function (selectedAddress) {
               return (selectedAddress.gemeente_id === newAdres.gemeente_id &&
-                  selectedAddress.huisnummer_id === newAdres.huisnummer_id &&
-                  selectedAddress.straat_id === newAdres.straat_id &&
-                  selectedAddress.postcode === newAdres.postcode &&
-                  selectedAddress.land === newAdres.land)
+                selectedAddress.huisnummer_id === newAdres.huisnummer_id &&
+                selectedAddress.straat_id === newAdres.straat_id &&
+                selectedAddress.postcode === newAdres.postcode &&
+                selectedAddress.land === newAdres.land);
             }, this);
+            /* jshint +W106 */
             if (!isDuplicateAdres) {
               newAdres.adrestype = {id:  2};
               newAddressList.push(newAdres);
@@ -284,8 +286,8 @@ define([
       },
 
       makeEmailsUnique: function (nonUniqueArray) {
-        var unique = {};
-        var mappedArray = array.map(nonUniqueArray, function(email) {
+        const unique = {};
+        const mappedArray = array.map(nonUniqueArray, function(email) {
           return { email: email.email, type: { id: email.type.id }};
         });
         return array.filter(mappedArray, function(value) {
@@ -299,8 +301,8 @@ define([
       },
 
        makeTelefoonsUnique: function (nonUniqueArray) {
-        var unique = {};
-        var mappedArray = array.map(nonUniqueArray, function(tel) {
+        const unique = {};
+        const mappedArray = array.map(nonUniqueArray, function(tel) {
           return { landcode: tel.landcode, nummer: tel.nummer, type: { id: tel.type.id }};
         });
         return array.filter(mappedArray, function(value) {
@@ -314,8 +316,8 @@ define([
       },
 
       makeUrlsUnique: function (nonUniqueArray) {
-        var unique = {};
-        var mappedArray = array.map(nonUniqueArray, function(url) {
+        const unique = {};
+        const mappedArray = array.map(nonUniqueArray, function(url) {
           return { url: url.url, type: { id: url.type.id }};
         });
         return array.filter(mappedArray, function(value) {
@@ -350,7 +352,7 @@ define([
      * @public
      */
     _showLoading: function (message) {
-      var node = this.loadingOverlay;
+      const node = this.loadingOverlay;
       if (!message) {
         message = '';
       }
@@ -370,7 +372,7 @@ define([
      * @public
      */
     _hideLoading: function () {
-      var node = this.loadingOverlay;
+      const node = this.loadingOverlay;
       fx.fadeOut({
         node: node,
         onEnd: function (node) {

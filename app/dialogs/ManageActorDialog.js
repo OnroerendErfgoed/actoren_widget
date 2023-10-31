@@ -652,14 +652,14 @@ define([
           this.kboInput.value = '';
           domStyle.set(this.kboNode, 'display', 'none');
           domStyle.set(this.rrnNode, 'display', 'inline-table');
-          this.vn_afk_label.innerHTML = 'Voornaam';
+          this.vnAfkLabel.innerHTML = 'Voornaam';
           domStyle.set(this.vnafkNode, 'display', 'inline-table');
           break;
         case "2":
           this.rrnInput.value = '';
           domStyle.set(this.kboNode, 'display', 'inline-table');
           domStyle.set(this.rrnNode, 'display', 'none');
-          this.vn_afk_label.innerHTML = 'Afkorting';
+          this.vnAfkLabel.innerHTML = 'Afkorting';
           domStyle.set(this.vnafkNode, 'display', 'inline-table');
           break;
         case "4":
