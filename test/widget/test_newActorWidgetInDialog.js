@@ -6,7 +6,7 @@ require([
 	'dojo/_base/lang',
 	'dojo/promise/all',
 	'dijit/form/Button',
-	'actorwidget/controllers/ListController',
+	'actorwidget/app/controllers/ListController',
 	'dojo/domReady!'
 ], function (
 	declare,

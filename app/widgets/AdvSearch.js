@@ -104,12 +104,12 @@ define([
         { query: 'persid', input: 'persidInput' },
         { query: 'rrn', input: 'rrnInput' },
         { query: 'kbo', input: 'kboInput' },
-        { query: 'gemeente_naam', input: 'gemeenteInput' },
-        { query: 'straat_naam', input: 'straatInput' },
+        { query: 'gemeente', input: 'gemeenteInput' },
+        { query: 'straat', input: 'straatInput' },
         { query: 'postcode', input: 'postcodeInput' },
-        { query: 'subadres', input: 'busnummerInput' },
+        { query: 'busnummer', input: 'busnummerInput' },
         { query: 'land', input: 'landList' },
-        { query: 'huisnummer_label', input: 'huisnummerInput' }
+        { query: 'huisnummer', input: 'huisnummerInput' }
       ];
       searchParams.forEach(lang.hitch(this, function(param) {
         if (this[param.input].value) {
@@ -117,24 +117,6 @@ define([
         }
       }));
 
-      //var crabParams = this._crabWidget.getInputValues();
-      //['postcode', 'subadres', 'land'].forEach(function(param){
-      //	if (crabParams.values[param]) {
-      //		query[param] = crabParams.values[param];
-      //	}
-      //});
-      //// bijvoorbeeld ?gemeente=143 en ?gemeente_naam=Rotterdam
-      //['gemeente', 'straat', 'huisnummer'].forEach(function(param){
-      //	if (crabParams.ids[param + '_id']) {
-      //		query[param] = crabParams.ids[param + '_id']
-      //	} else if (crabParams.values[param]) {
-      //		if (param === 'huisnummer') {
-      //			query[param + '_label'] = crabParams.values[param]
-      //		} else {
-      //			query[param + '_naam'] = crabParams.values[param]
-      //		}
-      //	}
-      //});
       return query;
     },
 
