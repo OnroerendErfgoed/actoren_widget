@@ -39,11 +39,11 @@ define([
     },
 
     show: function (actor) {
-      /* jshint maxcomplexity:15 */
+      /* jshint maxcomplexity:20 */
       console.debug('ActorBekijkenDialog::show', actor);
       this.actor = actor;
       this.set('title', 'Actor \\ ID ' + actor.id);
-      var href = this. actorenUrl + '/actoren/' + actor.id;
+      const href = `${this.actorenUrl}/actoren/${actor.id}`;
       domAttr.set(this.actorLink, 'href', href);
 
       this._changedActorType(actor.type);
@@ -63,17 +63,18 @@ define([
         /* jshint +W106 */
       }, this);
 
-      if (actor.adres) {
-        this.landInput.value = actor.adres.land || '';
-        this.gemeenteInput.value = actor.adres.gemeente || '';
-        this.postcodeInput.value = actor.adres.postcode || '';
-        this.straatInput.value = actor.adres.straat || '';
-        this.huisnummerInput.value = actor.adres.huisnummer || '';
-        this.postbusInput.value = actor.adres.postbus || '';
-        this.adresTypeInput.value = actor.adres.adrestype.naam || '';
+      const {adres} = actor;
+      if (adres) {
+        this.landInput.value = adres.land && adres.land.naam || '';
+        this.gemeenteInput.value = adres.gemeente && adres.gemeente.naam || '';
+        this.postcodeInput.value = adres.postcode && adres.postcode.nummer || '';
+        this.straatInput.value = adres.straat && adres.straat.naam || '';
+        this.huisnummerInput.value = adres.adres && adres.adres.huisnummer || '';
+        this.postbusInput.value = adres.adres&& adres.adres.busnummer || '';
+        this.adresTypeInput.value = adres.adrestype.naam || '';
       }
 
-      var kbos = array.filter(actor.ids, function (actorId) {
+      const kbos = array.filter(actor.ids, function (actorId) {
         return actorId.type && actorId.type.id === 6;
       });
       if (kbos.length > 0) {
@@ -131,18 +132,18 @@ define([
       this.actorTypeInput.value = type.naam || '';
 
       switch (type.id.toString()) {
-        case "1":
+        case '1':
           this.kboInput.value = '';
           domClass.add(this.kboContainer, 'hide');
-          this.vn_afk_label.innerHTML = 'Voornaam';
+          this.vnAfkLabel.innerHTML = 'Voornaam';
           domClass.remove(this.vnafkNode, 'hide');
           break;
-        case "2":
+        case '2':
           domClass.remove(this.kboContainer, 'hide');
-          this.vn_afk_label.innerHTML = 'Afkorting';
+          this.vnAfkLabel.innerHTML = 'Afkorting';
           domClass.remove(this.vnafkNode, 'hide');
           break;
-        case "4":
+        case '4':
           this.kboInput.value = '';
           domClass.add(this.kboContainer, 'hide');
           this.vnafkInput.value = '';

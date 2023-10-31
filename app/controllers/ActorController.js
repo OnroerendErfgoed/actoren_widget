@@ -38,8 +38,15 @@ define([
      */
     getActor: async function(id) {
       const token = await this.getSsoToken();
-      this.actorStore.headers.Authorization = 'Bearer ' + token;
-      return this.actorStore.get(id);
+      return xhr.get('/actoren/' + id, {
+        query: 'adressenregister',
+        handleAs: 'json',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      });
     },
 
     /**
@@ -50,7 +57,7 @@ define([
     saveActor: async function(actor) {
       const token = await this.getSsoToken();
       this.actorStore.headers.Authorization = 'Bearer ' + token;
-      if (!actor.id || actor.id.length == 0) {
+      if (!actor.id || actor.id.length === 0) {
         delete actor.id;
         return this.actorStore.add(actor);
       }
@@ -69,8 +76,8 @@ define([
       var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter;
       console.log(JSON.stringify(adres));
       return xhr(target,{
-        handleAs: "json",
-        method:"POST",
+        handleAs: 'json',
+        method: 'POST',
         data: JSON.stringify(adres),
         headers: {
           'Content-Type': 'application/json',
@@ -81,10 +88,10 @@ define([
     },
 
     editActorAdres: async function(adres, actorId) {
-      var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + "/" + adres.id;
+      var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + '/' + adres.id;
       return xhr(target,{
-        handleAs: "json",
-        method:"PUT",
+        handleAs: 'json',
+        method: 'PUT',
         data: JSON.stringify(adres),
         headers: {
           'Content-Type': 'application/json',
@@ -95,10 +102,10 @@ define([
     },
 
     deleteActorAdres: async function(adresId, actorId) {
-      var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + "/" + adresId;
+      var target = this.actorenUrl + this._actorenTarget + '/' + actorId + this._adresParameter + '/' + adresId;
       return xhr(target,{
-        handleAs: "json",
-        method:"DELETE",
+        handleAs: 'json',
+        method: 'DELETE',
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + await this.getSsoToken()
@@ -137,10 +144,10 @@ define([
         searchParameters.push(this.createSearchparam('gemeente',  adres[0].gemeente));
       }
       var target =  this.actorStore.target + 'gelijkaardig' + '?' + searchParameters.join('&');
-      console.log("check gelijkaardige", target);
+      console.log('check gelijkaardige', target);
       return xhr(target,{
-        handleAs: "json",
-        method:"GET",
+        handleAs: 'json',
+        method:'GET',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -165,6 +172,7 @@ define([
         lang.hitch(this, async function (redirect) {
           if (redirect.success && redirect.location) {
             return xhr.get(redirect.location, {
+              query: 'adressenregister',
               handleAs: 'json',
               headers: {
                 'X-Requested-With': null,
