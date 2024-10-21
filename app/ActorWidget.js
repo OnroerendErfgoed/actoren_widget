@@ -274,10 +274,6 @@ define([
       if (this._manageActorDialog) {
         this._manageActorDialog.hideLoading();
       }
-    },
-
-    setStore: function (store) {
-      this._searchWidget.setStore(store);
-    },
+    }
   });
 });
