@@ -176,6 +176,10 @@ define([
         node: node,
         duration: 1
       }).play();
-    }
+    },
+
+    setStore: function (store) {
+      this._gridSearch.setStore(store);
+    },
   });
 });

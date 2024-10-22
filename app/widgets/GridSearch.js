@@ -148,7 +148,7 @@ define([
             }, div);
 
             if (this._canEdit) {
-              var editUrl = this.actorenUrl + 'beheer#/actoren/' + object.id + '/bewerken';
+              var editUrl = this.actorenUrl + 'beheer/' + object.id;
               domConstruct.create('a', {
                 href: editUrl,
                 title: 'Actor bewerken',
@@ -187,12 +187,12 @@ define([
     _filterGrid: function (evt) {
       evt ? evt.preventDefault() : null;
 
-      var searchValue = evt.target.value;
+      var searchValue = this.actorenFilter.value;
 
       delay(lang.hitch(this, function() {
         this._actorGrid.set('collection', undefined); // Avoid unnecessary rendering and processing
         this._removeSort(); // remove sort when searching (for ES)
-        if (searchValue && searchValue !== '') {
+        if (searchValue && searchValue.trim() !== '') {
           this._actorGrid.set('collection', this.actorStore.filter({omschrijving: searchValue}));
         } else {
           this._actorGrid.set('collection', this.actorStore.filter({}));
@@ -238,6 +238,9 @@ define([
       this.actorStore = store;
       this._actorGrid.set('collection', this.actorStore);
       this.resize();
+      if (this.actorenFilter.value.trim()) {
+        this._filterGrid();
+      }
     },
 
     setSecurityOptions: function (canEdit, canCreate) {

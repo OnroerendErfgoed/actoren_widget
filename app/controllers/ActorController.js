@@ -39,7 +39,7 @@ define([
     getActor: async function(id) {
       const token = await this.getSsoToken();
       return xhr.get('/actoren/' + id, {
-        query: 'adressenregister',
+        query: 'erkenningen_v2=true',
         handleAs: 'json',
         headers: {
           'Content-Type': 'application/json',
@@ -172,7 +172,7 @@ define([
         lang.hitch(this, async function (redirect) {
           if (redirect.success && redirect.location) {
             return xhr.get(redirect.location, {
-              query: 'adressenregister',
+              query: 'erkenningen_v2=true',
               handleAs: 'json',
               headers: {
                 'X-Requested-With': null,
