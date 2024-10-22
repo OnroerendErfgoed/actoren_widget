@@ -147,7 +147,7 @@ define([
               })
             }, div);
 
-             if (this._canEdit) {
+            if (this._canEdit) {
               var editUrl = this.actorenUrl + 'beheer/' + object.id;
               domConstruct.create('a', {
                 href: editUrl,
