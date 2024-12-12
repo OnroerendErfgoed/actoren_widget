@@ -105,7 +105,7 @@ define([
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
     getPostinfo: function (gemeente) {
-      return this._crabGet(`adressenregister/gemeenten/${gemeente}/postinfo`);
+      return this._crabGet(`adressenregister/gemeenten/${gemeente}/postinfo?status=inGebruik`);
     },
     /**
      * Geeft de straten van een bepaalde gemeente terug.
@@ -113,7 +113,7 @@ define([
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
     getStraten: function (niscode) {
-      return this._crabGet(`adressenregister/gemeenten/${niscode}/straten`);
+      return this._crabGet(`adressenregister/gemeenten/${niscode}/straten?status=inGebruik`);
     },
 
     /**
@@ -122,7 +122,7 @@ define([
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
     getNummers: function (straatId) {
-      return this._crabGet(`adressenregister/straten/${straatId}/adressen`);
+      return this._crabGet(`adressenregister/straten/${straatId}/adressen?status=inGebruik`);
     },
 
     /**
@@ -132,7 +132,7 @@ define([
      * @returns {Boolean} (Promise) 'True' als de request een response met json body terug krijgt, anders 'False'.
      */
     getBusnummers: function (straatId, huisnummer) {
-      return this._crabGet(`adressenregister/straten/${straatId}/huisnummers/${huisnummer}`);
+      return this._crabGet(`adressenregister/straten/${straatId}/huisnummers/${huisnummer}?status=inGebruik`);
     },
 
     /**
