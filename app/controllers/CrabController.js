@@ -162,7 +162,7 @@ define([
     },
 
     _getGemeentenPerGewest: function (niscode) {
-      return this._crabGet(`adressenregister/gewesten/${niscode}/gemeenten`);
+      return this._crabGet(`adressenregister/gewesten/${niscode}/gemeenten?status=inGebruik`);
     }
 
   });
